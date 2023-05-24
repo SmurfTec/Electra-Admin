@@ -1,10 +1,9 @@
-import React from "react";
-import { DashCard } from "../../components";
+import { DashCard ,StaticCard,PlatformEarning,RevenueChart} from "../../components";
 import IMAGES from "../../assets/Images";
 export const Dashboard = () => {
   return (
-    <div className="ml-5">
-      <div className="flex justify-center gap-2">
+    <div className="ml-5 ">
+      <div className="flex justify-start gap-2">
         <DashCard
           title={"Net Revenue"}
           totalNumber={"$ 450,000"}
@@ -42,9 +41,17 @@ export const Dashboard = () => {
           textDash={"bg-custom-red"}
           textColor={"#b50000"}
           arrowImg={IMAGES.downarrow}
-      
-        />
-        
+              />
+      </div>
+      <div className="flex mt-3 ">
+        <div>
+        <StaticCard />
+        <PlatformEarning />
+        </div>
+        {/* Graph section will be here */}
+        <div>
+<RevenueChart />
+        </div>
       </div>
     </div>
   );

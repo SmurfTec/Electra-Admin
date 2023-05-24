@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="flex">
       <SideBar />
-      <div>
+      <div className="w-[90%]">
         <Header />
         <Routes>
         <Route path="/" element={<Navigate to="/Dashboard" replace />} />
