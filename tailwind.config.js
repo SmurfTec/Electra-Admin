@@ -1,12 +1,19 @@
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    colors:{
-      gray: '#808080',
+    extend: {
+      backgroundColor: {
+        "custom-blue": "rgba(60, 130, 214, 0.14)",
+        "blue-dash":" rgba(60, 130, 214, 0.53)",
+        "yellow-dash": "rgba(251, 187, 0, 0.38)",
+        "custom-red": "rgba(255, 0, 0, 0.22)",
+        "custom-grey":"rgba(140, 184, 105, 0.19)"
+      },
     },
-    extend: {},
+    colors: {
+      gray: "#808080",
+    },
+    
   },
   plugins: [],
-}
+};

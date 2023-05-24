@@ -13,6 +13,12 @@ const IMAGES: any = {
     Categories: new URL('../assets/Images/categories.svg', import.meta.url).href,
     EditWebsite: new URL('../assets/Images/EditWebsite.svg', import.meta.url).href,
     HelpCenter: new URL('../assets/Images/HelpCenter.svg', import.meta.url).href,
-    Settings: new URL('../assets/Images/Setting.svg', import.meta.url).href
+    Settings: new URL('../assets/Images/Setting.svg', import.meta.url).href,
+    coin: new URL('../assets/Images/coin.svg', import.meta.url).href,
+    uparrow: new URL('../assets/Images/uparrow.svg', import.meta.url).href,
+    downarrow: new URL('../assets/Images/downarrow.svg', import.meta.url).href,
+    box: new URL('../assets/Images/box.svg', import.meta.url).href,
+    person: new URL('../assets/Images/person.svg', import.meta.url).href,
+
 }
 export default IMAGES
