@@ -2,9 +2,15 @@ import React from 'react'
 import styled from "styled-components"
 import { InputText } from "primereact/inputtext";
 const CustomInputTxt=styled(InputText)`
-    outline: none;
+   outline: none !important;
     background-color: transparent !important;
     width: 90%;
+    border:none;
+    &:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important; /* Add this line */
+  }
 `
 export  const InputTxt = ({width,img,MainClasses,...restProps}:any) => {
   return (

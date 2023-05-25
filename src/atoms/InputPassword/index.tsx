@@ -6,6 +6,12 @@ const CustomInputTxt=styled(InputText)`
     outline: none;
     background-color: transparent !important;
     width: 90%;
+    border:none;
+    &:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important; /* Add this line */
+  }
 `
 export const InputPassword = ({width,img,eyeIcon,MainClasses,...restProps}:any) => {
     const[showPass,setShowPass]=useState(false)
