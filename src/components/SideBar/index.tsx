@@ -97,7 +97,7 @@ export const SideBar = () => {
                 <p
                   className={`${
                     item.active ? "text-[white]" : "text-gray"
-                  } text-gray font-[600] cursor-pointer`}
+                  }  font-[600] cursor-pointer`}
                 >
                   {item.name}
                 </p>

@@ -19,6 +19,9 @@ const IMAGES: any = {
     downarrow: new URL('../assets/Images/downarrow.svg', import.meta.url).href,
     box: new URL('../assets/Images/box.svg', import.meta.url).href,
     person: new URL('../assets/Images/person.svg', import.meta.url).href,
-
+    Hand: new URL('../assets/Images/Hand.svg', import.meta.url).href,
+    Email: new URL('../assets/Images/Email.svg', import.meta.url).href,
+    password: new URL('../assets/Images/password.svg', import.meta.url).href,
+    eye: new URL('../assets/Images/eye.svg', import.meta.url).href,
 }
 export default IMAGES

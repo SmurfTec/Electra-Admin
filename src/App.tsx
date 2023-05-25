@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
-import { Dashboard,Users } from "./pages/index";
+import { Dashboard,Users,Signin } from "./pages/index";
 import { SideBar,Header } from "./components";
 
 function App() {
+  const [isLoggedIn,setIsLoggedIn]=useState(false)
   return (
     <div className="flex">
-      <SideBar />
+     {isLoggedIn && <SideBar />} 
       <div>
-        <Header />
+      {isLoggedIn && <Header />}  
         <Routes>
-        <Route path="/" element={<Navigate to="/Dashboard" replace />} />
+        <Route path="/" element={<Signin  />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/Users" element={<Users />} />
         </Routes>
