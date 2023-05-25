@@ -23,5 +23,10 @@ const IMAGES: any = {
     Email: new URL('../assets/Images/Email.svg', import.meta.url).href,
     password: new URL('../assets/Images/password.svg', import.meta.url).href,
     eye: new URL('../assets/Images/eye.svg', import.meta.url).href,
+    bluebox: new URL('../assets/Images/bluebox.svg', import.meta.url).href,
+    bluehamburger: new URL('../assets/Images/bluehamburger.svg', import.meta.url).href,
+    ViewArrow: new URL('../assets/Images/ViewArrow.svg', import.meta.url).href,
+
+
 }
 export default IMAGES
