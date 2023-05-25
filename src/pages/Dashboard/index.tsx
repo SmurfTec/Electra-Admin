@@ -63,7 +63,7 @@ export const Dashboard = () => {
           <StaticCard />
           <PlatformEarning />
         </div>
-        {/* Graph section will be here */}
+       
         <div>
           <RevenueChart />
           <DashTable data={data}/>
