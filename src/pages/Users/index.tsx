@@ -1,6 +1,9 @@
 import React from 'react'
 import { DashCard } from '../../components'
 import IMAGES from '../../assets/Images'
+import { CustomTableComponent,CustomButton } from '../../atoms'
+import styled from 'styled-components'
+
 export const Users = () => {
   return (
     <div className='ml-[36px]'>
@@ -39,6 +42,15 @@ export const Users = () => {
           
         />
       </div>
+      <div className='mt-[40px] relative'>
+        <CustomTableComponent/>
+       
+
+       
+      </div>
+      {/* <div className='flex justify-center mt-3 w-full '>
+      <CustomButton txt={'View More'}  classes='mt-3 bg-[#FFFFFF] h-[50px] text-[black] '/>
+      </div> */}
     </div>
   )
 }

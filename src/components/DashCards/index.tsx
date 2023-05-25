@@ -2,7 +2,7 @@ import React from "react";
 import IMAGES from "../../assets/Images";
 export const DashCard = (props:any) => {
   return (
-    <div className={` w-[400px] h-[136px] bg-[#FCFCFC] rounded-[8px] ${props.outerclasses} `}>
+    <div className={`${props.outerclasses} w-[300px] h-[136px] bg-[#FCFCFC] rounded-[8px]  `}>
       <div className="flex justify-between pt-[16px] px-[16px] pb-[12px]">
         <div className="px-2  pt-1">
           <p className="text-[13px] font-[600]">{props.title}</p>

@@ -5,23 +5,13 @@ import { Dashboard,Users,Signin } from "./pages/index";
 import { SideBar,Header } from "./components";
 
 function App() {
-  const [isLoggedIn,setIsLoggedIn]=useState(false)
-useEffect(()=>{
-  let user: any = null;
-  const storedUser = localStorage.getItem('user');
-  console.log(storedUser)
-  if (storedUser !== null) {
-    setIsLoggedIn(true)
-    user = JSON.parse(storedUser);
-  }else{
-    setIsLoggedIn(false)
-  }
-},[])
+
+
   return (
     <div className="flex">
-     {isLoggedIn && <SideBar />} 
+      <SideBar />
       <div>
-      {isLoggedIn && <Header />}  
+       <Header />
         <Routes>
         <Route path="/" element={<Signin  />} />
           <Route path="/Dashboard" element={<Dashboard />} />

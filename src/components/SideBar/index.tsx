@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import IMAGES from "../../assets/Images";
 import { SVGIcon } from "../SVG";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 export const SideBar = () => {
+  const [isLoggedIn,setIsLoggedIn]=useState(false)
+  const navigate=useNavigate()
   const [navItems, setNavItems] = useState([
     {
       id: 1,
@@ -68,56 +71,73 @@ export const SideBar = () => {
     });
     setNavItems(updatedNavItems);
   };
+  useEffect(()=>{
+    let user: any = null;
+    const storedUser = localStorage.getItem('user');
+    console.log(storedUser,"stored")
+    if (storedUser !== null) {
+      navigate('/Dashboard')
+      setIsLoggedIn(true)
+      user = JSON.parse(storedUser);
+    }else{
+      setIsLoggedIn(false)
+      navigate('/')
+    }
+  },[])
   return (
-    <div className="w-[237px] h-[1024px] bg-[#FCFCFC]">
-      <img
-        className="ml-[39px] mt-[17px] w-[75px] h-[33px] mb-[45px]"
-        src={IMAGES.Logo}
-        alt="Logo"
-      />
-      <div className="flex flex-col gap-3">
-        <div className="w-[188px] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px]">
-          <p className="text-gray font-[600]">ADMIN</p>
-        </div>
-        {navItems.map((item: any) => (
-          <Link key={item.id} to={item.url}>
-            <div
-              key={item.id}
-              className={`w-[188px] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px] ${
-                item.active ? "bg-[#212121]" : ""
-              }`}
-              onClick={() => handleItemClick(item.id)}
-            >
-              <div className="flex items-center gap-3">
-                <SVGIcon
-                  src={item.icon}
-                  filled={item.active}
-                  fillcolor={item?.iconFillColor}
-                />
-                <p
-                  className={`${
-                    item.active ? "text-[white]" : "text-gray"
-                  }  font-[600] cursor-pointer`}
-                >
-                  {item.name}
-                </p>
 
-                {item.number && (
-                  <div
-                    className={`w-[22px] flex justify-center items-center text-[13px] h-[22px] rounded-[6px] ${
-                      item.active
-                        ? "bg-[white] text-[#3C82D6]"
-                        : "bg-[#3C82D6] text-[white]"
-                    }`}
-                  >
-                    {item.number}
-                  </div>
-                )}
-              </div>
-            </div>
-          </Link>
-        ))}
+    <>
+    {isLoggedIn &&  <div className="w-[237px] h-[1024px] bg-[#FCFCFC]">
+    <img
+      className="ml-[39px] mt-[17px] w-[75px] h-[33px] mb-[45px]"
+      src={IMAGES.Logo}
+      alt="Logo"
+    />
+    <div className="flex flex-col gap-3">
+      <div className="w-[188px] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px]">
+        <p className="text-gray font-[600]">ADMIN</p>
       </div>
+      {navItems.map((item: any) => (
+        <Link key={item.id} to={item.url}>
+          <div
+            key={item.id}
+            className={`w-[188px] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px] ${
+              item.active ? "bg-[#212121]" : ""
+            }`}
+            onClick={() => handleItemClick(item.id)}
+          >
+            <div className="flex items-center gap-3">
+              <SVGIcon
+                src={item.icon}
+                filled={item.active}
+                fillcolor={item?.iconFillColor}
+              />
+              <p
+                className={`${
+                  item.active ? "text-[white]" : "text-gray"
+                }  font-[600] cursor-pointer`}
+              >
+                {item.name}
+              </p>
+
+              {item.number && (
+                <div
+                  className={`w-[22px] flex justify-center items-center text-[13px] h-[22px] rounded-[6px] ${
+                    item.active
+                      ? "bg-[white] text-[#3C82D6]"
+                      : "bg-[#3C82D6] text-[white]"
+                  }`}
+                >
+                  {item.number}
+                </div>
+              )}
+            </div>
+          </div>
+        </Link>
+      ))}
     </div>
+  </div>}
+    </>
+   
   );
 };

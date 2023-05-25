@@ -30,6 +30,7 @@ const IMAGES: any = {
     Facebook: new URL('../assets/Images/facebook.svg', import.meta.url).href,
     Twitter: new URL('../assets/Images/twitter.svg', import.meta.url).href,
     Apple: new URL('../assets/Images/apple.svg', import.meta.url).href,
+    Dots: new URL('../assets/Images/dots.svg', import.meta.url).href,
 
 
 }
