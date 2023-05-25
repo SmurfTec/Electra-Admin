@@ -1,6 +1,23 @@
-import { DashCard ,StaticCard,PlatformEarning,RevenueChart} from "../../components";
+import {
+  DashCard,
+  StaticCard,
+  PlatformEarning,
+  RevenueChart,
+  DashTable,
+} from "../../components";
 import IMAGES from "../../assets/Images";
 export const Dashboard = () => {
+  const data = [
+    {
+      id: "#123",
+      name: "John Doe",
+      email: "huzayfah@gmail.com",
+      Date: "20,aug,2022",
+    },
+    { id: "#123", name: "Jane Smith", email: "info@gmail.com", Date: "20,aug,2022" },
+    { id: "#123", name: "Bob Johnson", email: "Gfa@gmail.com", Date: "20,aug,2022" },
+  ];
+
   return (
     <div className="ml-5 ">
       <div className="flex justify-start gap-2">
@@ -21,18 +38,16 @@ export const Dashboard = () => {
           textDash={"bg-custom-blue"}
           textColor={"#3C82D6"}
           arrowImg={IMAGES.uparrow}
-
         />
-         <DashCard
-        title={"Total Users"}
-        totalNumber={"3500"}
-        myImg={IMAGES.person}
-        imgColor={"bg-custom-grey"}
-        textDash={"bg-custom-red"}
-        textColor={"#b50000"}
-        arrowImg={IMAGES.downarrow}
-    
-      />
+        <DashCard
+          title={"Total Users"}
+          totalNumber={"3500"}
+          myImg={IMAGES.person}
+          imgColor={"bg-custom-grey"}
+          textDash={"bg-custom-red"}
+          textColor={"#b50000"}
+          arrowImg={IMAGES.downarrow}
+        />
         <DashCard
           title={"Total Listings"}
           totalNumber={"350"}
@@ -41,16 +56,25 @@ export const Dashboard = () => {
           textDash={"bg-custom-red"}
           textColor={"#b50000"}
           arrowImg={IMAGES.downarrow}
-              />
+        />
       </div>
       <div className="flex mt-3 ">
         <div>
-        <StaticCard />
-        <PlatformEarning />
+          <StaticCard />
+          <PlatformEarning />
         </div>
         {/* Graph section will be here */}
         <div>
-<RevenueChart />
+          <RevenueChart />
+          <DashTable data={data}/>
+        </div>
+      </div>
+      <div className="flex justify-start mb-6 ">
+        <div className=" w-[700px]">
+          <DashTable data={data} />
+        </div>
+        <div className=" w-[700px]">
+          <DashTable data={data}/>
         </div>
       </div>
     </div>
