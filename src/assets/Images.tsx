@@ -26,6 +26,10 @@ const IMAGES: any = {
     bluebox: new URL('../assets/Images/bluebox.svg', import.meta.url).href,
     bluehamburger: new URL('../assets/Images/bluehamburger.svg', import.meta.url).href,
     ViewArrow: new URL('../assets/Images/ViewArrow.svg', import.meta.url).href,
+    Google: new URL('../assets/Images/Google.svg', import.meta.url).href,
+    Facebook: new URL('../assets/Images/facebook.svg', import.meta.url).href,
+    Twitter: new URL('../assets/Images/twitter.svg', import.meta.url).href,
+    Apple: new URL('../assets/Images/apple.svg', import.meta.url).href,
 
 
 }
