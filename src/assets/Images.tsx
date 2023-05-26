@@ -33,6 +33,9 @@ const IMAGES: any = {
     Dots: new URL('../assets/Images/dots.svg', import.meta.url).href,
     Iphone1: new URL('../assets/Images/Iphone1.svg', import.meta.url).href,
     Iphone2: new URL('../assets/Images/Iphone2.svg', import.meta.url).href,
+    IphoneView: new URL('../assets/Images/IphoneView.svg', import.meta.url).href,
+    Pen: new URL('../assets/Images/Pen.svg', import.meta.url).href,
+    Bin: new URL('../assets/Images/Bin.svg', import.meta.url).href,
 
 
 }
