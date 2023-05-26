@@ -14,13 +14,46 @@ export const Dashboard = () => {
       email: "huzayfah@gmail.com",
       Date: "20,aug,2022",
     },
-    { id: "#123", name: "Jane Smith", email: "info@gmail.com", Date: "20,aug,2022" },
-    { id: "#123", name: "Bob Johnson", email: "Gfa@gmail.com", Date: "20,aug,2022" },
+    {
+      id: "#123",
+      name: "Jane Smith",
+      email: "info@gmail.com",
+      Date: "20,aug,2022",
+    },
+    {
+      id: "#123",
+      name: "Bob Johnson",
+      email: "Gfa@gmail.com",
+      Date: "20,aug,2022",
+    },
+  ];
+  const data2 = [
+    {
+      img: `${IMAGES.Iphone1}`,
+      id: "Iphone Pro Max",
+      name:{number :"62",status:"sold"},
+      email: {number :"62",status:"sold"},
+      Date: {number :"$542132",status:"Profit"},
+    },
+    {
+      img: `${IMAGES.Iphone2}`,
+      id: "Iphone Pro Max",
+      name:{number :"62",status:"pending"},
+      email: {number :"62",status:"sold"},
+      Date: {number :"$542132",status:"Profit"},
+    },
+    {
+      img: `${IMAGES.Iphone1}`,
+      id: "Iphone Pro Max",
+      name:{number :"62",status:"sold"},
+      email: {number :"62",status:"sold"},
+      Date: {number :"$542132",status:"Profit"},
+    },
   ];
 
   return (
     <div className="ml-5 ">
-      <div className="flex justify-start gap-2">
+      <div className="flex flex-wrap justify-start gap-2">
         <DashCard
           title={"Net Revenue"}
           totalNumber={"$ 450,000"}
@@ -58,23 +91,30 @@ export const Dashboard = () => {
           arrowImg={IMAGES.downarrow}
         />
       </div>
-      <div className="flex mt-3 ">
+      <div className="flex mt-3 gap-4 ">
         <div>
           <StaticCard />
           <PlatformEarning />
         </div>
-       
-        <div>
+
+        <div className="overflow-hidden">
           <RevenueChart />
-          <DashTable data={data}/>
+          <DashTable
+          customHeader="User Registrations"
+          tableHeaderColor="#FCFCFC"
+          data={data} header={true} />
         </div>
       </div>
-      <div className="flex justify-start mb-6 ">
-        <div className=" w-[700px]">
-          <DashTable data={data} />
+      <div className="flex justify-start gap-10 mb-6 ">
+        <div className="w-[50%] ">
+          <DashTable data={data2}
+           tableHeaderColor="#FCFCFC"
+          imginData={true} selling={true} customHeader="Best Selling Product"/>
         </div>
-        <div className=" w-[700px]">
-          <DashTable data={data}/>
+        <div className=" w-[50%]">
+          <DashTable data={data2}
+           tableHeaderColor="#FCFCFC"
+            imginData={true} selling={true} customHeader="Best Selling Product"/>
         </div>
       </div>
     </div>

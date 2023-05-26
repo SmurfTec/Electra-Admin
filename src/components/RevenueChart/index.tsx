@@ -1,16 +1,17 @@
-import React from "react";
 import Chart from "react-apexcharts";
+import "./index.css"
 export const RevenueChart = () => {
-  const options:any = {
+  const options: any = {
     chart: {
       toolbar: {
         show: false,
       },
     },
+    
     stroke: {
-        show: true,
-        colors: ['#000000']
-      },
+      show: true,
+      colors: ["#000000"],
+    },
     markers: {
       colors: ["#212121"],
     },
@@ -29,17 +30,15 @@ export const RevenueChart = () => {
     },
 
     fill: {
-        type: "gradient",
-        gradient: {
-          shadeIntensity: 0.2,
-          opacityFrom: 0.4,
-          opacityTo: 0.1,
-          stops: [0, 90, 100]
-        },
-        colors: ['#000000']
-      }
-      
-     
+      type: "gradient",
+      gradient: {
+        shadeIntensity: 0.2,
+        opacityFrom: 0.4,
+        opacityTo: 0.1,
+        stops: [0, 90, 100],
+      },
+      colors: ["#000000"],
+    },
   };
 
   const series = [
@@ -98,22 +97,22 @@ export const RevenueChart = () => {
     },
   ];
   return (
-    <div className="ml-5 mt-3 bg-[#FCFCFC] rounded">
+    <div className="ml-5 mt-3 bg-[#FCFCFC] rounded overflow-hidden">
+      <div className="overflow-y-hidden">
         <div>
-            <div>
-                <p className="font-semibold pt-3 pl-3">
-                    Revenue
-                </p>
-            </div>
-        <Chart
-        options={options}
-        series={series}
-        type="area"
-        height={350}
-        width={1000}
-      />
+          <p className="font-semibold pt-3 pl-3 overflow-hidden">Revenue</p>
         </div>
-     
+        <div className="overflow-hidden">
+        <Chart
+          options={options}
+          series={series}
+          type="area"
+          height={350}
+          width={1200}
+        />
+        </div>
+       
+      </div>
     </div>
   );
 };

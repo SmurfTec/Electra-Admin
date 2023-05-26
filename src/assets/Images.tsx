@@ -31,6 +31,8 @@ const IMAGES: any = {
     Twitter: new URL('../assets/Images/twitter.svg', import.meta.url).href,
     Apple: new URL('../assets/Images/apple.svg', import.meta.url).href,
     Dots: new URL('../assets/Images/dots.svg', import.meta.url).href,
+    Iphone1: new URL('../assets/Images/Iphone1.svg', import.meta.url).href,
+    Iphone2: new URL('../assets/Images/Iphone2.svg', import.meta.url).href,
 
 
 }
