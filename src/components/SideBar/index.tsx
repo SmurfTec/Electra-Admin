@@ -29,7 +29,9 @@ export const SideBar = () => {
       icon: IMAGES.Product,
       active: false,
       iconFillColor: "",
-      url: "/Dashboard",
+      url: "/ProductDetail",
+      DropDown:true,
+      DropValues:["All Products","Product Requests"]
     },
     {
       id: 4,

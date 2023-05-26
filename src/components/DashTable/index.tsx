@@ -6,14 +6,15 @@ import styled from "styled-components";
 import { Tooltip } from "primereact/tooltip";
 // Styled Paginator component
 const CustomTable = styled(DataTable)`
-.p-datatable-header{
-  background-color: ${({tableBgColor})=>tableBgColor};
-  border-top:none;
- /* background-color: white; */
-}
-.p-datatable .p-datatable-tbody > tr{
-  background-color: #FCFCFC;
-}
+  .p-datatable-header {
+    background-color: ${({ tablebgcolor }) => tablebgcolor};
+    border-top: none;
+    /* background-color: white; */
+  }
+  .p-datatable-tbody > tr {
+      background-color: #fcfcfc !important;
+    }
+  
 `;
 export const DashTable = (props: any) => {
   const tableHeader = (
@@ -71,7 +72,7 @@ export const DashTable = (props: any) => {
         paginator={props.pagination ? true : false}
         rows={1}
         tableStyle={{ minWidth: "20rem" }}
-        tableBgColor={props.tableHeaderColor}
+        tablebgcolor={props.tableHeaderColor}
       >
         {props.imginData && (
           <Column
@@ -90,7 +91,7 @@ export const DashTable = (props: any) => {
           header={props.header ? "ID" : false}
           style={
             props.selling
-              ? { width: "30%", fontWeight: "900",color:"black" }
+              ? { width: "30%", fontWeight: "900", color: "black" }
               : { width: "30%" }
           }
           headerStyle={
