@@ -1,10 +1,12 @@
 import IMAGES from "../../assets/Images";
-import { HeaderSearch, ChooseDate } from "../../atoms";
+import { HeaderSearch, ChooseDate,ChooseFilter } from "../../atoms";
 type headerProps = {
   typeSearch?: boolean;
   title?: string;
   semiTitle?:string;
   chooseDate?: boolean;
+  chooseFilter?:boolean;
+  UserBox?:boolean
 };
 export const Header = (props: headerProps) => {
   return (
@@ -28,9 +30,19 @@ export const Header = (props: headerProps) => {
               <div className="border border-[#B4B4B4]"></div>
             </div>
           )}
+          {props?.chooseFilter && (
+            <div className="flex gap-4">
+            <ChooseFilter />
+            <div className="border border-[#B4B4B4]"></div>
+          </div>
+          )}
           <div className="flex gap-4">
-            <div className="bg-[black] rounded-[39px] flex items-center w-9 h-9 justify-center">
-              <i className="pi pi-comment" style={{ color: "white" }}></i>
+            <div className="bg-[black] rounded-[39px] flex items-center w-9 h-9 justify-center items-center">
+             
+              {props.UserBox?
+            <img src={IMAGES.RectangleBox}/>:  
+            <i className="pi pi-comment" style={{ color: "white" }}></i>
+            }
             </div>
             <div className="border border-[#B4B4B4]"></div>
           </div>

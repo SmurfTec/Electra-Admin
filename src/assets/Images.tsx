@@ -47,6 +47,9 @@ const IMAGES: any = {
     RegectedSale: new URL('../assets/Images/regectedSale.svg', import.meta.url).href,
     Volume: new URL('../assets/Images/Volume.svg', import.meta.url).href,
     Admin: new URL('../assets/Images/Admin.svg', import.meta.url).href,
+    Filter: new URL('../assets/Images/Filter.svg', import.meta.url).href,
+    RectangleBox: new URL('../assets/Images/RectangleBox.svg', import.meta.url).href,
+    Search: new URL('../assets/Images/Search.svg', import.meta.url).href,
 
 
 }

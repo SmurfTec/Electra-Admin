@@ -5,6 +5,7 @@ import { CustomTableComponent,CustomButton } from '../../../atoms'
 import { SVGIcon } from '../../../components/SVG'
 import {CustomMenu} from "../../../atoms/global.style.js"
 import { useNavigate } from 'react-router-dom'
+import { Header } from '../../../components/index.js'
 export const Users = () => {
     const navigate=useNavigate();
   const [filterData, setFilterData] = useState([
@@ -271,7 +272,12 @@ export const Users = () => {
       },[selectedProducts])
   return (
     <div className=''>
-      <div className='flex flex-wrap gap-6'>
+      <Header 
+            typeSearch={true} 
+              chooseFilter={true}
+              UserBox={true}
+              />
+      <div className='flex flex-wrap gap-6 mt-[28px]'>
       <DashCard
           title={"Total Users"}
           totalNumber={"4500"}

@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import { DashCard } from '../../../components'
 import IMAGES from '../../../assets/Images'
 import { CustomButton } from '../../../atoms'
+import { Header } from '../../../components'
+import { InputTxt } from '../../../atoms'
 export const UserProfile = () => {
     const [activetxt, setactivetxt] = useState('Active')
+    const[search,setSearch]=useState('')
     const [ButtonList, setButtonList] = useState([
         { id: 1, txt: 'Active', active: true },
         { id: 2, txt: 'Pending', active: false },
@@ -41,7 +44,13 @@ export const UserProfile = () => {
     }
     return (
         <div className=''>
-            <div className='flex gap-5'>
+             <Header 
+              title="User Profile"
+              semiTitle="View user profile and their stats"
+              chooseFilter={true}
+              UserBox={true}
+              />
+            <div className='flex gap-5 mt-[31px]'>
                 <div className=' w-[500px] h-auto border border-custom-border rounded-[10px] flex flex-col pt-[11px] pl-[17px] pr-[17px]'>
                     <div className='flex justify-between'>
                         <div className='flex flex-col gap-2'>
@@ -157,7 +166,24 @@ export const UserProfile = () => {
 
        </div>
          
-         }   
+         } 
+         <div className='mt-[27px] flex gap-4 flex-wrap'>
+         <InputTxt
+        placeholder="Search by Id,name"
+        MainClasses={`!bg-[#F1F1F1] !text-[#656565]`}
+        img={IMAGES.Search}
+        value={search}
+        onChange={(e: any) => setSearch(e.target.value)}
+      />
+      <InputTxt
+        placeholder="Filter Date"
+        MainClasses={`!bg-[#F1F1F1] !text-[#656565] !w-[152px]`}
+        img={IMAGES.Email}
+        value={search}
+        onChange={(e: any) => setSearch(e.target.value)}
+        iconRight={true}
+      />
+            </div>  
          
        
         </div>

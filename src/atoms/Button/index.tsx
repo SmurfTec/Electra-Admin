@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 export const CustomButton = ({txt,classes,value,valueclasses,...props}:any) => {
   return (

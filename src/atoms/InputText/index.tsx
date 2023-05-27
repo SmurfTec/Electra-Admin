@@ -11,11 +11,12 @@ const CustomInputTxt=styled(InputText)`
     box-shadow: none !important; /* Add this line */
   }
 `
-export  const InputTxt = ({width,img,MainClasses,...restProps}:any) => {
+export  const InputTxt = ({width,img,MainClasses,iconRight,...restProps}:any) => {
   return (
     <div className={`flex items-center bg-lightgray gap-3 rounded-[8px] w-[397px] h-[72px] overflow-hidden pl-[21px] pr-[22px] ${MainClasses}`}>
-  {img && <img src={img} alt="icon-img"/>}  
+  {(iconRight ==false && img) && <img src={img} alt="icon-img"/>}
     <CustomInputTxt {...restProps} />
+    {(iconRight ==true && img) && <img src={img} alt="icon-img"/>}
 </div>
   )
 }
