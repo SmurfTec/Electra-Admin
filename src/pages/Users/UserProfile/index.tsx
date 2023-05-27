@@ -37,7 +37,7 @@ export const UserProfile = () => {
     
           items: [
             {
-              label: "Ban User",
+              label: "View Item",
               command: handleBanUser,
               template: (item: any, options: any) => {
                 return (
@@ -45,7 +45,7 @@ export const UserProfile = () => {
                     <SVGIcon
                       fillcolor={'#212121'}
                       src={IMAGES.Ban}
-                    /> Ban User
+                    /> View Item
                   </div>
                 )
               }
@@ -65,20 +65,7 @@ export const UserProfile = () => {
                 )
               }
             },
-            {
-              label: "Select",
-              command: handleBanUser,
-              template: (item: any, options: any) => {
-                return (
-                  <div  style={{ background: 'rgba(46, 102, 194, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
-                    <SVGIcon
-                      fillcolor={'#212121'}
-                      src={IMAGES.Select}
-                    /> Select
-                  </div>
-                )
-              }
-            },
+          
           ],
         },
     
@@ -101,7 +88,7 @@ export const UserProfile = () => {
                 src={IMAGES.Dots}
               />
             
-              <CustomMenu   model={items} popup ref={menuLeft} id="popup_menu_left" />
+              <CustomMenu height={'80px'}   model={items} popup ref={menuLeft} id="popup_menu_left" />
             </div>
           </>
         );
@@ -317,6 +304,8 @@ export const UserProfile = () => {
             </div>  
          <div className='mt-[38px]'>
             <CustomTableComponent
+            width={'634px'}
+            theadStyles={{color:'#212121 !important',fontWeight:'bold'}}
             showWrapper={false}
             filterData={filterData}
             selectedProducts={selectedProducts}

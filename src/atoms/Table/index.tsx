@@ -4,7 +4,7 @@ import { SVGIcon } from "../../components/SVG";
 import IMAGES from "../../assets/Images";
 
 import { CustomMenu,CustomTableWrapper,CustomTable } from "../global.style.js"
-export const CustomTableComponent = ({filterData,showWrapper,selectedProducts,setSelectedProducts,columnData,MultipleSelect}:any) => {
+export const CustomTableComponent = ({filterData,showWrapper,selectedProducts,setSelectedProducts,columnData,MultipleSelect,...props}:any) => {
   
  
   
@@ -108,8 +108,9 @@ export const CustomTableComponent = ({filterData,showWrapper,selectedProducts,se
      <CustomTableWrapper></CustomTableWrapper>
      }   
         <CustomTable
-
+          {...props}
           rows={10}
+          
           value={filterData}
           scrollable={false}
           selection={selectedProducts?selectedProducts:[]} dataKey="id"
