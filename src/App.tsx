@@ -9,7 +9,7 @@ function App() {
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
-    if (!user&&location.pathname === "/" ) {
+    if (!user||location.pathname === "/" ) {
       setShow(false);
     } else {
       setShow(true);

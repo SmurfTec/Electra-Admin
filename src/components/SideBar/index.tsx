@@ -73,23 +73,11 @@ export const SideBar = () => {
     });
     setNavItems(updatedNavItems);
   };
-  useEffect(()=>{
-    let user: any = null;
-    const storedUser = localStorage.getItem('user');
-    console.log(storedUser,"stored")
-    if (storedUser !== null) {
-      navigate('/Dashboard')
-      setIsLoggedIn(true)
-      user = JSON.parse(storedUser);
-    }else{
-      setIsLoggedIn(false)
-      navigate('/')
-    }
-  },[])
+
   return (
 
     <>
-    {isLoggedIn &&  <div className="w-[17rem] h-[1024px] bg-[#FCFCFC]">
+    <div className="w-[17rem] h-[1024px] bg-[#FCFCFC]">
     <img
       className="ml-[39px] mt-[17px] w-[75px] h-[33px] mb-[45px]"
       src={IMAGES.Logo}
@@ -140,7 +128,7 @@ export const SideBar = () => {
         </Link>
       ))}
     </div>
-  </div>}
+  </div>
     </>
    
   );
