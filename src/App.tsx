@@ -1,22 +1,31 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
-import { Dashboard,Users,Signin,ProductView } from "./pages/index";
-import { SideBar,Header } from "./components";
+import { Dashboard, Users, Signin, ProductView } from "./pages/index";
+import { SideBar, Header } from "./components";
 
 function App() {
-
-
+  const [show, setShow] = useState(false);
+  const location = useLocation();
+  const user = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    if (!user&&location.pathname === "/" ) {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
+  }, [user,location]);
   return (
     <div className="flex">
-      <SideBar />
+      {show && <SideBar />}
       <div>
-       <Header />
+       {show&& <Header />}
         <Routes>
-        <Route path="/" element={<Signin  />} />
+          <Route path="/" element={<Signin />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/Users" element={<Users />} />
           <Route path="/ProductDetail" element={<ProductView />} />
+          <Route path="*" element={<Signin />} />
         </Routes>
       </div>
     </div>
