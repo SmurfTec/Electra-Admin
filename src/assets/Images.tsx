@@ -36,6 +36,9 @@ const IMAGES: any = {
     IphoneView: new URL('../assets/Images/IphoneView.svg', import.meta.url).href,
     Pen: new URL('../assets/Images/Pen.svg', import.meta.url).href,
     Bin: new URL('../assets/Images/Bin.svg', import.meta.url).href,
+    WhiteBox: new URL('../assets/Images/WhiteBox.svg', import.meta.url).href,
+    dollar: new URL('../assets/Images/dollar.svg', import.meta.url).href,
+    Tag: new URL('../assets/Images/Tag.svg', import.meta.url).href,
 
 
 }
