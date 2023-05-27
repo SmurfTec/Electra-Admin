@@ -4,160 +4,9 @@ import { SVGIcon } from "../../components/SVG";
 import IMAGES from "../../assets/Images";
 
 import { CustomMenu,CustomTableWrapper,CustomTable } from "../global.style.js"
-export const CustomTableComponent = () => {
-  const [filterData, setFilterData] = useState([
-    {
-      id: 1,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-    {
-      id: 2,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-    {
-      id: 3,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Banned",
-      registerValue: "Website",
-    },
-    {
-      id: 4,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-    {
-      id: 5,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-    {
-      id: 6,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-    {
-      id: 7,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-    {
-      id: 8,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Banned",
-      registerValue: "Website",
-    },
-    {
-      id: 9,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-    {
-      id: 10,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-    {
-      id: 11,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-    {
-      id: 12,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-    {
-      id: 13,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Banned",
-      registerValue: "Website",
-    },
-    {
-      id: 14,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-    {
-      id: 15,
-      firstname: "Huzayfah",
-      lastname: "Hanif",
-      email: "Huz@gmail.com",
-      phone: "34342424",
-      register: "20,aug,2022",
-      status: "Active",
-      registerValue: "Website",
-    },
-  ]);
-  const [selectedProducts, setSelectedProducts] = useState<any>([]);
+export const CustomTableComponent = ({filterData,selectedProducts,setSelectedProducts,columnData,MultipleSelect}:any) => {
+  
+ 
   
   const menuLeft: any = useRef(null);
   const StatusBodyTemplate = (option: any) => {
@@ -251,9 +100,7 @@ export const CustomTableComponent = () => {
       </>
     );
   };
-  useEffect(()=>{
-console.log(selectedProducts)
-  },[selectedProducts])
+ 
   return (
     <>
       <div className="relative">
@@ -263,11 +110,21 @@ console.log(selectedProducts)
           rows={10}
           value={filterData}
           scrollable={false}
-          selection={selectedProducts} dataKey="id" onSelectionChange={(e: any) => setSelectedProducts(e.value)}
-          // selectionMode={'checkbox'}
+          selection={selectedProducts?selectedProducts:[]} dataKey="id"
+          onSelectionChange={selectedProducts ? (e: any) => setSelectedProducts(e.value) : undefined}
+        
         >
-          <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />
-          <Column field="id" header="ID" />
+        {MultipleSelect && <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />}  
+         {columnData?.map((item:any,index:any)=>{
+          return(
+            <Column key={index}
+            field={item.field}
+            header={item.header}
+            body={item.body ? item.body : null}
+            />
+          )
+         })}
+          {/* <Column field="id" header="ID" />
           <Column field="firstname" header="First Name" />
           <Column field="lastname" header="Last Name" />
           <Column field="email" header="Email" />
@@ -275,7 +132,7 @@ console.log(selectedProducts)
           <Column field="register" header="Registered On" />
           <Column field="status" header="Status" body={StatusBodyTemplate} />
           <Column field="registerValue" header="Registered Via" />
-          <Column header="" body={MenuBodyTemplate} />
+          <Column header="" body={MenuBodyTemplate} /> */}
         </CustomTable>
       </div>
     </>

@@ -40,6 +40,9 @@ const IMAGES: any = {
     Select: new URL('../assets/Images/Select.svg', import.meta.url).href,
     Delete: new URL('../assets/Images/Delete.svg', import.meta.url).href,
     MenuDropdown: new URL('../assets/Images/menuDropdown.svg', import.meta.url).href,
+    WhiteBox: new URL('../assets/Images/WhiteBox.svg', import.meta.url).href,
+    dollar: new URL('../assets/Images/dollar.svg', import.meta.url).href,
+    Tag: new URL('../assets/Images/Tag.svg', import.meta.url).href,
 
 
 }

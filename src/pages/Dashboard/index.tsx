@@ -78,7 +78,7 @@ export const Dashboard = () => {
           myImg={IMAGES.person}
           imgColor={"bg-custom-grey"}
           textDash={"bg-custom-red"}
-          textColor={"#b50000"}
+          textColor={"#FF0000"}
           arrowImg={IMAGES.downarrow}
         />
         <DashCard
@@ -87,7 +87,7 @@ export const Dashboard = () => {
           myImg={IMAGES.box}
           imgColor={"bg-yellow-dash"}
           textDash={"bg-custom-red"}
-          textColor={"#b50000"}
+          textColor={"#FF0000"}
           arrowImg={IMAGES.downarrow}
         />
       </div>

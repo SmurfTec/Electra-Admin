@@ -7,7 +7,9 @@ type MyProps={
   myImg:string
   arrowImg:string
   title:string
+  active?:boolean
 }
+import { SVGIcon } from "../SVG"
 export const DashCard = (props:MyProps) => {
   return (
     <div className={`${props.outerclasses} w-[300px] h-[136px] overflow-hidden bg-[#FCFCFC] rounded-[8px]  `}>
