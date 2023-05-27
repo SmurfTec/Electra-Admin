@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from "styled-components"
 import { InputText } from "primereact/inputtext";
 const CustomInputTxt=styled(InputText)`
