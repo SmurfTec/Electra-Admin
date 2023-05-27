@@ -93,22 +93,27 @@ export const RevenueChart = () => {
           x: "Dec",
           y: 100,
         },
+        {
+          x:"jan",
+          y:80
+        }
       ],
     },
   ];
   return (
-    <div className="ml-5 mt-3 bg-[#FCFCFC] rounded overflow-hidden">
-      <div className="overflow-y-hidden">
+    <div className="ml-2 mt-1 bg-[#FCFCFC] rounded overflow-x-scroll  w-full ">
+      <div className="">
         <div>
-          <p className="font-semibold pt-3 pl-3 overflow-hidden">Revenue</p>
+          <p className="font-semibold pt-3 pl-3 overflow-hidden ">Revenue</p>
         </div>
-        <div className="overflow-hidden">
+        <div className="overflow-x-scroll">
         <Chart
           options={options}
           series={series}
           type="area"
           height={350}
-          width={1200}
+          // width={850}
+          style={{width:"51rem"}}
         />
         </div>
        

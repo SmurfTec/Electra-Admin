@@ -4,6 +4,7 @@ import {
   PlatformEarning,
   RevenueChart,
   DashTable,
+  Header
 } from "../../components";
 import IMAGES from "../../assets/Images";
 export const Dashboard = () => {
@@ -53,6 +54,7 @@ export const Dashboard = () => {
 
   return (
     <div >
+       <Header />
       <div className="flex flex-wrap justify-start gap-2">
         <DashCard
           title={"Net Revenue"}
@@ -91,7 +93,7 @@ export const Dashboard = () => {
           arrowImg={IMAGES.downarrow}
         />
       </div>
-      <div className="flex mt-3 gap-4 ">
+      <div className="flex mt-3 gap-1 ">
         <div>
           <StaticCard />
           <PlatformEarning />

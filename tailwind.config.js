@@ -9,6 +9,11 @@ module.exports = {
         "custom-red": "rgba(255, 0, 0, 0.22)",
         "custom-grey":"rgba(140, 184, 105, 0.19)"
       },
+      borderColor: {
+        "custom-border": "rgba(0, 0, 0, 0.08)",
+        // Add more custom border colors if needed
+      },
+     
     },
     colors: {
       gray: "#808080",

@@ -1,10 +1,10 @@
 import IMAGES from "../../assets/Images";
 export const StaticCard = () => {
   return (
-    <div className="bg-[#FCFCFC] h-[182px] w-[570px]  rounded px-2 ">
+    <div className="bg-[#FCFCFC] h-[182px] w-auto  rounded px-2 ">
       <h1 className="font-bold mt-3 ml-3 text-[20px]">Last Month Statistic</h1>
-      <div className="flex flex-wrap gap-2 mt-3">
-        <div className="  h-[100px] overflow-hidden">
+      <div className="flex flex-wrap gap-2 mt-3 ">
+        <div className="  h-[100px] overflow-hidden ">
           <div className="flex justify-around">
             <img className=" self-start mt-2" src={IMAGES.bluehamburger} />
             <div>
@@ -19,7 +19,7 @@ export const StaticCard = () => {
             </p>
           </div>
         </div>
-        <div className="  h-[100px] overflow-hidden">
+        <div className="  h-[100px] overflow-hidden ">
           <div className="flex justify-around">
             <img className=" self-start mt-2" src={IMAGES.bluebox} />
             <div>

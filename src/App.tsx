@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
-import { Dashboard, Users, Signin, ProductView } from "./pages/index";
+import { Dashboard, Users, Signin, ProductView,UserProfile } from "./pages/index";
 import { SideBar, Header } from "./components";
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
     <div className="flex">
       {show && <SideBar />}
       <div className="w-[100%]">
-       {show&& <Header />}
+     
        <div className="ml-[36px]">
 
         <Routes>
@@ -27,6 +27,7 @@ function App() {
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/Users" element={<Users />} />
           <Route path="/ProductDetail" element={<ProductView />} />
+          <Route path="/UserProfile" element={<UserProfile/>}/>
           <Route path="*" element={<Signin />} />
         </Routes>
         </div>

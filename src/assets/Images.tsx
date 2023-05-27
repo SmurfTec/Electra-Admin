@@ -43,7 +43,9 @@ const IMAGES: any = {
     WhiteBox: new URL('../assets/Images/WhiteBox.svg', import.meta.url).href,
     dollar: new URL('../assets/Images/dollar.svg', import.meta.url).href,
     Tag: new URL('../assets/Images/Tag.svg', import.meta.url).href,
-
+    Sales: new URL('../assets/Images/Sales.svg', import.meta.url).href,
+    RegectedSale: new URL('../assets/Images/regectedSale.svg', import.meta.url).href,
+    Volume: new URL('../assets/Images/Volume.svg', import.meta.url).href,
 
 }
 export default IMAGES
