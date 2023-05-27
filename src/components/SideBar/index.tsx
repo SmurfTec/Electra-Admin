@@ -2,9 +2,9 @@ import { useState,useEffect } from "react";
 import IMAGES from "../../assets/Images";
 import { SVGIcon } from "../SVG";
 import { Link, useNavigate } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { PanelMenu } from 'primereact/panelmenu';
 export const SideBar = () => {
-  const [isLoggedIn,setIsLoggedIn]=useState(false)
+ 
   const navigate=useNavigate()
   const [navItems, setNavItems] = useState([
     {
@@ -30,6 +30,7 @@ export const SideBar = () => {
       active: false,
       iconFillColor: "",
       url: "/ProductDetail",
+    
       DropDown:true,
       DropValues:["All Products","Product Requests"]
     },
@@ -110,6 +111,13 @@ export const SideBar = () => {
               >
                 {item.name}
               </p>
+              {item.DropDown && 
+              <SVGIcon
+              src={IMAGES.MenuDropdown}
+              filled={item.active}
+              fillcolor={item?.iconFillColor}
+            />
+              }
             </div>
 
               {item.number && (

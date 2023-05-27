@@ -36,6 +36,10 @@ const IMAGES: any = {
     IphoneView: new URL('../assets/Images/IphoneView.svg', import.meta.url).href,
     Pen: new URL('../assets/Images/Pen.svg', import.meta.url).href,
     Bin: new URL('../assets/Images/Bin.svg', import.meta.url).href,
+    Ban: new URL('../assets/Images/Ban.svg', import.meta.url).href,
+    Select: new URL('../assets/Images/Select.svg', import.meta.url).href,
+    Delete: new URL('../assets/Images/Delete.svg', import.meta.url).href,
+    MenuDropdown: new URL('../assets/Images/menuDropdown.svg', import.meta.url).href,
 
 
 }
