@@ -1,6 +1,6 @@
 import React from "react";
 import IMAGES from "../../../assets/Images";
-import { RoundedButton } from "../../../atoms";
+import { RoundedButton, CustomButton } from "../../../atoms";
 export const ProductView = () => {
   return (
     <div>
@@ -15,7 +15,15 @@ export const ProductView = () => {
             <RoundedButton icon={IMAGES.Bin} classes={"bg-[#FF0000]"} />
           </div>
           <div className="mt-3">
-            <p className="bg-[#FCFCFC] text-center rounded-2xl w-[295px] h-[37px] flex items-center justify-center">View Technical Specifications</p>
+            <p className="bg-[#FCFCFC] text-center rounded-2xl w-[295px] h-[37px] flex items-center justify-center">
+              View Technical Specifications
+            </p>
+            <CustomButton
+              txt={"Description"}
+              classes={
+                "!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !px-4 !rounded !mt-5"
+              }
+            />
           </div>
         </div>
       </div>
