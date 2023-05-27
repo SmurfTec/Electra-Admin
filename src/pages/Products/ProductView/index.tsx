@@ -85,7 +85,7 @@ export const ProductView = () => {
   ];
   return (
     <div>
-      <Header />
+      <Header title={"Product Details"}  />
       <div className="flex gap-11">
         <div>
           <img src={IMAGES.IphoneView} />

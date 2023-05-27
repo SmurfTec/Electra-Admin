@@ -54,7 +54,7 @@ export const Dashboard = () => {
 
   return (
     <div >
-       <Header />
+       <Header typeSearch={true} chooseDate={true}/>
       <div className="flex flex-wrap justify-start gap-2">
         <DashCard
           title={"Net Revenue"}
