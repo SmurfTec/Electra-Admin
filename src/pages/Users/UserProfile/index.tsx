@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState,useRef } from 'react'
 import { DashCard } from '../../../components'
 import IMAGES from '../../../assets/Images'
-import { CustomButton } from '../../../atoms'
+import { CustomButton,CustomTableComponent } from '../../../atoms'
 import { Header } from '../../../components'
 import { InputTxt } from '../../../atoms'
+import { SVGIcon } from '../../../components/SVG'
+import {CustomMenu} from "../../../atoms/global.style.js"
 export const UserProfile = () => {
     const [activetxt, setactivetxt] = useState('Active')
     const[search,setSearch]=useState('')
@@ -24,6 +26,134 @@ export const UserProfile = () => {
         { id: 9, txt: 'Completed', title: "Net Value", body: '17' },
         { id: 10, txt: 'Completed', title: "Total Points Earned", body: '1500' },
     ])
+    const menuLeft: any = useRef(null);
+    const handleBanUser = (e:any) => {
+        // e.preventDefault()
+        // const selectedUserIds = selectedProducts.map((product: any) => product.id);
+        // console.log("Selected User IDs:", selectedUserIds);
+      };
+    const items = [
+        {
+    
+          items: [
+            {
+              label: "Ban User",
+              command: handleBanUser,
+              template: (item: any, options: any) => {
+                return (
+                  <div style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
+                    <SVGIcon
+                      fillcolor={'#212121'}
+                      src={IMAGES.Ban}
+                    /> Ban User
+                  </div>
+                )
+              }
+            },
+            {
+              label: "Delete",
+              command: handleBanUser,
+              template: (item: any, options: any) => {
+                return (
+                  <div  style={{ background: 'rgba(231, 29, 54, 0.05)' }} className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]">
+                    <SVGIcon
+    
+                      fillcolor={'#E71D36'}
+                      src={IMAGES.Delete}
+                    /> Delete
+                  </div>
+                )
+              }
+            },
+            {
+              label: "Select",
+              command: handleBanUser,
+              template: (item: any, options: any) => {
+                return (
+                  <div  style={{ background: 'rgba(46, 102, 194, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
+                    <SVGIcon
+                      fillcolor={'#212121'}
+                      src={IMAGES.Select}
+                    /> Select
+                  </div>
+                )
+              }
+            },
+          ],
+        },
+    
+      ];
+
+    const MenuBodyTemplate = (rowData:any) => {
+    
+    
+        return (
+          <>
+            <div
+              className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
+            >
+              <SVGIcon
+                onClick={(event: any) => {
+                  event.preventDefault();
+                  menuLeft.current.toggle(event);
+                }}
+    
+                src={IMAGES.Dots}
+              />
+            
+              <CustomMenu   model={items} popup ref={menuLeft} id="popup_menu_left" />
+            </div>
+          </>
+        );
+      };
+    const [filterData, setFilterData] = useState([
+        {
+          id: 1,
+          itemname: "Iphone 14",
+          askprice: "$900",
+          highestOffer: "$900",
+          listedon:"22 aug,2022"
+        },
+        {
+          id: 2,
+          itemname: "Iphone 14",
+          askprice: "$900",
+          highestOffer: "$900",
+          listedon:"22 aug,2022"
+        },
+        {
+          id: 3,
+          itemname: "Iphone 14",
+          askprice: "$900",
+          highestOffer: "$900",
+          listedon:"22 aug,2022"
+        },
+        {
+          id: 4,
+          itemname: "Iphone 14",
+          askprice: "$900",
+          highestOffer: "$900",
+          listedon:"22 aug,2022"
+        },
+        {
+          id: 5,
+          itemname: "Iphone 14",
+          askprice: "$900",
+          highestOffer: "$900",
+          listedon:"22 aug,2022"
+        },
+       
+      ]);
+      const [columnData]=useState([
+        {field:"id",header:'ID' },
+        {field:"itemname",header:'Item Name' },
+        {field:"askprice",header:'Ask Price' },
+        {field:"highestOffer",header:'Highest Offer' },
+        {field:"listedon",header:'Listed On' },
+        {field:"",header:'' ,body:MenuBodyTemplate}
+      ])
+     
+      const [selectedProducts, setSelectedProducts] = useState<any>([]);
     const handleButton = (id: any) => {
         const buttonfilter = ButtonList.map((item: any, index: any) => {
             if (item.id == id) {
@@ -170,21 +300,31 @@ export const UserProfile = () => {
          <div className='mt-[27px] flex gap-4 flex-wrap'>
          <InputTxt
         placeholder="Search by Id,name"
-        MainClasses={`!bg-[#F1F1F1] !text-[#656565]`}
+        MainClasses={`!bg-[#F1F1F1] !text-[#656565] !w-[29rem]`}
         img={IMAGES.Search}
         value={search}
         onChange={(e: any) => setSearch(e.target.value)}
       />
       <InputTxt
         placeholder="Filter Date"
-        MainClasses={`!bg-[#F1F1F1] !text-[#656565] !w-[152px]`}
-        img={IMAGES.Email}
-        value={search}
-        onChange={(e: any) => setSearch(e.target.value)}
+        MainClasses={`!bg-[#F1F1F1] !text-[#656565] !w-[10rem]`}
+        img={IMAGES.FilterDate}
+        inputClasses={`!text-[#656565]`}
+       
+      
         iconRight={true}
       />
             </div>  
-         
+         <div className='mt-[38px]'>
+            <CustomTableComponent
+            showWrapper={false}
+            filterData={filterData}
+            selectedProducts={selectedProducts}
+             setSelectedProducts={setSelectedProducts}
+              columnData={columnData}
+               MultipleSelect={true}
+            />
+         </div>
        
         </div>
     )
