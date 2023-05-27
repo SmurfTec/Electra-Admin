@@ -10,14 +10,16 @@ function App() {
   return (
     <div className="flex">
       <SideBar />
-      <div>
+      <div className="w-[83rem]">
        <Header />
-        <Routes>
+       <div className="ml-[36px]">
+       <Routes>
         <Route path="/" element={<Signin  />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/Users" element={<Users />} />
           <Route path="/ProductDetail" element={<ProductView />} />
         </Routes>
+       </div>
       </div>
     </div>
   );

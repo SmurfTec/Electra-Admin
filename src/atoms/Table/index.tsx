@@ -282,10 +282,10 @@ export const CustomTableComponent = () => {
     const [showMenuList, setshowMenuList] = useState(false);
     const items = [
       {
-        label: "Options",
+      
         items: [
           {
-            label: "Update",
+            label: "View",
             icon: "pi pi-refresh",
             command: () => {},
           },
@@ -294,39 +294,30 @@ export const CustomTableComponent = () => {
             icon: "pi pi-times",
             command: () => {},
           },
-        ],
-      },
-      {
-        label: "Navigate",
-        items: [
           {
-            label: "React Website",
-            icon: "pi pi-external-link",
-            url: "https://reactjs.org/",
-          },
-          {
-            label: "Router",
-            icon: "pi pi-upload",
-            command: (e: any) => {
-              //router.push('/fileupload');
-            },
+            label: "Select",
+            icon: "pi pi-times",
+            command: () => {},
           },
         ],
       },
+   
     ];
     return (
       <>
-        <div
+        <div onClick={(event:any)=>{
+          event.preventDefault();
+          console.log("click")}}
           className={`px-[14px] py-[4px] text-[white]  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
           <SVGIcon
-            onMouseEnter={(event: any) => {
-              event.preventDefault();
-              menuLeft.current.toggle(event);
-            }}
+            // onMouseEnter={(event: any) => {
+            //   event.preventDefault();
+            //   menuLeft.current.toggle(event);
+            // }}
             src={IMAGES.Dots}
           />
-          <Menu model={items} popup ref={menuLeft} id="popup_menu_left" />
+          <Menu model={items} popup ref={menuLeft} />
         </div>
       </>
     );
