@@ -51,6 +51,7 @@ const IMAGES: any = {
     Filter: new URL('../assets/Images/Filter.svg', import.meta.url).href,
     RectangleBox: new URL('../assets/Images/RectangleBox.svg', import.meta.url).href,
     Search: new URL('../assets/Images/Search.svg', import.meta.url).href,
+    FilterDate: new URL('../assets/Images/FilterDate.svg', import.meta.url).href,
 
 
 }
