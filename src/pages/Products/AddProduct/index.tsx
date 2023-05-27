@@ -214,6 +214,10 @@ export const AddProduct = () => {
             </div>
           </div>
         </div>
+        <div className="flex gap-3 mb-3">
+          <CustomButton txt={"Cancel"} classes={"!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]"}/>
+          <CustomButton txt={"Add Product"} classes={" !w-[179px] !rounded-[12px] !h-[50px]"}/>
+        </div>
       </div>
     </div>
   );
