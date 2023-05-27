@@ -46,6 +46,8 @@ const IMAGES: any = {
     Sales: new URL('../assets/Images/Sales.svg', import.meta.url).href,
     RegectedSale: new URL('../assets/Images/regectedSale.svg', import.meta.url).href,
     Volume: new URL('../assets/Images/Volume.svg', import.meta.url).href,
+    Admin: new URL('../assets/Images/Admin.svg', import.meta.url).href,
+
 
 }
 export default IMAGES

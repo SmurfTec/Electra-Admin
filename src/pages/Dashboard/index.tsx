@@ -54,7 +54,7 @@ export const Dashboard = () => {
 
   return (
     <div >
-       <Header />
+       <Header typeSearch={true} chooseDate={true}/>
       <div className="flex flex-wrap justify-start gap-2">
         <DashCard
           title={"Net Revenue"}
@@ -93,7 +93,7 @@ export const Dashboard = () => {
           arrowImg={IMAGES.downarrow}
         />
       </div>
-      <div className="flex mt-3 gap-1 ">
+      <div className="flex mt-3 gap-1 w-full  ">
         <div>
           <StaticCard />
           <PlatformEarning />

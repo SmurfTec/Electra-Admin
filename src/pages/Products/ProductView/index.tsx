@@ -1,9 +1,10 @@
-import React from "react";
 import IMAGES from "../../../assets/Images";
 import { RoundedButton, CustomButton } from "../../../atoms";
-import { DashCard, Variants } from "../../../components";
+import { DashCard, Variants, Header } from "../../../components";
 import "./index.css";
+import { useNavigate } from "react-router-dom";
 export const ProductView = () => {
+  const navigate = useNavigate();
   const VariantsArray = [
     {
       txt: "Capacity",
@@ -85,8 +86,13 @@ export const ProductView = () => {
   ];
   return (
     <div>
+      <Header title={"Product Details"} />
       <div className="flex gap-11">
-        <div>
+        <div
+          onClick={() => {
+            navigate("/AddProduct");
+          }}
+        >
           <img src={IMAGES.IphoneView} />
         </div>
         <div>

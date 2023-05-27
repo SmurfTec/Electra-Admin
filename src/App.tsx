@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
-import { Dashboard, Users, Signin, ProductView,UserProfile } from "./pages/index";
+import { Dashboard, Users, Signin, ProductView,UserProfile,AddProduct } from "./pages/index";
 import { SideBar, Header } from "./components";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
     } else {
       setShow(true);
     }
-  }, [user,location]);
+  }, [user, location]);
   return (
     <div className="flex">
       {show && <SideBar />}
@@ -28,12 +28,12 @@ function App() {
           <Route path="/Users" element={<Users />} />
           <Route path="/ProductDetail" element={<ProductView />} />
           <Route path="/UserProfile" element={<UserProfile/>}/>
+          <Route path="/AddProduct" element={<AddProduct />} />
           <Route path="*" element={<Signin />} />
         </Routes>
         </div>
-       </div>
       </div>
-     
+    </div>
   );
 }
 
