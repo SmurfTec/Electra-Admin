@@ -2,9 +2,9 @@ import { useState,useEffect } from "react";
 import IMAGES from "../../assets/Images";
 import { SVGIcon } from "../SVG";
 import { Link, useNavigate } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { PanelMenu } from 'primereact/panelmenu';
 export const SideBar = () => {
-  const [isLoggedIn,setIsLoggedIn]=useState(false)
+ 
   const navigate=useNavigate()
   const [navItems, setNavItems] = useState([
     {
@@ -30,6 +30,7 @@ export const SideBar = () => {
       active: false,
       iconFillColor: "",
       url: "/ProductDetail",
+    
       DropDown:true,
       DropValues:["All Products","Product Requests"]
     },
@@ -73,23 +74,11 @@ export const SideBar = () => {
     });
     setNavItems(updatedNavItems);
   };
-  useEffect(()=>{
-    let user: any = null;
-    const storedUser = localStorage.getItem('user');
-    console.log(storedUser,"stored")
-    if (storedUser !== null) {
-      navigate('/Dashboard')
-      setIsLoggedIn(true)
-      user = JSON.parse(storedUser);
-    }else{
-      setIsLoggedIn(false)
-      navigate('/')
-    }
-  },[])
+
   return (
 
     <>
-    {isLoggedIn &&  <div className="w-[17rem] h-[1024px] bg-[#FCFCFC]">
+    <div className="w-[17rem] h-[1024px] bg-[#FCFCFC]">
     <img
       className="ml-[39px] mt-[17px] w-[75px] h-[33px] mb-[45px]"
       src={IMAGES.Logo}
@@ -122,6 +111,13 @@ export const SideBar = () => {
               >
                 {item.name}
               </p>
+              {item.DropDown && 
+              <SVGIcon
+              src={IMAGES.MenuDropdown}
+              filled={item.active}
+              fillcolor={item?.iconFillColor}
+            />
+              }
             </div>
 
               {item.number && (
@@ -140,7 +136,7 @@ export const SideBar = () => {
         </Link>
       ))}
     </div>
-  </div>}
+  </div>
     </>
    
   );

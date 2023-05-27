@@ -6,7 +6,8 @@ export const Signin = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const navigate = useNavigate();
-  const Login = () => {
+  const Login = (event:any) => {
+event.preventDefault();
     let user: any = {
       name: "sherry",
     };

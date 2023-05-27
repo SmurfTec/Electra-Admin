@@ -36,11 +36,21 @@ const IMAGES: any = {
     IphoneView: new URL('../assets/Images/IphoneView.svg', import.meta.url).href,
     Pen: new URL('../assets/Images/Pen.svg', import.meta.url).href,
     Bin: new URL('../assets/Images/Bin.svg', import.meta.url).href,
+    Ban: new URL('../assets/Images/Ban.svg', import.meta.url).href,
+    Select: new URL('../assets/Images/Select.svg', import.meta.url).href,
+    Delete: new URL('../assets/Images/Delete.svg', import.meta.url).href,
+    MenuDropdown: new URL('../assets/Images/menuDropdown.svg', import.meta.url).href,
     WhiteBox: new URL('../assets/Images/WhiteBox.svg', import.meta.url).href,
     dollar: new URL('../assets/Images/dollar.svg', import.meta.url).href,
     Tag: new URL('../assets/Images/Tag.svg', import.meta.url).href,
+    Sales: new URL('../assets/Images/Sales.svg', import.meta.url).href,
+    RegectedSale: new URL('../assets/Images/regectedSale.svg', import.meta.url).href,
+    Volume: new URL('../assets/Images/Volume.svg', import.meta.url).href,
     Admin: new URL('../assets/Images/Admin.svg', import.meta.url).href,
     Upload: new URL('../assets/Images/Upload.svg', import.meta.url).href,
+    Filter: new URL('../assets/Images/Filter.svg', import.meta.url).href,
+    RectangleBox: new URL('../assets/Images/RectangleBox.svg', import.meta.url).href,
+    Search: new URL('../assets/Images/Search.svg', import.meta.url).href,
 
 
 }
