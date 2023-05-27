@@ -116,21 +116,21 @@ export const AddProduct = () => {
             "!w-[100px] !h-[40px] !mt-6 !mb-4 !rounded-[12px] !bg-[#EFEFEF] !text-[black]"
           }
         />
-        <div className="flex">
+        <div className="flex gap-2">
           <Variants data={VariantsArray} />
           <CustomButton
             txt={"+Add text"}
             classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
           />
         </div>
-        <div className="flex">
+        <div className="flex gap-2">
           <Variants data={VariantsArray2} />
           <CustomButton
             txt={"+Add text"}
             classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
           />
         </div>
-        <div className="flex">
+        <div className="flex gap-2">
           <Variants data={VariantsArray3} />
           <CustomButton
             txt={"+Add text"}
