@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 export const Users = () => {
   return (
-    <div className='ml-[36px]'>
+    <div className=''>
       <div className='flex flex-wrap gap-6'>
       <DashCard
           title={"Total Users"}

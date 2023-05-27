@@ -52,7 +52,7 @@ export const Dashboard = () => {
   ];
 
   return (
-    <div className="ml-5 ">
+    <div >
       <div className="flex flex-wrap justify-start gap-2">
         <DashCard
           title={"Net Revenue"}

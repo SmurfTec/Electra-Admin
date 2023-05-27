@@ -89,27 +89,28 @@ export const SideBar = () => {
   return (
 
     <>
-    {isLoggedIn &&  <div className="w-[237px] h-[1024px] bg-[#FCFCFC]">
+    {isLoggedIn &&  <div className="w-[17rem] h-[1024px] bg-[#FCFCFC]">
     <img
       className="ml-[39px] mt-[17px] w-[75px] h-[33px] mb-[45px]"
       src={IMAGES.Logo}
       alt="Logo"
     />
     <div className="flex flex-col gap-3">
-      <div className="w-[188px] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px]">
+      <div className="w-[11.75rem] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px]">
         <p className="text-gray font-[600]">ADMIN</p>
       </div>
       {navItems.map((item: any) => (
         <Link key={item.id} to={item.url}>
           <div
             key={item.id}
-            className={`w-[188px] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px] ${
+            className={`w-[11.75rem] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px] ${
               item.active ? "bg-[#212121]" : ""
             }`}
             onClick={() => handleItemClick(item.id)}
           >
+            <div className="flex items-center  justify-between  w-full">
             <div className="flex items-center gap-3">
-              <SVGIcon
+            <SVGIcon
                 src={item.icon}
                 filled={item.active}
                 fillcolor={item?.iconFillColor}
@@ -121,6 +122,7 @@ export const SideBar = () => {
               >
                 {item.name}
               </p>
+            </div>
 
               {item.number && (
                 <div

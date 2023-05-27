@@ -18,8 +18,10 @@ function App() {
   return (
     <div className="flex">
       {show && <SideBar />}
-      <div>
+      <div className="w-[83rem]">
        {show&& <Header />}
+       <div className="ml-[36px]">
+
         <Routes>
           <Route path="/" element={<Signin />} />
           <Route path="/Dashboard" element={<Dashboard />} />
@@ -27,8 +29,10 @@ function App() {
           <Route path="/ProductDetail" element={<ProductView />} />
           <Route path="*" element={<Signin />} />
         </Routes>
+        </div>
+       </div>
       </div>
-    </div>
+     
   );
 }
 
