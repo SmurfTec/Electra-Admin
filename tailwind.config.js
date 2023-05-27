@@ -11,7 +11,13 @@ module.exports = {
       },
       borderColor: {
         "custom-border": "rgba(0, 0, 0, 0.08)",
+        "custom-cardBorder":"rgba(101, 101, 101, 0.29)"
         // Add more custom border colors if needed
+      },
+      boxShadow: {
+        "custom-shadow": "0px 4px 14px rgba(0, 0, 0, 0.15)",
+        "custom-inset-shadow":"inset 0px 0px 19px rgba(0, 0, 0, 0.05)"
+        // Add more custom shadows if needed
       },
      
     },
@@ -21,7 +27,9 @@ module.exports = {
       lightgray:'#F6F6F6',
       black:'#212121',
       blue:'#3C82D6',
-      red:'#FF0000'
+      red:'#FF0000',
+      white:'#FFFFFF',
+      customTxt:'rgba(101, 101, 101, 0.62)'
     },
    
   },
