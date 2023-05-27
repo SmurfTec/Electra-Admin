@@ -18,8 +18,8 @@ function App() {
   return (
     <div className="flex">
       {show && <SideBar />}
-      <div className="w-[83rem]">
-       {show&& <Header />}
+      <div className="w-[100%]">
+     
        <div className="ml-[36px]">
 
         <Routes>
