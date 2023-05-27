@@ -9,30 +9,27 @@ function App() {
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
-    if (!user&&location.pathname === "/" ) {
+    if (!user && location.pathname === "/") {
       setShow(false);
     } else {
       setShow(true);
     }
-  }, [user,location]);
+  }, [user, location]);
   return (
     <div className="flex">
       {show && <SideBar />}
       <div className="w-[100%]">
-     
-       <div className="ml-[36px]">
-
-        <Routes>
-          <Route path="/" element={<Signin />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/Users" element={<Users />} />
-          <Route path="/ProductDetail" element={<ProductView />} />
-          <Route path="*" element={<Signin />} />
-        </Routes>
+        <div className="ml-[36px]">
+          <Routes>
+            <Route path="/" element={<Signin />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/Users" element={<Users />} />
+            <Route path="/ProductDetail" element={<ProductView />} />
+            <Route path="*" element={<Signin />} />
+          </Routes>
         </div>
-       </div>
       </div>
-     
+    </div>
   );
 }
 

@@ -113,7 +113,7 @@ export const RevenueChart = () => {
           type="area"
           height={350}
           // width={850}
-          style={{width:"51rem"}}
+          style={{width:"74rem"}}
         />
         </div>
        

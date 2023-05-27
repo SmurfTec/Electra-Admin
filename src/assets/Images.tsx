@@ -39,6 +39,7 @@ const IMAGES: any = {
     WhiteBox: new URL('../assets/Images/WhiteBox.svg', import.meta.url).href,
     dollar: new URL('../assets/Images/dollar.svg', import.meta.url).href,
     Tag: new URL('../assets/Images/Tag.svg', import.meta.url).href,
+    Admin: new URL('../assets/Images/Admin.svg', import.meta.url).href,
 
 
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import IMAGES from "../../../assets/Images";
 import { RoundedButton, CustomButton } from "../../../atoms";
-import { DashCard, Variants } from "../../../components";
+import { DashCard, Variants,Header } from "../../../components";
 import "./index.css";
 export const ProductView = () => {
   const VariantsArray = [
@@ -85,6 +85,7 @@ export const ProductView = () => {
   ];
   return (
     <div>
+      <Header />
       <div className="flex gap-11">
         <div>
           <img src={IMAGES.IphoneView} />
