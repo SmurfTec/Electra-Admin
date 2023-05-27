@@ -40,6 +40,7 @@ const IMAGES: any = {
     dollar: new URL('../assets/Images/dollar.svg', import.meta.url).href,
     Tag: new URL('../assets/Images/Tag.svg', import.meta.url).href,
     Admin: new URL('../assets/Images/Admin.svg', import.meta.url).href,
+    Upload: new URL('../assets/Images/Upload.svg', import.meta.url).href,
 
 
 }
