@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { Menu } from "primereact/menu";
 import { DataTable } from "primereact/datatable";
 export const CustomMenu=styled(Menu)`
-width: 110px;
-height: 108px;
+width: ${({width})=>width?width:'110px'};
+height:${({height})=>height?height:'108px'};
 padding: 10px;
 .p-menu-list{
     display: flex;
@@ -67,6 +67,7 @@ export const CustomTableWrapper = styled.div`
   border: none !important;
 `;
 export const CustomTable = styled(DataTable)`
+width: ${({width})=>width?width:''};
 .p-datatable-wrapper {
   box-shadow: 0px -120px 110px inset rgba(240, 240, 240, 0.452);
   overflow-x: scroll;
@@ -82,6 +83,7 @@ export const CustomTable = styled(DataTable)`
           line-height: 19px;
           background: white;
           text-align: center;
+          ${({theadStyles})=>theadStyles?theadStyles:''}
           .p-column-header-content {
             display: flex;
             justify-content: center;
