@@ -86,7 +86,9 @@ export const ProductView = () => {
   ];
   return (
     <div>
-      <Header title={"Product Details"} />
+      <Header title={"Product Details"}
+      
+      UserBox={true}/>
       <div className="flex gap-11">
         <div
           onClick={() => {

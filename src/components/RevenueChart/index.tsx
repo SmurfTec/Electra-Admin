@@ -101,12 +101,12 @@ export const RevenueChart = () => {
     },
   ];
   return (
-    <div className="ml-2 mt-1 bg-[#FCFCFC] rounded overflow-x-scroll  w-full ">
+    <div className="ml-2 mt-1 bg-[#FCFCFC] rounded   w-full ">
       <div className="">
         <div>
           <p className="font-semibold pt-3 pl-3 overflow-hidden ">Revenue</p>
         </div>
-        <div className="overflow-x-scroll">
+        <div className="overflow-x-auto">
         <Chart
           options={options}
           series={series}

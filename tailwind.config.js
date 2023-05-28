@@ -19,6 +19,12 @@ module.exports = {
         "custom-inset-shadow":"inset 0px 0px 19px rgba(0, 0, 0, 0.05)"
         // Add more custom shadows if needed
       },
+      borderColor: {
+        'custom': 'rgba(0, 0, 0, 0.08)',
+      },
+      spacing: {
+        'Custom-spacing': '0.5rem', // Increase the distance between the dots
+      },
      
     },
     colors: {

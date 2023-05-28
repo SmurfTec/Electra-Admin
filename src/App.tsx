@@ -1,15 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
-import { Dashboard, Users, Signin, ProductView,UserProfile,AddProduct } from "./pages/index";
-import { SideBar, Header } from "./components";
+import {
+  Dashboard,
+  Users,
+  Signin,
+  ProductView,
+  UserProfile,
+  AddProduct,
+  ProductRequests,
+} from "./pages/index";
+import { SideBar } from "./components";
 
 function App() {
   const [show, setShow] = useState(false);
   const location = useLocation();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user") as string);
   useEffect(() => {
-    if (!user||location.pathname === "/" ) {
+    if (!user || location.pathname === "/") {
       setShow(false);
     } else {
       setShow(true);
@@ -19,18 +27,17 @@ function App() {
     <div className="flex">
       {show && <SideBar />}
       <div className="w-[100%]">
-     
-       <div className="ml-[36px]">
-
-        <Routes>
-          <Route path="/" element={<Signin />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/Users" element={<Users />} />
-          <Route path="/ProductDetail" element={<ProductView />} />
-          <Route path="/UserProfile" element={<UserProfile/>}/>
-          <Route path="/AddProduct" element={<AddProduct />} />
-          <Route path="*" element={<Signin />} />
-        </Routes>
+        <div className="ml-[36px]">
+          <Routes>
+            <Route path="/" element={<Signin />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/Users" element={<Users />} />
+            <Route path="/ProductDetail" element={<ProductView />} />
+            <Route path="/UserProfile" element={<UserProfile />} />
+            <Route path="/AddProduct" element={<AddProduct />} />
+            <Route path="/Productrequest" element={<ProductRequests />} />
+            <Route path="*" element={<Signin />} />
+          </Routes>
         </div>
       </div>
     </div>

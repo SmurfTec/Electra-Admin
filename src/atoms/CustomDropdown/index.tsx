@@ -7,7 +7,7 @@ const Drops = styled(Dropdown)`
   height: 72px;
   display: flex;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
+  border-radius: 6px;
   &:focus {
     outline: none !important;
     border: none !important;
