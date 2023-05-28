@@ -134,6 +134,7 @@ height: 16px; */
           color: #212121;
           padding-top: 18px;
           padding-bottom: 19px;
+          position: relative;
         }
         .p-selection-column {
           padding-left: 16px;

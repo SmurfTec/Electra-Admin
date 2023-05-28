@@ -40,7 +40,14 @@ event.preventDefault();
         value={Password}
         onChange={(e: any) => setPassword(e.target.value)}
       />
-      <CustomButton txt="Login" classes="mt-[41px]  " onClick={Login} />
+       <div className="flex justify-end text-right  mt-[10px] w-[400px]">
+       <p className=" cursor-pointer text-[14px] text-right font-[500] text-midgray">
+      Forgot Password?
+       
+      </p>
+       </div>
+      <CustomButton txt="Login" classes="mt-[41px]" onClick={Login} />
+     
       <div className="flex mt-[10px] items-center gap-5 text-gray">
         <hr className="w-[159px] border-[#A4A4A4]" /> or{" "}
         <hr className="w-[159px] border-[#A4A4A4]" />
@@ -61,7 +68,7 @@ event.preventDefault();
       </div>
       <p className="text-[22px] mt-[150px] text-center font-[500] text-midgray">
         Dont have an account?{" "}
-        <Link className="text-blue" to="/">
+        <Link className="text-blue font-[700]" to="/">
           Signup
         </Link>
       </p>

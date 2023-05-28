@@ -9,3 +9,5 @@ export * from "./ChooseDate"
 export * from "./CustomDropdown"
 export * from "./UploadMedia"
 export * from "./ChooseFilter"
+export * from "./CustomMenu"
+
