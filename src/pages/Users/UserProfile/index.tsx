@@ -137,7 +137,7 @@ export const UserProfile = () => {
 
       event.preventDefault();
       setCurrSelectedProduct(rowData.id)
-      setSelectedProducts([rowData])
+      // setSelectedProducts([rowData])
       menuLeft.current.toggle(event);
 
     };
