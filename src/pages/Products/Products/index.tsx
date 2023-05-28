@@ -2,7 +2,7 @@ import {useState,useRef,useEffect} from 'react'
 import { Header } from '../../../components/index.js'
 import { DashCard } from '../../../components/index.js'
 import IMAGES from '../../../assets/Images.js'
-import { CustomTableComponent } from '../../../atoms/index.js'
+import { CustomTableComponent,CustomSwitch } from '../../../atoms/index.js'
 import { SVGIcon } from '../../../components/SVG/index.js'
 import {CustomMenu} from "../../../atoms/global.style.js"
 import { useNavigate } from 'react-router-dom'
@@ -35,7 +35,7 @@ export const Products = () => {
           Brand: "Apple",
           addedon: "20,aug,2022",
           listing: "24",
-          availibility: "Active",
+          availibility: "InActive",
         },
         {
           id: 4,
@@ -44,7 +44,7 @@ export const Products = () => {
           Brand: "Apple",
           addedon: "20,aug,2022",
           listing: "24",
-          availibility: "Active",
+          availibility: "InActive",
         },
         {
           id: 5,
@@ -53,7 +53,7 @@ export const Products = () => {
           Brand: "Apple",
           addedon: "20,aug,2022",
           listing: "24",
-          availibility: "Active",
+          availibility: "InActive",
         },
         {
           id: 6,
@@ -62,7 +62,7 @@ export const Products = () => {
           Brand: "Apple",
           addedon: "20,aug,2022",
           listing: "24",
-          availibility: "Active",
+          availibility: "InActive",
         },
         {
           id: 7,
@@ -148,15 +148,11 @@ export const Products = () => {
       ]);
       const menuLeft: any = useRef(null);
       const [selectedProducts, setSelectedProducts] = useState<any>([]);
-      const StatusBodyTemplate = (option: any) => {
+      const SwitchTemplate = (option: any) => {
+        const [checked, setChecked] = useState(option.availibility.toLowerCase()=="active"?true:false);
         return (
           <>
-            <div
-              className={`px-[14px] py-[4px] text-[white] ${option.status.toLowerCase() == "active" ? "bg-blue" : "bg-red"
-                } flex justify-center items-center rounded-[5px] text-[12px]`}
-            >
-              <p>{option.status}</p>
-            </div>
+           <CustomSwitch checked={checked} setChecked={setChecked}/>
           </>
         );
       };
@@ -245,7 +241,7 @@ export const Products = () => {
         {field:"Brand",header:'Brand' },
         {field:"addedon",header:'Added On' },
         {field:"listing",header:'Listing' },
-        {field:"availibility",header:'Availibility' },
+        {field:"availibility",header:'Availibility',body:SwitchTemplate },
 
         {field:"",header:'' ,body:MenuBodyTemplate}
       ])
@@ -311,7 +307,8 @@ export const Products = () => {
                  selectedProducts={selectedProducts} 
                  setSelectedProducts={setSelectedProducts} 
                  columnData={columnData} 
-                 MultipleSelect={true} />
+                 MultipleSelect={true} 
+                 />
 
 
 
