@@ -1,6 +1,8 @@
+import {useState} from "react"
 import IMAGES from "../../assets/Images";
 
 export const Productdetailcard = (props: any) => {
+    const[ViewMore,SetViewMore]=useState(false)
   return (
     <div className="border border-custom w-[363px] h-[auto] rounded-xl">
       <div className="flex justify-between mt-2 px-4 items-center">
