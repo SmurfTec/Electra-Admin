@@ -1,6 +1,20 @@
 import styled from "styled-components";
 import { Menu } from "primereact/menu";
 import { DataTable } from "primereact/datatable";
+import { InputSwitch } from "primereact/inputswitch";
+export const Switch=styled(InputSwitch)`
+width: 38px;
+    height: 21px;
+    .p-inputswitch-slider{
+      background: ${({checked})=>checked?'#212121':'#B4B4B4'}  !important;
+    }
+    .p-inputswitch-slider:before{
+      width: 10px;
+      height: 10px;
+     
+      margin-top: -6px;
+    }
+`
 export const CustomMenu=styled(Menu)`
 width: ${({width})=>width?width:'110px'};
 height:${({height})=>height?height:'108px'};
