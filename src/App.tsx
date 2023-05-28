@@ -10,6 +10,7 @@ import {
   AddProduct,
   ProductRequests,
   Roles,
+  Products
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -38,6 +39,7 @@ function App() {
             <Route path="/AddProduct" element={<AddProduct />} />
             <Route path="/Productrequest" element={<ProductRequests />} />
             <Route path="/Roles" element={<Roles />} />
+            <Route path="/Products" element={<Products />} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>

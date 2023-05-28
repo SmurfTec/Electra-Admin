@@ -52,6 +52,9 @@ const IMAGES: any = {
     RectangleBox: new URL('../assets/Images/RectangleBox.svg', import.meta.url).href,
     Search: new URL('../assets/Images/Search.svg', import.meta.url).href,
     FilterDate: new URL('../assets/Images/FilterDate.svg', import.meta.url).href,
+    Guy1: new URL('../assets/Images/Guy1.svg', import.meta.url).href,
+    Guy2: new URL('../assets/Images/Guy2.svg', import.meta.url).href,
+    Guy3: new URL('../assets/Images/Guy3.svg', import.meta.url).href,
     // 
     // 
     // 
@@ -64,7 +67,8 @@ const IMAGES: any = {
     bluetick: new URL('../assets/icons/bluetick.svg', import.meta.url).href,
     greencross: new URL('../assets/icons/greencross.svg', import.meta.url).href,
     personicon: new URL('../assets/icons/personicon.svg', import.meta.url).href,
+    ProductBox: new URL('../assets/icons/ProductBox.svg', import.meta.url).href,
 
-
+    AddItem: new URL('../assets/icons/Add.svg', import.meta.url).href,
 }
 export default IMAGES

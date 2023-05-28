@@ -1,5 +1,4 @@
-import React from 'react'
-import { Header } from '../../../components'
+import { Header,AdminCards } from '../../../components'
 export const Roles = () => {
   return (
     <div>
@@ -7,6 +6,9 @@ export const Roles = () => {
        typeSearch={true}
        chooseFilter={true}
        UserBox={true}/>
+       <div>
+        <AdminCards />
+       </div>
     </div>
   )
 }
