@@ -1,11 +1,13 @@
-import {useState,useRef} from 'react'
+import {useState,useRef,useEffect} from 'react'
 import { Header } from '../../../components/index.js'
 import { DashCard } from '../../../components/index.js'
 import IMAGES from '../../../assets/Images.js'
 import { CustomTableComponent } from '../../../atoms/index.js'
 import { SVGIcon } from '../../../components/SVG/index.js'
 import {CustomMenu} from "../../../atoms/global.style.js"
+import { useNavigate } from 'react-router-dom'
 export const Products = () => {
+    const navigate=useNavigate()
     const [filterData, setFilterData] = useState([
         {
           id: 1,
@@ -247,6 +249,12 @@ export const Products = () => {
 
         {field:"",header:'' ,body:MenuBodyTemplate}
       ])
+      useEffect(()=>{
+        if(selectedProducts.length>0){
+            navigate('/ProductDetail')
+        }
+        console.log(selectedProducts)
+          },[selectedProducts])
     return (
         <div>
             <Header
