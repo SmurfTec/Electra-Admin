@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IMAGES from "../../assets/Images";
 import { InputTxt, InputPassword, CustomButton } from "../../atoms";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,6 +14,9 @@ event.preventDefault();
     localStorage.setItem("user", JSON.stringify(user));
     navigate("/Dashboard");
   };
+  useEffect(()=>{
+localStorage.removeItem("user")
+  },[])
   return (
     <div className="min-h-[100vh] w-[100vw] flex flex-col items-center pt-[90px]">
       <div className="w-[116px] h-[116px] rounded-[50%] bg-lightgray flex justify-center align-middle items-center">

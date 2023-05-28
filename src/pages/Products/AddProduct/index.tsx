@@ -6,7 +6,9 @@ import {
   UploadPicture,
   FetchButton,
 } from "../../../atoms";
+import { useNavigate } from "react-router-dom";
 export const AddProduct = () => {
+  const navigate=useNavigate()
   const VariantsArray = [
     {
       txt: "Capacity",
@@ -92,6 +94,7 @@ export const AddProduct = () => {
         chooseDate={false}
         title="Add new Product"
         semiTitle="Add new products for availability on website"
+        UserBox={true}
       />
       <InputTxt
         placeholder="Enter Phone model"
@@ -216,7 +219,7 @@ export const AddProduct = () => {
         </div>
         <div className="flex gap-3 mb-3">
           <CustomButton txt={"Cancel"} classes={"!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]"}/>
-          <CustomButton txt={"Add Product"} classes={" !w-[179px] !rounded-[12px] !h-[50px]"}/>
+          <CustomButton   onClick={()=>navigate("/Productrequest")} txt={"Add Product"} classes={" !w-[179px] !rounded-[12px] !h-[50px]"}/>
         </div>
       </div>
     </div>

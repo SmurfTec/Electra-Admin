@@ -52,6 +52,18 @@ const IMAGES: any = {
     RectangleBox: new URL('../assets/Images/RectangleBox.svg', import.meta.url).href,
     Search: new URL('../assets/Images/Search.svg', import.meta.url).href,
     FilterDate: new URL('../assets/Images/FilterDate.svg', import.meta.url).href,
+    // 
+    // 
+    // 
+    // ICONS BELOW HERREEEEE
+    // 
+    // 
+    // 
+    New: new URL('../assets/icons/New.svg', import.meta.url).href,
+    Person: new URL('../assets/icons/Person.svg', import.meta.url).href,
+    bluetick: new URL('../assets/icons/bluetick.svg', import.meta.url).href,
+    greencross: new URL('../assets/icons/greencross.svg', import.meta.url).href,
+    personicon: new URL('../assets/icons/personicon.svg', import.meta.url).href,
 
 
 }
