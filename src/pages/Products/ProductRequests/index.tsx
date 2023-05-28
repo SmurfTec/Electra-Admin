@@ -16,71 +16,75 @@ export const ProductRequests = () => {
         <StatusCard title="Rejected" number="14" img={IMAGES.greencross} />
         <StatusCard title="Accepted" number="14" img={IMAGES.bluetick} />
       </div>
-      <div className="flex flex-wrap gap-3 py-4">
-        <Productdetailcard 
-        text=  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor, a varius ante
+      <div className="flex flex-wrap gap-5 py-4">
+        <div className="flex flex-col ">
+       
+        <Productdetailcard
+          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
+          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
           interdum. Cras fermentum purus et est laoreet, et posuere massa
           convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an"
+          varius an`}
         />
-        <Productdetailcard 
-        text=  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor, a varius ante
+        </div>
+        <div className="flex flex-col ">
+      
+        <Productdetailcard
+          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
+          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
           interdum. Cras fermentum purus et est laoreet, et posuere massa
           convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an"
+          varius an`}
         />
-        <Productdetailcard 
-        text=  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor, a varius ante
+        </div>
+        <div className="flex flex-col ">
+      
+        <Productdetailcard
+          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
+          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
           interdum. Cras fermentum purus et est laoreet, et posuere massa
           convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an"
+          varius an`}
         />
-        <Productdetailcard 
-        text=  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor, a varius ante
+        </div>
+        <div className="flex flex-col ">
+        <Productdetailcard
+          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
+          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
           interdum. Cras fermentum purus et est laoreet, et posuere massa
           convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an"
+          varius an`}
         />
-        <Productdetailcard 
-        text=  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor, a varius ante
+       
+        </div>
+        <div className="flex flex-col ">
+        <Productdetailcard
+          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
+          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
           interdum. Cras fermentum purus et est laoreet, et posuere massa
           convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an"
+          varius an`}
         />
-        <Productdetailcard 
-        text=  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor, a varius ante
+       
+        </div>
+        <div className="flex flex-col ">
+        <Productdetailcard
+          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
+          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
           interdum. Cras fermentum purus et est laoreet, et posuere massa
           convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an"
+          varius an`}
         />
-        <Productdetailcard 
-        text=  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor, a varius ante
-          interdum. Cras fermentum purus et est laoreet, et posuere massa
-          convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an"
-        />
-        <Productdetailcard 
-        text=  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor, a varius ante
-          interdum. Cras fermentum purus et est laoreet, et posuere massa
-          convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an"
-        />   
+       
+        </div>
+       
+      
       </div>
     </div>
   );

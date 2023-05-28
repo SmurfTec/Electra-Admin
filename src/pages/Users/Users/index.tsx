@@ -268,8 +268,7 @@ export const Users = () => {
     if(selectedProducts.length>0){
         navigate('/UserProfile')
     }
-    console.log(selectedProducts)
-      },[selectedProducts])
+        },[selectedProducts])
   return (
     <div className=''>
       <Header 
