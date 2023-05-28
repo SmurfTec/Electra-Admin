@@ -9,6 +9,7 @@ import {
   UserProfile,
   AddProduct,
   ProductRequests,
+  Products
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -36,6 +37,7 @@ function App() {
             <Route path="/UserProfile" element={<UserProfile />} />
             <Route path="/AddProduct" element={<AddProduct />} />
             <Route path="/Productrequest" element={<ProductRequests />} />
+            <Route path="/Products" element={<Products />} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>

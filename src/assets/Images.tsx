@@ -64,7 +64,8 @@ const IMAGES: any = {
     bluetick: new URL('../assets/icons/bluetick.svg', import.meta.url).href,
     greencross: new URL('../assets/icons/greencross.svg', import.meta.url).href,
     personicon: new URL('../assets/icons/personicon.svg', import.meta.url).href,
+    ProductBox: new URL('../assets/icons/ProductBox.svg', import.meta.url).href,
 
-
+    AddItem: new URL('../assets/icons/Add.svg', import.meta.url).href,
 }
 export default IMAGES
