@@ -50,6 +50,7 @@ export const SideBar = () => {
       icon: IMAGES.Roles,
       active: false,
       iconFillColor: "",
+      url: "/Roles",
     },
     { id: 9, name: "Fee Modifier", icon: IMAGES.FreeModifier, active: false },
     { id: 10, name: "Coupons", icon: IMAGES.Coupons, active: false },

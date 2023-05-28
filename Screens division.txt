@@ -1,0 +1,23 @@
+Screens division
+
+Sherry:=>
+Products main screen (Table)
+Wallet screens
+Category Add category
+Add variants and values
+Coupons
+verfications
+Help Center
+Settings
+step2 verification
+
+Zain:=>
+Roles1 
+Create Admin
+View admin
+View Roles
+Creating Roles
+Edit Website and banner
+Listings
+Step1 for verification
+Orders
