@@ -297,6 +297,7 @@ export const Products = () => {
                     Add={true}
                     txt="Add New Product"
                     outerclasses="w-[284px] h-[140px]"
+                    txtclasses={'text-[#212121]'}
 
                 />
 

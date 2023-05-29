@@ -55,6 +55,8 @@ const IMAGES: any = {
     Guy1: new URL('../assets/Images/Guy1.svg', import.meta.url).href,
     Guy2: new URL('../assets/Images/Guy2.svg', import.meta.url).href,
     Guy3: new URL('../assets/Images/Guy3.svg', import.meta.url).href,
+    newmembers: new URL('../assets/Images/newmembers.svg', import.meta.url).href,
+
     // 
     // 
     // 
