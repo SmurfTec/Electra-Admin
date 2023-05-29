@@ -5,7 +5,7 @@ import { CustomButton, CustomTableComponent } from '../../../atoms'
 import { Header } from '../../../components'
 import { InputTxt } from '../../../atoms'
 import { SVGIcon } from '../../../components/SVG'
-import { CustomMenu } from "../../../atoms/global.style.js"
+import { CustomMenu } from "../../../atoms/global.style"
 import { MenuItem } from 'primereact/menuitem'
 export const UserProfile = () => {
   const [activetxt, setactivetxt] = useState('Active')

@@ -6,7 +6,7 @@ export const Switch=styled(InputSwitch)`
 width: 38px;
     height: 21px;
     .p-inputswitch-slider{
-      background: ${({checked})=>checked?'#212121':'#B4B4B4'}  !important;
+      background: ${({checked}:any)=>checked?'#212121':'#B4B4B4'}  !important;
     }
     .p-inputswitch-slider:before{
       width: 10px;
@@ -16,8 +16,8 @@ width: 38px;
     }
 `
 export const CustomMenu=styled(Menu)`
-width: ${({width})=>width?width:'110px'};
-height:${({height})=>height?height:'108px'};
+width: ${({width}:any)=>width?width:'110px'};
+height:${({height}:any)=>height?height:'108px'};
 padding: 10px;
 .p-menu-list{
     display: flex;
@@ -56,8 +56,8 @@ export const MenuList = styled.ul`
   border-radius: 4px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   padding: 8px;
-  opacity: ${({ visible }) => (visible ? 1 : 0)};
-  pointer-events: ${({ visible }) => (visible ? "auto" : "none")};
+  opacity: ${({ visible }:any) => (visible ? 1 : 0)};
+  pointer-events: ${({ visible }:any) => (visible ? "auto" : "none")};
   transition: opacity 0.2s ease-in-out;
 `;
 export const MenuItem = styled.li`
@@ -81,7 +81,7 @@ export const CustomTableWrapper = styled.div`
   border: none !important;
 `;
 export const CustomTable = styled(DataTable)`
-width: ${({width})=>width?width:''};
+width: ${({width}:any)=>width?width:''};
 .p-datatable-wrapper {
   box-shadow: 0px -120px 110px inset rgba(240, 240, 240, 0.452);
   overflow-x: scroll;
@@ -97,7 +97,7 @@ width: ${({width})=>width?width:''};
           line-height: 19px;
           background: white;
           text-align: center;
-          ${({theadStyles})=>theadStyles?theadStyles:''}
+          ${({theadStyles}:any)=>theadStyles?theadStyles:''}
           .p-column-header-content {
             display: flex;
             justify-content: center;

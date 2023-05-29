@@ -4,7 +4,7 @@ import { DashCard } from '../../../components/index.js'
 import IMAGES from '../../../assets/Images.js'
 import { CustomTableComponent,CustomSwitch } from '../../../atoms/index.js'
 import { SVGIcon } from '../../../components/SVG/index.js'
-import {CustomMenu} from "../../../atoms/global.style.js"
+import {CustomMenu} from "../../../atoms/global.style"
 import { useNavigate } from 'react-router-dom'
 export const Products = () => {
     const navigate=useNavigate()
