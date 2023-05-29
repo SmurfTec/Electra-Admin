@@ -53,8 +53,8 @@ export const SideBar = () => {
       url: "/Roles",
     },
     { id: 9, name: "Fee Modifier", icon: IMAGES.FreeModifier, active: false },
-    { id: 10, name: "Coupons", icon: IMAGES.Coupons, active: false },
-    { id: 11, name: "Categories", icon: IMAGES.Categories, active: false },
+    { id: 10, name: "Coupons",url:'/Coupon' ,icon: IMAGES.Coupons, active: false },
+    { id: 11, name: "Categories",url:'/Category' , icon: IMAGES.Categories, active: false },
     { id: 12, name: "Edit Website", icon: IMAGES.EditWebsite, active: false },
     { id: 13, name: "Help center", icon: IMAGES.HelpCenter, active: false },
     {

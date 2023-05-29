@@ -12,6 +12,9 @@ type MyProps={
   subtxt?:string
   Add?:boolean
   subtxtStyle?:string
+  titleStyle?:string
+  Numberstyle?:string
+  showDefaultNumber?:boolean
 }
 import IMAGES from "../../assets/Images"
 import { SVGIcon } from "../SVG"
@@ -25,14 +28,14 @@ export const DashCard = (props:MyProps) => {
     
     <div className="flex justify-between pt-[16px] px-[16px] pb-[12px]">
         <div className="px-2  pt-1 ">
-          <p className="text-[13px] font-[600]">{props.title}</p>
-          <h1 className="text-[28px] font-[700] mt-[2px]">{props.totalNumber}</h1>
+          <p className={`text-[13px] font-[600] ${props.titleStyle}`}>{props.title}</p>
+          <h1 className={`text-[28px] font-[700] mt-[2px] ${props.Numberstyle}`}>{props.totalNumber}</h1>
           <div className="flex  items-center gap-2">
           <div className={` ${props.textDash}  w-[67px] flex justify-start rounded mt-[16px] p-1 `}>
          {props.arrowImg && <img className="mr-1" src={props.arrowImg} />}   
             
             {props?.txt ? <p className={`text-[${props.textColor}] font-bold text-[12px]`}>{props.txt}</p>
-            :<p className={`text-[${props.textColor}] font-bold text-[12px]`}> + 4 %</p>
+            :(props?.showDefaultNumber==false) ?<></>:<p className={`text-[${props.textColor}] font-bold text-[12px]`}> + 4 %</p>
             }
            
           </div>

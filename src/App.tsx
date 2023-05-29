@@ -11,7 +11,12 @@ import {
   ProductRequests,
   Roles,
   Products,
-  Wallet
+  Wallet,
+  Coupon,
+  CreateCoupon,
+  Category,
+  CreateCategory,
+  AddNewVariant
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -42,6 +47,11 @@ function App() {
             <Route path="/Roles" element={<Roles />} />
             <Route path="/Products" element={<Products />} />
             <Route path="/Wallet" element={<Wallet />} />
+            <Route path="/Coupon" element={<Coupon />} />
+            <Route path="/CreateCoupon" element={<CreateCoupon  />} />
+            <Route path="/Category" element={<Category/>} />
+            <Route path="/CreateCategory" element={<CreateCategory/>} />
+            <Route path="/AddNewVariant" element={<AddNewVariant/>} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>
