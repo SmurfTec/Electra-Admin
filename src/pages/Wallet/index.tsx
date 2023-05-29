@@ -1,7 +1,167 @@
-import React from 'react'
+import React,{useState,useRef,useEffect} from 'react'
 import { Header,DashCard } from '../../components'
+import { CustomTableComponent } from '../../atoms'
+import { SVGIcon } from '../../components/SVG'
+import { MenuItem } from 'primereact/menuitem'
 import IMAGES from '../../assets/Images'
+import { CustomMenu } from "../../atoms/global.style.js"
 export const Wallet = () => {
+
+    const [MenuLabel,setMenuLabel]=useState("")
+    const[CurrSelectedProduct,setCurrSelectedProduct]=useState('')
+    const [selectedProducts, setSelectedProducts] = useState<any>([]);
+    const menuLeft: any = useRef(null);
+    const [filterData] = useState([
+        {
+          id: 142425251,
+          from: "Iphone 14",
+          value: "$900",
+          Source: "Stockx",
+          Date: "20,aug,2022"
+        },
+        {
+            id: 142425252,
+            from: "Iphone 14",
+            value: "$900",
+            Source: "Stockx",
+            Date: "20,aug,2022"
+          },
+          {
+            id: 142425253,
+            from: "Iphone 14",
+            value: "$900",
+            Source: "Stockx",
+            Date: "20,aug,2022"
+          },
+          {
+            id: 142425254,
+            from: "Iphone 14",
+            value: "$900",
+            Source: "Stockx",
+            Date: "20,aug,2022"
+          },
+          {
+            id: 142425255,
+            from: "Iphone 14",
+            value: "$900",
+            Source: "Stockx",
+            Date: "20,aug,2022"
+          },
+          {
+            id: 142425256,
+            from: "Iphone 14",
+            value: "$900",
+            Source: "Stockx",
+            Date: "20,aug,2022"
+          },
+          {
+            id: 142425257,
+            from: "Iphone 14",
+            value: "$900",
+            Source: "Stockx",
+            Date: "20,aug,2022"
+          },
+          {
+            id: 142425258,
+            from: "Iphone 14",
+            value: "$900",
+            Source: "Stockx",
+            Date: "20,aug,2022"
+          },
+          {
+            id: 142425259,
+            from: "Iphone 14",
+            value: "$900",
+            Source: "Stockx",
+            Date: "20,aug,2022"
+          },
+          {
+            id: 142425260,
+            from: "Iphone 14",
+            value: "$900",
+            Source: "Stockx",
+            Date: "20,aug,2022"
+          },
+    
+      ]);
+    const items = [
+        {
+          label: "View Item",
+       
+          template: (item: any) => {
+    
+            return (
+              <div onClick={(event) => deleteItem(event, item)} style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
+                <SVGIcon
+                  fillcolor={'#212121'}
+                  src={IMAGES.Ban}
+                /> View Item
+              </div>
+            )
+          }
+        },
+        {
+          label: "Delete",
+          template: (item: MenuItem) => {
+    
+            return (
+              <div onClick={(event) => deleteItem(event, item)} style={{ background: 'rgba(231, 29, 54, 0.05)' }} className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]">
+                <SVGIcon
+    
+                  fillcolor={'#E71D36'}
+                  src={IMAGES.Delete}
+                /> Delete
+              </div>
+            )
+          }
+        },
+    
+      ]
+     
+      const deleteItem = (event: React.MouseEvent, item: any) => {
+        event.stopPropagation();
+        setMenuLabel((prevLabel) => (prevLabel === item.label ? '' : item.label));
+    
+      };
+      const MenuBodyTemplate = (rowData: any) => {
+
+        const handleClick = (event: any) => {
+    
+          event.preventDefault();
+          setCurrSelectedProduct(rowData.id)
+          // setSelectedProducts([rowData])
+          menuLeft.current.toggle(event);
+    
+        };
+        return (
+          <>
+    
+            <div
+              className={` px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
+            >
+              <SVGIcon
+                onClick={handleClick}
+    
+                src={IMAGES.Dots}
+              />
+    
+              <CustomMenu popupAlignment="left" height={'80px'} model={items} popup ref={menuLeft} id="popup_menu_left" />
+            </div>
+    
+          </>
+        );
+      };
+      const [columnData] = useState([
+        { field: "id", header: 'TID' },
+        { field: "from", header: 'From' },
+        { field: "value", header: 'Value' },
+        { field: "Source", header: 'Source' },
+        { field: "Date", header: 'Date' },
+        { field: "", header: '', body: MenuBodyTemplate }
+      ])
+      useEffect(()=>{
+        console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",CurrSelectedProduct)
+        },[MenuLabel])
     return (
         <div>
             <Header
@@ -105,6 +265,18 @@ subtxt="Recent Withdrawal"
 />
 
 </div>
+        </div>
+        <div className='mt-[20px]'>
+        <CustomTableComponent
+          
+         
+          showWrapper={false}
+          filterData={filterData}
+          selectedProducts={selectedProducts}
+          setSelectedProducts={setSelectedProducts}
+          columnData={columnData}
+          MultipleSelect={true}
+        />
         </div>
         </div>
     )
