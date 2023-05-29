@@ -55,6 +55,8 @@ const IMAGES: any = {
     Guy1: new URL('../assets/Images/Guy1.svg', import.meta.url).href,
     Guy2: new URL('../assets/Images/Guy2.svg', import.meta.url).href,
     Guy3: new URL('../assets/Images/Guy3.svg', import.meta.url).href,
+    AtmBackground: new URL('../assets/Images/Atm-background.svg', import.meta.url).href,
+    Coins: new URL('../assets/Images/coins.svg', import.meta.url).href,
     // 
     // 
     // 
@@ -68,6 +70,8 @@ const IMAGES: any = {
     greencross: new URL('../assets/icons/greencross.svg', import.meta.url).href,
     personicon: new URL('../assets/icons/personicon.svg', import.meta.url).href,
     ProductBox: new URL('../assets/icons/ProductBox.svg', import.meta.url).href,
+    CashWithdraw: new URL('../assets/icons/cashWithdraw.svg', import.meta.url).href,
+    DollorHouse: new URL('../assets/icons/DollorHouse.svg', import.meta.url).href,
 
     AddItem: new URL('../assets/icons/Add.svg', import.meta.url).href,
 }

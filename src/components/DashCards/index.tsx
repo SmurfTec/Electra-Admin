@@ -11,6 +11,7 @@ type MyProps={
   txt?:string
   subtxt?:string
   Add?:boolean
+  subtxtStyle?:string
 }
 import IMAGES from "../../assets/Images"
 import { SVGIcon } from "../SVG"
@@ -35,7 +36,7 @@ export const DashCard = (props:MyProps) => {
             }
            
           </div>
-          {props.subtxt && <p className={`text-[#A4A4A4]  text-[10px] mt-4`}>{props.subtxt}</p> }
+          {props.subtxt && <p className={`text-[#A4A4A4]  text-[10px] mt-4 ${props.subtxtStyle}`}>{props.subtxt}</p> }
           </div>
         
           

@@ -39,7 +39,7 @@ export const SideBar = () => {
       name: "Wallet",
       icon: IMAGES.Wallet,
       active: false,
-      url: "/Dashboard",
+      url: "/Wallet",
     },
     { id: 5, name: "Listings", icon: IMAGES.Listing, active: false },
     { id: 6, name: "Orders", icon: IMAGES.Order, active: false },
