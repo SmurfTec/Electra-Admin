@@ -56,7 +56,7 @@ export const SideBar = () => {
     { id: 10, name: "Coupons",url:'/Coupon' ,icon: IMAGES.Coupons, active: false },
     { id: 11, name: "Categories",url:'/Category' , icon: IMAGES.Categories, active: false },
     { id: 12, name: "Edit Website", icon: IMAGES.EditWebsite, active: false },
-    { id: 13, name: "Help center", icon: IMAGES.HelpCenter, active: false },
+    { id: 13, name: "Help center",url:'/HelpCenter', icon: IMAGES.HelpCenter, active: false },
     {
       id: 14,
       name: "Settings",

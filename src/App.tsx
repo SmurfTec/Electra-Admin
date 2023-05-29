@@ -16,7 +16,9 @@ import {
   CreateCoupon,
   Category,
   CreateCategory,
-  AddNewVariant
+  AddNewVariant,
+  HelpCenter,
+  HelpCenterDetail
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -52,6 +54,8 @@ function App() {
             <Route path="/Category" element={<Category/>} />
             <Route path="/CreateCategory" element={<CreateCategory/>} />
             <Route path="/AddNewVariant" element={<AddNewVariant/>} />
+            <Route path="/HelpCenter" element={<HelpCenter/>} />
+            <Route path="/HelpCenterDetail" element={<HelpCenterDetail/>} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Header, DashCard } from '../../../components'
 import { CustomTableComponent } from '../../../atoms'
 import { SVGIcon } from '../../../components/SVG'
-import { MenuItem } from 'primereact/menuitem'
+import { MenuItem } from 'primereact/menuitem'    
 import IMAGES from '../../../assets/Images'
 import { CustomMenu } from "../../../atoms/global.style"
 export const Coupon = () => {
