@@ -7,6 +7,7 @@ module.exports = {
         "blue-dash":" rgba(60, 130, 214, 0.53)",
         "yellow-dash": "rgba(251, 187, 0, 0.38)",
         "custom-red": "rgba(255, 0, 0, 0.22)",
+        "custom-dark-red": "rgba(198, 59, 59, 0.65)",
         "custom-grey":"rgba(140, 184, 105, 0.19)"
       },
       borderColor: {

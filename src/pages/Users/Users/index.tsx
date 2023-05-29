@@ -1,9 +1,9 @@
-import React,{useState,useEffect,useRef} from 'react'
+import {useState,useEffect,useRef} from 'react'
 import { DashCard } from '../../../components/index.js'
 import IMAGES from '../../../assets/Images'
-import { CustomTableComponent,CustomButton } from '../../../atoms'
+import { CustomTableComponent } from '../../../atoms'
 import { SVGIcon } from '../../../components/SVG'
-import {CustomMenu} from "../../../atoms/global.style.js"
+import {CustomMenu} from "../../../atoms/global.style"
 import { useNavigate } from 'react-router-dom'
 import { Header } from '../../../components/index.js'
 export const Users = () => {

@@ -10,7 +10,15 @@ import {
   AddProduct,
   ProductRequests,
   Roles,
-  Products
+  Products,
+  Wallet,
+  Coupon,
+  CreateCoupon,
+  Category,
+  CreateCategory,
+  AddNewVariant,
+  HelpCenter,
+  HelpCenterDetail
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -40,6 +48,14 @@ function App() {
             <Route path="/Productrequest" element={<ProductRequests />} />
             <Route path="/Roles" element={<Roles />} />
             <Route path="/Products" element={<Products />} />
+            <Route path="/Wallet" element={<Wallet />} />
+            <Route path="/Coupon" element={<Coupon />} />
+            <Route path="/CreateCoupon" element={<CreateCoupon  />} />
+            <Route path="/Category" element={<Category/>} />
+            <Route path="/CreateCategory" element={<CreateCategory/>} />
+            <Route path="/AddNewVariant" element={<AddNewVariant/>} />
+            <Route path="/HelpCenter" element={<HelpCenter/>} />
+            <Route path="/HelpCenterDetail" element={<HelpCenterDetail/>} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>

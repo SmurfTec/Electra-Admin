@@ -1,6 +1,6 @@
 import { useState ,useRef} from "react";
 import IMAGES from "../../assets/Images";
-import {CustomMenu} from "../../atoms/global.style.js";
+import {CustomMenu} from "../../atoms/global.style";
 import { SVGIcon } from "../SVG/index.js";
 export const Productdetailcard = (props: any) => {
   const [ViewMore, SetViewMore] = useState(true);

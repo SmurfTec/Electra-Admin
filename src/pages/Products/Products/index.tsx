@@ -4,7 +4,7 @@ import { DashCard } from '../../../components/index.js'
 import IMAGES from '../../../assets/Images.js'
 import { CustomTableComponent,CustomSwitch } from '../../../atoms/index.js'
 import { SVGIcon } from '../../../components/SVG/index.js'
-import {CustomMenu} from "../../../atoms/global.style.js"
+import {CustomMenu} from "../../../atoms/global.style"
 import { useNavigate } from 'react-router-dom'
 export const Products = () => {
     const navigate=useNavigate()
@@ -298,6 +298,7 @@ export const Products = () => {
                     txt="Add New Product"
                     outerclasses="w-[284px] h-[140px]"
                     txtclasses={'text-[#212121]'}
+                    Addimg={IMAGES.AddItem}
 
                 />
 
@@ -309,6 +310,7 @@ export const Products = () => {
                  setSelectedProducts={setSelectedProducts} 
                  columnData={columnData} 
                  MultipleSelect={true} 
+                 
                  />
 
 

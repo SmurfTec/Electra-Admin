@@ -2,7 +2,7 @@
 import { Column } from "primereact/column";
 
 
-import { CustomTableWrapper,CustomTable } from "../global.style.js" 
+import { CustomTableWrapper,CustomTable } from "../global.style" 
 export const CustomTableComponent = ({filterData,showWrapper,selectedProducts,setSelectedProducts,columnData,MultipleSelect,...props}:any) => {
 
   return (
