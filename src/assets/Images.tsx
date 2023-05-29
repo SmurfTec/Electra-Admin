@@ -75,6 +75,7 @@ const IMAGES: any = {
     ProductBox: new URL('../assets/icons/ProductBox.svg', import.meta.url).href,
     CashWithdraw: new URL('../assets/icons/cashWithdraw.svg', import.meta.url).href,
     DollorHouse: new URL('../assets/icons/DollorHouse.svg', import.meta.url).href,
+    dropdown: new URL('../assets/icons/dropdown.svg', import.meta.url).href,
 
     AddItem: new URL('../assets/icons/Add.svg', import.meta.url).href,
 }

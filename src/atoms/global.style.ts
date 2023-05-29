@@ -2,49 +2,48 @@ import styled from "styled-components";
 import { Menu } from "primereact/menu";
 import { DataTable } from "primereact/datatable";
 import { InputSwitch } from "primereact/inputswitch";
-export const Switch=styled(InputSwitch)`
-width: 38px;
-    height: 21px;
-    .p-inputswitch-slider{
-      background: ${({checked}:any)=>checked?'#212121':'#B4B4B4'}  !important;
-    }
-    .p-inputswitch-slider:before{
-      width: 10px;
-      height: 10px;
-     
-      margin-top: -6px;
-    }
-`
-export const CustomMenu=styled(Menu)`
-width: ${({width}:any)=>width?width:'110px'};
-height:${({height}:any)=>height?height:'108px'};
-padding: 10px;
-.p-menu-list{
+export const Switch = styled(InputSwitch)`
+  width: 38px;
+  height: 21px;
+  .p-inputswitch-slider {
+    background: ${({ checked }: any) =>
+      checked ? "#212121" : "#B4B4B4"} !important;
+  }
+  .p-inputswitch-slider:before {
+    width: 10px;
+    height: 10px;
+
+    margin-top: -6px;
+  }
+`;
+export const CustomMenu = styled(Menu)`
+  width: ${({ width }: any) => (width ? width : "110px")};
+  height: ${({ height }: any) => (height ? height : "108px")};
+  padding: 10px;
+  .p-menu-list {
     display: flex;
     flex-direction: column;
     height: 100%;
     gap: 5px;
-}
-.p-submenu-header{
+  }
+  .p-submenu-header {
     display: none !important;
-    
-}
+  }
 
-.p-menuitem{
+  .p-menuitem {
     border-radius: 5px;
     width: 90px;
     cursor: pointer;
     overflow-y: hidden;
-/* height: 27px; */
-div{
-    line-height: 14px;
-    padding-top: 3px;
-    padding-left: 5px;
-    padding-bottom: 3px;
-   
-}
-}
-`
+    /* height: 27px; */
+    div {
+      line-height: 14px;
+      padding-top: 3px;
+      padding-left: 5px;
+      padding-bottom: 3px;
+    }
+  }
+`;
 export const MenuWrapper = styled.div`
   position: relative;
 `;
@@ -56,8 +55,8 @@ export const MenuList = styled.ul`
   border-radius: 4px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   padding: 8px;
-  opacity: ${({ visible }:any) => (visible ? 1 : 0)};
-  pointer-events: ${({ visible }:any) => (visible ? "auto" : "none")};
+  opacity: ${({ visible }: any) => (visible ? 1 : 0)};
+  pointer-events: ${({ visible }: any) => (visible ? "auto" : "none")};
   transition: opacity 0.2s ease-in-out;
 `;
 export const MenuItem = styled.li`
@@ -81,98 +80,99 @@ export const CustomTableWrapper = styled.div`
   border: none !important;
 `;
 export const CustomTable = styled(DataTable)`
-width: ${({width}:any)=>width?width:''};
-.p-datatable-wrapper {
-  box-shadow: 0px -120px 110px inset rgba(240, 240, 240, 0.452);
-  overflow-x: scroll;
-  .p-datatable-table {
-    .p-datatable-thead {
-      tr {
-        th {
-          font-family: "Manrope";
-          font-style: normal;
-          font-weight: 500;
-          font-size: 14px;
-          color: #b4b4b4;
-          line-height: 19px;
-          background: white;
-          text-align: center;
-          ${({theadStyles}:any)=>theadStyles?theadStyles:''}
-          .p-column-header-content {
-            display: flex;
-            justify-content: center;
-            .p-column-filter-menu {
-              margin-left: 0 !important;
-              margin-right: 5px;
-              button {
-                background-color: transparent !important;
-                outline: none;
-                .pi-filter-icon {
-                  color: white !important;
-                }
-                &:hover {
+  width: ${({ width }: any) => (width ? width : "")};
+  .p-datatable-wrapper {
+    box-shadow: 0px -120px 110px inset rgba(240, 240, 240, 0.452);
+    overflow-x: scroll;
+    .p-datatable-table {
+      .p-datatable-thead {
+        tr {
+                th {
+            font-family: "Manrope";
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            color: #b4b4b4;
+            line-height: 19px;
+            background: white;
+            text-align: center;
+            ${({ theadStyles }: any) => (theadStyles ? theadStyles : "")}
+            .p-column-header-content {
+              display: flex;
+              justify-content: center;
+              .p-column-filter-menu {
+                margin-left: 0 !important;
+                margin-right: 5px;
+                button {
                   background-color: transparent !important;
-                }
-                &:focus {
-                  outline: none !important;
-                  box-shadow: none !important;
+                  outline: none;
+                  .pi-filter-icon {
+                    color: white !important;
+                  }
+                  &:hover {
+                    background-color: transparent !important;
+                  }
+                  &:focus {
+                    outline: none !important;
+                    box-shadow: none !important;
+                  }
                 }
               }
             }
           }
-        }
-        .p-selection-column {
-          padding-left: 16px;
-          .p-checkbox {
-            .p-checkbox-box {
-              /* background: rgba(164, 164, 164, 0.28); */
-              border: 1px solid #a4a4a4;
-              border-radius: 2px;
-              /* width: 16px;
+          .p-selection-column {
+            padding-left: 16px;
+            .p-checkbox {
+              .p-checkbox-box {
+                /* background: rgba(164, 164, 164, 0.28); */
+                border: 1px solid #a4a4a4;
+                border-radius: 2px;
+                /* width: 16px;
 height: 16px; */
+              }
+            }
+          }
+        }
+      }
+      .p-datatable-tbody {
+        tr {
+          td {
+            background-color: ${({ tablebodyColor }) =>
+              tablebodyColor ? tablebodyColor : `white !important`};
+            font-family: "Manrope";
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 19px;
+            text-align: center;
+            color: #212121;
+            padding-top: 18px;
+            padding-bottom: 19px;
+            position: relative;
+          }
+          .p-selection-column {
+            padding-left: 16px;
+            .p-checkbox {
+              .p-checkbox-box {
+                /* background: rgba(164, 164, 164, 0.28); */
+                border: 1px solid #a4a4a4;
+                border-radius: 2px;
+              }
             }
           }
         }
       }
     }
-    .p-datatable-tbody {
-      tr {
-        td {
-          background-color: white !important;
-          font-family: "Manrope";
-          font-style: normal;
-          font-weight: 500;
-          font-size: 14px;
-          line-height: 19px;
-          text-align: center;
-          color: #212121;
-          padding-top: 18px;
-          padding-bottom: 19px;
-          position: relative;
-        }
-        .p-selection-column {
-          padding-left: 16px;
-          .p-checkbox {
-            .p-checkbox-box {
-              /* background: rgba(164, 164, 164, 0.28); */
-              border: 1px solid #a4a4a4;
-              border-radius: 2px;
-            }
-          }
-        }
-      }
+
+    ::-webkit-scrollbar {
+      width: 5px !important;
+      background: white !important;
+      height: 10px !important;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      border-radius: 30px !important;
+      background-color: #a4a4a4 !important;
     }
   }
-
-  ::-webkit-scrollbar {
-    width: 5px !important;
-    background: white !important;
-    height: 10px !important;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 30px !important;
-    background-color: #a4a4a4 !important;
-  }
-}
 `;

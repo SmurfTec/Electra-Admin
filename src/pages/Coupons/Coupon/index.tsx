@@ -179,6 +179,7 @@ export const Coupon = () => {
                     Add={true}
                     txt="Add New Coupon"
                     outerclasses="w-[284px] h-[140px]"
+                    Addimg={IMAGES.AddItem}
 
                 /> 
                   
