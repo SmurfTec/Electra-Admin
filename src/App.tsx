@@ -20,6 +20,7 @@ import {
   HelpCenter,
   HelpCenterDetail,
   CreateNewadmin,
+  Verification,
   Settings
 } from "./pages/index";
 import { SideBar } from "./components";
@@ -58,6 +59,7 @@ function App() {
             <Route path="/AddNewVariant" element={<AddNewVariant/>} />
             <Route path="/HelpCenter" element={<HelpCenter/>} />
             <Route path="/HelpCenterDetail" element={<HelpCenterDetail/>} />
+            <Route path="/Verification" element={<Verification/>} />
             <Route path="/Settings" element={<Settings/>} />
             <Route path="*" element={<Signin />} />
           </Routes>
