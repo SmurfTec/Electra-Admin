@@ -4,7 +4,9 @@ import { CustomTableComponent } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
+import { useNavigate } from "react-router-dom";
 export const Roles = () => {
+  const navigate=useNavigate()
   const menuLeft: any = React.useRef(null);
 
   const filterData = [
@@ -14,13 +16,15 @@ export const Roles = () => {
       "Phone No": "0342525252525",
       "Assigned On": "Huz@gmail.com",
       Role: "Super Admin",
-    },  {
+    },
+    {
       Account: "Huzayfah",
       "Email Address": "Huzayfah",
       "Phone No": "0342525252525",
       "Assigned On": "Huz@gmail.com",
       Role: "Super Admin",
-    },  {
+    },
+    {
       Account: "Huzayfah",
       "Email Address": "Huzayfah",
       "Phone No": "0342525252525",
@@ -120,8 +124,7 @@ export const Roles = () => {
            w-[45%]
            mx-auto
             flex justify-center gap-5 items-center rounded-[25px] text-[12px]`;
-    }
-    else if (option.Role === " Admin") {
+    } else if (option.Role === " Admin") {
       style = `px-[14px] py-[4px]
           text-center
           h-[33px]
@@ -129,8 +132,7 @@ export const Roles = () => {
            w-[45%]
            mx-auto
             flex justify-center gap-5 items-center rounded-[25px] text-[12px]`;
-    }
-    else if (option.Role === "Sub Admin") {
+    } else if (option.Role === "Sub Admin") {
       style = `px-[14px] py-[4px]
           text-center
           h-[33px]
@@ -169,6 +171,7 @@ export const Roles = () => {
         <AdminCards accounts={"3 ACCOUNTS"} title={"Admin"} />
         <AdminCards accounts={"3 ACCOUNTS"} title={"Sub Admin"} />
         <DashCard
+        onClick={()=> navigate("/Newadmin")}
           outerclasses={"!bg-[#212121] !w-[187px] !h-[93px]"}
           Add={true}
           txt={"Add New Member"}
@@ -183,7 +186,7 @@ export const Roles = () => {
           Addimg={IMAGES.Rolesbadge}
         />
       </div>
-      <div className="mt-4 bg-lightgray w-[90%] rounded-[10px]">
+      <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
         <div>
           <p className="font-bold p-4 text-[19px]">
             Administrators <br />
@@ -191,13 +194,18 @@ export const Roles = () => {
               Find all of your team accounts
             </span>
           </p>
+          <div className="flex gap-8 px-4 border-b border-custom ">
+            <p className="border-b-4 border-[#3C82D6] text-[#3C82D6] pb-2 font-semibold">All (9)</p>
+            <p className="text-[#B4B4B4]">Super Admin (3)</p>
+            <p className="text-[#B4B4B4]">Admin (3) </p>
+            <p className="text-[#B4B4B4]">Sub Admin(9)</p>
+          </div>
           <CustomTableComponent
-            className="bg-lightgray"
-            columnStyle={{backgroundColor:"#F6F6F6"}}
-            headerStyle={{color:"black"}}
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black" }}
             filterData={filterData}
             columnData={columnData}
-            rowStyling={"#F6F6F6"}
+            rowStyling={"#FCFCFC"}
           />
         </div>
       </div>

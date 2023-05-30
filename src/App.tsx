@@ -18,7 +18,8 @@ import {
   CreateCategory,
   AddNewVariant,
   HelpCenter,
-  HelpCenterDetail
+  HelpCenterDetail,
+  CreateNewadmin
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -56,6 +57,7 @@ function App() {
             <Route path="/AddNewVariant" element={<AddNewVariant/>} />
             <Route path="/HelpCenter" element={<HelpCenter/>} />
             <Route path="/HelpCenterDetail" element={<HelpCenterDetail/>} />
+            <Route path="/Newadmin" element={<CreateNewadmin/>} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>
