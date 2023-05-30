@@ -224,6 +224,7 @@ export const Category = () => {
 
                     />
                     <DashCard
+                 Addimg={IMAGES.AddItem}
                         Add={true}
                         txt="Add New Category"
                         outerclasses="w-[284px] h-[140px]"
@@ -238,6 +239,7 @@ export const Category = () => {
 
                     />
                     <DashCard
+               Addimg={IMAGES.AddItem}
                         Add={true}
                         txt="Add New Variant"
                         outerclasses="w-[284px] h-[140px]"
