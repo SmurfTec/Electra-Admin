@@ -24,6 +24,7 @@ module.exports = {
       },
       borderColor: {
         'custom': 'rgba(0, 0, 0, 0.08)',
+        'line-border':'rgba(180, 180, 180, 0.37)',
       },
       spacing: {
         'Custom-spacing': '0.5rem', // Increase the distance between the dots

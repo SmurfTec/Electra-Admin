@@ -4,8 +4,8 @@ const StyledSVG = styled(ReactSVG)`
 cursor: pointer;
   svg {
     path{
-      fill: ${({ $filled, fillcolor }: any) => ($filled ? 'white' : fillcolor !== undefined ? fillcolor : '#A4A4A4')} !important;
-      
+      fill: ${({ $filled, fillcolor }: any) => ($filled ? fillcolor?.length>0?fillcolor:  'white' : fillcolor !== undefined ? fillcolor : '#A4A4A4')} !important;
+      stroke:${({ $filled, fillcolor }: any) => ($filled && fillcolor?.length>0&&'white')} !important;
     }
   }
   `;

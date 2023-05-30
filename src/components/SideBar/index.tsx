@@ -57,20 +57,33 @@ export const SideBar = () => {
     { id: 11, name: "Categories",url:'/Category' , icon: IMAGES.Categories, active: false },
     { id: 12, name: "Edit Website", icon: IMAGES.EditWebsite, active: false },
     { id: 13, name: "Help center",url:'/HelpCenter', icon: IMAGES.HelpCenter, active: false },
-    {
+    {    
       id: 14,
       name: "Settings",
       icon: IMAGES.Settings,
       active: false,
-      iconFillColor: "",
+      iconFillColor: "", 
+      strokeColor:"",
+      url:"/Settings",   
+      
     },
   ]);
   const handleItemClick = (itemId: number) => {
     const updatedNavItems = navItems.map((item) => {
-      if (item.id === itemId) {
-        return { ...item, active: true };
+      if (item.id === itemId) {  
+        if(item.name=="Settings"){
+          return { ...item, active: true,iconFillColor:'transparent' };  //icon:IMAGES.SettingActive,
+        }else{
+          return { ...item, active: true };
+        }
+        
       } else {
-        return { ...item, active: false };
+        if(item.name=="Settings"){
+          return { ...item, active: false,iconFillColor:'' };
+        }else{
+          return { ...item, active: false };
+        }
+        
       }
     });
     setNavItems(updatedNavItems);
@@ -104,6 +117,7 @@ export const SideBar = () => {
                 src={item.icon}
                 filled={item.active}
                 fillcolor={item?.iconFillColor}
+                strokeColor={item?.strokeColor}
               />
               <p
                 className={`${
