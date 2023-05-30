@@ -13,16 +13,18 @@ const Drops = styled(Dropdown)`
     border: none !important;
     box-shadow: none !important;
   }
-  .p-dropdown-label.p-placeholder{
+  .p-dropdown-label.p-placeholder {
     display: flex;
     align-items: center;
-    color:black
+    color:  ${({ placeholderColor }: any) => (placeholderColor ? placeholderColor : "black")};;
+    padding-left: 18px;
   }
 `;
 export const CustomDropdown = (props: any) => {
   const cities = ["Iphone11", "Iphone12", "Iphone13", "Iphone14"];
   return (
     <Drops
+      placeholderColor={props.placeholderColor}
       value={"YOO"}
       className={props.mainclasses}
       placeholder={props.placeholder}

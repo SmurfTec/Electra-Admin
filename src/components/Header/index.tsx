@@ -12,7 +12,7 @@ type headerProps = {
 export const Header = (props: headerProps) => {
   return (
     <>
-      <div className="h-14 mt-2 mb-2 flex items-center justify-between px-2 ">
+      <div className=" overflow-hidden h-14 mt-2 mb-2 flex items-center justify-between px-2 ">
         {props.typeSearch && (
           <HeaderSearch
             placeholder={props.placeholder ?? "Type here to search"}
