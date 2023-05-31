@@ -20,7 +20,8 @@ import {
   HelpCenter,
   HelpCenterDetail,
   CreateNewadmin,
-  ViewAdmin
+  ViewAdmin,
+  Searchrole
   
 } from "./pages/index";
 import { SideBar } from "./components";
@@ -61,6 +62,7 @@ function App() {
             <Route path="/HelpCenterDetail" element={<HelpCenterDetail/>} />
             <Route path="/Newadmin" element={<CreateNewadmin/>} />
             <Route path="/Viewadmin" element={<ViewAdmin/>} />
+            <Route path="/Searchrole" element={<Searchrole />} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>

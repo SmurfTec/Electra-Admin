@@ -13,9 +13,10 @@ step2 verification
 
 Zain:=>
 Roles1 
-Create Admin
-View admin
-View Roles
+main role //done
+Create Admin //done
+View admin //done
+View Roles 
 Creating Roles
 Edit Website and banner
 Listings

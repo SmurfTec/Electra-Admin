@@ -123,7 +123,7 @@ export const Roles = () => {
            bg-custom-blue text-[black]
            w-[45%]
            mx-auto
-            flex justify-center gap-5 items-center rounded-[25px] text-[12px]`;
+            flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     } else if (option.Role === " Admin") {
       style = `px-[14px] py-[4px]
           text-center
@@ -131,7 +131,7 @@ export const Roles = () => {
            bg-custom-yellow text-[black]
            w-[45%]
            mx-auto
-            flex justify-center gap-5 items-center rounded-[25px] text-[12px]`;
+            flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     } else if (option.Role === "Sub Admin") {
       style = `px-[14px] py-[4px]
           text-center
@@ -139,7 +139,7 @@ export const Roles = () => {
            bg-custom-pink text-[black]
            w-[45%]
            mx-auto
-            flex justify-center gap-5 items-center rounded-[25px] text-[12px]`;
+            flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     }
     return (
       <>

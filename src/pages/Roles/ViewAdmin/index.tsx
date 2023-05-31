@@ -4,7 +4,9 @@ import IMAGES from "../../../assets/Images";
 import { SVGIcon } from "../../../components/SVG";
 import { CustomMenu } from "../../../atoms/global.style";
 import { CustomButton } from "../../../atoms";
+import { useNavigate } from "react-router-dom";
 export const ViewAdmin = () => {
+  const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
   const items = [
     {
@@ -117,79 +119,67 @@ export const ViewAdmin = () => {
           </div>
         </div>
         <div className="border border-[#F7F7F8] h-[480px] w-[400px]">
-          <div className="flex gap-3 ml-2 mt-3">
-            <img className="p-2"
-            src={IMAGES.Loginarrow}/>
+          <div className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]">
+            <img className="p-2" src={IMAGES.Loginarrow} />
             <div>
               <p>
-                <b>
-                Login</b> to the portal
+                <b>Login</b> to the portal
               </p>
-              <p className="text-[#969696] mt-2 text-[11px]">
-                Wed - 10.00pm
-              </p>
+              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
             </div>
           </div>
-          <div className="flex gap-3 ml-2 mt-3">
-            <img className="p-2"
-            src={IMAGES.personicon}/>
+          <div className="flex gap-3 ml-2 mt-3  pb-2 border-b border-[#FAFAFA]">
+            <img className="p-2" src={IMAGES.personicon} />
             <div>
               <p>
-                <b>
-                Login</b> to the portal
+                Change <b> Admin Role</b>
               </p>
-              <p className="text-[#969696] mt-2 text-[11px]">
-                Wed - 10.00pm
-              </p>
+              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
             </div>
-          </div> <div className="flex gap-3 ml-2 mt-3">
-            <img className="p-2"
-            src={IMAGES.Key}/>
+          </div>{" "}
+          <div className="flex gap-3 ml-2 mt-3  pb-2 border-b border-[#FAFAFA]">
+            <img className="p-2" src={IMAGES.Key} />
             <div>
               <p>
-                <b>
-                Login</b> to the portal
+                Change <b>Password</b>
               </p>
-              <p className="text-[#969696] mt-2 text-[11px]">
-                Wed - 10.00pm
-              </p>
+              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
             </div>
-          </div> <div className="flex gap-3 ml-2 mt-3">
-            <img className="p-2"
-            src={IMAGES.deleteproduct}/>
+          </div>{" "}
+          <div className="flex gap-3 ml-2 mt-3  pb-2 border-b border-[#FAFAFA]">
+            <img className="p-2" src={IMAGES.deleteproduct} />
             <div>
               <p>
-                <b>
-                Login</b> to the portal
+                Delete <b>Product</b>
               </p>
-              <p className="text-[#969696] mt-2 text-[11px]">
-                Wed - 10.00pm
-              </p>
+              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
             </div>
-          </div> <div className="flex gap-3 ml-2 mt-3">
-            <img className="p-2"
-            src={IMAGES.personicon}/>
+          </div>{" "}
+          <div className="flex gap-3 ml-2 mt-3  pb-2 border-b border-[#FAFAFA]">
+            <img className="p-2" src={IMAGES.personicon} />
             <div>
               <p>
-                <b>
-                Login</b> to the portal
+                Deleted <b>User</b>
               </p>
-              <p className="text-[#969696] mt-2 text-[11px]">
-                Wed - 10.00pm
-              </p>
+              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
             </div>
-          </div> <div className="flex gap-3 ml-2 mt-3">
-            <img className="p-2"
-            src={IMAGES.Logoutarrow}/>
+          </div>{" "}
+          <div className="flex gap-3 ml-2 mt-3  pb-2 border-b border-[#FAFAFA]">
+            <img className="p-2" src={IMAGES.Logoutarrow} />
             <div>
-              <p>
-                <b>
-                Login</b> to the portal
-              </p>
-              <p className="text-[#969696] mt-2 text-[11px]">
-                Wed - 10.00pm
-              </p>
+              <p>Logged out</p>
+              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
             </div>
+          </div>
+          <div className="flex justify-center items-center">
+            <p
+              onClick={() => {
+                navigate("/Searchrole");
+              }}
+              className="text-center items-center mt-4"
+            >
+              View More
+            </p>
           </div>
         </div>
       </div>
