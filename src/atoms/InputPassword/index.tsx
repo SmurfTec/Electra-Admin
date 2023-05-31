@@ -21,7 +21,7 @@ export const InputPassword = ({width,img,eyeIcon,MainClasses,...restProps}:any) 
     {img && <img src={img} alt="icon-img"/>}  
       <CustomInputTxt type={showPass ?'text':"password"} {...restProps} />
     </div>
-    <img className='cursor-pointer' src={eyeIcon?eyeIcon:IMAGES.eye} onClick={()=>setShowPass(!showPass)}/>
+    <img className='cursor-pointer' src={showPass?IMAGES.Eyesclosed:IMAGES.eye} onClick={()=>setShowPass(!showPass)}/>
   </div>
   )
 }

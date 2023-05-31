@@ -19,7 +19,9 @@ import {
   AddNewVariant,
   HelpCenter,
   HelpCenterDetail,
-  CreateNewadmin
+  CreateNewadmin,
+  ViewAdmin
+  
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -58,6 +60,7 @@ function App() {
             <Route path="/HelpCenter" element={<HelpCenter/>} />
             <Route path="/HelpCenterDetail" element={<HelpCenterDetail/>} />
             <Route path="/Newadmin" element={<CreateNewadmin/>} />
+            <Route path="/Viewadmin" element={<ViewAdmin/>} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>

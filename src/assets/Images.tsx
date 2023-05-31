@@ -60,6 +60,7 @@ const IMAGES: any = {
 
     AtmBackground: new URL('../assets/Images/Atm-background.svg', import.meta.url).href,
     Coins: new URL('../assets/Images/coins.svg', import.meta.url).href,
+    Laughingadmin: new URL('../assets/Images/Laughingadmin.svg', import.meta.url).href,
     // 
     // 
     // 
@@ -76,6 +77,12 @@ const IMAGES: any = {
     CashWithdraw: new URL('../assets/icons/cashWithdraw.svg', import.meta.url).href,
     DollorHouse: new URL('../assets/icons/DollorHouse.svg', import.meta.url).href,
     dropdown: new URL('../assets/icons/dropdown.svg', import.meta.url).href,
+    Eyesclosed: new URL('../assets/icons/Eyesclosed.svg', import.meta.url).href,
+    deleteproduct: new URL('../assets/icons/deleteproduct.svg', import.meta.url).href,
+    Key: new URL('../assets/icons/Key.svg', import.meta.url).href,
+    Loginarrow: new URL('../assets/icons/Loginarrow.svg', import.meta.url).href,
+    Logoutarrow: new URL('../assets/icons/Logoutarrow.svg', import.meta.url).href,
+    
 
     AddItem: new URL('../assets/icons/Add.svg', import.meta.url).href,
 }
