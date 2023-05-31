@@ -87,7 +87,7 @@ export const CustomTable = styled(DataTable)`
     .p-datatable-table {
       .p-datatable-thead {
         tr {
-                th {
+          th {
             font-family: "Manrope";
             font-style: normal;
             font-weight: 500;
@@ -99,7 +99,8 @@ export const CustomTable = styled(DataTable)`
             ${({ theadStyles }: any) => (theadStyles ? theadStyles : "")}
             .p-column-header-content {
               display: flex;
-              justify-content: center;
+              justify-content: ${({ columnHeader }: any) =>
+                columnHeader ? columnHeader : "center"};
               .p-column-filter-menu {
                 margin-left: 0 !important;
                 margin-right: 5px;
@@ -149,6 +150,7 @@ height: 16px; */
             padding-top: 18px;
             padding-bottom: 19px;
             position: relative;
+            
           }
           .p-selection-column {
             padding-left: 16px;

@@ -82,6 +82,7 @@ const IMAGES: any = {
     Key: new URL('../assets/icons/Key.svg', import.meta.url).href,
     Loginarrow: new URL('../assets/icons/Loginarrow.svg', import.meta.url).href,
     Logoutarrow: new URL('../assets/icons/Logoutarrow.svg', import.meta.url).href,
+    Editpen: new URL('../assets/icons/Editpen.svg', import.meta.url).href,
     
 
     AddItem: new URL('../assets/icons/Add.svg', import.meta.url).href,

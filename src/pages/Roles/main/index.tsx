@@ -6,7 +6,7 @@ import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 export const Roles = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
 
   const filterData = [
@@ -171,7 +171,7 @@ export const Roles = () => {
         <AdminCards accounts={"3 ACCOUNTS"} title={"Admin"} />
         <AdminCards accounts={"3 ACCOUNTS"} title={"Sub Admin"} />
         <DashCard
-        onClick={()=> navigate("/Newadmin")}
+          onClick={() => navigate("/Newadmin")}
           outerclasses={"!bg-[#212121] !w-[187px] !h-[93px]"}
           Add={true}
           txt={"Add New Member"}
@@ -195,7 +195,9 @@ export const Roles = () => {
             </span>
           </p>
           <div className="flex gap-8 px-4 border-b border-custom ">
-            <p className="border-b-4 border-[#3C82D6] text-[#3C82D6] pb-2 font-semibold">All (9)</p>
+            <p className="border-b-4 border-[#3C82D6] text-[#3C82D6] pb-2 font-semibold">
+              All (9)
+            </p>
             <p className="text-[#B4B4B4]">Super Admin (3)</p>
             <p className="text-[#B4B4B4]">Admin (3) </p>
             <p className="text-[#B4B4B4]">Sub Admin(9)</p>

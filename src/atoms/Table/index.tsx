@@ -30,6 +30,7 @@ export const CustomTableComponent = ({
               : undefined
           }
           tablebodyColor={rowStyling??""}
+          columnHeader={props.columnHeader}
         >
           {MultipleSelect && (
             <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
@@ -41,7 +42,7 @@ export const CustomTableComponent = ({
                 style={columnStyle ?? null}
                 field={item.field}
                 header={item.header}
-              headerStyle={headerStyle}
+                headerStyle={headerStyle}
                 bodyClassName={'!bg-[#F6F6F6'}
                 body={item.body ? item.body : null}
               />
