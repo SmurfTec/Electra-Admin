@@ -7,6 +7,7 @@ import IMAGES from "../../../assets/Images";
 import { SVGIcon } from "../../../components/SVG";
 import { CustomMenu } from "../../../atoms/global.style";
 export const Searchrole = () => {
+  const navigate= useNavigate()
   const menuLeft: any = React.useRef(null);
   const filterData = [
     {
@@ -82,7 +83,7 @@ export const Searchrole = () => {
       ],
     },
   ];
-  const AccountBodyTemplate = (option) => {
+  const AccountBodyTemplate = (option:any) => {
     return (
       <div className="flex gap-2 items-center justify-center">
         <p className="font-bold">{option.Role}</p>
@@ -147,6 +148,7 @@ export const Searchrole = () => {
       />
       <div>
         <DashCard
+        onClick={()=>navigate("/Creationroles")}
           outerclasses={"!bg-[#212121] !w-[187px] !h-[93px] !mt-10"}
           Add={true}
           txt={"Add New Member"}

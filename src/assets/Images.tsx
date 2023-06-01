@@ -85,6 +85,14 @@ const IMAGES: any = {
     Editpen: new URL('../assets/icons/Editpen.svg', import.meta.url).href,
     
 
+    Edit: new URL('../assets/icons/Edit.svg', import.meta.url).href,
+    Password: new URL('../assets/icons/Password.svg', import.meta.url).href,
+    Phone: new URL('../assets/icons/Phone.svg', import.meta.url).href,
+    Bank: new URL('../assets/icons/Bank.svg', import.meta.url).href,
+    BankHome: new URL('../assets/icons/BankHome.svg', import.meta.url).href,
+    Bell: new URL('../assets/icons/Bell.svg', import.meta.url).href,
+    Shield: new URL('../assets/icons/shield.svg', import.meta.url).href,
+    Maintenance: new URL('../assets/icons/Maintenance.svg', import.meta.url).href,
     AddItem: new URL('../assets/icons/Add.svg', import.meta.url).href,
 }
 export default IMAGES

@@ -21,8 +21,10 @@ import {
   HelpCenterDetail,
   CreateNewadmin,
   ViewAdmin,
-  Searchrole
-  
+  Searchrole,
+  Createrole,
+  Verification,
+  Settings
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -63,6 +65,9 @@ function App() {
             <Route path="/Newadmin" element={<CreateNewadmin/>} />
             <Route path="/Viewadmin" element={<ViewAdmin/>} />
             <Route path="/Searchrole" element={<Searchrole />} />
+            <Route path="/Verification" element={<Verification/>} />
+            <Route path="/Settings" element={<Settings/>} />
+            <Route path="/Creationroles" element={<Createrole/>} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>

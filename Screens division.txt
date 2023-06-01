@@ -16,9 +16,9 @@ Roles1
 main role //done
 Create Admin //done
 View admin //done
-View Roles 
-Creating Roles
-Edit Website and banner
+View Roles //done
+Creating Roles //done
+Edit Website and banner => Priority
 Listings
 Step1 for verification
 Orders

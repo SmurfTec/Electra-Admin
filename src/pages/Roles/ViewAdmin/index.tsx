@@ -113,6 +113,9 @@ export const ViewAdmin = () => {
           </div>
           <div className=" flex justify-center">
             <CustomButton
+           onClick={() => {
+            navigate("/Searchrole");
+          }}
               txt={"Create Admin"}
               classes={" !w-[90%]  !rounded-[6px] !h-[50px] mt-10 "}
             />
@@ -173,9 +176,7 @@ export const ViewAdmin = () => {
           </div>
           <div className="flex justify-center items-center">
             <p
-              onClick={() => {
-                navigate("/Searchrole");
-              }}
+             
               className="text-center items-center mt-4"
             >
               View More
