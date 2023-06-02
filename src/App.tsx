@@ -24,7 +24,8 @@ import {
   Searchrole,
   Createrole,
   Verification,
-  Settings
+  Settings,
+  Listings
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -68,6 +69,7 @@ function App() {
             <Route path="/Verification" element={<Verification/>} />
             <Route path="/Settings" element={<Settings/>} />
             <Route path="/Creationroles" element={<Createrole/>} />
+            <Route path="/Listings" element={<Listings            />} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>

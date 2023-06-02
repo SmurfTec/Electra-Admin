@@ -18,7 +18,7 @@ Create Admin //done
 View admin //done
 View Roles //done
 Creating Roles //done
-Edit Website and banner => Priority
-Listings
+Edit Website and banner 
+Listings => Priority
 Step1 for verification
 Orders
