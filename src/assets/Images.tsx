@@ -98,5 +98,6 @@ const IMAGES: any = {
     Ring: new URL('../assets/icons/Ring.svg', import.meta.url).href,
     Send: new URL('../assets/icons/Send.svg', import.meta.url).href,
     Flag: new URL('../assets/icons/Flag.svg', import.meta.url).href,
+    BarCode: new URL('../assets/icons/BarCode.svg', import.meta.url).href,
 }
 export default IMAGES
