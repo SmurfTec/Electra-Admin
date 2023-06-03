@@ -21,7 +21,8 @@ module.exports = {
       },
       boxShadow: {
         "custom-shadow": "0px 4px 14px rgba(0, 0, 0, 0.15)",
-        "custom-inset-shadow":"inset 0px 0px 19px rgba(0, 0, 0, 0.05)"
+        "custom-inset-shadow":"inset 0px 0px 19px rgba(0, 0, 0, 0.05)",
+        "input-shadow":"0px 9px 48px 18px rgba(0, 0, 0, 0.04)"
         // Add more custom shadows if needed
       },
       borderColor: {

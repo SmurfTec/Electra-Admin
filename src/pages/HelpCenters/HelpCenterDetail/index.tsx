@@ -1,12 +1,13 @@
 import React,{useState,useRef} from 'react'
 import { Header } from '../../../components'
-import { CustomButton } from '../../../atoms'
+import { CustomButton,InputTxt } from '../../../atoms'
 import { SVGIcon } from '../../../components/SVG'
 import IMAGES from '../../../assets/Images'
 import { CustomMenu } from '../../../atoms/global.style'
+
 export const HelpCenterDetail = () => {
   const menuLeft: any = useRef(null);
-  
+  const[Reply,setReply]=useState('')
   const ChangeStatus = (event: React.MouseEvent, item: any) => {
     event.preventDefault();
     
@@ -50,7 +51,7 @@ export const HelpCenterDetail = () => {
   return (
    <div>
       <Header chooseFilter={true} typeSearch={true} UserBox={true} />
-      <div className='w-[98%] h-[920px] border border-inputBorder rounded-[7px] mt-[35px] '>
+      <div className='w-[98%] h-auto border border-inputBorder rounded-[7px] mt-[35px] '>
         <div className='flex justify-between pt-[21px] pb-[18px] items-center border-b border-inputBorder px-[39px]'>
           <p className='text-[20px] font-[600]'>Help (ID #1234)</p>
           <div className='flex gap-4 items-center'>
@@ -113,6 +114,18 @@ Sed sagittis sollicitudin vulputate.</p>
  sem. Nunc bibendum mi mauris, eget iaculis nisl sagittis ut. Sed
 sagittis sollicitudin vulputate.
 <p className='text-[11px] font-[500] absolute bottom-2 right-5 text-[#A4A4A4]'>10.00 PM</p>
+        </div>
+        <div className='pt-[114px] pl-[39px] pr-[39px] pb-[39px]'>
+        <InputTxt
+        placeholder="Type Reply here"
+        MainClasses="!bg-[#FFFFFF] pointer !shadow-input-shadow !rounded-[8px] border !border-inputBorder !w-full !h-[91px] !pr-[0px]"
+        iconLeft={true}
+        LeftIcon={IMAGES.Ring}
+        iconRight={true}
+        img={IMAGES.Send}
+        value={Reply}
+        onChange={(e: any) => setReply(e.target.value)}
+      />
         </div>
       </div>
      
