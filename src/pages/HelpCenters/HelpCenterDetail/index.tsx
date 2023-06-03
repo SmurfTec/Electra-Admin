@@ -7,6 +7,7 @@ import { CustomMenu } from '../../../atoms/global.style'
 
 export const HelpCenterDetail = () => {
   const menuLeft: any = useRef(null);
+  
   const[Reply,setReply]=useState('')
   const ChangeStatus = (event: React.MouseEvent, item: any) => {
     event.preventDefault();
@@ -115,6 +116,11 @@ Sed sagittis sollicitudin vulputate.</p>
 sagittis sollicitudin vulputate.
 <p className='text-[11px] font-[500] absolute bottom-2 right-5 text-[#A4A4A4]'>10.00 PM</p>
         </div>
+        {/* <div className='flex gap-3 justify-center items-center mt-[46px]'>
+        <hr className="w-[18.5rem] border-[#A4A4A4]" />
+        <CustomButton txt="Solved" classes="!w-auto !bg-blue !text-white px-[32px] !h-auto !py-[6px] !rounded-[22px] "  />
+        <hr className="w-[18.5rem] border-[#A4A4A4]" />
+        </div> */}
         <div className='pt-[114px] pl-[39px] pr-[39px] pb-[39px]'>
         <InputTxt
         placeholder="Type Reply here"
