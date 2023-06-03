@@ -1,6 +1,6 @@
-import React from 'react'
-import { Header} from "../../../components";
-import { CustomTableComponent } from "../../../atoms";
+import React from "react";
+import { Header } from "../../../components";
+import { CustomTableComponent, ReviewButton } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
@@ -59,51 +59,51 @@ export const Listings = () => {
   ];
   const filterData = [
     {
-      id:1,
+      id: 1,
       Account: "ListedBy",
-      "ItemName": "ItemName",
-      "Ask": "Ask",
-      "Lwst Offer":"Lwst Offer",
-      "Hgst Offer":"Hgst Offer",
+      ItemName: "ItemName",
+      Ask: "Ask",
+      "Lwst Offer": "Lwst Offer",
+      "Hgst Offer": "Hgst Offer",
       "Sale Price": "$4345",
       "Listed On": "Listed On",
       Role: "Sold",
     },
     {
-      id:2,
+      id: 2,
       Account: "ListedBy",
-      "ItemName": "ItemName",
-      "Ask": "Ask",
-      "Lwst Offer":"Lwst Offer",
-      "Hgst Offer":"Hgst Offer",
+      ItemName: "ItemName",
+      Ask: "Ask",
+      "Lwst Offer": "Lwst Offer",
+      "Hgst Offer": "Hgst Offer",
       "Sale Price": "$4345",
       "Listed On": "Listed On",
       Role: "Sold",
     },
     {
-      id:3,
+      id: 3,
       Account: "ListedBy",
-      "ItemName": "ItemName",
-      "Ask": "Ask",
-      "Lwst Offer":"Lwst Offer",
-      "Hgst Offer":"Hgst Offer",
+      ItemName: "ItemName",
+      Ask: "Ask",
+      "Lwst Offer": "Lwst Offer",
+      "Hgst Offer": "Hgst Offer",
       "Sale Price": "$4345",
       "Listed On": "Listed On",
       Role: "Unsold",
     },
     {
-      id:4,
+      id: 4,
       Account: "ListedBy",
-      "ItemName": "ItemName",
-      "Ask": "Ask",
-      "Lwst Offer":"Lwst Offer",
-      "Hgst Offer":"Hgst Offer",
+      ItemName: "ItemName",
+      Ask: "Ask",
+      "Lwst Offer": "Lwst Offer",
+      "Hgst Offer": "Hgst Offer",
       "Sale Price": "$4345",
       "Listed On": "Listed On",
       Role: "Unsold",
     },
   ];
-  const AccountBodyTemplate = (option:any) => {
+  const AccountBodyTemplate = (option: any) => {
     return (
       <div className="flex gap-2 items-center justify-center">
         <img src={IMAGES.Guy1} />
@@ -140,7 +140,7 @@ export const Listings = () => {
            w-auto
            mx-auto
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
-    }  else if (option.Role === "Unsold") {
+    } else if (option.Role === "Unsold") {
       style = `px-[14px] py-[4px]
           text-center
           h-[33px]
@@ -153,18 +153,13 @@ export const Listings = () => {
       <>
         <div className={style}>
           <p className="font-bold">{option.Role}</p>
-          
         </div>
       </>
     );
   };
-  const SalesTemplate=(option:any)=>{
-    return(
-      <p className='text-[#3C82D6]'>
-        {option["Sale Price"]}
-      </p>
-    )
-  }
+  const SalesTemplate = (option: any) => {
+    return <p className="text-[#3C82D6]">{option["Sale Price"]}</p>;
+  };
   const columnData = [
     { field: "id", header: "ID" },
     { field: "Account", header: "Account", body: AccountBodyTemplate },
@@ -172,20 +167,20 @@ export const Listings = () => {
     { field: "Ask", header: "Ask" },
     { field: "Lwst Offer", header: "Lwst Offer" },
     { field: "Hgst Offer", header: "Hgst Offer" },
-    { field: "Sale Price", header: "Sale Price" ,body:SalesTemplate},
+    { field: "Sale Price", header: "Sale Price", body: SalesTemplate },
     { field: "Listed On", header: "Listed On" },
     { field: "Role", header: "Role", body: StatusBodyTemplate },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
   return (
     <div>
-        <Header
+      <Header
         placeholder="Search Admins"
         typeSearch={true}
         chooseFilter={true}
         UserBox={true}
       />
-       <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
+      <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
         <div>
           <p className="font-bold p-4 text-[19px]">
             Listings <br />
@@ -203,15 +198,21 @@ export const Listings = () => {
           </div>
           <CustomTableComponent
             columnStyle={{ backgroundColor: "#FCFCFC" }}
-            headerStyle={{ color: "black",fontWeight:"800" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
             filterData={filterData}
             columnData={columnData}
             rowStyling={"#FCFCFC"}
             MultipleSelect={true}
-            // showWrapper={false}
           />
         </div>
       </div>
+      <div>
+        <ReviewButton
+        onClick={()=>{
+          navigate("/ListingsDetail")
+        }}
+        txt={"Mark for review"} />
+      </div>
     </div>
-  )
-}
+  );
+};

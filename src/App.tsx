@@ -26,7 +26,8 @@ import {
   Verification,
   Settings,
   Listings,
-  Orders
+  Orders,
+  Listingdetail
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -71,6 +72,7 @@ function App() {
             <Route path="/Settings" element={<Settings />} />
             <Route path="/Creationroles" element={<Createrole />} />
             <Route path="/Listings" element={<Listings />} />
+            <Route path="/ListingsDetail" element={<Listingdetail />} />
             <Route path="/Orders" element={<Orders />} />
             <Route path="*" element={<Signin />} />
           </Routes>
