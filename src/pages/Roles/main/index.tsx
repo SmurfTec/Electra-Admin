@@ -87,7 +87,7 @@ export const Roles = () => {
       ],
     },
   ];
-  const AccountBodyTemplate = (option) => {
+  const AccountBodyTemplate = (option:any) => {
     return (
       <div className="flex gap-2 items-center justify-center">
         <img src={IMAGES.Guy1} />
@@ -121,7 +121,7 @@ export const Roles = () => {
           text-center
           h-[33px]
            bg-custom-blue text-[black]
-           w-[45%]
+       max-w-[160px]
            mx-auto
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     } else if (option.Role === " Admin") {
@@ -129,7 +129,7 @@ export const Roles = () => {
           text-center
           h-[33px]
            bg-custom-yellow text-[black]
-           w-[45%]
+        max-w-[160px]
            mx-auto
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     } else if (option.Role === "Sub Admin") {
@@ -137,7 +137,7 @@ export const Roles = () => {
           text-center
           h-[33px]
            bg-custom-pink text-[black]
-           w-[45%]
+        max-w-[160px]
            mx-auto
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     }
@@ -208,6 +208,7 @@ export const Roles = () => {
             filterData={filterData}
             columnData={columnData}
             rowStyling={"#FCFCFC"}
+            
           />
         </div>
       </div>

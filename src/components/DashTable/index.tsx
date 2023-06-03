@@ -1,9 +1,7 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ViewAll } from "../../atoms";
-import { Paginator } from "primereact/paginator";
 import styled from "styled-components";
-import { Tooltip } from "primereact/tooltip";
 // Styled Paginator component
 const CustomTable = styled(DataTable)`
   .p-datatable-header {

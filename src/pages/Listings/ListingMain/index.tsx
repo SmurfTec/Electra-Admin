@@ -137,7 +137,7 @@ export const Listings = () => {
           text-center
           h-[33px]
            bg-custom-blue text-[black]
-           w-auto
+           max-w-[100px]
            mx-auto
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     } else if (option.Role === "Unsold") {
@@ -145,7 +145,7 @@ export const Listings = () => {
           text-center
           h-[33px]
            bg-custom-pink text-[black]
-           w-auto
+           max-w-[100px]
            mx-auto
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     }

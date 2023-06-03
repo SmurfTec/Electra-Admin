@@ -19,7 +19,7 @@ export const Createrole = () => {
             <p className="font-bold">User can view payment data</p>
           </div>
           <div className="flex p-3 gap-3">
-            <CustomSwitch checked={true} />
+            <CustomSwitch checked={false} />
             <p className="font-bold">User can edit settings.</p>
           </div>
           <div className="flex p-3 gap-3">
@@ -32,7 +32,7 @@ export const Createrole = () => {
             <p className="font-bold">View & Edit Categories.</p>
           </div>
           <div className="flex p-3 gap-3">
-            <CustomSwitch checked={true} />
+            <CustomSwitch checked={false} />
             <p className="font-bold">View, list or edit products.</p>
           </div>
           <div className="flex p-3 gap-3">

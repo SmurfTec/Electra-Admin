@@ -57,6 +57,10 @@ const IMAGES: any = {
     Guy3: new URL('../assets/Images/Guy3.svg', import.meta.url).href,
     newmembers: new URL('../assets/Images/newmembers.svg', import.meta.url).href,
     Rolesbadge: new URL('../assets/Images/Rolesbadge.svg', import.meta.url).href,
+    Iphone22: new URL('../assets/Images/Iphone22.svg', import.meta.url).href,
+    Greeniphone: new URL('../assets/Images/Greeniphone.svg', import.meta.url).href,
+    yellowiphone: new URL('../assets/Images/yellowiphone.svg', import.meta.url).href,
+    pinkphone: new URL('../assets/Images/pinkphone.svg', import.meta.url).href,
 
     AtmBackground: new URL('../assets/Images/Atm-background.svg', import.meta.url).href,
     Coins: new URL('../assets/Images/coins.svg', import.meta.url).href,
@@ -99,5 +103,7 @@ const IMAGES: any = {
     Ring: new URL('../assets/icons/Ring.svg', import.meta.url).href,
     Send: new URL('../assets/icons/Send.svg', import.meta.url).href,
     Csvicon: new URL('../assets/icons/Csvicon.svg', import.meta.url).href,
+    leftarrow: new URL('../assets/icons/leftarrow.svg', import.meta.url).href,
+    rightarrow: new URL('../assets/icons/rightarrow.svg', import.meta.url).href,
 }
 export default IMAGES

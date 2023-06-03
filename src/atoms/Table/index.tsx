@@ -11,6 +11,7 @@ export const CustomTableComponent = ({
   setSelectedProducts,
   columnData,
   MultipleSelect,
+  showlines,
   ...props
 }: any) => {
   return (
@@ -31,6 +32,7 @@ export const CustomTableComponent = ({
           }
           tablebodyColor={rowStyling??""}
           columnHeader={props.columnHeader}
+          showGridlines ={showlines ?true:false}
         >
           {MultipleSelect && (
             <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />

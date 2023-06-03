@@ -139,7 +139,7 @@ export const Orders = () => {
             text-center
             h-[33px]
              bg-custom-blue text-[black]
-             w-auto
+              max-w-[100px]
              mx-auto
               flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     } else if (option.Status === "Cancelled") {
@@ -147,7 +147,7 @@ export const Orders = () => {
             text-center
             h-[33px]
              bg-custom-pink text-[black]
-             w-auto
+              max-w-[100px]
              mx-auto
               flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     }
@@ -192,7 +192,7 @@ export const Orders = () => {
       />
       <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
         <div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center px-3">
           <p className="font-bold p-4 text-[19px]">
             Orders <br />
             <span className="font-medium text-[#A4A4A4] -mt-[10px]  text-[14px]">
