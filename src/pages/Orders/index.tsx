@@ -220,7 +220,7 @@ export const Orders = () => {
       </div>
       <div className="mt-3">
         <p className="font-bold">Select Status</p>
-        <div className="flex gap-3">
+        <div className="flex gap-3 mt-2">
           <Miniselect txt={"Completed"} />
           <Miniselect txt={"Shipped to Seller"} />
           <Miniselect txt={"Verified"} />

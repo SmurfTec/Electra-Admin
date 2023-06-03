@@ -94,5 +94,6 @@ const IMAGES: any = {
     Shield: new URL('../assets/icons/shield.svg', import.meta.url).href,
     Maintenance: new URL('../assets/icons/Maintenance.svg', import.meta.url).href,
     AddItem: new URL('../assets/icons/Add.svg', import.meta.url).href,
+    Flag: new URL('../assets/icons/Flag.svg', import.meta.url).href,
 }
 export default IMAGES
