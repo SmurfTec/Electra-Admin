@@ -108,7 +108,14 @@ Sed sagittis sollicitudin vulputate.</p>
         </div>
         <p className='text-[11px] font-[500] absolute bottom-4 right-5 text-[#A4A4A4]'>10.00 PM</p>
         </div>
+        <div className='w-[33.5rem] text-[14px] pr-[47px] font-[400] leading-[26px] relative pt-[24px] pl-[28px] pb-[56px] h-auto bg-black text-white mt-[22px] ml-[39px] rounded-[7px]'>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis  ipsum
+ sem. Nunc bibendum mi mauris, eget iaculis nisl sagittis ut. Sed
+sagittis sollicitudin vulputate.
+<p className='text-[11px] font-[500] absolute bottom-2 right-5 text-[#A4A4A4]'>10.00 PM</p>
+        </div>
       </div>
+     
    </div>
   )
 }
