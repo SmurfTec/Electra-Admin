@@ -8,11 +8,13 @@ type headerProps = {
   chooseFilter?: boolean;
   UserBox?: boolean;
   placeholder?: string;
+  titleClass?:string;
+  headerClasses?:string;
 };
 export const Header = (props: headerProps) => {
   return (
     <>
-      <div className=" overflow-hidden h-14 mt-2 mb-2 flex items-center justify-between px-2 ">
+      <div className={`overflow-hidden h-14 mt-2 mb-2 flex items-center justify-between px-2 ${props.headerClasses}`}>
         {props.typeSearch && (
           <HeaderSearch
             placeholder={props.placeholder ?? "Type here to search"}
@@ -20,7 +22,7 @@ export const Header = (props: headerProps) => {
         )}
         {props.title && (
           <div>
-            <p className="text-[23px] font-bold  text-[#212121]">
+            <p className={`text-[23px] font-bold  text-[#212121] ${props.titleClass}`}>
               {props.title}
             </p>
             {props.semiTitle && (

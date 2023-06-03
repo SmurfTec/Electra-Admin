@@ -5,12 +5,13 @@ import { SVGIcon } from '../../../components/SVG'
 import { MenuItem } from 'primereact/menuitem'
 import IMAGES from '../../../assets/Images'
 import { CustomMenu } from "../../../atoms/global.style"
+import { useNavigate } from 'react-router-dom'
 export const Category = () => {
     const [MenuLabel, setMenuLabel] = useState("")
     const [CurrSelectedProduct, setCurrSelectedProduct] = useState('')
     const [selectedProducts, setSelectedProducts] = useState<any>([]);
     const menuLeft: any = useRef(null);
-
+    const navigate=useNavigate()
     const [MenuLabel1, setMenuLabel1] = useState("")
     const [CurrSelectedProduct1, setCurrSelectedProduct1] = useState('')
     const [selectedProducts1, setSelectedProducts1] = useState<any>([]);
@@ -224,6 +225,7 @@ export const Category = () => {
 
                     />
                     <DashCard
+                    onClick={()=>navigate('/CreateCategory')}
                  Addimg={IMAGES.AddItem}
                         Add={true}
                         txt="Add New Category"
@@ -239,6 +241,7 @@ export const Category = () => {
 
                     />
                     <DashCard
+                    onClick={()=>navigate('/AddNewVariant')}
                Addimg={IMAGES.AddItem}
                         Add={true}
                         txt="Add New Variant"
