@@ -99,5 +99,6 @@ const IMAGES: any = {
     Send: new URL('../assets/icons/Send.svg', import.meta.url).href,
     Flag: new URL('../assets/icons/Flag.svg', import.meta.url).href,
     BarCode: new URL('../assets/icons/BarCode.svg', import.meta.url).href,
+    Csvicon: new URL('../assets/icons/Csvicon.svg', import.meta.url).href,
 }
 export default IMAGES

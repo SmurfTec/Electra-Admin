@@ -1,6 +1,6 @@
 import React from "react";
 import { SVGIcon } from "../../components/SVG";
-import { CustomTableComponent, Miniselect } from "../../atoms";
+import { CustomTableComponent, Miniselect ,ReviewButton} from "../../atoms";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../../components";
 import IMAGES from "../../assets/Images";
@@ -192,12 +192,18 @@ export const Orders = () => {
       />
       <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
         <div>
+          <div className="flex justify-between items-center">
           <p className="font-bold p-4 text-[19px]">
             Orders <br />
             <span className="font-medium text-[#A4A4A4] -mt-[10px]  text-[14px]">
               Check Orders
             </span>
           </p>
+          < ReviewButton 
+          onClick={()=>console.log("UAAA")}
+          txt={"Export CSV"} img={IMAGES.Csvicon}/>
+          </div>
+        
           <div className="flex gap-8 px-4 border-b border-custom ">
             <p className="border-b-4 border-[#3C82D6] text-[#3C82D6] pb-2 font-semibold">
               All (9)

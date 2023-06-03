@@ -211,6 +211,7 @@ export const Listings = () => {
         onClick={()=>{
           navigate("/ListingsDetail")
         }}
+        img={IMAGES.Flag}
         txt={"Mark for review"} />
       </div>
     </div>

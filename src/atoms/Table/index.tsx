@@ -11,6 +11,7 @@ export const CustomTableComponent = ({
   setSelectedProducts,
   columnData,
   MultipleSelect,
+  MultipleHeaderStyle,
   ...props
 }: any) => {
   return (
@@ -33,16 +34,17 @@ export const CustomTableComponent = ({
           columnHeader={props.columnHeader}
         >
           {MultipleSelect && (
-            <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
+            <Column selectionMode="multiple" headerStyle={ MultipleHeaderStyle? MultipleHeaderStyle: { width: "3rem" }} />
           )}
           {columnData?.map((item: any, index: any) => {
+            
             return (
               <Column
                 key={index}
                 style={columnStyle ?? null}
                 field={item.field}
                 header={item.header}
-                headerStyle={headerStyle}
+                headerStyle={item.headerStyle}
                 bodyClassName={'!bg-[#F6F6F6'}
                 body={item.body ? item.body : null}
               />
