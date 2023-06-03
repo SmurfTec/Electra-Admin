@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header, AdminCards, DashCard } from "../../../components";
+import { Header} from "../../../components";
 import { CustomTableComponent } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import IMAGES from "../../../assets/Images";
@@ -103,7 +103,7 @@ export const Listings = () => {
       Role: "Unsold",
     },
   ];
-  const AccountBodyTemplate = (option) => {
+  const AccountBodyTemplate = (option:any) => {
     return (
       <div className="flex gap-2 items-center justify-center">
         <img src={IMAGES.Guy1} />
@@ -137,7 +137,7 @@ export const Listings = () => {
           text-center
           h-[33px]
            bg-custom-blue text-[black]
-           w-[45%]
+           w-auto
            mx-auto
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     }  else if (option.Role === "Unsold") {
@@ -145,7 +145,7 @@ export const Listings = () => {
           text-center
           h-[33px]
            bg-custom-pink text-[black]
-           w-[45%]
+           w-auto
            mx-auto
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     }
@@ -208,6 +208,7 @@ export const Listings = () => {
             columnData={columnData}
             rowStyling={"#FCFCFC"}
             MultipleSelect={true}
+            // showWrapper={false}
           />
         </div>
       </div>
