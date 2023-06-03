@@ -5,11 +5,13 @@ import { CustomTableComponent } from "../../../atoms";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
 import { MenuItem } from "primereact/menuitem";
+import { useNavigate } from "react-router-dom";
 export const HelpCenter = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const [MenuLabel, setMenuLabel] = useState("");
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
   const menuLeft: any = useRef(null);
+  const navigate=useNavigate()
   const [filterData] = useState([
     {
       id: 1,
@@ -165,6 +167,12 @@ export const HelpCenter = () => {
   const deleteItem = (event: React.MouseEvent, item: any) => {
     event.stopPropagation();
     setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+  
+  };
+  const ViewItem = (event: React.MouseEvent, item: any) => {
+    event.stopPropagation();
+    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+    navigate('/HelpCenterDetail')
   };
   const items = [
     {
@@ -173,7 +181,7 @@ export const HelpCenter = () => {
       template: (item: any) => {
         return (
           <div
-            onClick={(event) => deleteItem(event, item)}
+            onClick={(event) => ViewItem(event, item)}
             style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
             className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
           >

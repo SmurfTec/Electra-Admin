@@ -15,18 +15,21 @@ module.exports = {
       },
       borderColor: {
         "custom-border": "rgba(0, 0, 0, 0.08)",
-        "custom-cardBorder":"rgba(101, 101, 101, 0.29)"
+        "custom-cardBorder":"rgba(101, 101, 101, 0.29)",
+      
         // Add more custom border colors if needed
       },
       boxShadow: {
         "custom-shadow": "0px 4px 14px rgba(0, 0, 0, 0.15)",
-        "custom-inset-shadow":"inset 0px 0px 19px rgba(0, 0, 0, 0.05)"
+        "custom-inset-shadow":"inset 0px 0px 19px rgba(0, 0, 0, 0.05)",
+        "input-shadow":"0px 9px 48px 18px rgba(0, 0, 0, 0.04)"
         // Add more custom shadows if needed
       },
       borderColor: {
         'custom': 'rgba(0, 0, 0, 0.08)',
         'line-border':'rgba(180, 180, 180, 0.37)',
-        'inputBorder':' rgba(0, 0, 0, 0.08)'
+        'inputBorder':' rgba(0, 0, 0, 0.08)',
+       
       },
       spacing: {
         'Custom-spacing': '0.5rem', // Increase the distance between the dots
