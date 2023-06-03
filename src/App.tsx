@@ -25,7 +25,8 @@ import {
   Createrole,
   Verification,
   Settings,
-  Listings
+  Listings,
+  Orders
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -57,19 +58,20 @@ function App() {
             <Route path="/Products" element={<Products />} />
             <Route path="/Wallet" element={<Wallet />} />
             <Route path="/Coupon" element={<Coupon />} />
-            <Route path="/CreateCoupon" element={<CreateCoupon  />} />
-            <Route path="/Category" element={<Category/>} />
-            <Route path="/CreateCategory" element={<CreateCategory/>} />
-            <Route path="/AddNewVariant" element={<AddNewVariant/>} />
-            <Route path="/HelpCenter" element={<HelpCenter/>} />
-            <Route path="/HelpCenterDetail" element={<HelpCenterDetail/>} />
-            <Route path="/Newadmin" element={<CreateNewadmin/>} />
-            <Route path="/Viewadmin" element={<ViewAdmin/>} />
+            <Route path="/CreateCoupon" element={<CreateCoupon />} />
+            <Route path="/Category" element={<Category />} />
+            <Route path="/CreateCategory" element={<CreateCategory />} />
+            <Route path="/AddNewVariant" element={<AddNewVariant />} />
+            <Route path="/HelpCenter" element={<HelpCenter />} />
+            <Route path="/HelpCenterDetail" element={<HelpCenterDetail />} />
+            <Route path="/Newadmin" element={<CreateNewadmin />} />
+            <Route path="/Viewadmin" element={<ViewAdmin />} />
             <Route path="/Searchrole" element={<Searchrole />} />
-            <Route path="/Verification" element={<Verification/>} />
-            <Route path="/Settings" element={<Settings/>} />
-            <Route path="/Creationroles" element={<Createrole/>} />
-            <Route path="/Listings" element={<Listings            />} />
+            <Route path="/Verification" element={<Verification />} />
+            <Route path="/Settings" element={<Settings />} />
+            <Route path="/Creationroles" element={<Createrole />} />
+            <Route path="/Listings" element={<Listings />} />
+            <Route path="/Orders" element={<Orders />} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>

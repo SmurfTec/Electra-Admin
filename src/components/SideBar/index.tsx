@@ -42,7 +42,7 @@ export const SideBar = () => {
       url: "/Wallet",
     },
     { id: 5, name: "Listings", icon: IMAGES.Listing, active: false ,url:"/Listings"},
-    { id: 6, name: "Orders", icon: IMAGES.Order, active: false },
+    { id: 6, name: "Orders", icon: IMAGES.Order, active: false,url:"/Orders" },
     { id: 7, name: "Verification",url:'/Verification' ,icon: IMAGES.Verification, active: false },
     {
       id: 8,
