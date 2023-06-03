@@ -10,7 +10,7 @@ export const CreateCategory = () => {
        <Header
        headerClasses={'!h-[69px]'}
        titleClass={'!mt-[10px]'}
-        title="Add new Category"
+        title="Add New Category"
         semiTitle="Add New Category to list item relatively."
        
         UserBox={true}
@@ -18,14 +18,14 @@ export const CreateCategory = () => {
       <div className='mt-[35px]'>
       <InputTxt
         placeholder="Phone"
-        MainClasses="!bg-[#FCFCFC] border !border-inputBorder"
+        MainClasses="!bg-[#FCFCFC] border !border-inputBorder !h-[59px]"
        
         value={Email}
         onChange={(e: any) => setEmail(e.target.value)}
       />
       <InputTxt
         placeholder="Marketplace Fee"
-        MainClasses="mt-[10px] !bg-[#FCFCFC] border !border-inputBorder"
+        MainClasses="mt-[10px] !bg-[#FCFCFC] border !border-inputBorder !h-[59px]"
         iconRight={true}
         img={IMAGES.Percentage}
         value={Email}
