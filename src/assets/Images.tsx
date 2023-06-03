@@ -83,8 +83,8 @@ const IMAGES: any = {
     Loginarrow: new URL('../assets/icons/Loginarrow.svg', import.meta.url).href,
     Logoutarrow: new URL('../assets/icons/Logoutarrow.svg', import.meta.url).href,
     Editpen: new URL('../assets/icons/Editpen.svg', import.meta.url).href,
-    
-
+    Percentage: new URL('../assets/icons/Percentage.svg', import.meta.url).href,
+    Cross: new URL('../assets/icons/cross.svg', import.meta.url).href,
     Edit: new URL('../assets/icons/Edit.svg', import.meta.url).href,
     Password: new URL('../assets/icons/Password.svg', import.meta.url).href,
     Phone: new URL('../assets/icons/Phone.svg', import.meta.url).href,

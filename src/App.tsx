@@ -55,7 +55,7 @@ function App() {
             <Route path="/AddProduct" element={<AddProduct />} />
             <Route path="/Productrequest" element={<ProductRequests />} />
             <Route path="/Roles" element={<Roles />} />
-            <Route path="/Products" element={<Products />} />
+            <Route path="/Products" element={<Products />} /> 
             <Route path="/Wallet" element={<Wallet />} />
             <Route path="/Coupon" element={<Coupon />} />
             <Route path="/CreateCoupon" element={<CreateCoupon />} />

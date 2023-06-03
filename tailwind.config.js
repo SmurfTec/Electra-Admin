@@ -10,7 +10,8 @@ module.exports = {
         "custom-dark-red": "rgba(198, 59, 59, 0.65)",
         "custom-grey":"rgba(140, 184, 105, 0.19)",
         "custom-yellow":"rgba(251, 187, 0, 0.12)",
-        "custom-pink":"rgba(255, 0, 0, 0.12)"
+        "custom-pink":"rgba(255, 0, 0, 0.12)",
+        "custome-button-grey":"rgba(180, 180, 180, 0.26)"
       },
       borderColor: {
         "custom-border": "rgba(0, 0, 0, 0.08)",
@@ -25,6 +26,7 @@ module.exports = {
       borderColor: {
         'custom': 'rgba(0, 0, 0, 0.08)',
         'line-border':'rgba(180, 180, 180, 0.37)',
+        'inputBorder':' rgba(0, 0, 0, 0.08)'
       },
       spacing: {
         'Custom-spacing': '0.5rem', // Increase the distance between the dots
