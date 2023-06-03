@@ -15,7 +15,8 @@ module.exports = {
       },
       borderColor: {
         "custom-border": "rgba(0, 0, 0, 0.08)",
-        "custom-cardBorder":"rgba(101, 101, 101, 0.29)"
+        "custom-cardBorder":"rgba(101, 101, 101, 0.29)",
+      
         // Add more custom border colors if needed
       },
       boxShadow: {
@@ -26,7 +27,8 @@ module.exports = {
       borderColor: {
         'custom': 'rgba(0, 0, 0, 0.08)',
         'line-border':'rgba(180, 180, 180, 0.37)',
-        'inputBorder':' rgba(0, 0, 0, 0.08)'
+        'inputBorder':' rgba(0, 0, 0, 0.08)',
+       
       },
       spacing: {
         'Custom-spacing': '0.5rem', // Increase the distance between the dots
