@@ -1,6 +1,13 @@
 import React from "react";
-import { Header, Variants ,Carouselcard} from "../../../components";
-import { RoundedButton, CustomButton,CustomTableComponent } from "../../../atoms";
+import { Header, Variants, Carouselcard } from "../../../components";
+import { Sidebar } from "primereact/sidebar";
+import {
+  RoundedButton,
+  CustomButton,
+  CustomTableComponent,
+  InputTxt,
+  Miniselect,
+} from "../../../atoms";
 import IMAGES from "../../../assets/Images";
 export const Listingdetail = () => {
   const [select, setSelect] = React.useState(0);
@@ -38,28 +45,121 @@ export const Listingdetail = () => {
         "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
     },
   ];
-  const data=[
+  const data = [
     {
-      "Listed by": 'John Adam',
-      Ask: '$1000',
-      "Lowest Offer": '$1000',
-      "Highest Offer": '$1000',
-      Status: 'Sold',
+      "Listed by": "John Adam",
+      Ask: "$1000",
+      "Lowest Offer": "$1000",
+      "Highest Offer": "$1000",
+      Status: "Sold",
       "Sale Price": "$1000",
-     
-  },
-  ]
+    },
+  ];
   const columnData = [
     { field: "Listed by", header: "Listed by" },
     { field: "Ask", header: "Ask" },
     { field: "Lowest Offer", header: "Lowest Offer" },
     { field: "Highest Offer", header: "Highest Offer" },
     { field: "Status", header: "Status" },
-    { field: "Sale Price", header: "Sale Price", },
+    { field: "Sale Price", header: "Sale Price" },
   ];
   return (
     <div>
       <Header title="Viewing List item Detail" UserBox={true} />
+      <Sidebar
+        visible={select === 1 ? true : false}
+        position="right"
+        onHide={() => setSelect(0)}
+        className="!w-[30rem]"
+      >
+        <h2 className="font-bold text-[19px] border-b border-custom pb-2 w-full">
+          Details from seller
+        </h2>
+        <InputTxt placeholder="Filter details" MainClasses="mt-[40px]" />
+        <p className="font-bold text-[20px] text-[#000000] mt-6">
+          What accessories are included?
+        </p>
+        <div className="flex gap-3  border-b border-custom pb-6 mt-3">
+          <Miniselect txt={"Charger Cable"} />
+          <Miniselect txt={"Original Box"} />
+        </div>
+        <p className="font-bold text-[20px] text-[#000000] mt-4">
+          Has your item ever been repaired before?
+        </p>
+        <p className="text-[15px] leading-6 border-b border-custom pb-6">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac
+          tincidunt elit. Nunc euismod odio sit amet lorem lobortis, vel lacinia
+          libero tristique. Nunc porttitor arcu accumsan,
+        </p>
+        <p className="font-bold text-[20px] text-[#000000] mt-4">
+          What best describes overall condition of your item?
+        </p>
+        <ul className="list-tick border-b border-custom pb-6">
+          <li>
+            Device has signs of heavy use such as deep scratches, dents, scuffs,
+            or excessive scratching
+          </li>
+          <li>
+            Device has signs of heavy use such as deep scratches, dents, scuffs,
+            or excessive scratching
+          </li>
+          <li>
+            Device has signs of heavy use such as deep scratches, dents, scuffs,
+            or excessive scratching
+          </li>
+          <li>
+            Device has signs of heavy use such as deep scratches, dents, scuffs,
+            or excessive scratching
+          </li>{" "}
+          <li>
+            Device has signs of heavy use such as deep scratches, dents, scuffs,
+            or excessive scratching
+          </li>
+        </ul>
+        <p className="font-bold text-[20px] text-[#000000] mt-4">
+          Tell us more about your item?
+        </p>
+        <p className="text-[#656565]">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac
+          tincidunt elit. Nunc euismod odio sit amet lorem lobortis, vel lacinia
+          libero tristique. Nunc porttitor arcu accumsan,
+        </p>
+      </Sidebar>
+      <Sidebar
+        visible={select === 2 ? true : false}
+        position="right"
+        onHide={() => setSelect(0)}
+        className="!w-[30rem]"
+      >
+        <h2 className="font-bold text-[19px] border-b border-custom pb-2 w-full">
+          technical Specification
+        </h2>
+        <InputTxt placeholder="Filter Specification" MainClasses="mt-[40px]" />
+        <p className="font-bold text-[20px] text-[#000000] mt-6 ">MPN</p>
+        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
+          535MWRL4355
+        </p>
+        <p className="font-bold text-[20px] text-[#000000] mt-6 ">Storage</p>
+        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
+          128 GB
+        </p>
+     
+        <p className="font-bold text-[20px] text-[#000000] mt-6 ">Model No</p>
+        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
+          43GG
+        </p>
+     
+        <p className="font-bold text-[20px] text-[#000000] mt-6 ">Release Date</p>
+        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
+         20 Aug 2022
+        </p>
+        <p className="font-bold text-[20px] text-[#000000] mt-6 ">RAM</p>
+        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
+         8GB
+        </p>
+      
+      
+      </Sidebar>
       <div>
         <div className="flex">
           <div className="flex gap-5 ">
@@ -195,14 +295,17 @@ export const Listingdetail = () => {
         </div>
 
         <div className="text-[24px] font-bold my-6 w-[90%]">
-          <p className="font-bold">
-            Other Details
-          </p>
-          <CustomTableComponent 
-          showlines ={true}
-           headerStyle={{ color: "black" ,backgroundColor:"#E8E8E8",font:"bold"}}
-          filterData={data} columnData={columnData}/>
-         
+          <p className="font-bold">Other Details</p>
+          <CustomTableComponent
+            showlines={true}
+            headerStyle={{
+              color: "black",
+              backgroundColor: "#E8E8E8",
+              font: "bold",
+            }}
+            filterData={data}
+            columnData={columnData}
+          />
         </div>
       </div>
     </div>

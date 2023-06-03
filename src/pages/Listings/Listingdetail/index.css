@@ -1,0 +1,14 @@
+.list-tick li::before {
+    content: "✔"; /* Add your preferred tick mark character or symbol */
+    /* display: inline-block;
+      width: 1em;
+      margin-left: -1em; */
+    margin-right: 10px;
+  }
+  .list-tick li {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color: #111111;
+    line-height: 1.7rem;
+  }

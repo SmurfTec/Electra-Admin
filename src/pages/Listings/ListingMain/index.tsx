@@ -1,10 +1,10 @@
 import React from "react";
 import { Header } from "../../../components";
-import { CustomTableComponent, ReviewButton } from "../../../atoms";
+import { CustomTableComponent, CustomButton } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const Listings = () => {
   const navigate = useNavigate();
@@ -207,12 +207,14 @@ export const Listings = () => {
         </div>
       </div>
       <div>
-        <ReviewButton
+        <CustomButton
         onClick={()=>{
           navigate("/ListingsDetail")
         }}
-        img={IMAGES.Flag}
-        txt={"Mark for review"} />
+          iconLeft={<img src={IMAGES.Flag} />}
+          classes="!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]"
+          txt="Mark for review"
+        />
       </div>
     </div>
   );
