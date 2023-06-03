@@ -11,7 +11,8 @@ module.exports = {
         "custom-grey":"rgba(140, 184, 105, 0.19)",
         "custom-yellow":"rgba(251, 187, 0, 0.12)",
         "custom-pink":"rgba(255, 0, 0, 0.12)",
-        "custome-button-grey":"rgba(180, 180, 180, 0.26)"
+        "custome-button-grey":"rgba(180, 180, 180, 0.26)",
+        "custom-button-yellow":'rgba(252, 227, 156, 1)'
       },
       borderColor: {
         "custom-border": "rgba(0, 0, 0, 0.08)",

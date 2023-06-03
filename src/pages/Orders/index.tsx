@@ -1,6 +1,6 @@
 import React from "react";
 import { SVGIcon } from "../../components/SVG";
-import { CustomTableComponent, Miniselect ,ReviewButton} from "../../atoms";
+import { CustomTableComponent, Miniselect ,CustomButton} from "../../atoms";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../../components";
 import IMAGES from "../../assets/Images";
@@ -199,9 +199,11 @@ export const Orders = () => {
               Check Orders
             </span>
           </p>
-          < ReviewButton 
-          onClick={()=>console.log("UAAA")}
-          txt={"Export CSV"} img={IMAGES.Csvicon}/>
+          <CustomButton
+        iconLeft={<img src={IMAGES.Csvicon}/>}
+        classes='!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]'
+        txt="Export CSV"
+        />
           </div>
         
           <div className="flex gap-8 px-4 border-b border-custom ">

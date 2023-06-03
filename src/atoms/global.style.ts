@@ -2,6 +2,64 @@ import styled from "styled-components";
 import { Menu } from "primereact/menu";
 import { DataTable } from "primereact/datatable";
 import { InputSwitch } from "primereact/inputswitch";
+import { TabView } from 'primereact/tabview';
+
+export const CustomTabView=styled(TabView)`
+
+
+.p-tabview-nav{
+  border: none;
+  overflow: visible;
+  &::before{
+  position: absolute;
+   bottom:-1px;
+    transform: translateY(-100%);
+    width: 98%;
+    height: 3px;
+    background-color: rgba(164, 164, 164, 0.17);
+   
+    border-radius: 10px;
+    content: "";
+    z-index: 100;
+}
+ .p-unselectable-text{
+
+  overflow: visible;
+    .p-tabview-nav-link{
+      overflow: hidden !important;
+      box-shadow: none !important;
+      border-width: 0px !important;
+      span{
+        overflow: hidden !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            font-family: 'Manrope' !important;
+            padding-top: 4px;
+            padding-bottom: 4px;
+          }
+    }
+ }
+ .p-highlight{
+border-bottom:2px solid orange !important;
+position: relative;
+&::before{
+  position: absolute;
+    top: 100%;
+    transform: translateY(-100%);
+    width: 100%;
+    height: 3px;
+    background-color: #3C82D6;
+    border-radius: 10px;
+    content: "";
+    z-index: 100;
+}
+ } 
+}
+.p-tabview-panels{
+  padding-left: 0px;
+  padding-top: 10px;
+}
+`
 export const Switch = styled(InputSwitch)`
   width: 38px;
   height: 21px;
