@@ -98,5 +98,6 @@ const IMAGES: any = {
     pending: new URL('../assets/icons/pending.svg', import.meta.url).href,
     Ring: new URL('../assets/icons/Ring.svg', import.meta.url).href,
     Send: new URL('../assets/icons/Send.svg', import.meta.url).href,
+    Csvicon: new URL('../assets/icons/Csvicon.svg', import.meta.url).href,
 }
 export default IMAGES
