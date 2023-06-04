@@ -2,6 +2,7 @@ import { Dropdown } from "primereact/dropdown";
 import styled from "styled-components";
 const Drops = styled(Dropdown)`
   outline: none !important;
+  box-shadow: none !important;
   background-color: #f6f6f6 ;
   width: 397px;
   height: 72px;

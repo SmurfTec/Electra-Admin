@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Header, DashCard } from '../../../components'
+import { Header, DashCard,CreateCouponModel } from '../../../components'
 import { CustomTableComponent } from '../../../atoms'
 import { SVGIcon } from '../../../components/SVG'
 import { MenuItem } from 'primereact/menuitem'    
 import IMAGES from '../../../assets/Images'
 import { CustomMenu } from "../../../atoms/global.style"
+
 export const Coupon = () => {
+    const [modalVisible,setmodalVisible]=useState(false)
     const [MenuLabel, setMenuLabel] = useState("")
     const [CurrSelectedProduct, setCurrSelectedProduct] = useState('')
     const [selectedProducts, setSelectedProducts] = useState<any>([]);
@@ -158,7 +160,7 @@ export const Coupon = () => {
     }, [MenuLabel])
     return (
         <div>
-
+<CreateCouponModel classes={'!w-[496px] !h-[502px]'} visible={modalVisible} setVisible={setmodalVisible}/>
             <Header
                 typeSearch={true}
                 chooseFilter={true}
@@ -180,6 +182,7 @@ export const Coupon = () => {
                     txt="Add New Coupon"
                     outerclasses="w-[284px] h-[140px]"
                     Addimg={IMAGES.AddItem}
+                    onClick={()=>setmodalVisible(true)}
 
                 /> 
                   

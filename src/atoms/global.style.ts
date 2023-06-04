@@ -5,7 +5,53 @@ import { InputSwitch } from "primereact/inputswitch";
 import { TabView } from 'primereact/tabview';
 import { InputTextarea } from "primereact/inputtextarea";
 import { Checkbox } from "primereact/checkbox";
+import { Dialog } from 'primereact/dialog';
+import { Calendar } from 'primereact/calendar';
 
+export const CustomInputCalendar=styled(Calendar)`
+overflow: hidden !important;
+.p-inputtext{
+  border: black !important;
+}
+.p-button{
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  
+}
+`
+export const CustomDialog=styled(Dialog)`
+position: relative;
+border-radius: 20px;
+hr{
+  margin-top:23px ;
+}
+.p-dialog-content{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.dialog-header{
+  padding-top: 25px;
+}
+.p-dialog-header{
+  display: none !important;
+}
+.dialogbody{
+  margin-left:auto ;
+  margin-right: auto;
+  margin-top: 32px;
+}
+::-webkit-scrollbar{
+  display: none !important;
+}
+::-webkit-scrollbar-vertical {
+  display: none !important;
+}
+::-webkit-scrollbar-horizontal {
+  display: none;
+}
+`
 export const CustomCheckBox=styled(Checkbox)`
  .p-checkbox-box.p-highlight{
   border-color:'#D9D9D9' !important
