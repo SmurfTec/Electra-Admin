@@ -122,5 +122,7 @@ const IMAGES: any = {
     Redbin: new URL('../assets/icons/Redbin.svg', import.meta.url).href,
     Paint: new URL('../assets/icons/Paint.svg', import.meta.url).href,
 
+    Calendar: new URL('../assets/icons/Calendar.svg', import.meta.url).href,
+    GreenTick: new URL('../assets/icons/GreenTick.svg', import.meta.url).href,
 }
 export default IMAGES
