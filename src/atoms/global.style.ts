@@ -66,12 +66,13 @@ export const Switch = styled(InputSwitch)`
   .p-inputswitch-slider {
     background: ${({ checked }: any) =>
       checked ? "#212121" : "#B4B4B4"} !important;
+      box-shadow: none;
   }
   .p-inputswitch-slider:before {
     width: 10px;
     height: 10px;
-
-    margin-top: -6px;
+    left: 3px;
+    margin-top:${({marginTop}:any)=>marginTop}; //-6px
   }
 `;
 export const CustomMenu = styled(Menu)`

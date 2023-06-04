@@ -24,6 +24,7 @@ import {
   Searchrole,
   Createrole,
   Verification,
+  ItemVerification,
   Settings,
   Listings,
   Orders,
@@ -69,6 +70,7 @@ function App() {
             <Route path="/Viewadmin" element={<ViewAdmin />} />
             <Route path="/Searchrole" element={<Searchrole />} />
             <Route path="/Verification" element={<Verification />} />
+            <Route path="/Verification/ItemVerification" element={<ItemVerification />} />
             <Route path="/Settings" element={<Settings />} />
             <Route path="/Creationroles" element={<Createrole />} />
             <Route path="/Listings" element={<Listings />} />

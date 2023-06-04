@@ -92,7 +92,7 @@ export const Verification = () => {
   const ViewItem = (event: React.MouseEvent, item: any) => {
     event.stopPropagation();
     setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
-    navigate('/HelpCenterDetail')
+    navigate('/Verification/ItemVerification')
   };
   const items = [
     {

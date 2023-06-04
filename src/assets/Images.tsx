@@ -106,5 +106,6 @@ const IMAGES: any = {
     Csvicon: new URL('../assets/icons/Csvicon.svg', import.meta.url).href,
     leftarrow: new URL('../assets/icons/leftarrow.svg', import.meta.url).href,
     rightarrow: new URL('../assets/icons/rightarrow.svg', import.meta.url).href,
+    VolumeIcon: new URL('../assets/icons/VolumeIcon.svg', import.meta.url).href,
 }
 export default IMAGES

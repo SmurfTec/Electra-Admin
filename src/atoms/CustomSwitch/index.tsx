@@ -1,7 +1,7 @@
 import React from 'react'
 import {Switch} from "../global.style"
-export const CustomSwitch = ({checked,setChecked}:any) => {
+export const CustomSwitch = ({checked,setChecked,marginTop='-6px'}:any) => {
   return (
-   <Switch checked={checked}  onChange={(e:any) => setChecked(e.value)}/>
+   <Switch marginTop={marginTop} checked={checked}  onChange={(e:any) => setChecked(e.value)}/>
   )
 }
