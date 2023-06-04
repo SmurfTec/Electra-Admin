@@ -124,5 +124,6 @@ const IMAGES: any = {
 
     Calendar: new URL('../assets/icons/Calendar.svg', import.meta.url).href,
     GreenTick: new URL('../assets/icons/GreenTick.svg', import.meta.url).href,
+    PassSuccess: new URL('../assets/icons/PassSuccess.svg', import.meta.url).href,
 }
 export default IMAGES

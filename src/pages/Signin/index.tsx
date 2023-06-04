@@ -2,21 +2,33 @@ import React, { useEffect, useState } from "react";
 import IMAGES from "../../assets/Images";
 import { InputTxt, InputPassword, CustomButton } from "../../atoms";
 import { Link, useNavigate } from "react-router-dom";
-import { EmailVerificationModel } from "../../components";
+import { EmailVerificationModel,ChangePasswordModel } from "../../components";
 export const Signin = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-  const[EmailErr,setEmailErr]=useState(true)
+  const[EmailErr,setEmailErr]=useState(false)
+  const[PasswordErr,setPasswordErr]=useState(false)
   const [EmailModel,setEmailModel]=useState(false)
-  const[PasswordErr,setPasswordErr]=useState(true)
+  const [PassModel,setPassModel]=useState(false)
+ 
   const navigate = useNavigate();
   const Login = (event:any) => {
 event.preventDefault();
     let user: any = {
       name: "sherry",
     };
-    localStorage.setItem("user", JSON.stringify(user));
-    navigate("/Dashboard");
+    if(Email.length==0 || Password.length==0){
+      if(Email.length==0){
+setEmailErr(true)
+      }
+      if(Password.length==0){
+setPasswordErr(true)
+      }
+    }else{
+      localStorage.setItem("user", JSON.stringify(user));
+      navigate("/Dashboard");
+    }
+   
   };
   useEffect(()=>{
 localStorage.removeItem("user")
@@ -24,6 +36,7 @@ localStorage.removeItem("user")
   return (
     <div className="min-h-[100vh] w-[100vw] flex flex-col items-center pt-[90px]">
       <EmailVerificationModel visible={EmailModel} setVisible={setEmailModel}/>
+      <ChangePasswordModel visible={PassModel} setVisible={setPassModel}/>
       <div className="w-[116px] h-[116px] rounded-[50%] bg-lightgray flex justify-center align-middle items-center">
         <img src={IMAGES.Hand} alt="hand-img" className="w-[53px] h-[53px]" />
       </div>
@@ -65,7 +78,7 @@ localStorage.removeItem("user")
       <p className="text-[14px] text-[#FF0000] font-[400]">The password you’ve entered is incorrect!</p>
       
     </div>
-    <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">Forgot Password? <span className="text-[#06448C] cursor-pointer ">Click Here</span>  to reset it.</p>
+    <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">Forgot Password? <span onClick={()=>setPassModel(true)} className="text-[#06448C] cursor-pointer ">Click Here</span>  to reset it.</p>
   </div>
     } 
        <div className="flex justify-end text-right  mt-[10px] w-[400px]">
