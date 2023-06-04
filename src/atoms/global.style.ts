@@ -3,7 +3,29 @@ import { Menu } from "primereact/menu";
 import { DataTable } from "primereact/datatable";
 import { InputSwitch } from "primereact/inputswitch";
 import { TabView } from 'primereact/tabview';
+import { InputTextarea } from "primereact/inputtextarea";
+import { Checkbox } from "primereact/checkbox";
 
+export const CustomCheckBox=styled(Checkbox)`
+ .p-checkbox-box.p-highlight{
+  border-color:'#D9D9D9' !important
+}
+.p-checkbox-box{
+  background: #D9D9D9 !important;
+box-shadow: none !important;
+border: 2px solid #D9D9D9 !important;
+&:hover{
+  border-color:'#D9D9D9' !important
+}
+}
+
+`
+export const CustomTextArea=styled(InputTextarea)`
+outline: none !important;
+box-shadow: none !important;
+border: 1px solid #FF0000 !important;
+border-radius: 10px !important;
+`
 export const CustomTabView=styled(TabView)`
 
 
@@ -66,7 +88,7 @@ export const Switch = styled(InputSwitch)`
   .p-inputswitch-slider {
     background: ${({ checked }: any) =>
       checked ? "#212121" : "#B4B4B4"} !important;
-      box-shadow: none;
+      box-shadow: none !important;
   }
   .p-inputswitch-slider:before {
     width: 10px;

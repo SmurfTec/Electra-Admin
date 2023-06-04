@@ -1,11 +1,12 @@
 import React,{useReducer,useState} from 'react'
 import { Header, DashCard } from '../../../components'
 import IMAGES from '../../../assets/Images'
-import { CustomSwitch } from '../../../atoms'
+import { CustomSwitch,CustomInputTextArea,CustomButton,CheckBox } from '../../../atoms'
 
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import "./style.css"
+import { UploadPicture } from '../../../atoms';
 const reducer=(state:any,action:any)=>{
 switch(action.type){
     case 'crackswitch':
@@ -18,6 +19,8 @@ switch(action.type){
         return {...state,lightswitch:!state.lightswitch}
     case 'IMEIswitch':
         return {...state,IMEIswitch:!state.IMEIswitch}
+    case 'ItemStandardSwitch':
+        return {...state,ItemStandardSwitch:!state.ItemStandardSwitch}
     default:
         throw new Error()
 }
@@ -27,11 +30,12 @@ const InitialState={
     serialswitch:true,
     batteryswitch:true,
     lightswitch:true,
-    IMEIswitch:true
+    IMEIswitch:true,
+    ItemStandardSwitch:true,
 }
 export const ItemVerification = () => {
     const[state,dispatch]=useReducer(reducer,InitialState)
-  
+    const[checked,setChecked]=useState(false)
     const[Pass,setPass]=useState(true)
     const [percentage,setpercentage] = useState(100);
 
@@ -45,7 +49,7 @@ export const ItemVerification = () => {
     
     })
     return (
-        <div>
+        <div className='pb-[50px]'>
             <Header
                 headerClasses={'!h-[69px]'}
                 titleClass={'!mt-[10px]'}
@@ -147,7 +151,7 @@ export const ItemVerification = () => {
         <div className="additional-text">5/5</div>
                         </CircularProgressbarWithChildren>
                     </div>
-                    <div className='flex gap-3'>
+                    <div className='flex gap-7'>
                    <div className='flex gap-2 items-center'>
                    <div className='w-[15px] h-[15px] rounded-[5px] bg-[#2E66C2]' ></div>
                    <p className='text-[15px] text-black'>Pass</p>
@@ -160,7 +164,40 @@ export const ItemVerification = () => {
                 </div>
             </div>
             </div>
-            
+          {!Pass ? 
+          <>
+           <div className='max-w-[50%] flex flex-col gap-8'>
+           <div className='flex justify-between  items-center '>
+           <p className='text-[15px] font-[500] text-black'>Item was not up to standard. Charge the seller 12% fee.</p>
+               <CustomSwitch
+               marginTop={'-5px'}
+               checked={state.ItemStandardSwitch}
+               setChecked={()=>dispatch({type:'ItemStandardSwitch'})}
+               />
+              
+               </div>
+               <div>
+<CustomInputTextArea placeholder="Enter Reason For Failure" cols={69}/>
+               </div>
+           </div> 
+          </>:
+          <>
+          <div className='mt-[71px] mb-[50px] flex flex-col'>
+            <p className='text-[#656565] text-[15px]'>Upload 6 photos, Front back side and 1 extra</p>
+         <UploadPicture multipleImages={true}/>
+         <p className='text-[#656565] text-[12px]'>Note : Picture Ratio Must be 1:1 </p>
+         </div>
+          </>
+          }  
+
+          <div className='flex gap-3 mt-[35px]'>
+            <CheckBox checked={checked} setChecked={setChecked}/>
+            <p className='text-[15px] font-[500]'>i cerify that the item was properly inspected and verified</p>
+          </div>
+           <CustomButton
+           txt="Finish Verification"
+           classes='!w-[179px] !h-[38px] !bg-[#3C82D6] !rounded-[6px] !text-[13px] !mt-[24px]'
+           />
         </div>
     )
 }

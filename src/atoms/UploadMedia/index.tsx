@@ -1,20 +1,25 @@
 import React, { useRef, useState } from "react";
 import IMAGES from "../../assets/Images";
 
-export function UploadPicture() {
-  const fileInputRef = useRef(null);
+export function UploadPicture({multipleImages=false}:any) {
+  const fileInputRef:any = useRef(null);
   const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImages, setSelectedImages] = useState<any>([]);
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event:any) => {
     console.log;
     const selectedFile = event.target.files[0];
     setSelectedImage(URL.createObjectURL(selectedFile));
+    setSelectedImages([...selectedImages,URL.createObjectURL(selectedFile)])
     // Handle the selected file (e.g., upload or process it)
   };
-
+ const deleteImg=(Itemindex:any)=>{
+  let filterImg=selectedImages.filter((item:any,index:any)=>index!==Itemindex)
+  setSelectedImages(filterImg)
+ }
   return (
     <div className="mt-3 ">
       <input
@@ -36,11 +41,25 @@ export function UploadPicture() {
             Upload Picture
           </button>
         </div>
-        {selectedImage && (
+        {(selectedImage && !multipleImages) && (
           <div className="border border-lightgray  rounded">
             <img className="w-[120px] h-20 p-3" src={selectedImage} />
           </div>
         )}
+        {(multipleImages && selectedImages.length>0)&&
+        (
+          <>
+        {selectedImages.map((item:any,index:any)=>{
+          return(
+            <div key={index} className="border border-lightgray  rounded relative">
+              <div onClick={()=>deleteImg(index)} className="cursor-pointer w-[15px] h-[15px] text-[10px] flex justify-center items-center rounded-[50%] bg-black text-white absolute right-0 top-0">x</div>
+            <img className="w-[120px] h-20 p-3" src={item} />
+          </div>
+          )
+        })}
+          </>
+        )
+        }
       </div>
     </div>
   );

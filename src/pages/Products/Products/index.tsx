@@ -294,6 +294,7 @@ export const Products = () => {
 
                 />
                 <DashCard
+                onClick={()=>navigate('/AddProduct')}
                     Add={true}
                     txt="Add New Product"
                     outerclasses="w-[284px] h-[140px]"
