@@ -109,5 +109,6 @@ const IMAGES: any = {
     VolumeIcon: new URL('../assets/icons/VolumeIcon.svg', import.meta.url).href,
     LogoutIcon: new URL('../assets/icons/LogoutIcon.svg', import.meta.url).href,
     Calendar: new URL('../assets/icons/Calendar.svg', import.meta.url).href,
+    GreenTick: new URL('../assets/icons/GreenTick.svg', import.meta.url).href,
 }
 export default IMAGES

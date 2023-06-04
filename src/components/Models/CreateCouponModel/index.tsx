@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import { CustomDialog } from '../../../atoms/global.style'
 import { InputTxt,CustomDropdown,CustomCalendar,CustomButton } from '../../../atoms'
+import { SuccessModel } from '..'
 export const CreateCouponModel = ({visible,setVisible,classes}:any) => {
     const [values,setValues]=useState({
         Title:'',
@@ -10,6 +11,7 @@ export const CreateCouponModel = ({visible,setVisible,classes}:any) => {
         UsageLimit:'',
 
     })
+    const [successVisible,setsuccessVisible]=useState(false)
     const [buttonDisable,setbuttonDisable]=useState(true)
     const [Title,setTitle]=useState('')
     const[date,setDate]=useState('')
@@ -22,6 +24,7 @@ export const CreateCouponModel = ({visible,setVisible,classes}:any) => {
         }
     },[values])
   return (
+   <>
    <CustomDialog className={classes} visible={visible} >
     <i className='pi pi-times absolute right-4 top-4 cursor-pointer' onClick={()=>setVisible(false)}></i>
        <div className='dialog-header'>
@@ -43,11 +46,16 @@ export const CreateCouponModel = ({visible,setVisible,classes}:any) => {
         <CustomButton txt="Cancel" classes='!w-[179px] !h-[50px] !bg-[#E2E2E2] !rounded-[10px] !text-black !text-[16px]'/>
         <CustomButton txt="Generate Code" onClick={()=>{
             if(!buttonDisable){
-
+                setVisible(false)
+                setTimeout(()=>{
+                    setsuccessVisible(true)
+                },1000)
             }
         }} classes={`!w-[179px] !h-[50px] ${buttonDisable==false?'!bg-[#212121]':'!bg-[#A4A4A4]'}  !rounded-[10px] !text-white !text-[16px]`}/>
        </div>
        </div>
    </CustomDialog>
+   <SuccessModel visible={successVisible} setVisible={setsuccessVisible} txt={"Coupon succesfully Created"}/>
+   </>
   )
 }
