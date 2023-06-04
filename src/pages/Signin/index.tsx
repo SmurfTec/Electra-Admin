@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import IMAGES from "../../assets/Images";
 import { InputTxt, InputPassword, CustomButton } from "../../atoms";
 import { Link, useNavigate } from "react-router-dom";
+import { EmailVerificationModel } from "../../components";
 export const Signin = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const[EmailErr,setEmailErr]=useState(true)
+  const [EmailModel,setEmailModel]=useState(true)
+  const[PasswordErr,setPasswordErr]=useState(true)
   const navigate = useNavigate();
   const Login = (event:any) => {
 event.preventDefault();
@@ -19,6 +23,7 @@ localStorage.removeItem("user")
   },[])
   return (
     <div className="min-h-[100vh] w-[100vw] flex flex-col items-center pt-[90px]">
+      <EmailVerificationModel visible={EmailModel} setVisible={setEmailModel}/>
       <div className="w-[116px] h-[116px] rounded-[50%] bg-lightgray flex justify-center align-middle items-center">
         <img src={IMAGES.Hand} alt="hand-img" className="w-[53px] h-[53px]" />
       </div>
@@ -36,6 +41,16 @@ localStorage.removeItem("user")
         value={Email}
         onChange={(e: any) => setEmail(e.target.value)}
       />
+    {EmailErr &&
+    <div className="flex flex-col justify-start  w-full max-w-[390px] mt-[10px]">
+    <div className="flex gap-2 justify-start text-left items-center">
+      <div className="w-[15px] h-[15px] text-white bg-red rounded-[50%] flex justify-center items-center text-[10px]">i</div>
+      <p className="text-[14px] text-[#FF0000] font-[400]">The e-mail you’ve entered is incorrect!</p>
+      
+    </div>
+    <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">Forgot email? <span className="text-[#06448C] cursor-pointer ">Click Here</span>  to reset it.</p>
+  </div>
+    }  
       <InputPassword
         placeholder="Enter Password"
         MainClasses="mt-[15px]"
@@ -43,6 +58,16 @@ localStorage.removeItem("user")
         value={Password}
         onChange={(e: any) => setPassword(e.target.value)}
       />
+      {PasswordErr &&
+    <div className="flex flex-col justify-start  w-full max-w-[390px] mt-[10px]">
+    <div className="flex gap-2 justify-start text-left items-center">
+      <div className="w-[15px] h-[15px] text-white bg-red rounded-[50%] flex justify-center items-center text-[10px]">i</div>
+      <p className="text-[14px] text-[#FF0000] font-[400]">The password you’ve entered is incorrect!</p>
+      
+    </div>
+    <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">Forgot Password? <span className="text-[#06448C] cursor-pointer ">Click Here</span>  to reset it.</p>
+  </div>
+    } 
        <div className="flex justify-end text-right  mt-[10px] w-[400px]">
        <p className=" cursor-pointer text-[14px] text-right font-[500] text-midgray">
       Forgot Password?
