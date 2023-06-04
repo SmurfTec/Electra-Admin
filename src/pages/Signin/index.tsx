@@ -7,7 +7,7 @@ export const Signin = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const[EmailErr,setEmailErr]=useState(true)
-  const [EmailModel,setEmailModel]=useState(true)
+  const [EmailModel,setEmailModel]=useState(false)
   const[PasswordErr,setPasswordErr]=useState(true)
   const navigate = useNavigate();
   const Login = (event:any) => {
@@ -48,7 +48,7 @@ localStorage.removeItem("user")
       <p className="text-[14px] text-[#FF0000] font-[400]">The e-mail you’ve entered is incorrect!</p>
       
     </div>
-    <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">Forgot email? <span className="text-[#06448C] cursor-pointer ">Click Here</span>  to reset it.</p>
+    <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">Forgot email? <span className="text-[#06448C] cursor-pointer" onClick={()=>setEmailModel(true)}>Click Here</span>  to reset it.</p>
   </div>
     }  
       <InputPassword
