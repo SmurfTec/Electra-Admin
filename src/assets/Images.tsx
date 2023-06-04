@@ -61,10 +61,17 @@ const IMAGES: any = {
     Greeniphone: new URL('../assets/Images/Greeniphone.svg', import.meta.url).href,
     yellowiphone: new URL('../assets/Images/yellowiphone.svg', import.meta.url).href,
     pinkphone: new URL('../assets/Images/pinkphone.svg', import.meta.url).href,
+    webandbanner: new URL('../assets/Images/webandbanner.svg', import.meta.url).href,
+    webandbanner2: new URL('../assets/Images/webandbanner2.svg', import.meta.url).href,
+    webandbanner3: new URL('../assets/Images/webandbanner3.svg', import.meta.url).href,
+    webandbanner4: new URL('../assets/Images/webandbanner4.svg', import.meta.url).href,
+    webandbanner5: new URL('../assets/Images/webandbanner5.svg', import.meta.url).href,
 
     AtmBackground: new URL('../assets/Images/Atm-background.svg', import.meta.url).href,
     Coins: new URL('../assets/Images/coins.svg', import.meta.url).href,
     Laughingadmin: new URL('../assets/Images/Laughingadmin.svg', import.meta.url).href,
+    Ultrablackiphone: new URL('../assets/Images/Ultrablackiphone.svg', import.meta.url).href,
+    Ultrablackiphone2: new URL('../assets/Images/Ultrablackiphone2.svg', import.meta.url).href,
     // 
     // 
     // 
@@ -108,6 +115,13 @@ const IMAGES: any = {
     rightarrow: new URL('../assets/icons/rightarrow.svg', import.meta.url).href,
     VolumeIcon: new URL('../assets/icons/VolumeIcon.svg', import.meta.url).href,
     LogoutIcon: new URL('../assets/icons/LogoutIcon.svg', import.meta.url).href,
+    recycle: new URL('../assets/icons/recycle.svg', import.meta.url).href,
+    delete: new URL('../assets/icons/delete.svg', import.meta.url).href,
+    cam: new URL('../assets/icons/cam.svg', import.meta.url).href,
+    Editwhite: new URL('../assets/icons/Editwhite.svg', import.meta.url).href,
+    Redbin: new URL('../assets/icons/Redbin.svg', import.meta.url).href,
+    Paint: new URL('../assets/icons/Paint.svg', import.meta.url).href,
+
     Calendar: new URL('../assets/icons/Calendar.svg', import.meta.url).href,
     GreenTick: new URL('../assets/icons/GreenTick.svg', import.meta.url).href,
 }

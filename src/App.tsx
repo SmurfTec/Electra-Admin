@@ -28,7 +28,8 @@ import {
   Settings,
   Listings,
   Orders,
-  Listingdetail
+  Listingdetail,
+  Editwebsite,Webandbanner, Noticebanner,Addnewbanner
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -76,6 +77,10 @@ function App() {
             <Route path="/Listings" element={<Listings />} />
             <Route path="/ListingsDetail" element={<Listingdetail />} />
             <Route path="/Orders" element={<Orders />} />
+            <Route path="/Editwebsite" element={<Editwebsite />} />
+            <Route path="/Webandbanner" element={<Webandbanner />} />
+            <Route path="/Noticebanner" element={<Noticebanner />} />
+            <Route path="/Addbanner" element={<Addnewbanner />} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>
