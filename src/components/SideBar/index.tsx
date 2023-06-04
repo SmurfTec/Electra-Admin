@@ -88,7 +88,12 @@ export const SideBar = () => {
     });
     setNavItems(updatedNavItems);
   };
-
+const Logout=()=>{
+  localStorage.clear()
+  setTimeout(()=>{
+    navigate('/')
+  },2000)
+}
   return (
 
     <>
@@ -150,6 +155,14 @@ export const SideBar = () => {
           </div>
         </Link>
       ))}
+      <div className="ml-[39px] mt-[137px] gap-3 flex items-center cursor-pointer" onClick={Logout}>
+      <SVGIcon
+      fillcolor={'#000000'}
+                src={IMAGES.LogoutIcon}
+              
+              />
+       <p className="text-[#212121] text-[16px] font-[600]">Logout</p>
+      </div>
     </div>
   </div>
     </>

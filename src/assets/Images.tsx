@@ -107,5 +107,6 @@ const IMAGES: any = {
     leftarrow: new URL('../assets/icons/leftarrow.svg', import.meta.url).href,
     rightarrow: new URL('../assets/icons/rightarrow.svg', import.meta.url).href,
     VolumeIcon: new URL('../assets/icons/VolumeIcon.svg', import.meta.url).href,
+    LogoutIcon: new URL('../assets/icons/LogoutIcon.svg', import.meta.url).href,
 }
 export default IMAGES
