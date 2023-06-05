@@ -1,6 +1,11 @@
 import React from "react";
-import { Header, Carouselcard, Variants } from "../../../components";
-import { CustomButton, RoundedButton,InputTxt,   Miniselect,} from "../../../atoms";
+import { Header, Carouselcard, Variants, Details } from "../../../components";
+import {
+  CustomButton,
+  RoundedButton,
+  InputTxt,
+  Miniselect,
+} from "../../../atoms";
 import { Sidebar } from "primereact/sidebar";
 import IMAGES from "../../../assets/Images";
 
@@ -120,22 +125,22 @@ export const Step1 = () => {
         <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
           128 GB
         </p>
-     
+
         <p className="font-bold text-[20px] text-[#000000] mt-6 ">Model No</p>
         <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
           43GG
         </p>
-     
-        <p className="font-bold text-[20px] text-[#000000] mt-6 ">Release Date</p>
+
+        <p className="font-bold text-[20px] text-[#000000] mt-6 ">
+          Release Date
+        </p>
         <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
-         20 Aug 2022
+          20 Aug 2022
         </p>
         <p className="font-bold text-[20px] text-[#000000] mt-6 ">RAM</p>
         <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
-         8GB
+          8GB
         </p>
-      
-      
       </Sidebar>
       <div>
         <div className="flex">
@@ -263,12 +268,16 @@ export const Step1 = () => {
           </div>
         </div>
         {/* PRODUCT VARAINTSS */}
-
-        <div>
-          <h1 className="text-[24px] font-bold my-3">Product Variants</h1>
-          <Variants data={VariantsArray} />
-          <Variants data={VariantsArray2} />
-          <Variants data={VariantsArray3} />
+        <div className="flex items-center">
+          <div>
+            <h1 className="text-[24px] font-bold my-3">Product Variants</h1>
+            <Variants data={VariantsArray} />
+            <Variants data={VariantsArray2} />
+            <Variants data={VariantsArray3} />
+          </div>
+          <div>
+            {/* Details table here */}
+          </div>
         </div>
       </div>
     </div>

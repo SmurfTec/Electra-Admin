@@ -1,7 +1,7 @@
 import React from 'react'
 
-export const Details = () => {
+export const Details = (props,children) => {
   return (
-    <div>Details</div>
+    <div className={props.classes}></div>
   )
 }
