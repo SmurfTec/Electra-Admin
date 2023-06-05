@@ -30,6 +30,7 @@ hr{
 .p-dialog-content{
   padding-left: 0px;
   padding-right: 0px;
+  width: 100%;
 }
 .dialog-header{
   padding-top: 25px;
