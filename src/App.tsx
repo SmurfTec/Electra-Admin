@@ -29,7 +29,7 @@ import {
   Listings,
   Orders,
   Listingdetail,
-  Editwebsite,Webandbanner, Noticebanner,Addnewbanner
+  Editwebsite,Webandbanner, Noticebanner,Addnewbanner,Step1
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -71,6 +71,7 @@ function App() {
             <Route path="/Viewadmin" element={<ViewAdmin />} />
             <Route path="/Searchrole" element={<Searchrole />} />
             <Route path="/Verification" element={<Verification />} />
+            <Route path="/Verification/Step1" element={<Step1 />} />
             <Route path="/Verification/ItemVerification" element={<ItemVerification />} />
             <Route path="/Settings" element={<Settings />} />
             <Route path="/Creationroles" element={<Createrole />} />
