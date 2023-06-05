@@ -121,6 +121,7 @@ const IMAGES: any = {
     Editwhite: new URL('../assets/icons/Editwhite.svg', import.meta.url).href,
     Redbin: new URL('../assets/icons/Redbin.svg', import.meta.url).href,
     Paint: new URL('../assets/icons/Paint.svg', import.meta.url).href,
+    Verified: new URL('../assets/icons/Verified.svg', import.meta.url).href,
 
     Calendar: new URL('../assets/icons/Calendar.svg', import.meta.url).href,
     GreenTick: new URL('../assets/icons/GreenTick.svg', import.meta.url).href,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Carouselcard, Variants, Details } from "../../../components";
+import { Header, Carouselcard, Variants } from "../../../components";
 import {
   CustomButton,
   RoundedButton,
@@ -8,8 +8,9 @@ import {
 } from "../../../atoms";
 import { Sidebar } from "primereact/sidebar";
 import IMAGES from "../../../assets/Images";
-
+import { useNavigate } from "react-router-dom";
 export const Step1 = () => {
+  const navigate= useNavigate()
   const [select, setSelect] = React.useState(0);
   const VariantsArray = [
     {
@@ -276,9 +277,127 @@ export const Step1 = () => {
             <Variants data={VariantsArray3} />
           </div>
           <div>
-            {/* Details table here */}
+            <h1 className="text-[24px] font-bold my-3">
+              Seller and Buyer Details
+            </h1>
+            <div className="flex gap-4">
+              <div className="border-custom rounded border w-[380px]  mt-3">
+                <p className="text-[19px] font-semibold p-3">
+                  Seller's Details
+                </p>
+                <div className="border-t  border-custom">
+                  <div className=" p-3 gap-3">
+                    <p className="font-semibold">NAME</p>
+                    <p className="font-semibold">Huzaifa hanif</p>
+                  </div>
+                  <div className=" p-3 gap-3">
+                    <p className="font-semibold">EMAIL</p>
+                    <p className="font-semibold">Huzaifah@gmail.com</p>
+                  </div>
+                  <div className=" p-3 gap-3">
+                    <p className="font-semibold">PHONE NO</p>
+                    <p className="font-semibold">+094345345454</p>
+                  </div>
+                </div>
+              </div>
+              <div className="border-custom rounded border w-[380px]  mt-3">
+                <p className="text-[19px] font-semibold p-3">Buyer's Details</p>
+                <div className="border-t  border-custom">
+                  <div className=" p-3 gap-3">
+                    <p className="font-semibold">NAME</p>
+                    <p className="font-semibold">Huzaifa hanif</p>
+                  </div>
+                  <div className=" p-3 gap-3">
+                    <p className="font-semibold">EMAIL</p>
+                    <p className="font-semibold">Huzaifah@gmail.com</p>
+                  </div>
+                  <div className=" p-3 gap-3">
+                    <p className="font-semibold">PHONE NO</p>
+                    <p className="font-semibold">+094345345454</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        {/*Reciept  */}
+        <div className="mb-4">
+          <h1 className="text-[24px] font-bold my-3">Receipt</h1>
+          <div className="flex gap-9">
+            <div className="border w-[547px] border-custom p-4 rounded">
+              <div className="flex items-center justify-between gap-3 border-b border-dotted">
+                <p className="font-semibold text-[12px]">Item Price</p>
+                <p className="font-semibold text-[20px]">$437</p>
+              </div>
+              <div className="flex items-center mt-5 justify-between gap-3 ">
+                <p className="font-semibold text-[12px]">
+                  MarketPlace Fee (7.5%)
+                </p>
+                <p className="font-semibold text-[20px]">$5</p>
+              </div>
+              <div className="flex items-center mt-5 justify-between gap-3 ">
+                <p className="font-semibold text-[12px]">SALES TAX (8.025%)</p>
+                <p className="font-semibold text-[20px]">$3</p>
+              </div>
+              <div className="flex items-center mt-5 justify-between gap-3 ">
+                <p className="font-semibold text-[12px]">SHIPPING FEE</p>
+                <p className="font-semibold text-[20px]">$15</p>
+              </div>
+              <div className="flex items-center mt-5 justify-between gap-3 ">
+                <p className="font-semibold text-[12px]">PLATFORM FEE</p>
+                <p className="font-semibold text-[20px]">$5</p>
+              </div>
+              <div className="flex items-center mt-5 justify-between gap-3 ">
+                <p className="font-semibold text-[12px]">DISCOUNT</p>
+                <p className="font-semibold text-[20px]">%0</p>
+              </div>
+              <div className="flex items-center mt-5 justify-between gap-3 pb-3 border-b border-dotted ">
+                <p className="font-semibold text-[12px]">
+                  13 MONTH PROTECTION PLAN
+                </p>
+                <p className="font-semibold text-[20px]">$50</p>
+              </div>
+              <div className="flex items-center mt-5 justify-between gap-3 ">
+                <p className="font-semibold text-[12px]">PURCHASE PRICE</p>
+                <p className="font-semibold text-[20px] text-[#3C82D6]">$465</p>
+              </div>
+            </div>
+            <div className="border w-[547px] border-custom p-6 rounded">
+              <div className=" gap-4 flex-col">
+                <p className="font-semibold text-[12px]">ORDER DATE</p>
+                <p className="font-semibold text-[20px]">23/10/2023</p>
+              </div>
+              <div className=" gap-4 flex-col my-4">
+                <p className="font-semibold text-[12px]">ORDER DATE</p>
+                <p className="font-semibold text-[20px] text-[#3C82D6]">
+                  141442
+                </p>
+              </div>
+              <div className=" gap-4 flex-col my-4">
+                <p className="font-semibold text-[12px]">ORDER DATE</p>
+                <p className="font-semibold text-[20px]  text-[#3C82D6]">
+                  1415
+                </p>
+              </div>
+              <div className=" gap-5 flex-col my-4">
+                <p className="font-semibold text-[12px] mb-3">SHIPPING ADDRESS</p>
+                <p className="font-semibold text-[15px]">
+                  Mr John Smith. 132, My Street, Kingston, New York 12401.
+                  United States Of America
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Button */}
+        <CustomButton
+        onClick={()=>{
+          navigate("/Verification/ItemVerification")
+        }}
+          iconLeft={<img src={IMAGES.Verified} />}
+          classes="!w-auto !max-w-[150px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3CD670]"
+          txt="Mark for review"
+        />
       </div>
     </div>
   );

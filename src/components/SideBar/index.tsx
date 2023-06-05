@@ -52,7 +52,7 @@ export const SideBar = () => {
       iconFillColor: "",
       url: "/Roles",
     },
-    { id: 9, name: "Fee Modifier", icon: IMAGES.FreeModifier, active: false },
+    { id: 9, name: "Fee Modifier", icon: IMAGES.FreeModifier, active: false ,url:"/Feemodifier"},
     { id: 10, name: "Coupons",url:'/Coupon' ,icon: IMAGES.Coupons, active: false },
     { id: 11, name: "Categories",url:'/Category' , icon: IMAGES.Categories, active: false },
     { id: 12, name: "Edit Website", icon: IMAGES.EditWebsite, active: false ,url:"/Editwebsite"},

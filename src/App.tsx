@@ -29,7 +29,7 @@ import {
   Listings,
   Orders,
   Listingdetail,
-  Editwebsite,Webandbanner, Noticebanner,Addnewbanner,Step1
+  Editwebsite,Webandbanner, Noticebanner,Addnewbanner,Step1, Feemodifier
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -82,6 +82,7 @@ function App() {
             <Route path="/Webandbanner" element={<Webandbanner />} />
             <Route path="/Noticebanner" element={<Noticebanner />} />
             <Route path="/Addbanner" element={<Addnewbanner />} />
+            <Route path="/Feemodifier" element={<Feemodifier />} />
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>
