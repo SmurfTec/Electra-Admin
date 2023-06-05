@@ -1,4 +1,3 @@
-import React from "react";
 import { SVGIcon } from "../SVG";
 import IMAGES from "../../assets/Images";
 export const Feemodifcard = (props:any) => {
