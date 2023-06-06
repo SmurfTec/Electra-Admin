@@ -3,7 +3,7 @@ import { Header } from '../../components'
 import IMAGES from '../../assets/Images'
 import { CustomSwitch } from '../../atoms'
 import { SVGIcon } from '../../components/SVG'
-import { EmailVerificationModel,ChangePasswordModel,SuccessModel,AuthValueModel,BankAccountModel } from '../../components'
+import { EmailVerificationModel,ChangePasswordModel,SuccessModel,AuthValueModel,BankAccountModel,BankAccountPinModel } from '../../components'
 export const Settings = () => {
     const[EmailModel,setEmailModel]=useState(false)
     const[PassModel,setPassModel]=useState(false)
@@ -15,6 +15,7 @@ export const Settings = () => {
     const [changephonemodel,setchangephonemodel]=useState(false)
     const[bankmodel,setbankmodel]=useState(false)
     const[addbank,setaddbank]=useState(false)
+    const[BankAccountPin,setBankAccountPin]=useState(false)
     const handlePass=()=>{
         setPassModel(false)
         setChangePassModel(true)
@@ -33,6 +34,7 @@ export const Settings = () => {
     }
     const handleAddBank=()=>{
         setaddbank(false)
+        setBankAccountPin(true)
     }
     
   return ( 
@@ -41,6 +43,11 @@ export const Settings = () => {
          visible={bankmodel} 
          setVisible={setbankmodel}
          onClick={()=>{setbankmodel(false);setaddbank(true)}}
+        />
+        <BankAccountPinModel
+         visible={BankAccountPin} 
+         setVisible={setBankAccountPin}
+         onClick={()=>{setBankAccountPin(false)}}
         />
         <EmailVerificationModel 
         visible={EmailModel} 
