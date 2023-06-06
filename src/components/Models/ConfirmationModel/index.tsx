@@ -30,7 +30,7 @@ export const Confirmationmodal = ({
           </p>
         ) : (
           <div className="flex justify-between items-center px-2 border w-[370px] h-[54px] mx-auto rounded-[10px]">
-            <input placeholder="Enter color" className="px-2 focus:border-none" />
+            <input placeholder="Enter color" className="px-2 focus:outline-none" />
             <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
               i
             </div>
