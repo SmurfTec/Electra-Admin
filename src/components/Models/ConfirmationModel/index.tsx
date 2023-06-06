@@ -9,10 +9,11 @@ export const Confirmationmodal = ({
   text,
   cnfrmbtnText,
   cnclebtnText,
+  addValue,
 }: any) => {
   return (
     <CustomDialog
-      className={`${classes} bg-[#FFFFFF] w-[543px] h-[268px] flex  justify-center align-middle items-center `}
+      className={`${classes} bg-[#FFFFFF] w-[543px] h-[248px] flex  justify-center align-middle items-center `}
       visible={visible}
     >
       <i
@@ -23,9 +24,18 @@ export const Confirmationmodal = ({
         <p className="text-center text-[20px] font-[700] text-black uppercase border-b border-custom pb-3 ">
           {PopupHeader}
         </p>
-        <p className="text-[#212121] mt-5 mx-auto w-[85%] text-center font-semibold">
-          {text}
-        </p>
+        {!addValue ? (
+          <p className="text-[#212121] mt-5 mx-auto w-[85%] text-center font-semibold">
+            {text}
+          </p>
+        ) : (
+          <div className="flex justify-between items-center px-2 border w-[370px] h-[54px] mx-auto rounded-[10px]">
+            <input placeholder="Enter color" className="px-2 focus:border-none" />
+            <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
+              i
+            </div>
+          </div>
+        )}
         <div className="flex mt-8 justify-center gap-4">
           <CustomButton
             txt={cnclebtnText}
