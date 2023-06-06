@@ -6,6 +6,7 @@ import { SVGIcon } from '../../../components/SVG'
 import {CustomMenu} from "../../../atoms/global.style"
 import { useNavigate } from 'react-router-dom'
 import { Header } from '../../../components/index.js'
+import { Confirmationmodal} from '../../../components/index.js'
 export const Users = () => {
     const navigate=useNavigate();
   const [filterData, setFilterData] = useState([
@@ -317,6 +318,7 @@ export const Users = () => {
 
        
       </div>
+      <Confirmationmodal />
       {/* <div className='flex justify-center mt-3 w-full '>
       <CustomButton txt={'View More'}  classes='mt-3 bg-[#FFFFFF] h-[50px] text-[black] '/>
       </div> */}

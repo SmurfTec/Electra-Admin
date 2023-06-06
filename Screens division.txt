@@ -30,4 +30,5 @@ Receipt Popup
 Fee modifier poup
 Confirmation user popup
 Add value add variant popup
+Product Request by users
 Choose date popup
