@@ -31,8 +31,8 @@ export const CustomTableComponent = ({
               ? (e: any) => setSelectedProducts(e.value)
               : undefined
           }
-          tablebodyColor={rowStyling??""}
-          columnHeader={props.columnHeader}
+          tablebodycolor={rowStyling??""}
+          columnheader={props.columnHeader}
           showGridlines ={showlines ?true:false}
         >
           {MultipleSelect && (

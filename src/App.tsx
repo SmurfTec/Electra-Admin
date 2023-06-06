@@ -44,6 +44,9 @@ function App() {
       setShow(true);
     }
   }, [user, location]);
+  useEffect(()=>{
+    console.clear()
+  })
   return (
     <div className="flex">
       {show && <SideBar />}

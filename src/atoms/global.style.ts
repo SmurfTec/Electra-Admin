@@ -141,7 +141,7 @@ export const Switch = styled(InputSwitch)`
     width: 10px;
     height: 10px;
     left: 3px;
-    margin-top:${({marginTop}:any)=>marginTop}; //-6px
+    margin-top:${({margintop}:any)=>margintop}; //-6px
   }
 `;
 export const CustomMenu = styled(Menu)`
@@ -227,8 +227,8 @@ export const CustomTable = styled(DataTable)`
             ${({ theadStyles }: any) => (theadStyles ? theadStyles : "")}
             .p-column-header-content {
               display: flex;
-              justify-content: ${({ columnHeader }: any) =>
-                columnHeader ? columnHeader : "center"};
+              justify-content: ${({ columnheader }: any) =>
+                columnheader ? columnheader : "center"};
               .p-column-filter-menu {
                 margin-left: 0 !important;
                 margin-right: 5px;
@@ -266,8 +266,8 @@ height: 16px; */
       .p-datatable-tbody {
         tr {
           td {
-            background-color: ${({ tablebodyColor }) =>
-              tablebodyColor ? tablebodyColor : `white !important`};
+            background-color: ${({ tablebodycolor }) =>
+              tablebodycolor ? tablebodycolor : `white !important`};
             font-family: "Manrope";
             font-style: normal;
             font-weight: 500;

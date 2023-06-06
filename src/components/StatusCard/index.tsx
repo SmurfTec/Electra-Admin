@@ -2,10 +2,12 @@ type Statuscard={
     title:string
     number:string
     img:string
+    onClick?:React.MouseEventHandler
 }
 export const StatusCard = (props:Statuscard) => {
   return (
     <div
+    onClick={props.onClick}
       className="bg-lightgray flex justify-between h-[96px]
     w-[191px] rounded p-5   overflow-hidden
     "

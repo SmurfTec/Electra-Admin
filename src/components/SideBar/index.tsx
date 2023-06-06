@@ -122,7 +122,7 @@ const Logout=()=>{
                 src={item.icon}
                 filled={item.active}
                 fillcolor={item?.iconFillColor}
-                strokeColor={item?.strokeColor}
+                strokecolor={item?.strokeColor}
               />
               <p
                 className={`${
