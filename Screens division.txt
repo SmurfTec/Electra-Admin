@@ -22,3 +22,12 @@ Edit Website and banner
 Listings => Priority
 Step1 for verification
 Orders
+
+Popups Division:
+Zain=>
+Shipping popup
+Receipt Popup
+Fee modifier poup
+Confirmation user popup
+Add value add variant popup
+Choose date popup
