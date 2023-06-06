@@ -6,9 +6,6 @@ import Countdown from 'react-countdown';
 
 export const AuthValueModel = ({classes,visible,setVisible,title="Email Verification",onClick,body="Enter your new email",placeholder="Email"}:any) => {
     const[Code,setCode]=useState("")
-    const [resetKey, setResetKey] = useState(0);
-
-    
   return (
     <>
     <CustomDialog className={`${classes} bg-[#FFFFFF] w-[543px] h-[358px] flex  justify-center align-middle items-center `} visible={visible} >

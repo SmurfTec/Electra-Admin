@@ -3,7 +3,7 @@ import { Header } from '../../components'
 import IMAGES from '../../assets/Images'
 import { CustomSwitch } from '../../atoms'
 import { SVGIcon } from '../../components/SVG'
-import { EmailVerificationModel,ChangePasswordModel,SuccessModel,AuthValueModel } from '../../components'
+import { EmailVerificationModel,ChangePasswordModel,SuccessModel,AuthValueModel,BankAccountModel } from '../../components'
 export const Settings = () => {
     const[EmailModel,setEmailModel]=useState(false)
     const[PassModel,setPassModel]=useState(false)
@@ -13,6 +13,7 @@ export const Settings = () => {
     const[successtxt,setsuccesstxt]=useState("Your password has been changed")
     const [phonemodel,setphonemodel]=useState(false)
     const [changephonemodel,setchangephonemodel]=useState(false)
+    const[bankmodel,setbankmodel]=useState(false)
     const handlePass=()=>{
         setPassModel(false)
         setChangePassModel(true)
@@ -32,6 +33,10 @@ export const Settings = () => {
     
   return ( 
     <div>
+        <BankAccountModel
+         visible={bankmodel} 
+         setVisible={setbankmodel}
+        />
         <EmailVerificationModel 
         visible={EmailModel} 
         setVisible={setEmailModel}
@@ -170,7 +175,7 @@ export const Settings = () => {
             <div className='w-[33px] bg-[#FF0000] h-[33px] text-white text-[20px] rounded-[50px] flex justify-center items-center'>
                <hr className='w-[20px] border-[1px]'/>
             </div>
-            <div className='w-[33px] h-[33px] bg-lightgray rounded-[50px] flex justify-center items-center'>
+            <div className='w-[33px] h-[33px] bg-lightgray rounded-[50px] flex justify-center items-center cursor-pointer' onClick={()=>setbankmodel(true)}>
                 <img src={IMAGES.Edit}/>
             </div>
             </div>
