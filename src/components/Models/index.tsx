@@ -6,3 +6,4 @@
  export * from "./BankAccountModel"
  export * from "./BankAccountPinModel"
  export * from "./ConfirmationModel"
+ export * from "./DashboardModal"

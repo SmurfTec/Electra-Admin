@@ -1,7 +1,9 @@
 import { SVGIcon } from "../SVG";
 import IMAGES from "../../assets/Images";
 export const Feemodifcard = (props:any) => {
-  return <div className="h-[93px] w-[187px] bg-[#FCFCFC] border border-custom rounded-[7px] p-3 my-3 ">
+  return <div 
+  onClick={props.onClick}
+  className="h-[93px] w-[187px] bg-[#FCFCFC] border border-custom rounded-[7px] p-3 my-3 ">
     <p className="text-[#A4A4A4] text-[12px]">
         {props.title}
     </p>
