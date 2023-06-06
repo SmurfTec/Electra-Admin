@@ -1,0 +1,34 @@
+Screens division
+
+Sherry:=>
+Products main screen (Table)
+Wallet screens
+Category Add category
+Add variants and values
+Coupons
+verfications
+Help Center
+Settings
+step2 verification
+
+Zain:=>
+Roles1 
+main role //done
+Create Admin //done
+View admin //done
+View Roles //done
+Creating Roles //done
+Edit Website and banner 
+Listings => Priority
+Step1 for verification
+Orders
+
+Popups Division:
+Zain=>
+Shipping popup
+Receipt Popup
+Fee modifier poup
+Confirmation user popup
+Add value add variant popup
+Product Request by users
+Choose date popup

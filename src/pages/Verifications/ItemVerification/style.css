@@ -1,0 +1,27 @@
+.progress-bar .CircularProgressbar-path{
+    stroke-width: 4px;
+}
+.progress-bar .CircularProgressbar-trail{
+    stroke-width: 4px;
+}
+.percentage-text{
+    font-family: 'Manrope';
+font-style: normal;
+font-weight: 700;
+font-size: 32px;
+line-height: 44px;
+/* identical to box height */
+
+
+color: #000000;
+}
+.additional-text{
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 20px;
+    
+    color: #3C82D6;
+      
+}
