@@ -70,8 +70,7 @@ export const BankAccountModel = ({classes,visible,setVisible,onClick}:any) => {
         <CustomButton txt="Cancel" classes='!w-[179px] !h-[50px] !bg-[#E2E2E2] !rounded-[10px] !text-black !text-[16px]'/>
         <CustomButton txt="Add Account" onClick={()=>{
             if(!buttonDisable){
-                setVisible(false)
-                setsuccessVisible(true)
+                onClick()
                
             }
         }} classes={`!w-[179px] !h-[50px] ${buttonDisable==false?'!bg-[#212121]':'!bg-[#A4A4A4]'}  !rounded-[10px] !text-white !text-[16px]`}/>

@@ -14,6 +14,7 @@ export const Settings = () => {
     const [phonemodel,setphonemodel]=useState(false)
     const [changephonemodel,setchangephonemodel]=useState(false)
     const[bankmodel,setbankmodel]=useState(false)
+    const[addbank,setaddbank]=useState(false)
     const handlePass=()=>{
         setPassModel(false)
         setChangePassModel(true)
@@ -30,18 +31,29 @@ export const Settings = () => {
         setphonemodel(false)
         setchangephonemodel(true)
     }
+    const handleAddBank=()=>{
+        setaddbank(false)
+    }
     
   return ( 
     <div>
         <BankAccountModel
          visible={bankmodel} 
          setVisible={setbankmodel}
+         onClick={()=>{setbankmodel(false);setaddbank(true)}}
         />
         <EmailVerificationModel 
         visible={EmailModel} 
         setVisible={setEmailModel}
         title="CHANGE EMAIL"
         onClick={handleEmail}
+       
+        />
+        <EmailVerificationModel 
+        visible={addbank} 
+        setVisible={setaddbank}
+        title="Adding Bank Account"
+        onClick={handleAddBank}
        
         />
         <EmailVerificationModel 
