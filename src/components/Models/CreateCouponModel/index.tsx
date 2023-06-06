@@ -47,9 +47,8 @@ export const CreateCouponModel = ({visible,setVisible,classes}:any) => {
         <CustomButton txt="Generate Code" onClick={()=>{
             if(!buttonDisable){
                 setVisible(false)
-                setTimeout(()=>{
-                    setsuccessVisible(true)
-                },1000)
+                setsuccessVisible(true)
+               
             }
         }} classes={`!w-[179px] !h-[50px] ${buttonDisable==false?'!bg-[#212121]':'!bg-[#A4A4A4]'}  !rounded-[10px] !text-white !text-[16px]`}/>
        </div>

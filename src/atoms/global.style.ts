@@ -70,7 +70,7 @@ border: 2px solid #D9D9D9 !important;
 export const CustomTextArea=styled(InputTextarea)`
 outline: none !important;
 box-shadow: none !important;
-border: 1px solid #FF0000 !important;
+
 border-radius: 10px !important;
 `
 export const CustomTabView=styled(TabView)`
