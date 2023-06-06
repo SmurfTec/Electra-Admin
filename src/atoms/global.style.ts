@@ -23,7 +23,7 @@ overflow: hidden !important;
 `
 export const CustomDialog=styled(Dialog)`
 position: relative;
-border-radius: 20px;
+border-radius: ${({ rounded }: any) => (rounded ? rounded : "20px")};
 hr{
   margin-top:23px ;
 }

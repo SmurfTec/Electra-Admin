@@ -1,13 +1,14 @@
 import React from "react";
 import { SVGIcon } from "../../components/SVG";
-import { CustomTableComponent, Miniselect ,CustomButton} from "../../atoms";
+import { CustomTableComponent, Miniselect, CustomButton } from "../../atoms";
 import { useNavigate } from "react-router-dom";
-import { Header } from "../../components";
+import { Header, Receiptmodal } from "../../components";
 import IMAGES from "../../assets/Images";
 import { CustomMenu } from "../../atoms/global.style";
 export const Orders = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
+  const [visible,setVisible]=React.useState(false)
   const items = [
     {
       items: [
@@ -193,19 +194,20 @@ export const Orders = () => {
       <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
         <div>
           <div className="flex justify-between items-center px-3">
-          <p className="font-bold p-4 text-[19px]">
-            Orders <br />
-            <span className="font-medium text-[#A4A4A4] -mt-[10px]  text-[14px]">
-              Check Orders
-            </span>
-          </p>
-          <CustomButton
-        iconLeft={<img src={IMAGES.Csvicon}/>}
-        classes='!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]'
-        txt="Export CSV"
-        />
+            <p className="font-bold p-4 text-[19px]">
+              Orders <br />
+              <span className="font-medium text-[#A4A4A4] -mt-[10px]  text-[14px]">
+                Check Orders
+              </span>
+            </p>
+            <CustomButton
+            onClick={()=>setVisible(true)}
+              iconLeft={<img src={IMAGES.Csvicon} />}
+              classes="!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]"
+              txt="Export CSV"
+            />
           </div>
-        
+
           <div className="flex gap-8 px-4 border-b border-custom ">
             <p className="border-b-4 border-[#3C82D6] text-[#3C82D6] pb-2 font-semibold">
               All (9)
@@ -237,6 +239,10 @@ export const Orders = () => {
           <Miniselect txt={"Waiting for seller to ship"} />
         </div>
       </div>
+      <Receiptmodal 
+      visible={visible}
+      setVisible={setVisible}
+      />
     </div>
   );
 };
