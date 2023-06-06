@@ -11,6 +11,7 @@ export const Confirmationmodal = ({
   cnclebtnText,
   addValue,
 }: any) => {
+    // insert here
   return (
     <CustomDialog
       className={`${classes} bg-[#FFFFFF] w-[543px] h-[248px] flex  justify-center align-middle items-center `}
