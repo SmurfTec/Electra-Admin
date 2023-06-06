@@ -3,7 +3,7 @@ import { CustomDialog } from '../../../atoms/global.style'
 import { InputPassword } from '../../../atoms'
 import { CustomButton } from '../../../atoms'
 import IMAGES from '../../../assets/Images'
-export const ChangePasswordModel = ({classes,visible,setVisible}:any) => {
+export const ChangePasswordModel = ({classes,visible,setVisible,showSuccessModel=true,onClick}:any) => {
     const[Code,setCode]=useState("")
     const[Success,setSuccess]=useState(false)
     
@@ -23,7 +23,7 @@ export const ChangePasswordModel = ({classes,visible,setVisible}:any) => {
        <InputPassword inputClasses="!text-center !text-[#3C82D6] !text-[20px]" placeholder="Confirm Password" Title={Code} onChange={(e:any)=>setCode(e.target.value)} MainClasses='!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto'/>
         <p className='text-[12px] ml-[5.6rem] font-[500] text-[#656565]'>Min password length 6 characters</p>
        </div>
-        <CustomButton onClick={()=>{setSuccess(true);setVisible(false)}} txt="UPDATE" classes="!w-[155px] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]"/>
+        <CustomButton onClick={()=>{showSuccessModel && setSuccess(true); setVisible(false); onClick && onClick()}} txt="UPDATE" classes="!w-[155px] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]"/>
         </div>
         </CustomDialog>
         <CustomDialog className={` bg-[#FFFFFF] w-[543px] h-[250px] flex  justify-center align-middle items-center `} visible={Success} >
