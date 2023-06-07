@@ -31,6 +31,7 @@ hr{
   padding-left: 0px;
   padding-right: 0px;
   width: 100%;
+  overflow: auto;
 }
 .dialog-header{
   padding-top: 25px;

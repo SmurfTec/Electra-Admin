@@ -197,12 +197,14 @@ export const Listings = () => {
             <p className="text-[#B4B4B4]">Sub Admin(9)</p>
           </div>
           <CustomTableComponent
-            columnStyle={{ backgroundColor: "#FCFCFC" }}
-            headerStyle={{ color: "black", fontWeight: "800" }}
+            colume={{ backgroundColor: "#FCFCFC !important" }}
+            headerStyle={{ color: "black", fontWeight: "800" ,backgroundColor:"#FCFCFC"}}
             filterData={filterData}
             columnData={columnData}
-            rowStyling={"#FCFCFC"}
+            rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
+
+            
           />
         </div>
       </div>

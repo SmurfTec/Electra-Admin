@@ -4,11 +4,14 @@ import { CustomDialog } from "../../../atoms/global.style";
 export const Receiptmodal = ({ visible, setVisible }: any) => {
   return (
     <CustomDialog
-      className={`bg-[#FFFFFF] max-w-[583px] max-h-[942px] flex  justify-center align-middle items-center overflow-hidden `}
+
+      className={`bg-[#FFFFFF] w-[583px]  flex  justify-center align-middle items-center `}
       visible={visible}
       rounded={`0px`}
     >
-      <div className="flex items-center justify-between px-8 py-5 border-b border-custom">
+      <div     style={{height:"890px !important"}}>
+
+      <div className="flex items-center justify-between px-8 py-5 border-b border-custom overflow-hidden">
         <p className="ali">Receipt For Order</p>
 
         <i
@@ -104,6 +107,7 @@ export const Receiptmodal = ({ visible, setVisible }: any) => {
         classes='!w-auto !max-w-[220px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px] mx-8 mt-3'
         txt="Download Receipt"
         />
+        </div>
     </CustomDialog>
   );
 };

@@ -46,8 +46,8 @@ export const CustomTableComponent = ({
                 style={columnStyle ?? null}
                 field={item.field}
                 header={item.header}
-                headerStyle={item.headerStyle}
-                bodyClassName={'!bg-[#F6F6F6'}
+                headerStyle={headerStyle}
+                bodyClassName={'!bg-[#F6F6F6]'}
                 body={item.body ? item.body : null}
               />
             );

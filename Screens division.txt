@@ -19,9 +19,9 @@ View admin //done
 View Roles //done
 Creating Roles //done
 Edit Website and banner 
-Listings => Priority
-Step1 for verification
-Orders
+Listings//done
+Step1 for verification//done
+Orders//done                                       
 
 Popups Division:
 Zain=>

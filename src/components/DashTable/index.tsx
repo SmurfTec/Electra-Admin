@@ -7,7 +7,6 @@ const CustomTable = styled(DataTable)`
   .p-datatable-header {
     background-color: ${({ tablebgcolor }) => tablebgcolor};
     border-top: none;
-    /* background-color: white; */
   }
   .p-datatable-tbody > tr {
       background-color: #fcfcfc !important;

@@ -97,7 +97,7 @@ export const Dashboard = () => {
           arrowImg={IMAGES.downarrow}
         />
       </div>
-      <div className="flex mt-3 gap-1 w-full  ">
+      <div className="flex mt-3 gap-1 w-full   ">
         <div>
           <StaticCard />
           <PlatformEarning />

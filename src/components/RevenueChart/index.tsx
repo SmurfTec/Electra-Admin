@@ -112,8 +112,7 @@ export const RevenueChart = () => {
           series={series}
           type="area"
           height={350}
-          // width={850}
-          style={{width:"74rem"}}
+          style={{width:"74rem",marginLeft:"14px"}}
         />
         </div>
        

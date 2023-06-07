@@ -222,21 +222,20 @@ export const Orders = () => {
             headerStyle={{ color: "black", fontWeight: "800" }}
             filterData={filterData}
             columnData={columnData}
-            rowStyling={"#FCFCFC"}
+            rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-            // showWrapper={false}
           />
         </div>
       </div>
       <div className="mt-3">
         <p className="font-bold">Select Status</p>
         <div className="flex gap-3 mt-2">
-          <Miniselect txt={"Completed"} />
-          <Miniselect txt={"Shipped to Seller"} />
-          <Miniselect txt={"Verified"} />
-          <Miniselect txt={"Under Review"} />
-          <Miniselect txt={"Shipped"} />
-          <Miniselect txt={"Waiting for seller to ship"} />
+          <Miniselect txt={"Completed"} radio={true} />
+          <Miniselect txt={"Shipped to Seller"} radio={true}  />
+          <Miniselect txt={"Verified"} radio={true} />
+          <Miniselect txt={"Under Review"} radio={true} />
+          <Miniselect txt={"Shipped"}radio={true}  />
+          <Miniselect txt={"Waiting for seller to ship"}radio={true}  />
         </div>
       </div>
       <Receiptmodal 
