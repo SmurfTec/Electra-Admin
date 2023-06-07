@@ -170,11 +170,11 @@ export const Searchrole = () => {
             </div>
             <CustomTableComponent
               columnStyle={{ backgroundColor: "#FCFCFC" }}
-              headerStyle={{ color: "black" }}
+              headerStyle={{ color: "black",fontWeight:"800" }}
               //   columnHeader={"flex-start"}
               filterData={filterData}
               columnData={columnData}
-              rowStyling={"#FCFCFC"}
+              rowStyling={"#FCFCFC !important"}
             />
           </div>
         </div>

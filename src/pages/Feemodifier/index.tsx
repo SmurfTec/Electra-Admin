@@ -4,10 +4,11 @@ import { SVGIcon } from "../../components/SVG";
 import { CustomTableComponent } from "../../atoms";
 import { CustomMenu } from "../../atoms/global.style";
 import IMAGES from "../../assets/Images";
-import { Header,Feemodifcard } from "../../components";
+import { Header, Feemodifcard, Confirmationmodal } from "../../components";
 export const Feemodifier = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
+  const [visible, setVisible] = React.useState(false);
   const items = [
     {
       items: [
@@ -130,7 +131,7 @@ export const Feemodifier = () => {
   ];
   return (
     <div>
-        <Header
+      <Header
         typeSearch={true}
         placeholder="Search "
         chooseFilter={true}
@@ -138,11 +139,15 @@ export const Feemodifier = () => {
       />
       <div>
         <p className="font-bold text-[20px] ml-3">
-        Modify or change platform charges, Shipping Charges and othe frees.
+          Modify or change platform charges, Shipping Charges and othe frees.
         </p>
         <div className="ml-3 flex gap-3">
-            <Feemodifcard title={"SHIPPING FEE"} number={"15"} />
-            <Feemodifcard title={"PROCESSING FEE"} number={"15"} />
+          <Feemodifcard
+            onClick={() => setVisible(true)}
+            title={"SHIPPING FEE"}
+            number={"15"}
+          />
+          <Feemodifcard title={"PROCESSING FEE"} number={"15"} />
         </div>
       </div>
       <div>
@@ -156,6 +161,19 @@ export const Feemodifier = () => {
           rowStyling={"#FCFCFC"}
         />
       </div>
+      <Confirmationmodal
+        classes={"!h-[330px] "}
+        PopupHeader={"EDIT MARKETPLACE FEE"}
+        visible={visible}
+        setVisible={setVisible}
+        cnfrmbtnText={"Update"}
+        cnclebtnText={"Cancel"}
+        text={
+          "You are editting marketplace fee for Phones. Press update to make    changes on website."
+        }
+        placeholderclasses={"text-[#3C82D6]"}
+        Feemodif={true}
+      />
     </div>
   );
 };

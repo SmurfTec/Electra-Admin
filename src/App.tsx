@@ -29,7 +29,8 @@ import {
   Listings,
   Orders,
   Listingdetail,
-  Editwebsite,Webandbanner, Noticebanner,Addnewbanner,Step1, Feemodifier
+  Editwebsite,Webandbanner, Noticebanner,Addnewbanner,Step1, Feemodifier,Notifications,
+  SecurityQuestion
 } from "./pages/index";
 import { SideBar } from "./components";
 
@@ -54,6 +55,8 @@ function App() {
         <div className="ml-[36px]">
           <Routes>
             <Route path="/" element={<Signin />} />
+            <Route path="/SecurityQuestion" element={<SecurityQuestion />} />
+            <Route path="/Notifications" element={<Notifications/>}/>
             <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/Users" element={<Users />} />
             <Route path="/ProductDetail" element={<ProductView />} />

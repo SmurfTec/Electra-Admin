@@ -19,16 +19,16 @@ View admin //done
 View Roles //done
 Creating Roles //done
 Edit Website and banner 
-Listings => Priority
-Step1 for verification
-Orders
+Listings//done
+Step1 for verification//done
+Orders//done                                       
 
 Popups Division:
 Zain=>
 Shipping popup
-Receipt Popup
-Fee modifier poup
-Confirmation user popup
-Add value add variant popup
-Product Request by users
-Choose date popup
+Receipt Popup=>done
+Fee modifier poup => done
+Confirmation user popup=> done
+Add value add variant popup =>Done
+Product Request by users =>done
+Choose date popup => done

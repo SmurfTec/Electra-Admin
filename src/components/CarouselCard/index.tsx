@@ -3,29 +3,73 @@ import { Galleria, GalleriaResponsiveOptions } from "primereact/galleria";
 import IMAGES from "../../assets/Images";
 import styled from "styled-components";
 const CustomCarousel = styled(Galleria)`
+  border: 1px solid rgba(0, 0, 0, 0.11);
+  width:363px;
   .p-galleria-thumbnail-wrapper {
-    margin-top: -20px;
+    margin-top: 10px;
     .p-galleria-thumbnail-container {
       background-color: white !important;
-      background:linear-gradient(180deg, rgba(33, 33, 33, 0) 0%, rgba(33, 33, 33, 0.46) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(33, 33, 33, 0) 0%,
+        rgba(33, 33, 33, 0.46) 100%
+      );
     }
   }
   .p-galleria-item-nav {
-    background-color:#3C82D6 !important;
+    background-color: #3c82d6 !important;
     border-radius: 50px;
-    height:38px;
-    width:38px
+    height: 38px;
+    width: 38px;
+  }
+  .p-galleria-item-next {
+    padding: 5px;
+    ::before {
+      content: "";
+      display: inline-block;
+      width: 100%;
+      height: 2px;
+      background-color: #fff;
+      /* margin: 5px; */
+      margin-right: -7.5px;
+      margin-left: 5px;
+      margin-top: 4px;
+      margin-bottom: 5px;
+    }
+  }
+  .p-galleria-item-prev {
+    padding: 5px;
 
+    ::after {
+      content: "";
+      display: inline-block;
+      width: 100%;
+      height: 2px;
+      background-color: #fff;
+      /* margin: 5px; */
+      margin-left: -8.5px;
+      margin-top: 4px;
+      margin-bottom: 5px;
+      margin-right: 5px;
+    }
+  }
+  .p-galleria-thumbnail-prev{
+    display: none;
+  }.p-galleria-thumbnail-next{
+    display: none;
+  }
+  .p-galleria-thumbnail-container {
+    padding:1rem 2.25rem
   }
 `;
 export const Carouselcard = () => {
   const [images, setImages] = useState([
     {
-        itemImageSrc: IMAGES.pinkphone,
-        thumbnailImageSrc: IMAGES.pinkphone,
-        alt: "Description for Image 1",
-        title: "Title 1",
-      },
+      itemImageSrc: IMAGES.pinkphone,
+      thumbnailImageSrc: IMAGES.pinkphone,
+      alt: "Description for Image 1",
+      title: "Title 1",
+    },
     {
       itemImageSrc: IMAGES.Iphone22,
       thumbnailImageSrc: IMAGES.Iphone22,
@@ -33,14 +77,20 @@ export const Carouselcard = () => {
       title: "Title 1",
     },
     {
-        itemImageSrc: IMAGES.Greeniphone,
-        thumbnailImageSrc: IMAGES.Greeniphone,
+      itemImageSrc: IMAGES.Greeniphone,
+      thumbnailImageSrc: IMAGES.Greeniphone,
       alt: "Description for Image 1",
       title: "Title 1",
     },
     {
-        itemImageSrc: IMAGES.yellowiphone,
-        thumbnailImageSrc: IMAGES.yellowiphone,
+      itemImageSrc: IMAGES.yellowiphone,
+      thumbnailImageSrc: IMAGES.yellowiphone,
+      alt: "Description for Image 1",
+      title: "Title 1",
+    },
+    {
+      itemImageSrc: IMAGES.Greeniphone,
+      thumbnailImageSrc: IMAGES.Greeniphone,
       alt: "Description for Image 1",
       title: "Title 1",
     },
@@ -65,7 +115,7 @@ export const Carouselcard = () => {
       <img
         src={item.itemImageSrc}
         alt={item.alt}
-        style={{ width: "100%", display: "block",height:"300px" }}
+        style={{ width: "100%", display: "block", height: "300px",paddingTop:"6px" }}
       />
     );
   };
@@ -81,13 +131,13 @@ export const Carouselcard = () => {
   };
 
   return (
-    <div className="card "  >
+    <div className="card ">
       <CustomCarousel
         value={images}
         responsiveOptions={responsiveOptions}
         numVisible={5}
         circular
-        style={{ maxWidth: "530px" ,borderRadius:"15px"}}
+        style={{ maxWidth: "530px", borderRadius: "15px" }}
         showItemNavigators
         item={itemTemplate}
         thumbnail={thumbnailTemplate}

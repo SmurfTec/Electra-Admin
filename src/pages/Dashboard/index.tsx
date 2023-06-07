@@ -4,10 +4,13 @@ import {
   PlatformEarning,
   RevenueChart,
   DashTable,
-  Header
+  Header,
+  DashboardModal,
 } from "../../components";
 import IMAGES from "../../assets/Images";
+import { useState } from "react";
 export const Dashboard = () => {
+  const [visible, setvisible] = useState(false);
   const data = [
     {
       id: "#123",
@@ -32,32 +35,34 @@ export const Dashboard = () => {
     {
       img: `${IMAGES.Iphone1}`,
       id: "Iphone Pro Max",
-      name:{number :"62",status:"sold"},
-      email: {number :"62",status:"sold"},
-      Date: {number :"$542132",status:"Profit"},
+      name: { number: "62", status: "sold" },
+      email: { number: "62", status: "sold" },
+      Date: { number: "$542132", status: "Profit" },
     },
     {
       img: `${IMAGES.Iphone2}`,
       id: "Iphone Pro Max",
-      name:{number :"62",status:"pending"},
-      email: {number :"62",status:"sold"},
-      Date: {number :"$542132",status:"Profit"},
+      name: { number: "62", status: "pending" },
+      email: { number: "62", status: "sold" },
+      Date: { number: "$542132", status: "Profit" },
     },
     {
       img: `${IMAGES.Iphone1}`,
       id: "Iphone Pro Max",
-      name:{number :"62",status:"sold"},
-      email: {number :"62",status:"sold"},
-      Date: {number :"$542132",status:"Profit"},
+      name: { number: "62", status: "sold" },
+      email: { number: "62", status: "sold" },
+      Date: { number: "$542132", status: "Profit" },
     },
   ];
 
   return (
-    <div >
-       <Header 
-       UserBox={true} typeSearch={true} chooseDate={true}/>
+    <div>
+      <Header
+      dropdown={true}
+      UserBox={true} typeSearch={true} chooseDate={true} />
       <div className="flex flex-wrap justify-start gap-2">
         <DashCard
+        onClick={()=>setvisible(true)}
           title={"Net Revenue"}
           totalNumber={"$ 450,000"}
           myImg={IMAGES.coin}
@@ -94,7 +99,7 @@ export const Dashboard = () => {
           arrowImg={IMAGES.downarrow}
         />
       </div>
-      <div className="flex mt-3 gap-1 w-full  ">
+      <div className="flex mt-3 gap-1 w-full   ">
         <div>
           <StaticCard />
           <PlatformEarning />
@@ -103,23 +108,41 @@ export const Dashboard = () => {
         <div className="overflow-hidden">
           <RevenueChart />
           <DashTable
-          customHeader="User Registrations"
-          tableHeaderColor="#FCFCFC"
-          data={data} header={true} />
+            customHeader="User Registrations"
+            tableHeaderColor="#FCFCFC"
+            data={data}
+            header={true}
+          />
         </div>
       </div>
       <div className="flex justify-start gap-10 mb-6 ">
         <div className="w-[50%] ">
-          <DashTable data={data2}
-           tableHeaderColor="#FCFCFC"
-          imginData={true} selling={true} customHeader="Best Selling Product"/>
+          <DashTable
+            data={data2}
+            tableHeaderColor="#FCFCFC"
+            imginData={true}
+            selling={true}
+            customHeader="Best Selling Product"
+          />
         </div>
         <div className=" w-[50%]">
-          <DashTable data={data2}
-           tableHeaderColor="#FCFCFC"
-            imginData={true} selling={true} customHeader="Best Selling Product"/>
+          <DashTable
+            data={data2}
+            tableHeaderColor="#FCFCFC"
+            imginData={true}
+            selling={true}
+            customHeader="Best Selling Product"
+          />
         </div>
       </div>
+      <DashboardModal
+        PopupHeader="Filter Dashboard"
+        visible={visible}
+        setVisible={setvisible}
+        text={"Select Date to show statistics  until selected Date"}
+        cnfrmbtnText={"Confirm"}
+        classes={"!h-[310px]"}
+      />
     </div>
   );
 };

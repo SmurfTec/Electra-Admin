@@ -23,7 +23,7 @@ overflow: hidden !important;
 `
 export const CustomDialog=styled(Dialog)`
 position: relative;
-border-radius: 20px;
+border-radius: ${({ rounded }: any) => (rounded ? rounded : "20px")};
 hr{
   margin-top:23px ;
 }
@@ -31,6 +31,7 @@ hr{
   padding-left: 0px;
   padding-right: 0px;
   width: 100%;
+  overflow: auto;
 }
 .dialog-header{
   padding-top: 25px;

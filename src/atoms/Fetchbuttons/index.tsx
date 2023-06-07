@@ -16,7 +16,7 @@ export const FetchButton = (props:any) => {
         } p-2`}
       >
         <input 
-          type="checkbox"
+          type="radio"
           checked={isChecked}
           onChange={handleCheckboxChange}
           className="mr-2 rounded-[10px] "

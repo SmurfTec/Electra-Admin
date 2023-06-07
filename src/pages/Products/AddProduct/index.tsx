@@ -111,7 +111,7 @@ export const AddProduct = () => {
           MainClasses="mt-[40px] !border !border-custom"
         />
       </div>
-      <textarea className=" bg-lightgray border border-custom mt-4 rounded-[8px] w-[75%] h-[142px] overflow-hidden pl-[21px] pr-[22px] focus:outline-none" />
+      <textarea className="pt-2 bg-lightgray border border-custom mt-4 rounded-[8px] w-[75%] h-[142px] overflow-hidden pl-[21px] pr-[22px] focus:outline-none" />
       <div>
         <CustomButton
           txt={"Variants"}
