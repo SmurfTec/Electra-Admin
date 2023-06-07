@@ -267,7 +267,7 @@ height: 16px; */
       .p-datatable-tbody {
         tr {
           td {
-            background-color: ${({ tablebodycolor }) =>
+            background-color: ${({ tablebodycolor }:any) =>
               tablebodycolor ? tablebodycolor : `white !important`};
             font-family: "Manrope";
             font-style: normal;
