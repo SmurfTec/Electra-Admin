@@ -65,7 +65,7 @@ export const ViewAdmin = () => {
         chooseDate={true}
       />
       <div className="flex gap-7">
-        <div className="border border-[#F7F7F8] h-[480px] w-[400px]">
+        <div className="border border-[#F7F7F8] h-[450px] w-[400px]">
           <div className="p-1 flex gap-3 border-b border-custom">
             <img className="h-[136px] w-[136px]" src={IMAGES.Laughingadmin} />
             <div className="w-[70%] ">
@@ -121,7 +121,7 @@ export const ViewAdmin = () => {
             />
           </div>
         </div>
-        <div className="border border-[#F7F7F8] h-[480px] w-[400px]">
+        <div className="border border-[#F7F7F8] h-[454px] w-[400px]">
           <div className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]">
             <img className="p-2" src={IMAGES.Loginarrow} />
             <div>
@@ -177,7 +177,7 @@ export const ViewAdmin = () => {
           <div className="flex justify-center items-center">
             <p
              
-              className="text-center items-center mt-4"
+              className="text-center items-center p-1"
             >
               View More
             </p>

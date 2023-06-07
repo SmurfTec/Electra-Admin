@@ -210,7 +210,8 @@ export const Roles = () => {
             headerStyle={{ color: "black" }}
             filterData={filterData}
             columnData={columnData}
-            rowStyling={"#FCFCFC"}
+            rowStyling={"#FCFCFC !important"}
+            // columnHeader={"flex-start"}
             
           />
         </div>
