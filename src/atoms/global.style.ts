@@ -21,7 +21,45 @@ overflow: hidden !important;
   
 }
 `
-export const CustomDialog=styled(Dialog)`
+// type DialogProps = {
+//   visible?: boolean;
+//   modal?: boolean;
+//   position?: string;
+//   draggable?: boolean;
+//   resizable?: boolean;
+//   minWidth?: number;
+//   minHeight?: number;
+//   width?: any;
+//   height?: any;
+//   contentStyle?: object;
+//   contentClassName?: string;
+//   closeOnEscape?: boolean;
+//   dismissableMask?: boolean;
+//   showHeader?: boolean;
+//   header?: React.ReactNode;
+//   icons?: React.ReactNode;
+//   closable?: boolean;
+//   closeIcon?: string;
+//   appendTo?: HTMLElement | null;
+//   baseZIndex?: number;
+//   maximizable?: boolean;
+//   blockScroll?: boolean;
+//   ariaCloseIconLabel?: string;
+//   focusOnShow?: boolean;
+//   breakpoints?: object;
+//   onShow?(): void;
+//   onHide?(result: any): void;
+//   onMaximize?(event: React.MouseEvent<HTMLElement>): void;
+//   onMinimize?(event: React.MouseEvent<HTMLElement>): void;
+//   onDragStart?(event: React.MouseEvent<HTMLElement>): void;
+//   onDrag?(event: React.MouseEvent<HTMLElement>): void;
+//   onDragEnd?(event: React.MouseEvent<HTMLElement>): void;
+//   onResizeStart?(event: React.MouseEvent<HTMLElement>): void;
+//   onResize?(event: React.MouseEvent<HTMLElement>): void;
+//   onResizeEnd?(event: React.MouseEvent<HTMLElement>): void;
+//   footer?: React.ReactNode;
+// };
+export const CustomDialog=styled(Dialog)<any>`
 position: relative;
 border-radius: ${({ rounded }: any) => (rounded ? rounded : "20px")};
 hr{
@@ -130,7 +168,11 @@ position: relative;
   padding-top: 10px;
 }
 `
-export const Switch = styled(InputSwitch)`
+type SwitchProps={
+  margintop?:string
+  checked?:boolean
+}
+export const Switch = styled(InputSwitch)<SwitchProps>`
   width: 38px;
   height: 21px;
   .p-inputswitch-slider {
@@ -145,7 +187,11 @@ export const Switch = styled(InputSwitch)`
     margin-top:${({margintop}:any)=>margintop}; //-6px
   }
 `;
-export const CustomMenu = styled(Menu)`
+type menuprops={
+  width?:string;
+  height?:string
+}
+export const CustomMenu = styled(Menu)<menuprops>`
   width: ${({ width }: any) => (width ? width : "110px")};
   height: ${({ height }: any) => (height ? height : "108px")};
   padding: 10px;
@@ -176,7 +222,10 @@ export const CustomMenu = styled(Menu)`
 export const MenuWrapper = styled.div`
   position: relative;
 `;
-export const MenuList = styled.ul`
+type listprops={
+  visible?:any
+}
+export const MenuList = styled.ul<listprops>`
   position: absolute;
   top: calc(100% + 5px);
   right: 0;
@@ -208,7 +257,13 @@ export const CustomTableWrapper = styled.div`
   z-index: 100;
   border: none !important;
 `;
-export const CustomTable = styled(DataTable)`
+type tableprops={
+width?:string;
+theadStyles?:string;
+columnheader?:string;
+tablebodycolor?:string
+}
+export const CustomTable = styled(DataTable)<tableprops>`
   width: ${({ width }: any) => (width ? width : "")};
   .p-datatable-wrapper {
     box-shadow: 0px -120px 110px inset rgba(240, 240, 240, 0.452);

@@ -3,7 +3,7 @@ import { Column } from "primereact/column";
 import { ViewAll } from "../../atoms";
 import styled from "styled-components";
 // Styled Paginator component
-const CustomTable = styled(DataTable)`
+const CustomTable = styled(DataTable)<any>`
   .p-datatable-header {
     background-color: ${({ tablebgcolor }) => tablebgcolor};
     border-top: none;
