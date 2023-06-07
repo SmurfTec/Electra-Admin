@@ -57,7 +57,9 @@ export const Dashboard = () => {
 
   return (
     <div>
-      <Header UserBox={true} typeSearch={true} chooseDate={true} />
+      <Header
+      dropdown={true}
+      UserBox={true} typeSearch={true} chooseDate={true} />
       <div className="flex flex-wrap justify-start gap-2">
         <DashCard
         onClick={()=>setvisible(true)}
