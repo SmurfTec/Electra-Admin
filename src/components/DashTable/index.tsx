@@ -5,7 +5,7 @@ import styled from "styled-components";
 // Styled Paginator component
 const CustomTable = styled(DataTable)<any>`
   .p-datatable-header {
-    background-color: ${({ tablebgcolor }) => tablebgcolor};
+    background-color: ${({ tablebgcolor }:any) => tablebgcolor};
     border-top: none;
   }
   .p-datatable-tbody > tr {

@@ -24,7 +24,7 @@ export const Miniselect = (props: any) => {
         />
       ) : (
         <CustomChecked
-          onChange={(e) => setChecked(!checked)}
+          onChange={(e:any) => setChecked(!checked)}
           checked={checked}
         ></CustomChecked>
       )}
