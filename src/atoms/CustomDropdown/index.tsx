@@ -1,4 +1,5 @@
 import { Dropdown } from "primereact/dropdown";
+import { useState } from "react";
 import styled from "styled-components";
 const Drops = styled(Dropdown)`
   outline: none !important;
@@ -9,6 +10,11 @@ const Drops = styled(Dropdown)`
   display: flex;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 6px;
+  align-items: center;
+  font-weight: 500;
+  font-family: 'Manrope';
+  color: #212121;
+font-size: 16px;
   &:focus {
     outline: none !important;
     border: none !important;
@@ -22,14 +28,16 @@ const Drops = styled(Dropdown)`
   }
 `;
 export const CustomDropdown = (props: any) => {
+  const [selectedItem, setSelectedItem] = useState([props.value]);
   const cities = ["Iphone11", "Iphone12", "Iphone13", "Iphone14"];
   return (
     <Drops
       placeholdercolor={props.placeholderColor}
-      value={"YOO"}
+      value={selectedItem}
+      onChange={(e:any) => setSelectedItem(e.value)}
       className={props.mainclasses}
       placeholder={props.placeholder}
-      options={cities}
+      options={props?.options || cities}
     />
   );
 };

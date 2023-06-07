@@ -102,6 +102,18 @@ const IMAGES: any = {
     "../assets/Images/Barcode.svg",
     import.meta.url
   ).href,
+  smphone: new URL(
+    "../assets/Images/smphone.svg",
+    import.meta.url
+  ).href,
+  lguser: new URL(
+    "../assets/Images/lguser.svg",
+    import.meta.url
+  ).href,
+  cart: new URL(
+    "../assets/Images/cart.svg",
+    import.meta.url
+  ).href,
   //
   //
   //

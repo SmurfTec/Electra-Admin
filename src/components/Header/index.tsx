@@ -1,5 +1,6 @@
 import IMAGES from "../../assets/Images";
 import { HeaderSearch, ChooseDate, ChooseFilter } from "../../atoms";
+import { useNavigate } from "react-router-dom";
 type headerProps = {
   typeSearch?: boolean;
   title?: string;
@@ -12,6 +13,7 @@ type headerProps = {
   headerClasses?:string;
 };
 export const Header = (props: headerProps) => {
+  const navigate=useNavigate()
   return (
     <>
       <div className={`overflow-hidden h-14 mt-2 mb-2 flex items-center justify-between px-2 ${props.headerClasses}`}>
@@ -45,7 +47,7 @@ export const Header = (props: headerProps) => {
           )}
           <div className="flex gap-4">
             <div className="bg-[black] rounded-[39px] flex items-center w-9 h-9 justify-center items-center">
-              {props.UserBox && <img src={IMAGES.RectangleBox} />}
+              {props.UserBox && <img src={IMAGES.RectangleBox} onClick={()=>navigate('/Notifications')} />}
             </div>
             <div className="border border-[#B4B4B4]"></div>
           </div>
