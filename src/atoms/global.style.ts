@@ -21,7 +21,13 @@ overflow: hidden !important;
   
 }
 `
-export const CustomDialog=styled(Dialog)`
+type dialogprops={
+  rounded?:string
+  visible?:boolean
+  onHide?:any
+
+}
+export const CustomDialog=styled(Dialog)<dialogprops>`
 position: relative;
 border-radius: ${({ rounded }: any) => (rounded ? rounded : "20px")};
 hr{
@@ -130,7 +136,11 @@ position: relative;
   padding-top: 10px;
 }
 `
-export const Switch = styled(InputSwitch)`
+type SwitchProps={
+  margintop?:string
+  checked?:boolean
+}
+export const Switch = styled(InputSwitch)<SwitchProps>`
   width: 38px;
   height: 21px;
   .p-inputswitch-slider {
@@ -145,7 +155,11 @@ export const Switch = styled(InputSwitch)`
     margin-top:${({margintop}:any)=>margintop}; //-6px
   }
 `;
-export const CustomMenu = styled(Menu)`
+type menuprops={
+  width?:string;
+  height?:string
+}
+export const CustomMenu = styled(Menu)<menuprops>`
   width: ${({ width }: any) => (width ? width : "110px")};
   height: ${({ height }: any) => (height ? height : "108px")};
   padding: 10px;
@@ -176,7 +190,10 @@ export const CustomMenu = styled(Menu)`
 export const MenuWrapper = styled.div`
   position: relative;
 `;
-export const MenuList = styled.ul`
+type listprops={
+  visible?:any
+}
+export const MenuList = styled.ul<listprops>`
   position: absolute;
   top: calc(100% + 5px);
   right: 0;
@@ -208,7 +225,13 @@ export const CustomTableWrapper = styled.div`
   z-index: 100;
   border: none !important;
 `;
-export const CustomTable = styled(DataTable)`
+type tableprops={
+width?:string;
+theadStyles?:string;
+columnheader?:string;
+tablebodycolor?:string
+}
+export const CustomTable = styled(DataTable)<tableprops>`
   width: ${({ width }: any) => (width ? width : "")};
   .p-datatable-wrapper {
     box-shadow: 0px -120px 110px inset rgba(240, 240, 240, 0.452);

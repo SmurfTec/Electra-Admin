@@ -8,7 +8,7 @@ export const AuthValueModel = ({classes,visible,setVisible,title="Email Verifica
     const[Code,setCode]=useState("")
   return (
     <>
-    <CustomDialog className={`${classes} bg-[#FFFFFF] w-[543px] h-[358px] flex  justify-center align-middle items-center `} visible={visible} >
+    <CustomDialog onHide={classes}className={`${classes} bg-[#FFFFFF] w-[543px] h-[358px] flex  justify-center align-middle items-center `} visible={visible} >
     <i className='pi pi-times absolute right-4 top-4 cursor-pointer' onClick={()=>setVisible(false)}></i>
     <div className='dialog-header'>
        <p className='text-center text-[20px] font-[700] text-black uppercase '>{title} </p>

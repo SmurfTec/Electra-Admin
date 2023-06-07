@@ -1,7 +1,13 @@
 import { Dropdown } from "primereact/dropdown";
 import { useState } from "react";
 import styled from "styled-components";
-const Drops = styled(Dropdown)`
+interface DropsProps {
+  placeholdercolor: string;
+  // Add here other props if necessary
+}
+
+
+const Drops = styled(Dropdown)<DropsProps>`
   outline: none !important;
   box-shadow: none !important;
   background-color: #f6f6f6 ;
