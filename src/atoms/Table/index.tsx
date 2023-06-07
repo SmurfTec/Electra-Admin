@@ -13,6 +13,7 @@ export const CustomTableComponent = ({
   MultipleSelect,
   showlines, 
   MultipleHeaderStyle,
+  columnHeaderFirst,
   ...props
 }: any) => {
   return (
@@ -33,6 +34,7 @@ export const CustomTableComponent = ({
           }
           tablebodycolor={rowStyling??""}
           columnheader={props.columnHeader}
+          columnHeaderFirst={columnHeaderFirst}
           showGridlines ={showlines ?true:false}
         >
           {MultipleSelect && (

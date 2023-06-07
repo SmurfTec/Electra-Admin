@@ -96,7 +96,7 @@ export const Roles = () => {
   ];
   const AccountBodyTemplate = (option: any) => {
     return (
-      <div className="flex gap-2 items-center justify-center">
+      <div className="flex gap-2 items-center justify-start">
         <img src={IMAGES.Guy1} />
         <p className="font-bold">{option.Account}</p>
       </div>
@@ -208,7 +208,8 @@ export const Roles = () => {
               <p className="m-0">
                 <CustomTableComponent
                   columnStyle={{ backgroundColor: "#FCFCFC" }}
-                  headerStyle={{ color: "black",fontWeight:"800" }}
+                  headerStyle={{ color: "black",fontWeight:"800",textAlign:"left" }}
+                  columnHeaderFirst={"start"}
                   filterData={filterData}
                   columnData={columnData}
                   rowStyling={"#FCFCFC !important"}
