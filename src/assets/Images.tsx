@@ -94,6 +94,14 @@ const IMAGES: any = {
     "../assets/Images/Ultrablackiphone2.svg",
     import.meta.url
   ).href,
+  Umbrella: new URL(
+    "../assets/Images/Umbrella.svg",
+    import.meta.url
+  ).href,
+  Barcode: new URL(
+    "../assets/Images/Barcode.svg",
+    import.meta.url
+  ).href,
   //
   //
   //
@@ -154,5 +162,7 @@ const IMAGES: any = {
   Calendar: new URL("../assets/icons/Calendar.svg", import.meta.url).href,
   GreenTick: new URL("../assets/icons/GreenTick.svg", import.meta.url).href,
   PassSuccess: new URL("../assets/icons/PassSuccess.svg", import.meta.url).href,
+  Printer: new URL("../assets/icons/Printer.svg", import.meta.url).href,
+  Receipt: new URL("../assets/icons/Receipt.svg", import.meta.url).href,
 };
 export default IMAGES;

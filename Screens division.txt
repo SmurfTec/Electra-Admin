@@ -26,7 +26,7 @@ Orders
 Popups Division:
 Zain=>
 Shipping popup
-Receipt Popup
+Receipt Popup=>done
 Fee modifier poup => done
 Confirmation user popup=> done
 Add value add variant popup =>Done

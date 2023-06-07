@@ -1,11 +1,12 @@
 import React from "react";
-import { Header, AdminCards, DashCard } from "../../../components";
+import { Header, AdminCards, DashCard ,ShippingModal} from "../../../components";
 import { CustomTableComponent } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 export const Roles = () => {
+  const [visible,setVisible]=React.useState(false)
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
 
@@ -160,6 +161,7 @@ export const Roles = () => {
   ];
   return (
     <div>
+      <ShippingModal visible={visible} setVisible={setVisible} />
       <Header
         placeholder="Search Admins"
         typeSearch={true}
@@ -179,6 +181,7 @@ export const Roles = () => {
           Addimg={IMAGES.newmembers}
         />
         <DashCard
+        onClick={()=>setVisible(true)}
           outerclasses={"!bg-[#3C82D6] !w-[187px] !h-[93px]"}
           Add={true}
           txt={"View Roles"}
