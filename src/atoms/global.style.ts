@@ -21,13 +21,45 @@ overflow: hidden !important;
   
 }
 `
-type dialogprops={
-  rounded?:string
-  visible?:boolean
-  onHide?:any
-
-}
-export const CustomDialog=styled(Dialog)<dialogprops>`
+// type DialogProps = {
+//   visible?: boolean;
+//   modal?: boolean;
+//   position?: string;
+//   draggable?: boolean;
+//   resizable?: boolean;
+//   minWidth?: number;
+//   minHeight?: number;
+//   width?: any;
+//   height?: any;
+//   contentStyle?: object;
+//   contentClassName?: string;
+//   closeOnEscape?: boolean;
+//   dismissableMask?: boolean;
+//   showHeader?: boolean;
+//   header?: React.ReactNode;
+//   icons?: React.ReactNode;
+//   closable?: boolean;
+//   closeIcon?: string;
+//   appendTo?: HTMLElement | null;
+//   baseZIndex?: number;
+//   maximizable?: boolean;
+//   blockScroll?: boolean;
+//   ariaCloseIconLabel?: string;
+//   focusOnShow?: boolean;
+//   breakpoints?: object;
+//   onShow?(): void;
+//   onHide?(result: any): void;
+//   onMaximize?(event: React.MouseEvent<HTMLElement>): void;
+//   onMinimize?(event: React.MouseEvent<HTMLElement>): void;
+//   onDragStart?(event: React.MouseEvent<HTMLElement>): void;
+//   onDrag?(event: React.MouseEvent<HTMLElement>): void;
+//   onDragEnd?(event: React.MouseEvent<HTMLElement>): void;
+//   onResizeStart?(event: React.MouseEvent<HTMLElement>): void;
+//   onResize?(event: React.MouseEvent<HTMLElement>): void;
+//   onResizeEnd?(event: React.MouseEvent<HTMLElement>): void;
+//   footer?: React.ReactNode;
+// };
+export const CustomDialog=styled(Dialog)<any>`
 position: relative;
 border-radius: ${({ rounded }: any) => (rounded ? rounded : "20px")};
 hr{
