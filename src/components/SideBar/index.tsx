@@ -69,7 +69,7 @@ export const SideBar = () => {
     },
   ]);
   const handleItemClick = (itemId: number) => {
-    const updatedNavItems = navItems.map((item) => {
+    const updatedNavItems:any = navItems.map((item) => {
       if (item.id === itemId) {  
         if(item.name=="Settings"){
           return { ...item, active: true,iconFillColor:'transparent' };  //icon:IMAGES.SettingActive,
