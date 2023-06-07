@@ -9,6 +9,15 @@ import {
 import { Sidebar } from "primereact/sidebar";
 import IMAGES from "../../../assets/Images";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+const CustomSidebar = styled(Sidebar)`
+  .p-sidebar-header {
+    display: none;
+  }
+  .p-sidebar-content {
+    padding: 0;
+  }
+`;
 export const Step1 = () => {
   const navigate= useNavigate()
   const [select, setSelect] = React.useState(0);
@@ -49,35 +58,36 @@ export const Step1 = () => {
   return (
     <div>
       <Header title="Item Verification & Details" UserBox={true} />
-      <Sidebar
+      <CustomSidebar
         visible={select === 1 ? true : false}
         position="right"
         onHide={() => setSelect(0)}
-        className="!w-[30rem]"
+        className="!w-[40rem]"
       >
-        <h2 className="font-bold text-[19px] border-b border-custom pb-2 w-full">
+        <h2 className="font-bold text-[#000000] p-4 text-[19px] mt-3 px-4 w-full">
           Details from seller
         </h2>
-        <InputTxt placeholder="Filter details" MainClasses="mt-[40px]" />
-        <p className="font-bold text-[20px] text-[#000000] mt-6">
+        <div className="border border-custom"></div>
+        <InputTxt placeholder="Filter details" MainClasses="mt-[40px] ml-4" />
+        <p className="font-bold text-[20px] text-[#000000] mt-6 px-4" >
           What accessories are included?
         </p>
-        <div className="flex gap-3  border-b border-custom pb-6 mt-3">
+        <div className="flex gap-3  border-b border-custom pb-6 mt-3 px-4">
           <Miniselect txt={"Charger Cable"} />
           <Miniselect txt={"Original Box"} />
         </div>
-        <p className="font-bold text-[20px] text-[#000000] mt-4">
+        <p className="font-bold text-[20px] text-[#000000] mt-4 px-4" >
           Has your item ever been repaired before?
         </p>
-        <p className="text-[15px] leading-6 border-b border-custom pb-6">
+        <p className="text-[15px] leading-6 border-b border-custom pb-6 px-4">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac
           tincidunt elit. Nunc euismod odio sit amet lorem lobortis, vel lacinia
           libero tristique. Nunc porttitor arcu accumsan,
         </p>
-        <p className="font-bold text-[20px] text-[#000000] mt-4">
+        <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
           What best describes overall condition of your item?
         </p>
-        <ul className="list-tick border-b border-custom pb-6">
+        <ul className="list-tick border-b border-custom pb-6 px-4">
           <li>
             Device has signs of heavy use such as deep scratches, dents, scuffs,
             or excessive scratching
@@ -99,50 +109,58 @@ export const Step1 = () => {
             or excessive scratching
           </li>
         </ul>
-        <p className="font-bold text-[20px] text-[#000000] mt-4">
+        <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
           Tell us more about your item?
         </p>
-        <p className="text-[#656565]">
+        <p className="text-[#656565] px-4">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac
           tincidunt elit. Nunc euismod odio sit amet lorem lobortis, vel lacinia
           libero tristique. Nunc porttitor arcu accumsan,
         </p>
-      </Sidebar>
-      <Sidebar
+      </CustomSidebar>
+      <CustomSidebar
         visible={select === 2 ? true : false}
         position="right"
         onHide={() => setSelect(0)}
-        className="!w-[30rem]"
+        className="!w-[40rem]"
       >
-        <h2 className="font-bold text-[19px] border-b border-custom pb-2 w-full">
-          technical Specification
+        <h2 className="font-bold text-[#000000] p-4  text-[19px] mt-2 px-4  pb-2 w-full">
+          Technical Specification
         </h2>
-        <InputTxt placeholder="Filter Specification" MainClasses="mt-[40px]" />
-        <p className="font-bold text-[20px] text-[#000000] mt-6 ">MPN</p>
-        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
+        <div className="border border-custom"></div>
+        <InputTxt
+          placeholder="Filter Specification"
+          MainClasses="mt-[40px] ml-4"
+        />
+        <p className="font-bold text-[20px] text-[#000000] mt-6 px-4 ">MPN</p>
+        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6 px-4">
           535MWRL4355
         </p>
-        <p className="font-bold text-[20px] text-[#000000] mt-6 ">Storage</p>
-        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
+        <p className="font-bold text-[20px] text-[#000000] mt-6 px-4">
+          Storage
+        </p>
+        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6 px-4">
           128 GB
         </p>
 
-        <p className="font-bold text-[20px] text-[#000000] mt-6 ">Model No</p>
-        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
+        <p className="font-bold text-[20px] text-[#000000] mt-6 px-4">
+          Model No
+        </p>
+        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6 px-4">
           43GG
         </p>
 
-        <p className="font-bold text-[20px] text-[#000000] mt-6 ">
+        <p className="font-bold text-[20px] text-[#000000] mt-6 px-4">
           Release Date
         </p>
-        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
+        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6 px-4">
           20 Aug 2022
         </p>
-        <p className="font-bold text-[20px] text-[#000000] mt-6 ">RAM</p>
-        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6">
+        <p className="font-bold text-[20px] text-[#000000] mt-6 px-4">RAM</p>
+        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6 px-4">
           8GB
         </p>
-      </Sidebar>
+      </CustomSidebar>
       <div>
         <div className="flex">
           <div className="flex gap-5 ">
@@ -269,7 +287,7 @@ export const Step1 = () => {
           </div>
         </div>
         {/* PRODUCT VARAINTSS */}
-        <div className="flex items-center">
+        <div className="flex items-center gap-7 mt-1">
           <div>
             <h1 className="text-[24px] font-bold my-3">Product Variants</h1>
             <Variants data={VariantsArray} />
