@@ -85,7 +85,7 @@ export const Listingdetail = () => {
           Details from seller
         </h2>
         <div className="border border-custom"></div>
-        <InputTxt placeholder="Filter details" MainClasses="mt-[40px] ml-2" />
+        <InputTxt placeholder="Filter details" MainClasses="mt-[40px] ml-4" />
         <p className="font-bold text-[20px] text-[#000000] mt-6 px-4" >
           What accessories are included?
         </p>
@@ -147,7 +147,7 @@ export const Listingdetail = () => {
         <div className="border border-custom"></div>
         <InputTxt
           placeholder="Filter Specification"
-          MainClasses="mt-[40px] ml-2"
+          MainClasses="mt-[40px] ml-4"
         />
         <p className="font-bold text-[20px] text-[#000000] mt-6 px-4 ">MPN</p>
         <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6 px-4">

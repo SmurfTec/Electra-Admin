@@ -1,12 +1,18 @@
 import React from "react";
-import { Header, AdminCards, DashCard ,ShippingModal} from "../../../components";
+import {
+  Header,
+  AdminCards,
+  DashCard,
+  ShippingModal,
+} from "../../../components";
 import { CustomTableComponent } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import IMAGES from "../../../assets/Images";
-import { CustomMenu } from "../../../atoms/global.style";
+import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
+import { TabPanel } from "primereact/tabview";
 export const Roles = () => {
-  const [visible,setVisible]=React.useState(false)
+  const [visible, setVisible] = React.useState(false);
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
 
@@ -88,7 +94,7 @@ export const Roles = () => {
       ],
     },
   ];
-  const AccountBodyTemplate = (option:any) => {
+  const AccountBodyTemplate = (option: any) => {
     return (
       <div className="flex gap-2 items-center justify-center">
         <img src={IMAGES.Guy1} />
@@ -181,7 +187,7 @@ export const Roles = () => {
           Addimg={IMAGES.newmembers}
         />
         <DashCard
-        onClick={()=>setVisible(true)}
+          onClick={() => setVisible(true)}
           outerclasses={"!bg-[#3C82D6] !w-[187px] !h-[93px]"}
           Add={true}
           txt={"View Roles"}
@@ -197,23 +203,29 @@ export const Roles = () => {
               Find all of your team accounts
             </span>
           </p>
-          <div className="flex gap-8 px-4 border-b border-custom ">
-            <p className="border-b-4 border-[#3C82D6] text-[#3C82D6] pb-2 font-semibold">
-              All (9)
-            </p>
-            <p className="text-[#B4B4B4]">Super Admin (3)</p>
-            <p className="text-[#B4B4B4]">Admin (3) </p>
-            <p className="text-[#B4B4B4]">Sub Admin(9)</p>
-          </div>
-          <CustomTableComponent
-            columnStyle={{ backgroundColor: "#FCFCFC" }}
-            headerStyle={{ color: "black" }}
-            filterData={filterData}
-            columnData={columnData}
-            rowStyling={"#FCFCFC !important"}
-            // columnHeader={"flex-start"}
-            
-          />
+           <CustomTabView>
+            <TabPanel header="All(6)">
+              <p className="m-0">
+                <CustomTableComponent
+                  columnStyle={{ backgroundColor: "#FCFCFC" }}
+                  headerStyle={{ color: "black",fontWeight:"800" }}
+                  filterData={filterData}
+                  columnData={columnData}
+                  rowStyling={"#FCFCFC !important"}
+                  // columnHeader={"flex-start"}
+                />
+              </p>
+            </TabPanel>
+            <TabPanel header="Fail (1)">
+              <p className="m-0"></p>
+            </TabPanel>
+            <TabPanel header="Pass (1)">
+              <p className="m-0"></p>
+            </TabPanel>
+            <TabPanel header="Pending (1)">
+              <p className="m-0"></p>
+            </TabPanel>
+          </CustomTabView>
         </div>
       </div>
     </div>
