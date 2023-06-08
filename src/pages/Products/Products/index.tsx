@@ -146,8 +146,11 @@ export const Products = () => {
           availibility: "Active",
         },
       ]);
+      const [MenuLabel, setMenuLabel] = useState("");
       const menuLeft: any = useRef(null);
       const [selectedProducts, setSelectedProducts] = useState<any>([]);
+      const[LoadMore,setLoadMore]=useState(true)
+      const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
       const SwitchTemplate = (option: any) => {
         const [checked, setChecked] = useState(option.availibility.toLowerCase()=="active"?true:false);
         return (
@@ -156,64 +159,68 @@ export const Products = () => {
           </>
         );
       };
-      const handleBanUser = (e:any) => {
-        e.preventDefault()
-        const selectedUserIds = selectedProducts.map((product: any) => product.id);
-        console.log("Selected User IDs:", selectedUserIds);
+      const deleteItem = (event: React.MouseEvent, item: any) => {
+        event.stopPropagation();
+        setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+      
       };
-      const items = [
+      const ViewItem = (event: React.MouseEvent, item: any) => {
+        event.stopPropagation();
+        setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+        navigate('/ProductDetail')
+      };
+      
+      const items= [
         {
-    
-          items: [
-            {
-              label: "Ban User",
-              command: handleBanUser,
-              template: (item: any, options: any) => {
-                return (
-                  <div style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
-                    <SVGIcon
-                      fillcolor={'#212121'}
-                      src={IMAGES.Ban}
-                    /> Ban User
-                  </div>
-                )
-              }
-            },
-            {
-              label: "Delete",
-              command: handleBanUser,
-              template: (item: any, options: any) => {
-                return (
-                  <div  style={{ background: 'rgba(231, 29, 54, 0.05)' }} className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]">
-                    <SVGIcon
-    
-                      fillcolor={'#E71D36'}
-                      src={IMAGES.Delete}
-                    /> Delete
-                  </div>
-                )
-              }
-            },
-            {
-              label: "Select",
-              command: handleBanUser,
-              template: (item: any, options: any) => {
-                return (
-                  <div  style={{ background: 'rgba(46, 102, 194, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
-                    <SVGIcon
-                      fillcolor={'#212121'}
-                      src={IMAGES.Select}
-                    /> Select
-                  </div>
-                )
-              }
-            },
-          ],
+          label: "View",
+          template: (item: any, options: any) => {
+            return (
+              <div  onClick={(event:any) => ViewItem(event, item)} style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
+                <SVGIcon
+                width="9px"
+                height="6px"
+                  fillcolor={'#212121'}
+                  src={IMAGES.eye}
+                /> View
+              </div>
+            )
+          }
         },
-    
+        {
+          label: "Delete",
+          template: (item: any, options: any) => {
+            return (
+              <div   onClick={(event:any) => deleteItem(event, item)}  style={{ background: 'rgba(231, 29, 54, 0.05)' }} className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]">
+                <SVGIcon
+                 
+                  fillcolor={'#E71D36'}
+                  src={IMAGES.Delete}
+                /> Delete
+              </div>
+            )
+          }
+        },
+        {
+          label: "Select",
+          template: (item: any, options: any) => {
+            return (
+              <div  onClick={(event:any) => ViewItem(event, item)}  style={{ background: 'rgba(46, 102, 194, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
+                <SVGIcon
+                
+                  fillcolor={'#212121'}
+                  src={IMAGES.Select}
+                /> Select
+              </div>
+            )
+          }
+        },
       ];
       const MenuBodyTemplate = (rowData:any) => {
-    
+        const handleClick = (event: any) => {
+          event.preventDefault();
+          setCurrSelectedProduct(rowData.id);
+          menuLeft.current.toggle(event);
+        };
     
         return (
           <>
@@ -221,10 +228,7 @@ export const Products = () => {
               className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
             >
               <SVGIcon
-                onClick={(event: any) => {
-                  event.preventDefault();
-                  menuLeft.current.toggle(event);
-                }}
+                onClick={handleClick}
     
                 src={IMAGES.Dots}
               />
@@ -245,12 +249,7 @@ export const Products = () => {
 
         {field:"",header:'' ,body:MenuBodyTemplate}
       ])
-      useEffect(()=>{
-        if(selectedProducts.length>0){
-            navigate('/ProductDetail')
-        }
-        console.log(selectedProducts)
-          },[selectedProducts])
+      
     return (
         <div>
             <Header
@@ -311,7 +310,8 @@ export const Products = () => {
                  setSelectedProducts={setSelectedProducts} 
                  columnData={columnData} 
                  MultipleSelect={true} 
-                 
+                 LoadMore={LoadMore} 
+          setLoadMore={setLoadMore}
                  />
 
 

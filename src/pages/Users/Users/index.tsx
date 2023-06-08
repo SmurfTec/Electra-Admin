@@ -203,7 +203,7 @@ export const Users = () => {
           <div
             style={{ background: "rgba(231, 29, 54, 0.05)" }}
             className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-            onClick={(event) => deleteItem(event, item)}
+            onClick={(event:any) => deleteItem(event, item)}
           >
             <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
           </div>
@@ -217,7 +217,7 @@ export const Users = () => {
           <div
             style={{ background: "rgba(46, 102, 194, 0.05)" }}
             className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-            onClick={(event) => ViewItem(event, item)}
+            onClick={(event:any) => ViewItem(event, item)}
           >
             <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
           </div>
@@ -275,11 +275,7 @@ export const Users = () => {
     { field: "registerValue", header: "Registered Via" },
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
-  // useEffect(() => {
-  //   if (selectedProducts.length > 0) {
-  //     navigate("/UserProfile");
-  //   }
-  // }, [selectedProducts]);
+  
   return (
     <div className="">
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
@@ -323,7 +319,7 @@ export const Users = () => {
           setSelectedProducts={setSelectedProducts}
           columnData={columnData}
           MultipleSelect={true}
-          LoadMore={LoadMore}
+          LoadMore={LoadMore} 
           setLoadMore={setLoadMore}
         />
       </div>
