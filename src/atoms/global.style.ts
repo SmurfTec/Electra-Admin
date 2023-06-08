@@ -252,7 +252,7 @@ export const CustomTableWrapper = styled.div`
   width: 100%;
   height: 150px;
   position: absolute;
-  bottom: 17px;
+  bottom: 66px;
   left: 0;
   z-index: 100;
   border: none !important;

@@ -1,6 +1,8 @@
 import { Column } from "primereact/column";
-
+import { useState } from "react";
 import { CustomTableWrapper, CustomTable } from "../global.style";
+import { CustomButton } from "..";
+import IMAGES from "../../assets/Images";
 export const CustomTableComponent = ({
   columnStyle,
   headerStyle,
@@ -14,16 +16,19 @@ export const CustomTableComponent = ({
   showlines, 
   MultipleHeaderStyle,
   columnHeaderFirst,
+  LoadMore,
+  setLoadMore,
   ...props
 }: any) => {
+  const[rowsize,setrowsize]=useState(LoadMore==true?10:filterData.length)
   return (
     <>
       <div className="relative">
-        {showWrapper && <CustomTableWrapper></CustomTableWrapper>}
+        {LoadMore && <CustomTableWrapper></CustomTableWrapper>}
         <CustomTable
           {...props}
-          rows={10}
-          value={filterData}
+         
+          value={filterData.slice(0,rowsize)}
           scrollable={false}
           selection={selectedProducts ? selectedProducts : []}
           dataKey="id"
@@ -55,6 +60,14 @@ export const CustomTableComponent = ({
             );
           })}
         </CustomTable>
+    {LoadMore &&
+    <div className='flex justify-center mt-3 w-full '>
+    <CustomButton onClick={()=>{
+      setLoadMore(false)
+      setrowsize(filterData.length)
+    }} editIcon={<img src={IMAGES.arrowDown} />} txt={'View More'}  classes=' !bg-[#FFFFFF] !h-[50px] !font-[700] !text-[16px] !text-[black] '/>
+    </div>
+    }    
       </div>
     </>
   );
