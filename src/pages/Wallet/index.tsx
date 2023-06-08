@@ -10,6 +10,7 @@ export const Wallet = () => {
     const [MenuLabel, setMenuLabel] = useState("")
     const [CurrSelectedProduct, setCurrSelectedProduct] = useState('')
     const [selectedProducts, setSelectedProducts] = useState<any>([]);
+    const[LoadMore,setLoadMore]=useState(true)
     const menuLeft: any = useRef(null);
     const [filterData] = useState([
         {
@@ -276,6 +277,8 @@ export const Wallet = () => {
                     setSelectedProducts={setSelectedProducts}
                     columnData={columnData}
                     MultipleSelect={true}
+                    LoadMore={LoadMore} 
+                    setLoadMore={setLoadMore}
                 />
             </div>
         </div>

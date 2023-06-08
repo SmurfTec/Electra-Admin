@@ -183,7 +183,7 @@ export const Products = () => {
                   src={IMAGES.eye}
                 /> View
               </div>
-            )
+            ) 
           }
         },
         {
