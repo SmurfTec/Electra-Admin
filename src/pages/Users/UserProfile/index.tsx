@@ -190,7 +190,7 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
               <h1 className='text-[24px] font-[600] text-[#212121]'>John Carter</h1>
               <p className='text-[14px] font-[400] text-[#969696]'>annejacob2@ummoh.com</p>
             </div>
-          </div>
+          </div> 
           <div className='flex justify-between mt-[46px]'>
             <div className='flex flex-col'>
               <h1 className='text-[14px] font-[500] text-[#969696]'>Joined On</h1>

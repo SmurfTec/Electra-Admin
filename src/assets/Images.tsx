@@ -121,6 +121,8 @@ const IMAGES: any = {
   //
   //
   //
+  DeleteIcon: new URL("../assets/icons/deleteIcon.svg", import.meta.url).href,
+  arrowDown: new URL("../assets/icons/arrowDown.svg", import.meta.url).href,
   New: new URL("../assets/icons/New.svg", import.meta.url).href,
   Person: new URL("../assets/icons/Person.svg", import.meta.url).href,
   bluetick: new URL("../assets/icons/bluetick.svg", import.meta.url).href,
