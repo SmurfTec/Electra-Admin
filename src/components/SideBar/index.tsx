@@ -150,14 +150,14 @@ const Logout=()=>{
       alt="Logo"
     />
     <div className="flex flex-col gap-3">
-      <div className="w-[11.75rem] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px]">
+      <div className="md:w-[11rem] lg:w-[11.75rem] h-[35px] flex items-center justify-between md:ml-[12px] lg:ml-[22px] rounded-[8px] pl-[17px] pr-[19px]">
         <p className="text-gray font-[600]">ADMIN</p>
       </div>
       {navItems.map((item: any) => (
         <Link key={item.id} to={item.url}>
           <div
             key={item.id}
-            className={`w-[11.75rem] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px] ${
+            className={`md:w-[11rem] lg:w-[11.75rem] h-[35px] flex items-center justify-between md:ml-[12px] lg:ml-[22px] rounded-[8px] pl-[17px] pr-[19px] ${
               item.active ? "bg-[#212121]" : ""
             }`}
             onClick={(e:any) => {handleItemClick(item.id)}}
@@ -173,7 +173,7 @@ const Logout=()=>{
               <p
                 className={`${
                   item.active ? "text-[white]" : "text-gray"
-                }  font-[600] cursor-pointer`}
+                }  font-[600] cursor-pointer md:text-[13px] lg:text-[16px]`}
               >
                 {item.name}
               </p>
