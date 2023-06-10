@@ -53,6 +53,26 @@ export const Dashboard = () => {
       email: { number: "62", status: "sold" },
       Date: { number: "$542132", status: "Profit" },
     },
+    {
+      img: `${IMAGES.Iphone1}`,
+      id: "Iphone Pro Max",
+      name: { number: "62", status: "sold" },
+      email: { number: "62", status: "sold" },
+      Date: { number: "$542132", status: "Profit" },
+    },
+    {
+      img: `${IMAGES.Iphone1}`,
+      id: "Iphone Pro Max",
+      name: { number: "62", status: "sold" },
+      email: { number: "62", status: "sold" },
+      Date: { number: "$542132", status: "Profit" },
+    },{
+      img: `${IMAGES.Iphone1}`,
+      id: "Iphone Pro Max",
+      name: { number: "62", status: "sold" },
+      email: { number: "62", status: "sold" },
+      Date: { number: "$542132", status: "Profit" },
+    },
   ];
 
   return (
@@ -62,7 +82,7 @@ export const Dashboard = () => {
       UserBox={true} typeSearch={true} chooseDate={true} />
       <div className="flex flex-wrap justify-start gap-2">
         <DashCard
-        onClick={()=>setvisible(true)}
+        onClick={()=>setvisible(true)}  
           title={"Net Revenue"}
           totalNumber={"$ 450,000"}
           myImg={IMAGES.coin}
@@ -123,6 +143,7 @@ export const Dashboard = () => {
             imginData={true}
             selling={true}
             customHeader="Best Selling Product"
+            pagination={true}
           />
         </div>
         <div className=" w-[50%]">
@@ -132,6 +153,8 @@ export const Dashboard = () => {
             imginData={true}
             selling={true}
             customHeader="Best Selling Product"
+            pagination={true}
+
           />
         </div>
       </div>
