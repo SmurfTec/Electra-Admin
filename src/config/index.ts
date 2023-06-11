@@ -1,6 +1,6 @@
 import axios from "axios";
 const instance = axios.create({
-  baseURL: "http://ec2-3-21-106-215.us-east-2.compute.amazonaws.com/",
+  baseURL: "http://ec2-3-21-106-215.us-east-2.compute.amazonaws.com:5000/",
 });
 
 export const setAuthToken = (tokeen?: any) => {
