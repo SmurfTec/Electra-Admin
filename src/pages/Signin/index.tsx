@@ -19,7 +19,7 @@ export const Signin = () => {
   const [PassModel, setPassModel] = useState(false);
 
   const navigate = useNavigate();
-  const Login1 = (event: any) => {
+  const Login1 =async (event: any) => {
     const data:LoginData={
       email:Email,
       password:Password
@@ -37,9 +37,12 @@ export const Signin = () => {
       }
     } else {
       localStorage.setItem("user", JSON.stringify(user));
-      const loginCall = dispatch(Login(data) as any);
-      console.log(loginCall)
-      // navigate("/Dashboard");
+      const loginCall = await dispatch(Login(data) as any);
+      console.log()
+      if(loginCall.payload.user){
+        navigate("/Dashboard");
+      
+      }
     }
   };
   useEffect(() => {

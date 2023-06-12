@@ -6,11 +6,12 @@ type LoginData = {
   password: string;
 };
 type LoginResponse = {
-  name: string;
-  email: string;
-  accessToken: string;
-  refreshToken: string;
-
+  // name: string;
+  user: {
+    email: string;
+  };
+  accessTokenCookie: string;
+  refreshTokenCookie: string;
 };
 export const Login = createAsyncThunk<
   LoginResponse,
@@ -18,8 +19,9 @@ export const Login = createAsyncThunk<
   { rejectValue: any }
 >("auth/login", async (data: LoginData) => {
   try {
-    let response = await url.post("/login", { data });
-    console.log(response,"RESPONSE")
+    let response: any = await url.post("/auth/login", data);
+    console.log(response, "RESPONSE");
+
     return response.data;
   } catch (e) {
     return e;
@@ -32,7 +34,7 @@ const initialState: any = {
   email: "",
   accessToken: "",
   refreshToken: "",
-  status:"idle"
+  status: "idle",
 };
 
 const authSlice = createSlice({
@@ -49,11 +51,13 @@ const authSlice = createSlice({
       state.status = action.error.message;
     }),
       builder.addCase(Login.fulfilled, (state, action) => {
+        const { accessTokenCookie, refreshTokenCookie } = action.payload;
+        const email = action.payload.user.email;
+
         state.auth = true;
-        state.name = action.payload.name;
-        state.email = action.payload.email;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
+        state.email = email;
+        state.accessTokenCookie = accessTokenCookie;
+        state.refreshTokenCookie = refreshTokenCookie;
         state.status = "Success";
       });
   },
