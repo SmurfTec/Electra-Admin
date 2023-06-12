@@ -6,6 +6,7 @@ const instance = axios.create({
 export const setAuthToken = (tokeen?: any) => {
   try {
     const token = JSON.parse(localStorage.getItem("token") as string);
+    console.log(token,"Token")
     if (tokeen) {
       instance.defaults.headers.common["Authorization"] = `Bearer ${tokeen}`;
     }

@@ -29,10 +29,17 @@ import {
   Listings,
   Orders,
   Listingdetail,
-  Editwebsite,Webandbanner, Noticebanner,Addnewbanner,Step1, Feemodifier,Notifications,
-  SecurityQuestion
+  Editwebsite,
+  Webandbanner,
+  Noticebanner,
+  Addnewbanner,
+  Step1,
+  Feemodifier,
+  Notifications,
+  SecurityQuestion,
 } from "./pages/index";
 import { SideBar } from "./components";
+import PrivateRoute from "./routes/Privateroute";
 
 function App() {
   const [show, setShow] = useState(false);
@@ -56,15 +63,22 @@ function App() {
           <Routes>
             <Route path="/" element={<Signin />} />
             <Route path="/SecurityQuestion" element={<SecurityQuestion />} />
-            <Route path="/Notifications" element={<Notifications/>}/>
-            <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/Notifications" element={<Notifications />} />
+            <Route
+              path="/Dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
             <Route path="/Users" element={<Users />} />
             <Route path="/ProductDetail" element={<ProductView />} />
             <Route path="/UserProfile" element={<UserProfile />} />
             <Route path="/AddProduct" element={<AddProduct />} />
             <Route path="/Productrequest" element={<ProductRequests />} />
             <Route path="/Roles" element={<Roles />} />
-            <Route path="/Products" element={<Products />} /> 
+            <Route path="/Products" element={<Products />} />
             <Route path="/Wallet" element={<Wallet />} />
             <Route path="/Coupon" element={<Coupon />} />
             <Route path="/CreateCoupon" element={<CreateCoupon />} />
@@ -78,7 +92,10 @@ function App() {
             <Route path="/Searchrole" element={<Searchrole />} />
             <Route path="/Verification" element={<Verification />} />
             <Route path="/Verification/Step1" element={<Step1 />} />
-            <Route path="/Verification/ItemVerification" element={<ItemVerification />} />
+            <Route
+              path="/Verification/ItemVerification"
+              element={<ItemVerification />}
+            />
             <Route path="/Settings" element={<Settings />} />
             <Route path="/Creationroles" element={<Createrole />} />
             <Route path="/Listings" element={<Listings />} />
