@@ -65,7 +65,8 @@ export const Signin = () => {
       <InputTxt
         placeholder="Enter Email"
         MainClasses="mt-[40px]"
-        img={IMAGES.Email}
+        iconLeft={true}
+        LeftIcon={IMAGES.Email}
         value={Email}
         onChange={(e: any) => setEmail(e.target.value)}
       />
