@@ -40,11 +40,12 @@ import {
 } from "./pages/index";
 import { SideBar } from "./components";
 import PrivateRoute from "./routes/Privateroute";
+import { token } from "./store/Slices/AuthSlice";
 
 function App() {
   const [show, setShow] = useState(false);
   const location = useLocation();
-  const user = JSON.parse(localStorage.getItem("user") as string);
+  const user = JSON.parse(localStorage.getItem("token") as string);
   useEffect(() => {
     if (!user || location.pathname === "/") {
       setShow(false);
