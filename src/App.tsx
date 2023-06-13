@@ -68,9 +68,9 @@ function App() {
             <Route
               path="/Dashboard"
               element={
-                <PrivateRoute>
+                // <PrivateRoute>
                   <Dashboard />
-                </PrivateRoute>
+                // </PrivateRoute>
               }
             />
             <Route path="/Users" element={<Users />} />
