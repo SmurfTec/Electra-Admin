@@ -96,7 +96,7 @@ export const Roles = () => {
   ];
   const AccountBodyTemplate = (option: any) => {
     return (
-      <div className="flex gap-2 items-center justify-center">
+      <div className="flex gap-2 items-center justify-start">
         <img src={IMAGES.Guy1} />
         <p className="font-bold">{option.Account}</p>
       </div>
@@ -129,7 +129,7 @@ export const Roles = () => {
           h-[33px]
            bg-custom-blue text-[black]
        max-w-[160px]
-           mx-auto
+          
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     } else if (option.Role === " Admin") {
       style = `px-[14px] py-[4px]
@@ -137,7 +137,7 @@ export const Roles = () => {
           h-[33px]
            bg-custom-yellow text-[black]
         max-w-[160px]
-           mx-auto
+       
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     } else if (option.Role === "Sub Admin") {
       style = `px-[14px] py-[4px]
@@ -145,7 +145,7 @@ export const Roles = () => {
           h-[33px]
            bg-custom-pink text-[black]
         max-w-[160px]
-           mx-auto
+        
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     }
     return (
@@ -162,7 +162,7 @@ export const Roles = () => {
     { field: "Email Address", header: "Email Address" },
     { field: "Phone No", header: "Phone No" },
     { field: "Assigned On", header: "Assigned On" },
-    { field: "Role", header: "Role", body: StatusBodyTemplate },
+    { field: "Role", header: "Role", body: StatusBodyTemplate,className:'role' },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
   return (
@@ -208,7 +208,9 @@ export const Roles = () => {
               <p className="m-0">
                 <CustomTableComponent
                   columnStyle={{ backgroundColor: "#FCFCFC" }}
-                  headerStyle={{ color: "black",fontWeight:"800" }}
+                  headerStyle={{ color: "black",fontWeight:"800",textAlign:"left" }}
+                  columnHeaderFirst={"start"}
+                  
                   filterData={filterData}
                   columnData={columnData}
                   rowStyling={"#FCFCFC !important"}

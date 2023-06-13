@@ -10,6 +10,7 @@ export const HelpCenter = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const [MenuLabel, setMenuLabel] = useState("");
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
+  const[LoadMore,setLoadMore]=useState(true)
   const menuLeft: any = useRef(null);
   const navigate=useNavigate()
   const [filterData] = useState([
@@ -279,6 +280,8 @@ export const HelpCenter = () => {
           setSelectedProducts={setSelectedProducts}
           columnData={columnData}
           MultipleSelect={true}
+          LoadMore={LoadMore} 
+          setLoadMore={setLoadMore}
         />
       </div>
     </div>

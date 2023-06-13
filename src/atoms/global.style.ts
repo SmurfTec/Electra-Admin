@@ -7,6 +7,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Checkbox } from "primereact/checkbox";
 import { Dialog } from 'primereact/dialog';
 import { Calendar } from 'primereact/calendar';
+import { Column } from "primereact/column";
 
 export const CustomInputCalendar=styled(Calendar)`
 overflow: hidden !important;
@@ -252,7 +253,7 @@ export const CustomTableWrapper = styled.div`
   width: 100%;
   height: 150px;
   position: absolute;
-  bottom: 17px;
+  bottom: 66px;
   left: 0;
   z-index: 100;
   border: none !important;
@@ -261,7 +262,8 @@ type tableprops={
 width?:string;
 theadStyles?:string;
 columnheader?:string;
-tablebodycolor?:string
+tablebodycolor?:string;
+columnHeaderFirst?:string;
 }
 export const CustomTable = styled(DataTable)<tableprops>`
   width: ${({ width }: any) => (width ? width : "")};
@@ -281,6 +283,7 @@ export const CustomTable = styled(DataTable)<tableprops>`
             background: white;
             text-align: center;
             ${({ theadStyles }: any) => (theadStyles ? theadStyles : "")}
+            
             .p-column-header-content {
               display: flex;
               justify-content: ${({ columnheader }: any) =>
@@ -304,6 +307,7 @@ export const CustomTable = styled(DataTable)<tableprops>`
                 }
               }
             }
+            
           }
           .p-selection-column {
             padding-left: 16px;
@@ -318,7 +322,17 @@ height: 16px; */
             }
           }
         }
+        
       }
+      .p-datatable-thead > tr > th:last-of-type .p-column-header-content {
+  padding-left: ${({ columnHeaderFirst }: any) =>
+    columnHeaderFirst ? "30px" : ""};
+}
+      .p-datatable-thead > tr > th:not(:last-child) .p-column-header-content {
+        justify-content: ${({ columnHeaderFirst }: any) =>
+                columnHeaderFirst ? columnHeaderFirst : "center"};
+      }
+ 
       .p-datatable-tbody {
         tr {
           td {
@@ -348,6 +362,10 @@ height: 16px; */
           }
         }
       }
+      .p-datatable-tbody > tr > td:not(:last-child)  {
+        text-align: ${({ columnHeaderFirst }: any) =>
+                columnHeaderFirst ? "left" : "center"};
+      }
     }
 
     ::-webkit-scrollbar {
@@ -361,4 +379,8 @@ height: 16px; */
       background-color: #a4a4a4 !important;
     }
   }
+  /* .p-datatable-thead > tr:first-of-type > .columnheader > .p-column-header-content {
+              justify-content: ${({ columnHeaderFirst }: any) =>
+                columnHeaderFirst ? columnHeaderFirst : "start"};
+            } */
 `;

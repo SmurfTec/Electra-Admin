@@ -12,3 +12,15 @@
     color: #111111;
     line-height: 1.7rem;
   }
+  .list-element{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color: #111111;
+    line-height: 1.3rem !important;
+    padding-right:1rem;
+    padding-left:1rem;
+    padding-top:0.5rem;
+    display:flex;
+    align-items: center;
+  }

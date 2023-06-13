@@ -3,10 +3,10 @@ export const StaticCard = () => {
   return (
     <div className="bg-[#FCFCFC] h-[182px] w-auto  rounded px-2 ">
       <h1 className="font-bold mt-3 ml-3 text-[20px]">Last Month Statistic</h1>
-      <div className="flex flex-wrap gap-2 mt-3 ">
+      <div className="flex flex-wrap gap-8 mt-3 ">
         <div className="  h-[100px] overflow-hidden ">
           <div className="flex justify-around">
-            <img className=" self-start mt-2" src={IMAGES.bluehamburger} />
+            <img className=" self-start mt-1 h-4" src={IMAGES.bluehamburger} />
             <div>
               <p className="font-semibold">Total Listings</p>
               <p className="text-[28px] font-bold">690</p>
@@ -21,7 +21,7 @@ export const StaticCard = () => {
         </div>
         <div className="  h-[100px] overflow-hidden ">
           <div className="flex justify-around">
-            <img className=" self-start mt-2" src={IMAGES.bluebox} />
+            <img className=" self-start mt-0 h-7" src={IMAGES.bluebox} />
             <div>
               <p className="font-semibold">Products Sold</p>
               <p className="text-[28px] font-bold">600</p>

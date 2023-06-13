@@ -2,7 +2,7 @@ import React,{useState,useRef} from 'react'
 import { CustomDialog } from '../../../atoms/global.style'
 import { InputTxt } from '../../../atoms'
 import { CustomButton } from '../../../atoms'
-import Countdown from 'react-countdown';
+// import Countdown from 'react-countdown';
 export const EmailVerificationModel = ({classes,visible,setVisible,title="Email Verification",onClick}:any) => {
     const[Code,setCode]=useState("")
     const [resetKey, setResetKey] = useState(0);
@@ -35,13 +35,13 @@ export const EmailVerificationModel = ({classes,visible,setVisible,title="Email 
        </div>
        <InputTxt inputClasses="!text-center !text-[#3C82D6] !text-[20px]" placeholder=" Code" Title={Code} onChange={(e:any)=>setCode(e.target.value)} MainClasses='!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto'/>
        <div className='flex text-center mx-auto'>
-       <Countdown
+       {/* <Countdown
    key={resetKey}
    date={Date.now() + 59000}
    autoStart
    renderer={renderer}
    ref={countDown.current}
- ></Countdown>   
+ ></Countdown>    */}
        </div>
        <CustomButton onClick={onClick} txt={"VERIFY"} classes={`!w-[126px] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]  `}/> 
         </div>

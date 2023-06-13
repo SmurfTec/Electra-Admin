@@ -42,12 +42,14 @@ export const BankAccountPinModel = ({classes,visible,setVisible,onClick}:any) =>
      ref={(el:any) => (inputs.current[3] = el)}
      onChange={(e:any) => handleChange(3, e)}
      onKeyDown={(e:any) => handleBackspace(3, e)}
+     placeholder="-"
        inputClasses="!text-[20px] !w-full"  Title={Code} MainClasses='!w-[50px] !pl-[10px] !pr-[0px]  !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto'/>
       <InputTxt
      type="text"
      maxLength="1"
      pattern="[0-9]"
      required
+     placeholder="-"
      ref={(el:any) => (inputs.current[3] = el)}
      onChange={(e:any) => handleChange(3, e)}
      onKeyDown={(e:any) => handleBackspace(3, e)}
@@ -57,6 +59,7 @@ export const BankAccountPinModel = ({classes,visible,setVisible,onClick}:any) =>
      maxLength="1"
      pattern="[0-9]"
      required
+     placeholder="-"
      ref={(el:any) => (inputs.current[3] = el)}
      onChange={(e:any) => handleChange(3, e)}
      onKeyDown={(e:any) => handleBackspace(3, e)}
@@ -66,6 +69,7 @@ export const BankAccountPinModel = ({classes,visible,setVisible,onClick}:any) =>
      maxLength="1"
      pattern="[0-9]"
      required
+     placeholder="-"
      ref={(el:any) => (inputs.current[3] = el)}
      onChange={(e:any) => handleChange(3, e)}
      onKeyDown={(e:any) => handleBackspace(3, e)}
@@ -75,6 +79,7 @@ export const BankAccountPinModel = ({classes,visible,setVisible,onClick}:any) =>
      maxLength="1"
      pattern="[0-9]"
      required
+     placeholder="-"
      ref={(el:any) => (inputs.current[3] = el)}
      onChange={(e:any) => handleChange(3, e)}
      onKeyDown={(e:any) => handleBackspace(3, e)}

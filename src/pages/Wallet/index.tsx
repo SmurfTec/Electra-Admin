@@ -10,6 +10,7 @@ export const Wallet = () => {
     const [MenuLabel, setMenuLabel] = useState("")
     const [CurrSelectedProduct, setCurrSelectedProduct] = useState('')
     const [selectedProducts, setSelectedProducts] = useState<any>([]);
+    const[LoadMore,setLoadMore]=useState(true)
     const menuLeft: any = useRef(null);
     const [filterData] = useState([
         {
@@ -169,7 +170,7 @@ export const Wallet = () => {
                 chooseFilter={true}
                 UserBox={true}
             />
-            <div className='flex gap-5 mt-[20px]'>
+            <div className='flex flex-wrap gap-5 mt-[20px]'>
                 <div className='p-3 w-[419px] h-auto bg-[#212121] rounded-[10px] overflow-hidden' style={{ background: `url(${IMAGES.AtmBackground})` }}>
                     <div className='flex justify-between'>
                         <div className='flex flex-col '>
@@ -276,6 +277,8 @@ export const Wallet = () => {
                     setSelectedProducts={setSelectedProducts}
                     columnData={columnData}
                     MultipleSelect={true}
+                    LoadMore={LoadMore} 
+                    setLoadMore={setLoadMore}
                 />
             </div>
         </div>

@@ -1,15 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { DashCard } from "../../../components/index.js";
 import IMAGES from "../../../assets/Images";
-import { CustomTableComponent } from "../../../atoms";
+import { CustomTableComponent,CustomButton } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import { CustomMenu } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../../../components/index.js";
 import { Confirmationmodal } from "../../../components/index.js";
+import { getAllUsers } from "../../../store/Slices/UserSlice.js";
 export const Users = () => {
   const navigate = useNavigate();
+  const [MenuLabel, setMenuLabel] = useState("");
   const [visible, setVisible] = useState(false);
+  const[LoadMore,setLoadMore]=useState(true)
+  const [selectedProducts, setSelectedProducts] = useState<any>([]);
+  const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
+  const menuLeft: any = useRef(null);
   const [filterData, setFilterData] = useState([
     {
       id: 1,
@@ -162,7 +168,64 @@ export const Users = () => {
       registerValue: "Website",
     },
   ]);
-  const menuLeft: any = useRef(null);
+  const deleteItem = (event: React.MouseEvent, item: any) => {
+    event.stopPropagation();
+    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+  
+  };
+  const ViewItem = (event: React.MouseEvent, item: any) => {
+    event.stopPropagation();
+    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+    navigate('/UserProfile')
+  };
+  const handleBanUser = (e: any) => {
+    e.preventDefault();
+    const selectedUserIds = selectedProducts.map((product: any) => product.id);
+    console.log("Selected User IDs:", selectedUserIds);
+  };
+  const  items= [
+    {
+      label: "Ban User",
+      template: (item: any, options: any) => {
+        return (
+          <div
+            style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+            className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+          >
+            <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> Ban User
+          </div>
+        );
+      },
+    },
+    {
+      label: "Delete",
+      template: (item: any, options: any) => {
+        return (
+          <div
+            style={{ background: "rgba(231, 29, 54, 0.05)" }}
+            className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+            onClick={(event:any) => deleteItem(event, item)}
+          >
+            <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
+          </div>
+        );
+      },
+    },
+    {
+      label: "Select",
+      template: (item: any, options: any) => {
+        return (
+          <div
+            style={{ background: "rgba(46, 102, 194, 0.05)" }}
+            className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+            onClick={(event:any) => ViewItem(event, item)}
+          >
+            <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
+          </div>
+        ); 
+      },
+    },
+  ]
   const StatusBodyTemplate = (option: any) => {
     return (
       <>
@@ -176,71 +239,24 @@ export const Users = () => {
       </>
     );
   };
-  const handleBanUser = (e: any) => {
-    e.preventDefault();
-    const selectedUserIds = selectedProducts.map((product: any) => product.id);
-    console.log("Selected User IDs:", selectedUserIds);
-  };
-  const items = [
-    {
-      items: [
-        {
-          label: "Ban User",
-          command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-              >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> Ban User
-              </div>
-            );
-          },
-        },
-        {
-          label: "Delete",
-          command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ background: "rgba(231, 29, 54, 0.05)" }}
-                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-              >
-                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
-              </div>
-            );
-          },
-        },
-        {
-          label: "Select",
-          command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ background: "rgba(46, 102, 194, 0.05)" }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-              >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
-              </div>
-            );
-          },
-        },
-      ],
-    },
-  ];
+ 
+  
+ 
 
   const MenuBodyTemplate = (rowData: any) => {
+    const handleClick = (event: any) => {
+      event.preventDefault();
+      setCurrSelectedProduct(rowData.id);
+      menuLeft.current.toggle(event);
+    };
+
     return (
       <>
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
           <SVGIcon
-            onClick={(event: any) => {
-              event.preventDefault();
-              menuLeft.current.toggle(event);
-            }}
+            onClick={handleClick}
             src={IMAGES.Dots}
           />
 
@@ -249,7 +265,7 @@ export const Users = () => {
       </>
     );
   };
-  const [selectedProducts, setSelectedProducts] = useState<any>([]);
+ 
   const [columnData] = useState([
     { field: "id", header: "ID" },
     { field: "firstname", header: "First Name" },
@@ -261,11 +277,9 @@ export const Users = () => {
     { field: "registerValue", header: "Registered Via" },
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
-  useEffect(() => {
-    if (selectedProducts.length > 0) {
-      navigate("/UserProfile");
-    }
-  }, [selectedProducts]);
+  useEffect(()=>{
+    getAllUsers();
+  },[])
   return (
     <div className="">
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
@@ -309,6 +323,8 @@ export const Users = () => {
           setSelectedProducts={setSelectedProducts}
           columnData={columnData}
           MultipleSelect={true}
+          LoadMore={LoadMore} 
+          setLoadMore={setLoadMore}
         />
       </div>
       <Confirmationmodal
@@ -321,9 +337,14 @@ export const Users = () => {
           "Are you sure you want to ban this user"
         }
       />
-      {/* <div className='flex justify-center mt-3 w-full '>
-      <CustomButton txt={'View More'}  classes='mt-3 bg-[#FFFFFF] h-[50px] text-[black] '/>
-      </div> */}
+      {!LoadMore
+      && 
+      <div className="flex gap-2 items-center mt-[20px]">
+        <CustomButton iconLeft={<SVGIcon fillcolor={"white"} src={IMAGES.DeleteIcon}/>}  classes={'!w-[194px] !h-[46px] !rounded-[8px] !bg-[#BA0000]'} txt={'Delete Users(12)'} />
+        <CustomButton iconLeft={<SVGIcon   width={"14px"} height={"14px"} fillcolor={"#212121"} src={IMAGES.Ban} />} classes={'!w-[173px] !h-[46px] !text-black !rounded-[8px] !bg-[#FBBB00]'} txt={'Ban Users(12)'}/>
+      </div>
+      }
+      
     </div>
   );
 };

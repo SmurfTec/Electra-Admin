@@ -4,7 +4,7 @@ import { SVGIcon } from "../SVG";
 import { Link, useNavigate } from "react-router-dom";
 import { PanelMenu } from 'primereact/panelmenu';
 export const SideBar = () => {
- 
+  
   const navigate=useNavigate()
   const [navItems, setNavItems] = useState([
     {
@@ -30,9 +30,23 @@ export const SideBar = () => {
       active: false,
       iconFillColor: "",
       url: "/Products",
-    
+      open:false,
       DropDown:true,
-      DropValues:["All Products","Product Requests"]
+      subItems:[
+        {
+          id:31,
+          name:"All Products",
+          active: true,
+          url: "/Products",
+        },
+        {
+          id:32,
+          name:"Product Request",
+          active: false,
+          url: "/Productrequest",
+        }
+      ],
+   
     },
     {
       id: 4,
@@ -69,21 +83,52 @@ export const SideBar = () => {
     },
   ]);
   const handleItemClick = (itemId: number) => {
-    const updatedNavItems:any = navItems.map((item) => {
+    const updatedNavItems:any = navItems.map((item:any) => {
       if (item.id === itemId) {  
         if(item.name=="Settings"){
           return { ...item, active: true,iconFillColor:'transparent' };  //icon:IMAGES.SettingActive,
-        }else{
-          return { ...item, active: true };
+        }
+        else{
+          if(item.open !==null || item.open !==undefined){
+            return { ...item, active: true,open:!item.open,
+             
+            };
+          }else{
+            if(item.name!=="Products"){
+              return { ...item, active: true,open:false};
+            }
+
+            return { ...item, active: true};
+          }
+          
         }
         
       } else {
         if(item.name=="Settings"){
           return { ...item, active: false,iconFillColor:'' };
-        }else{
+        } else {
+         
           return { ...item, active: false };
         }
         
+      }
+    });
+    setNavItems(updatedNavItems);
+    // openSubBar(itemId)
+  };
+  const updateSubItemsById = (itemId: number, subItemId: number) => {
+    const updatedNavItems: any = navItems.map((item: any) => {
+      if (item.id === itemId && item.subItems) {
+        const updatedSubItems = item.subItems.map((subItem: any) => {
+          if (subItem.id === subItemId) {
+            return { ...subItem, active:true };
+          } else {
+            return { ...subItem, active:false };
+          }
+        });
+        return { ...item, subItems: updatedSubItems };
+      } else {
+        return item;
       }
     });
     setNavItems(updatedNavItems);
@@ -94,27 +139,28 @@ const Logout=()=>{
     navigate('/')
   },2000)
 }
+
   return (
 
     <>
-    <div className="w-[17rem] h-[1024px] bg-[#FCFCFC]">
+    <div className="w-[17rem] h-[1034px] bg-[#FCFCFC]">
     <img
       className="ml-[39px] mt-[17px] w-[75px] h-[33px] mb-[45px]"
       src={IMAGES.Logo}
       alt="Logo"
     />
     <div className="flex flex-col gap-3">
-      <div className="w-[11.75rem] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px]">
+      <div className="md:w-[11rem] lg:w-[11.75rem] h-[35px] flex items-center justify-between md:ml-[12px] lg:ml-[22px] rounded-[8px] pl-[17px] pr-[19px]">
         <p className="text-gray font-[600]">ADMIN</p>
       </div>
       {navItems.map((item: any) => (
         <Link key={item.id} to={item.url}>
           <div
             key={item.id}
-            className={`w-[11.75rem] h-[35px] flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px] ${
+            className={`md:w-[11rem] lg:w-[11.75rem] h-[35px] flex items-center justify-between md:ml-[12px] lg:ml-[22px] rounded-[8px] pl-[17px] pr-[19px] ${
               item.active ? "bg-[#212121]" : ""
             }`}
-            onClick={() => handleItemClick(item.id)}
+            onClick={(e:any) => {handleItemClick(item.id)}}
           >
             <div className="flex items-center  justify-between  w-full">
             <div className="flex items-center gap-3">
@@ -127,7 +173,7 @@ const Logout=()=>{
               <p
                 className={`${
                   item.active ? "text-[white]" : "text-gray"
-                }  font-[600] cursor-pointer`}
+                }  font-[600] cursor-pointer md:text-[13px] lg:text-[16px]`}
               >
                 {item.name}
               </p>
@@ -136,6 +182,7 @@ const Logout=()=>{
               src={IMAGES.MenuDropdown}
               filled={item.active}
               fillcolor={item?.iconFillColor}
+           
             />
               }
             </div>
@@ -153,9 +200,40 @@ const Logout=()=>{
               )}
             </div>
           </div>
+        {item.DropDown &&
+         <div
+         className={`sub-items ${item.open ? "open" : ""}`}
+       >
+         {item.subItems.map((subItem:any) => (
+           <Link key={subItem.id} to={subItem.url}>
+              <div key={subItem.id} onClick={(e:any)=>{updateSubItemsById(item.id,subItem.id)}}
+     className={`w-[11.75rem] mt-[10px]  flex items-center justify-between ml-[22px] rounded-[8px] pl-[17px] pr-[19px] `}
+     >
+<div className="flex items-center  justify-between  w-full">
+     <div className="flex items-center ">
+    
+       <p
+         className={`font-[600] text-[12px] cursor-pointer ${subItem.active?'text-[#3C82D6]':'text-[#656565]'} `}
+       >
+         {subItem.name}
+       </p>
+       
+     </div>
+
+       
+     </div>
+     </div>
+           </Link>
+         ))}
+       </div>
+        }
         </Link>
       ))}
-      <div className="ml-[39px] mt-[137px] gap-3 flex items-center cursor-pointer" onClick={Logout}>
+      <div className="flex items-center justify-center  mt-[111px]">
+      <hr className='w-[80%] justify-center align-middle border border-custom-border border-[#F7F7F8]' />
+      </div>
+      <div className="ml-[39px] mt-[21px] gap-3 flex items-center cursor-pointer" onClick={Logout}>
+      
       <SVGIcon
       fillcolor={'#000000'}
                 src={IMAGES.LogoutIcon}
@@ -169,3 +247,6 @@ const Logout=()=>{
    
   );
 };
+
+
+

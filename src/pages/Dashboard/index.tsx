@@ -29,7 +29,7 @@ export const Dashboard = () => {
       name: "Bob Johnson",
       email: "Gfa@gmail.com",
       Date: "20,aug,2022",
-    },
+    }, 
   ];
   const data2 = [
     {
@@ -53,6 +53,26 @@ export const Dashboard = () => {
       email: { number: "62", status: "sold" },
       Date: { number: "$542132", status: "Profit" },
     },
+    {
+      img: `${IMAGES.Iphone1}`,
+      id: "Iphone Pro Max",
+      name: { number: "62", status: "sold" },
+      email: { number: "62", status: "sold" },
+      Date: { number: "$542132", status: "Profit" },
+    },
+    {
+      img: `${IMAGES.Iphone1}`,
+      id: "Iphone Pro Max",
+      name: { number: "62", status: "sold" },
+      email: { number: "62", status: "sold" },
+      Date: { number: "$542132", status: "Profit" },
+    },{
+      img: `${IMAGES.Iphone1}`,
+      id: "Iphone Pro Max",
+      name: { number: "62", status: "sold" },
+      email: { number: "62", status: "sold" },
+      Date: { number: "$542132", status: "Profit" },
+    },
   ];
 
   return (
@@ -62,7 +82,7 @@ export const Dashboard = () => {
       UserBox={true} typeSearch={true} chooseDate={true} />
       <div className="flex flex-wrap justify-start gap-2">
         <DashCard
-        onClick={()=>setvisible(true)}
+        onClick={()=>setvisible(true)}  
           title={"Net Revenue"}
           totalNumber={"$ 450,000"}
           myImg={IMAGES.coin}
@@ -99,7 +119,7 @@ export const Dashboard = () => {
           arrowImg={IMAGES.downarrow}
         />
       </div>
-      <div className="flex mt-3 gap-1 w-full   ">
+      <div className="flex mt-3 gap-2 w-full   ">
         <div>
           <StaticCard />
           <PlatformEarning />
@@ -109,10 +129,13 @@ export const Dashboard = () => {
           <RevenueChart />
           <DashTable
             customHeader="User Registrations"
-            tableHeaderColor="#FCFCFC"
+            tableHeaderColor="#FCFCFC "
             data={data}
             header={true}
+            classess={"!px-[3px] !mt-4 !rounded !overflow-x-auto "}
           />
+       
+          
         </div>
       </div>
       <div className="flex justify-start gap-10 mb-6 ">
@@ -123,6 +146,7 @@ export const Dashboard = () => {
             imginData={true}
             selling={true}
             customHeader="Best Selling Product"
+            pagination={true}
           />
         </div>
         <div className=" w-[50%]">
@@ -132,6 +156,8 @@ export const Dashboard = () => {
             imginData={true}
             selling={true}
             customHeader="Best Selling Product"
+            pagination={true}
+
           />
         </div>
       </div>

@@ -2,41 +2,56 @@ import React, { useEffect, useState } from "react";
 import IMAGES from "../../assets/Images";
 import { InputTxt, InputPassword, CustomButton } from "../../atoms";
 import { Link, useNavigate } from "react-router-dom";
-import { EmailVerificationModel,ChangePasswordModel } from "../../components";
+import { EmailVerificationModel, ChangePasswordModel } from "../../components";
+import { useDispatch } from "react-redux";
+import { Login } from "../../store/Slices/AuthSlice";
+type LoginData = {
+  email: string;
+  password: string;
+};
 export const Signin = () => {
+  const dispatch = useDispatch();
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-  const[EmailErr,setEmailErr]=useState(false)
-  const[PasswordErr,setPasswordErr]=useState(false)
-  const [EmailModel,setEmailModel]=useState(false)
-  const [PassModel,setPassModel]=useState(false)
- 
+  const [EmailErr, setEmailErr] = useState(false);
+  const [PasswordErr, setPasswordErr] = useState(false);
+  const [EmailModel, setEmailModel] = useState(false);
+  const [PassModel, setPassModel] = useState(false);
+
   const navigate = useNavigate();
-  const Login = (event:any) => {
-event.preventDefault();
+  const Login1 =async (event: any) => {
+    const data:LoginData={
+      email:Email,
+      password:Password
+    }
+    event.preventDefault();
     let user: any = {
       name: "sherry",
     };
-    if(Email.length==0 || Password.length==0){
-      if(Email.length==0){
-setEmailErr(true)
+    if (Email.length == 0 || Password.length == 0) {
+      if (Email.length == 0) {
+        setEmailErr(true);
       }
-      if(Password.length==0){
-setPasswordErr(true)
+      if (Password.length == 0) {
+        setPasswordErr(true);
       }
-    }else{
+    } else {
       localStorage.setItem("user", JSON.stringify(user));
-      navigate("/Dashboard");
+      const loginCall = await dispatch(Login(data) as any);
+      console.log()
+      if(loginCall.payload.user){
+        navigate("/Dashboard");
+      
+      }
     }
-   
   };
-  useEffect(()=>{
-localStorage.removeItem("user")
-  },[])
+  useEffect(() => {
+    localStorage.removeItem("user");
+  }, []);
   return (
     <div className="min-h-[100vh] w-[100vw] flex flex-col items-center pt-[90px]">
-      <EmailVerificationModel visible={EmailModel} setVisible={setEmailModel}/>
-      <ChangePasswordModel visible={PassModel} setVisible={setPassModel}/>
+      <EmailVerificationModel visible={EmailModel} setVisible={setEmailModel} />
+      <ChangePasswordModel visible={PassModel} setVisible={setPassModel} />
       <div className="w-[116px] h-[116px] rounded-[50%] bg-lightgray flex justify-center align-middle items-center">
         <img src={IMAGES.Hand} alt="hand-img" className="w-[53px] h-[53px]" />
       </div>
@@ -50,20 +65,33 @@ localStorage.removeItem("user")
       <InputTxt
         placeholder="Enter Email"
         MainClasses="mt-[40px]"
-        img={IMAGES.Email}
+        iconLeft={true}
+        LeftIcon={IMAGES.Email}
         value={Email}
         onChange={(e: any) => setEmail(e.target.value)}
       />
-    {EmailErr &&
-    <div className="flex flex-col justify-start  w-full max-w-[390px] mt-[10px]">
-    <div className="flex gap-2 justify-start text-left items-center">
-      <div className="w-[15px] h-[15px] text-white bg-red rounded-[50%] flex justify-center items-center text-[10px]">i</div>
-      <p className="text-[14px] text-[#FF0000] font-[400]">The e-mail you’ve entered is incorrect!</p>
-      
-    </div>
-    <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">Forgot email? <span className="text-[#06448C] cursor-pointer" onClick={()=>setEmailModel(true)}>Click Here</span>  to reset it.</p>
-  </div>
-    }  
+      {EmailErr && (
+        <div className="flex flex-col justify-start  w-full max-w-[390px] mt-[10px]">
+          <div className="flex gap-2 justify-start text-left items-center">
+            <div className="w-[15px] h-[15px] text-white bg-red rounded-[50%] flex justify-center items-center text-[10px]">
+              i
+            </div>
+            <p className="text-[14px] text-[#FF0000] font-[400]">
+              The e-mail you’ve entered is incorrect!
+            </p>
+          </div>
+          <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">
+            Forgot email?{" "}
+            <span
+              className="text-[#06448C] cursor-pointer"
+              onClick={() => setEmailModel(true)}
+            >
+              Click Here
+            </span>{" "}
+            to reset it.
+          </p>
+        </div>
+      )}
       <InputPassword
         placeholder="Enter Password"
         MainClasses="mt-[15px]"
@@ -71,24 +99,35 @@ localStorage.removeItem("user")
         value={Password}
         onChange={(e: any) => setPassword(e.target.value)}
       />
-      {PasswordErr &&
-    <div className="flex flex-col justify-start  w-full max-w-[390px] mt-[10px]">
-    <div className="flex gap-2 justify-start text-left items-center">
-      <div className="w-[15px] h-[15px] text-white bg-red rounded-[50%] flex justify-center items-center text-[10px]">i</div>
-      <p className="text-[14px] text-[#FF0000] font-[400]">The password you’ve entered is incorrect!</p>
-      
-    </div>
-    <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">Forgot Password? <span onClick={()=>setPassModel(true)} className="text-[#06448C] cursor-pointer ">Click Here</span>  to reset it.</p>
-  </div>
-    } 
-       <div className="flex justify-end text-right  mt-[10px] w-[400px]">
-       <p className=" cursor-pointer text-[14px] text-right font-[500] text-midgray">
-      Forgot Password?
-       
-      </p>
-       </div>
-      <CustomButton txt="Login" classes="mt-[41px]" onClick={Login} />
-     
+      {PasswordErr && (
+        <div className="flex flex-col justify-start  w-full max-w-[390px] mt-[10px]">
+          <div className="flex gap-2 justify-start text-left items-center">
+            <div className="w-[15px] h-[15px] text-white bg-red rounded-[50%] flex justify-center items-center text-[10px]">
+              i
+            </div>
+            <p className="text-[14px] text-[#FF0000] font-[400]">
+              The password you’ve entered is incorrect!
+            </p>
+          </div>
+          <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">
+            Forgot Password?{" "}
+            <span
+              onClick={() => setPassModel(true)}
+              className="text-[#06448C] cursor-pointer "
+            >
+              Click Here
+            </span>{" "}
+            to reset it.
+          </p>
+        </div>
+      )}
+      <div className="flex justify-end text-right  mt-[10px] w-[400px]">
+        <p className=" cursor-pointer text-[14px] text-right font-[500] text-midgray">
+          Forgot Password?
+        </p>
+      </div>
+      <CustomButton txt="Login" classes="mt-[41px]" onClick={Login1} />
+
       <div className="flex mt-[10px] items-center gap-5 text-gray">
         <hr className="w-[159px] border-[#A4A4A4]" /> or{" "}
         <hr className="w-[159px] border-[#A4A4A4]" />

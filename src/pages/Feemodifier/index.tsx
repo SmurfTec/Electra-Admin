@@ -153,12 +153,9 @@ export const Feemodifier = () => {
       <div>
         <p className="font-semibold ml-3 text-[20px]">Market Place Fee</p>
         <CustomTableComponent
-          columnStyle={{ backgroundColor: "#FCFCFC" }}
           headerStyle={{ color: "black" }}
-          //   columnHeader={"flex-start"}
           filterData={filterData}
           columnData={columnData}
-          rowStyling={"#FCFCFC"}
         />
       </div>
       <Confirmationmodal

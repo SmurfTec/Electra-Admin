@@ -5,13 +5,65 @@ import styled from "styled-components";
 // Styled Paginator component
 const CustomTable = styled(DataTable)<any>`
   .p-datatable-header {
-    background-color: ${({ tablebgcolor }:any) => tablebgcolor};
+    background-color: ${({ tablebgcolor }: any) => tablebgcolor};
     border-top: none;
   }
   .p-datatable-tbody > tr {
-      background-color: #fcfcfc !important;
+    background-color: #fcfcfc !important;
+  }
+ .p-paginator-bottom{
+  background: #FCFCFC;
+ }
+  .p-paginator-bottom {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .p-paginator-first {
+    display: none !important;
+  }
+  .p-paginator-last {
+    display: none !important;
+  }
+  .p-paginator-prev {
+    color: black !important;
+    ::after {
+      content: "";
+      display: inline-block;
+      width: 50%;
+      height: 2px;
+      background-color: black;
+      /* margin: 5px; */
+      margin-left: -6.5px;
+      margin-top: 4px;
+      margin-bottom: 5px;
+      margin-right: 5px;
     }
-  
+  }
+  .p-paginator-next {
+    color: black !important;
+    ::before {
+      content: "";
+      display: inline-block;
+      width: 50%;
+      height: 2px;
+      background-color: black;
+      /* margin: 5px; */
+      margin-right: -6.5px;
+      margin-top: 4px;
+      margin-bottom: 5px;
+      /* margin-right: 5px; */
+    }
+  }
+  .p-paginator-pages {
+    .p-highlight {
+      background-color: black !important;
+      color: white !important;
+    }
+    .p-paginator-page {
+      background-color: #ffffff;
+      border: 0.2px solid #a4a4a4;
+    }
+  }
 `;
 export const DashTable = (props: any) => {
   const tableHeader = (
@@ -62,12 +114,12 @@ export const DashTable = (props: any) => {
     return <img src={rowData.img} alt="Avatar" className="w-24" />;
   };
   return (
-    <div className="mt-4 px-4 rounded-3xl">
+    <div className={`mt-4 px-4 rounded-3xl  ${props.classess}`}>
       <CustomTable
         value={props.data}
         header={tableHeader}
         paginator={props.pagination ? true : false}
-        rows={1}
+        rows={5}
         tableStyle={{ minWidth: "20rem" }}
         tablebgcolor={props.tableHeaderColor}
       >
