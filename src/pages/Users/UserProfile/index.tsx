@@ -183,7 +183,7 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
         chooseFilter={true}
         UserBox={true}
       />
-      <div className='flex gap-5 mt-[31px]'>
+      <div className='flex flex-wrap gap-5 mt-[31px]'>
         <div className=' w-[500px] h-[305px] border border-custom-border border-[#F7F7F8] rounded-[10px] flex flex-col pt-[11px] pb-[40px] pl-[17px] pr-[17px]'>
           <div className='flex justify-between'>
             <div className='flex flex-col gap-2'>
