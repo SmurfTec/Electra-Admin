@@ -253,7 +253,7 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
                   e.preventDefault()
                   handleButton(item.id)
                 }}
-                classes={item.active ? '!h-[52px] !w-[164px] !font-[600] !rounded-[10px] !bg-[#FFFFFF] !text-[black]' :
+                classes={item.active ? '!h-[52px] !w-[164px] !font-[600] !rounded-[10px] !bg-[#FFFFFF] !shadow-custom-shadow !text-[black]' :
                   '!h-[52px] !w-[164px] !rounded-[10px] !bg-[transparent] !text-customTxt'
                 }
               />
