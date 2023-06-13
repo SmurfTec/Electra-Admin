@@ -29,7 +29,7 @@ export const Dashboard = () => {
       name: "Bob Johnson",
       email: "Gfa@gmail.com",
       Date: "20,aug,2022",
-    },
+    }, 
   ];
   const data2 = [
     {
@@ -119,7 +119,7 @@ export const Dashboard = () => {
           arrowImg={IMAGES.downarrow}
         />
       </div>
-      <div className="flex mt-3 gap-1 w-full   ">
+      <div className="flex mt-3 gap-2 w-full   ">
         <div>
           <StaticCard />
           <PlatformEarning />
@@ -129,10 +129,13 @@ export const Dashboard = () => {
           <RevenueChart />
           <DashTable
             customHeader="User Registrations"
-            tableHeaderColor="#FCFCFC"
+            tableHeaderColor="#FCFCFC "
             data={data}
             header={true}
+            classess={"!px-[3px] !mt-4 !rounded !overflow-x-auto "}
           />
+       
+          
         </div>
       </div>
       <div className="flex justify-start gap-10 mb-6 ">

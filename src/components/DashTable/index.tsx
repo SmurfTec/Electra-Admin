@@ -114,7 +114,7 @@ export const DashTable = (props: any) => {
     return <img src={rowData.img} alt="Avatar" className="w-24" />;
   };
   return (
-    <div className="mt-4 px-4 rounded-3xl">
+    <div className={`mt-4 px-4 rounded-3xl  ${props.classess}`}>
       <CustomTable
         value={props.data}
         header={tableHeader}

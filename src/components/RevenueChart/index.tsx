@@ -101,10 +101,13 @@ export const RevenueChart = () => {
     },
   ];
   return (
-    <div className="ml-2 mt-1 bg-[#FCFCFC] rounded   w-full ">
+    <div className=" h-[427px]   bg-[#FCFCFC] rounded  w-[100%] ">
       <div className="">
-        <div>
+        <div className="flex justify-between px-2">
           <p className="font-semibold pt-3 pl-3 overflow-hidden ">Revenue</p>
+          <p>
+            Filter
+          </p>
         </div>
         <div className="overflow-x-auto">
         <Chart
