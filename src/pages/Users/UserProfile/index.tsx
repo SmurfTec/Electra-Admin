@@ -184,24 +184,24 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
         UserBox={true}
       />
       <div className='flex gap-5 mt-[31px]'>
-        <div className=' w-[500px] h-auto border border-custom-border rounded-[10px] flex flex-col pt-[11px] pl-[17px] pr-[17px]'>
+        <div className=' w-[500px] h-[305px] border border-custom-border border-[#F7F7F8] rounded-[10px] flex flex-col pt-[11px] pb-[40px] pl-[17px] pr-[17px]'>
           <div className='flex justify-between'>
             <div className='flex flex-col gap-2'>
-              <h1 className='text-[24px] font-[600] text-[#212121]'>John Carter</h1>
-              <p className='text-[14px] font-[400] text-[#969696]'>annejacob2@ummoh.com</p>
+              <h1 className='text-[24px] font-[600] text-[#212121] overflow-hidden'>John Carter</h1>
+              <p className='text-[14px] font-[400] text-[#969696] overflow-hidden'>annejacob2@ummoh.com</p>
             </div>
           </div> 
           <div className='flex justify-between mt-[46px]'>
             <div className='flex flex-col'>
-              <h1 className='text-[14px] font-[500] text-[#969696]'>Joined On</h1>
-              <p className='text-[14px] font-[400] text-[#212121]'>20 aug,2022</p>
+              <h1 className='text-[14px] font-[500] text-[#969696] overflow-hidden'>Joined On</h1>
+              <p className='text-[14px] font-[400] text-[#212121] overflow-hidden'>20 aug,2022</p>
             </div>
           </div>
-          <hr className='w-full mt-[19px] border border-custom-border' />
+          <hr className='w-full mt-[19px] border border-custom-border border-[#F7F7F8]' />
           <div className='flex justify-between mt-[19px]'>
             <div className='flex flex-col'>
-              <h1 className='text-[14px] font-[500] text-[#969696]'>Phone No</h1>
-              <p className='text-[14px] font-[400] text-[#212121]'>+53563636366336</p>
+              <h1 className='text-[14px] font-[500] text-[#969696] overflow-hidden'>Phone No</h1>
+              <p className='text-[14px] font-[400] text-[#212121] overflow-hidden'>+53563636366336</p>
             </div>
           </div>
         </div>
@@ -216,7 +216,7 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
             subtxt="Last Sale"
             textColor={"#3C82D6"}
 
-            outerclasses="w-[284px] h-[140px]"
+            outerclasses="!w-[284px] !h-[140px]"
 
           />
           <DashCard
@@ -227,7 +227,7 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
             textDash={"bg-custom-red w-[67px] "}
             textColor={"#FF0000"}
             arrowImg={IMAGES.downarrow}
-            outerclasses="w-[284px] h-[140px]"
+            outerclasses="!w-[284px] !h-[140px]"
 
           />
           <DashCard
@@ -236,9 +236,10 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
             myImg={IMAGES.RegectedSale}
             imgColor={"bg-[#F8B84E]"}
             textDash={"bg-custom-red w-[67px] "}
-            textColor={"#FF0000"}
+            textColor={"#FF0000 "}
             arrowImg={IMAGES.downarrow}
-            outerclasses="w-[284px] h-[140px]"
+            outerclasses="!w-[284px] !h-[140px] !pb-[8px]"
+            
 
           />
         </div>
@@ -267,7 +268,7 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
           return (
             <React.Fragment key={index}>
               {item.txt == activetxt &&
-                <div key={index} className='w-[201px] h-[115px] bg-[#FFFFFF] border border-custom-cardBorder pt-[19px] pl-[21px]'>
+                <div key={index} className='w-[201px] h-[115px] bg-[#FFFFFF] border border-custom-cardBorder border-[#6565654A] pt-[19px] pl-[21px]'>
                   <p className='text-[#656565] text-[14px] font-[500]'>{item.title}</p>
                   <p className='text-[#111111] text-[32px] font-[700]'>{item.body}</p>
                 </div>
