@@ -11,6 +11,7 @@ export const ChangePasswordModel = ({
   onClick,
 }: any) => {
   const [Code, setCode] = useState("");
+  const [Code1, setCode1] = useState("");
   const [Success, setSuccess] = useState(false);
 
   return (
@@ -41,8 +42,8 @@ export const ChangePasswordModel = ({
             <InputPassword
               inputClasses="!text-center !text-[#3C82D6] !text-[20px]"
               placeholder="Confirm Password"
-              Title={Code}
-              onChange={(e: any) => setCode(e.target.value)}
+              Title={Code1}
+              onChange={(e: any) => setCode1(e.target.value)}
               MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
             />
             <p className="text-[12px] ml-[5.6rem] font-[500] text-[#656565]">

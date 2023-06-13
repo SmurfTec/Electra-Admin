@@ -80,7 +80,7 @@ export const AddProduct = () => {
     {
       txt: "Factory Unlocked",
       classes:
-        "!bg-[#FCFCFC] !w-[162px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+        "!bg-[#FCFCFC] !w-[148px] !text-center !text-[black] !p-4 !rounded-[9px] !mt-5",
     },
     {
       txt: "T-Mobile",

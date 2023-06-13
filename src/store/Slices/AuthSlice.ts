@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import url from "../../config/index";
-import { setAuthToken } from "../../config/index";
 type LoginData = {
   email: string;
   password: string;
@@ -23,12 +22,12 @@ export const Login = createAsyncThunk<
 >("auth/login", async (data: LoginData) => {
   try {
     let response: any = await url.post("/auth/login", data);
-    console.log(response.data.accessTokenCookie, "RESPONSE");
+    console.log(response.data.user, "RESPONSE");
     localStorage.setItem(
       "token",
-      JSON.stringify(response.data.accessTokenCookie)
+      JSON.stringify(response.data.user)
     );
-    setAuthToken(response.data.accessTokenCookie);
+    // setAuthToken(response.data.accessTokenCookie);
     return response.data;
   } catch (e) {
     return e;
