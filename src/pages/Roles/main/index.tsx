@@ -129,7 +129,7 @@ export const Roles = () => {
           h-[33px]
            bg-custom-blue text-[black]
        max-w-[160px]
-           mx-auto
+          
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     } else if (option.Role === " Admin") {
       style = `px-[14px] py-[4px]
@@ -137,7 +137,7 @@ export const Roles = () => {
           h-[33px]
            bg-custom-yellow text-[black]
         max-w-[160px]
-           mx-auto
+       
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     } else if (option.Role === "Sub Admin") {
       style = `px-[14px] py-[4px]
@@ -145,7 +145,7 @@ export const Roles = () => {
           h-[33px]
            bg-custom-pink text-[black]
         max-w-[160px]
-           mx-auto
+        
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     }
     return (
@@ -162,7 +162,7 @@ export const Roles = () => {
     { field: "Email Address", header: "Email Address" },
     { field: "Phone No", header: "Phone No" },
     { field: "Assigned On", header: "Assigned On" },
-    { field: "Role", header: "Role", body: StatusBodyTemplate },
+    { field: "Role", header: "Role", body: StatusBodyTemplate,className:'role' },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
   return (
@@ -210,6 +210,7 @@ export const Roles = () => {
                   columnStyle={{ backgroundColor: "#FCFCFC" }}
                   headerStyle={{ color: "black",fontWeight:"800",textAlign:"left" }}
                   columnHeaderFirst={"start"}
+                  
                   filterData={filterData}
                   columnData={columnData}
                   rowStyling={"#FCFCFC !important"}

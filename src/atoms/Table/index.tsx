@@ -3,6 +3,7 @@ import { useState } from "react";
 import { CustomTableWrapper, CustomTable } from "../global.style";
 import { CustomButton } from "..";
 import IMAGES from "../../assets/Images";
+
 export const CustomTableComponent = ({
   columnStyle,
   headerStyle,
@@ -56,6 +57,7 @@ export const CustomTableComponent = ({
                 headerStyle={headerStyle}
                 bodyClassName={'!bg-[#F6F6F6]'}
                 body={item.body ? item.body : null}
+                className={item.className ? item.className:''}
               />
             );
           })}
