@@ -253,7 +253,7 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
                   e.preventDefault()
                   handleButton(item.id)
                 }}
-                classes={item.active ? '!h-[52px] !w-[164px] !rounded-[10px] !bg-[#FFFFFF] !text-[black]' :
+                classes={item.active ? '!h-[52px] !w-[164px] !font-[600] !rounded-[10px] !bg-[#FFFFFF] !text-[black]' :
                   '!h-[52px] !w-[164px] !rounded-[10px] !bg-[transparent] !text-customTxt'
                 }
               />
@@ -303,16 +303,18 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
       <div className='mt-[27px] flex gap-4 flex-wrap'>
         <InputTxt
           placeholder="Search by Id,name"
-          MainClasses={`!bg-[#F1F1F1] !text-[#656565] !w-[29rem]`}
+          MainClasses={`!bg-[#F1F1F1] !text-[#656565] !w-[27.7rem]`}
           img={IMAGES.Search}
           value={search}
           onChange={(e: any) => setSearch(e.target.value)}
+          placeholdertxtColor="#656565"
         />
         <InputTxt
           placeholder="Filter Date"
-          MainClasses={`!bg-[#F1F1F1] !text-[#656565] !w-[10rem]`}
+          MainClasses={`!bg-[#F1F1F1] !text-[#656565] !w-[10.5rem]`}
           img={IMAGES.FilterDate}
           inputClasses={`!text-[#656565]`}
+          placeholdertxtColor="#656565"
 
 
           iconRight={true}

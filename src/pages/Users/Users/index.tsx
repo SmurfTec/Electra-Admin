@@ -7,6 +7,7 @@ import { CustomMenu } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../../../components/index.js";
 import { Confirmationmodal } from "../../../components/index.js";
+import { getAllUsers } from "../../../store/Slices/UserSlice.js";
 export const Users = () => {
   const navigate = useNavigate();
   const [MenuLabel, setMenuLabel] = useState("");
@@ -248,6 +249,7 @@ export const Users = () => {
       setCurrSelectedProduct(rowData.id);
       menuLeft.current.toggle(event);
     };
+
     return (
       <>
         <div
@@ -275,7 +277,9 @@ export const Users = () => {
     { field: "registerValue", header: "Registered Via" },
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
-  
+  useEffect(()=>{
+    getAllUsers();
+  },[])
   return (
     <div className="">
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
