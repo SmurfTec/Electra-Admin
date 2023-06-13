@@ -4,7 +4,7 @@ import { OrderStatus } from '../index'
 import { ViewAll } from '../../atoms'
 export const PlatformEarning = () => {
   return (
-    <div className='bg-[#FCFCFC] mt-3 rounded px-4 pt-4'>
+    <div className='bg-[#FCFCFC] mt-2 rounded px-4 pt-4 h-90'>
       <div className='flex justify-between'>
         <p className='font-bold text-[16px]'>
           Platform Earning
@@ -20,6 +20,7 @@ export const PlatformEarning = () => {
       <OrderStatus />
       <OrderStatus />
       <OrderStatus />
+      
     </div>
   )
 }
