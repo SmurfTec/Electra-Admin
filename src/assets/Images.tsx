@@ -121,6 +121,7 @@ const IMAGES: any = {
   //
   //
   //
+  DropDown2: new URL("../assets/icons/dropdown2.svg", import.meta.url).href,
   DeleteIcon: new URL("../assets/icons/deleteIcon.svg", import.meta.url).href,
   arrowDown: new URL("../assets/icons/arrowDown.svg", import.meta.url).href,
   New: new URL("../assets/icons/New.svg", import.meta.url).href,

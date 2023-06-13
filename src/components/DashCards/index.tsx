@@ -29,7 +29,7 @@ export const DashCard = (props: MyProps) => {
     >
       {props?.Add ? (
         <div className="flex gap-3 cursor-pointer h-full flex-col justify-center items-center">
-          <img src={props.Addimg} />
+          <img src={props.Addimg} width={'26px'} height={'26px'}/>
           <p className={`${props.txtclasses}  text-[13px] font-[600]`}>
             {props.txt}
           </p>
