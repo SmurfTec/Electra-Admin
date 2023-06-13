@@ -36,10 +36,11 @@ export const Signin = () => {
         setPasswordErr(true);
       }
     } else {
+      navigate("/Dashboard");
+
       localStorage.setItem("user", JSON.stringify(user));
       const loginCall = await dispatch(Login(data) as any);
       console.log()
-      navigate("/Dashboard");
 
       if(loginCall.payload.user){
         navigate("/Dashboard");
