@@ -10,6 +10,7 @@ import { Sidebar } from "primereact/sidebar";
 import IMAGES from "../../../assets/Images";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import "../../Listings/Listingdetail/index.css"
 const CustomSidebar = styled(Sidebar)`
   .p-sidebar-header {
     display: none;
@@ -87,24 +88,24 @@ export const Step1 = () => {
         <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
           What best describes overall condition of your item?
         </p>
-        <ul className="list-tick border-b border-custom pb-6 px-4">
-          <li>
+        <ul className="list-tick border-b pb-3 border-custom">
+          <li className="list-element">
             Device has signs of heavy use such as deep scratches, dents, scuffs,
             or excessive scratching
           </li>
-          <li>
+          <li className="list-element">
             Device has signs of heavy use such as deep scratches, dents, scuffs,
             or excessive scratching
           </li>
-          <li>
+          <li className="list-element">
             Device has signs of heavy use such as deep scratches, dents, scuffs,
             or excessive scratching
           </li>
-          <li>
+          <li className="list-element">
             Device has signs of heavy use such as deep scratches, dents, scuffs,
             or excessive scratching
           </li>{" "}
-          <li>
+          <li className="list-element">
             Device has signs of heavy use such as deep scratches, dents, scuffs,
             or excessive scratching
           </li>

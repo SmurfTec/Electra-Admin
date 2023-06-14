@@ -203,8 +203,10 @@ export const Roles = () => {
               Find all of your team accounts
             </span>
           </p>
-           <CustomTabView>
-            <TabPanel header="All(6)">
+           <CustomTabView >
+            <TabPanel 
+            
+            header="All(6)">
               <p className="m-0">
                 <CustomTableComponent
                   columnStyle={{ backgroundColor: "#FCFCFC" }}
