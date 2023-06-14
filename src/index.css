@@ -15,4 +15,7 @@
     .active-icon circle {
       fill: red;
     }
+    .role .p-column-header-content{
+       padding-left: 50px !important;
+    }
 }

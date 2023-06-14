@@ -229,7 +229,11 @@ const Logout=()=>{
         }
         </Link>
       ))}
-      <div className="ml-[39px] mt-[137px] gap-3 flex items-center cursor-pointer" onClick={Logout}>
+      <div className="flex items-center justify-center  mt-[111px]">
+      <hr className='w-[80%] justify-center align-middle border border-custom-border border-[#F7F7F8]' />
+      </div>
+      <div className="ml-[39px] mt-[21px] gap-3 flex items-center cursor-pointer" onClick={Logout}>
+      
       <SVGIcon
       fillcolor={'#000000'}
                 src={IMAGES.LogoutIcon}

@@ -7,6 +7,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Checkbox } from "primereact/checkbox";
 import { Dialog } from 'primereact/dialog';
 import { Calendar } from 'primereact/calendar';
+import { Column } from "primereact/column";
 
 export const CustomInputCalendar=styled(Calendar)`
 overflow: hidden !important;
@@ -323,10 +324,15 @@ height: 16px; */
         }
         
       }
-      .p-datatable-thead > tr > th:first-of-type .p-column-header-content {
+      .p-datatable-thead > tr > th:last-of-type .p-column-header-content {
+  padding-left: ${({ columnHeaderFirst }: any) =>
+    columnHeaderFirst ? "30px" : ""};
+}
+      .p-datatable-thead > tr > th:not(:last-child) .p-column-header-content {
         justify-content: ${({ columnHeaderFirst }: any) =>
                 columnHeaderFirst ? columnHeaderFirst : "center"};
       }
+ 
       .p-datatable-tbody {
         tr {
           td {
@@ -355,6 +361,10 @@ height: 16px; */
             }
           }
         }
+      }
+      .p-datatable-tbody > tr > td:not(:last-child)  {
+        text-align: ${({ columnHeaderFirst }: any) =>
+                columnHeaderFirst ? "left" : "center"};
       }
     }
 

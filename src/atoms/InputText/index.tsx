@@ -9,6 +9,13 @@ const CustomInputTxt=styled(InputText)`
     outline: none !important;
     border: none !important;
     box-shadow: none !important; /* Add this line */
+  
+  }
+  &::placeholder{
+    font-family: 'Manrope';
+font-style: normal;
+font-size: 16px;
+color:${({placeholdertxtColor}:any)=>placeholdertxtColor&&placeholdertxtColor}
   }
 `
 export  const InputTxt = ({width,img,MainClasses,iconRight,iconLeft,LeftIcon,inputClasses,txt,...restProps}:any) => {
