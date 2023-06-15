@@ -7,6 +7,7 @@ import { SVGIcon } from "../../../components/SVG/index.js";
 import { CustomMenu } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 import { GetAllProducts } from "../../../store/Slices/ProductSlice.js";
+import moment from "moment";
 export const Products = () => {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState([
@@ -146,17 +147,27 @@ export const Products = () => {
       availibility: "Active",
     },
   ]);
-  const getProducts=async()=>{
-    try{
-      const response =await GetAllProducts();
-      console.log(response);
-    }catch(e){
-
-    }
-  }
+  const getProducts = async () => {
+    try {
+      const response = await GetAllProducts();
+      let latestArray;
+      console.log(response.products);
+      latestArray=response.products.map((item:any,index:number)=>{
+        let newObj={
+          ...item,
+          category:item.category.name,
+          Brand:item.brand.title,
+          listing:item.properties.listings,
+          addedon:moment(item.created_on).format("DD,MMM,YYYY"),
+          availibility:item.is_active?"Active":"InActive"
+        }
+        return newObj
+      })
+      setFilterData(latestArray)
+        } catch (e) {}
+  };
   useEffect(() => {
-  getProducts()
-   
+    getProducts();
   }, []);
   const [MenuLabel, setMenuLabel] = useState("");
   const menuLeft: any = useRef(null);
