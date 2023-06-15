@@ -5,11 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { EmailVerificationModel, ChangePasswordModel } from "../../components";
 import { useDispatch } from "react-redux";
 import { Login } from "../../store/Slices/AuthSlice";
+import useCookies from "react-cookie/cjs/useCookies";
 type LoginData = {
   email: string;
   password: string;
 };
 export const Signin = () => {
+const [, setCookie] = useCookies(['Authentication','Refresh','AuthCheck'])
+
   const dispatch = useDispatch();
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -25,9 +28,7 @@ export const Signin = () => {
       password:Password
     }
     event.preventDefault();
-    let user: any = {
-      name: "sherry",
-    };
+  
     if (Email.length == 0 || Password.length == 0) {
       if (Email.length == 0) {
         setEmailErr(true);
@@ -36,15 +37,16 @@ export const Signin = () => {
         setPasswordErr(true);
       }
     } else {
-      navigate("/Dashboard");
 
-      localStorage.setItem("user", JSON.stringify(user));
       const loginCall = await dispatch(Login(data) as any);
-      console.log()
-
+      let expires = new Date().getTime()
+      setCookie('Authentication'as never, loginCall.payload.accessToken,{path:"/",expires:new Date(expires+(36000*1000))})
+      setCookie('Refresh'as never, loginCall.payload.refreshToken,{path:"/",expires:new Date(expires+(48000*1000))})
+      setCookie('AuthCheck'as never, loginCall.payload.authCheck,{path:"/",expires:new Date(expires+(48000*1000))})
+      localStorage.setItem("user", JSON.stringify(loginCall.payload.user));
+      console.log(loginCall.payload)
       if(loginCall.payload.user){
         navigate("/Dashboard");
-      
       }
     }
   };
