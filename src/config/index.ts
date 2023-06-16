@@ -10,9 +10,7 @@ const instance = axios.create({
   withCredentials: true,
   });
 export const setAuthToken = (tokeen?: any,Refreshtoken?:any) => {
-  console.log(tokeen)
-  console.log(Refreshtoken)
-  try {
+    try {
     const token = JSON.parse(localStorage.getItem("token") as string);
     const refresh = JSON.parse(localStorage.getItem("refresh") as string);
     if (tokeen) {
