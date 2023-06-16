@@ -12,6 +12,8 @@ import { MenuItem } from "primereact/menuitem";
 export const Products = () => {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState([]);
+  const[initial,setInitial]=useState(true)
+
   const getProducts = async () => {
     try {
       const response = await GetAllProducts();
@@ -48,18 +50,13 @@ export const Products = () => {
       </>
     );
   };
-  const viewItem = (event: React.MouseEvent, item: any) => {
+  const viewItem = (event: React.MouseEvent, item: any,vaaluue?:any) => {
     event.stopPropagation();
-    console.log(event,"EVENT")
-    console.log(item,"EVENT")
+    console.log(vaaluue)
+ 
     setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
   };
-  const ViewItem = (event: React.MouseEvent, item: any) => {
-    console.log(CurrSelectedProduct, "VALUE");
-    event.stopPropagation();
-    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
-    // navigate("/ProductDetail");
-  };
+ 
 
   const items = [
     {
@@ -67,7 +64,7 @@ export const Products = () => {
       template: (item:MenuItem) => {
         return (
           <div
-          onClick={(event: any) => viewItem(event, item)}
+          onClick={(event: any) => viewItem(event, item,CurrSelectedProduct)}
             style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
             className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
           >
@@ -114,21 +111,25 @@ export const Products = () => {
   const MenuBodyTemplate = (rowData: any) => {
     const handleClick = (event: any) => {
       event.preventDefault();
+      console.log(rowData)
       setCurrSelectedProduct(rowData.id);
       menuLeft.current.toggle(event);
     };
 useEffect(()=>{
-
+  if(initial){
+    setInitial(false)
+        }else{
           console.log(
             "Menu",
             MenuLabel,
             "product",
-            selectedProducts,
+            selectedProducts, 
             "CurrSelectedProduct",
             CurrSelectedProduct
           );
+        }
         
-},[MenuLabel])
+},[MenuLabel,CurrSelectedProduct])
     return (
       <>
         <div
