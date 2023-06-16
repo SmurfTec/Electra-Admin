@@ -19,16 +19,18 @@ export const CustomTableComponent = ({
   columnHeaderFirst,
   LoadMore=false,
   setLoadMore,
+  showLoadMore=true,
+  initialRowSize=10,
   ...props
 }: any) => {
-  const[rowsize,setrowsize]=useState(LoadMore==true?10:filterData.length)
+  const[rowsize,setrowsize]=useState(LoadMore==true?initialRowSize:filterData.length)
   useEffect(()=>{
-    setrowsize(LoadMore==true?10:filterData.length)
+    setrowsize(LoadMore==true?initialRowSize:filterData.length)
   },[filterData])
   return (
     <>
       <div className="relative">
-        {LoadMore && <CustomTableWrapper></CustomTableWrapper>}
+        {(LoadMore &&showLoadMore)&& <CustomTableWrapper></CustomTableWrapper>}
         <CustomTable
           {...props}
          
@@ -65,7 +67,7 @@ export const CustomTableComponent = ({
             );
           })}
         </CustomTable>
-    {LoadMore &&
+    {(LoadMore && showLoadMore) &&
     <div className='flex justify-center mt-3 w-full '>
     <CustomButton onClick={()=>{
       setLoadMore(false)

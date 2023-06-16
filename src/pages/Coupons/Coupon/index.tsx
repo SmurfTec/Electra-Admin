@@ -9,7 +9,7 @@ import { getAllCoupons,DeleteCoupons } from "../../../store/Slices/Coupons";
 import moment from "moment";
 export const Coupon = () => {
   const [filterData,setfilterData] = useState([]);
-  const [LoadMore, setLoadMore] = useState(true);
+ 
   const getCoupons=async()=>{
     let response=await getAllCoupons();
     if(response.coupons){
