@@ -17,10 +17,11 @@ export const CustomTableComponent = ({
   showlines, 
   MultipleHeaderStyle,
   columnHeaderFirst,
-  LoadMore,
+  LoadMore=false,
   setLoadMore,
   ...props
 }: any) => {
+  console.log(filterData,"filterData");
   const[rowsize,setrowsize]=useState(LoadMore==true?10:filterData.length)
   return (
     <>

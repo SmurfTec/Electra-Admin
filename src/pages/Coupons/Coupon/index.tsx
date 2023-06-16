@@ -1,83 +1,51 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Header, DashCard, CreateCouponModel } from "../../../components";
+import { Header, DashCard, CreateCouponModel,SuccessModel } from "../../../components";
 import { CustomTableComponent } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import { MenuItem } from "primereact/menuitem";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
-import { getAllCoupons,DeleteCoupon } from "../../../store/Slices/Coupons";
+import { getAllCoupons,DeleteCoupons } from "../../../store/Slices/Coupons";
 import moment from "moment";
 export const Coupon = () => {
-  const[initial,setInitial]=useState(true)
+  const [filterData,setfilterData] = useState([]);
+  const [LoadMore, setLoadMore] = useState(true);
+  const getCoupons=async()=>{
+    let response=await getAllCoupons();
+    if(response.coupons){
+      setTotalCoupons(response.results)
+      let latestArr=response.coupons.map((item:any)=>{
+        let newObj={
+          ...item,
+          CouponCode:item.code,
+          OffPercentage:item.discount,
+          CreatedOn:moment(item.created_on).format("DD,MMM,YYYY"),
+          Expiry:moment(item.expiry).format("DD,MMM,YYYY"),
+          UsedTime:item.maxUse
+        }
+        return newObj
+      })
+      latestArr.sort((a:any, b:any) => a.id - b.id);
+      setfilterData(latestArr)
+   
+      console.log(latestArr)
+    }
+    
+   
+  }
+  useEffect(()=>{
+    getCoupons()
+  },[])
   const [modalVisible, setmodalVisible] = useState(false);
   const[TotalCoupons,setTotalCoupons]=useState(0);
   const [MenuLabel, setMenuLabel] = useState("");
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
+  const[successVisible,setsuccessVisible]=useState(false)
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const menuLeft: any = useRef(null);
-  const [filterData,setfilterData] = useState([
-    {
-      id: 1,
-      title: "New Year Coupon",
-      CouponCode: "43JDAO",
-      OffPercentage: "20%",
-      CreatedOn: "20,aug,2022",
-      Expiry: "30,aug,2022",
-      UsedTime: "20",
-    },
-    {
-      id: 2,
-      title: "New Year Coupon",
-      CouponCode: "43JDAO",
-      OffPercentage: "20%",
-      CreatedOn: "20,aug,2022",
-      Expiry: "30,aug,2022",
-      UsedTime: "20",
-    },
-    {
-      id: 3,
-      title: "New Year Coupon",
-      CouponCode: "43JDAO",
-      OffPercentage: "20%",
-      CreatedOn: "20,aug,2022",
-      Expiry: "30,aug,2022",
-      UsedTime: "20",
-    },
-    {
-      id: 4,
-      title: "New Year Coupon",
-      CouponCode: "43JDAO",
-      OffPercentage: "20%",
-      CreatedOn: "20,aug,2022",
-      Expiry: "30,aug,2022",
-      UsedTime: "20",
-    },
-    {
-      id: 5,
-      title: "New Year Coupon",
-      CouponCode: "43JDAO",
-      OffPercentage: "20%",
-      CreatedOn: "20,aug,2022",
-      Expiry: "30,aug,2022",
-      UsedTime: "20",
-    },
-  ]);
-  const items = [
-    // {
-    //   label: "View Item",
 
-    //   template: (item: any) => {
-    //     return (
-    //       <div
-    //         onClick={(event) => deleteItem(event, item)}
-    //         style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
-    //         className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-    //       >
-    //         <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> View Item
-    //       </div>
-    //     );
-    //   },
-    // },
+  const items = [
+  
     {
       label: "Delete",
       template: (item: MenuItem) => {
@@ -102,7 +70,7 @@ export const Coupon = () => {
     const handleClick = (event: any) => {
       event.preventDefault();
       setCurrSelectedProduct(rowData.id);
-      // setSelectedProducts([rowData])
+     
       menuLeft.current.toggle(event);
     };
     return (
@@ -144,43 +112,29 @@ export const Coupon = () => {
     { field: "UsedTime", header: "Used (times)" },
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
+  const DeleteCoupon=async()=>{
+    let response=await DeleteCoupons(CurrSelectedProduct)
+ 
+    setCurrSelectedProduct("");
+    setsuccessVisible(true)
+    getCoupons();
+  }
   useEffect(() => {
-    if(initial){
-setInitial(false)
-    }else{
-      console.log(
-        "Menu",
-        MenuLabel,
-        "product",
-        selectedProducts,
-        "CurrSelectedProduct",
-        CurrSelectedProduct
-      );
+    if(MenuLabel=="Delete"){
+      DeleteCoupon()
     }
+    console.log(
+      "Menu",
+      MenuLabel,
+      "product",
+      selectedProducts,
+      "CurrSelectedProduct",
+      CurrSelectedProduct
+    );
     
   }, [MenuLabel]);
 
-  const getCoupons=async()=>{
-    let response=await getAllCoupons();
-    setTotalCoupons(response.results)
-    let latestArr=response.coupons.map((item:any)=>{
-      let newObj={
-        ...item,
-        CouponCode:item.code,
-        OffPercentage:item.discount,
-        CreatedOn:moment(item.created_on).format("DD,MMM,YYYY"),
-        Expiry:moment(item.expiry).format("DD,MMM,YYYY"),
-        UsedTime:item.maxUse
-      }
-      return newObj
-    })
-    latestArr.sort((a:any, b:any) => a.id - b.id);
-    setfilterData(latestArr)
-   
-  }
-  useEffect(()=>{
-    getCoupons()
-  },[])
+ 
   return (
     <div>
       <CreateCouponModel
@@ -188,6 +142,7 @@ setInitial(false)
         visible={modalVisible}
         setVisible={setmodalVisible}
       />
+       <SuccessModel visible={successVisible} setVisible={setsuccessVisible} txt={"Coupon deleted Successfully"}/>
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
       <div className="mt-[35px]">
         <div className="flex flex-wrap gap-6 mt-[28px]">
@@ -215,6 +170,8 @@ setInitial(false)
           setSelectedProducts={setSelectedProducts}
           columnData={columnData}
           MultipleSelect={true}
+          LoadMore={LoadMore}
+          setLoadMore={setLoadMore}
         />
       </div>
     </div>

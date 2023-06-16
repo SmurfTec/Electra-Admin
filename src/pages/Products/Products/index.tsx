@@ -12,7 +12,7 @@ import { MenuItem } from "primereact/menuitem";
 export const Products = () => {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState([]);
-  const[initial,setInitial]=useState(true)
+  const [initial, setInitial] = useState(true);
 
   const getProducts = async () => {
     try {
@@ -50,21 +50,21 @@ export const Products = () => {
       </>
     );
   };
-  const viewItem = (event: React.MouseEvent, item: any,vaaluue?:any) => {
+  3;
+  const viewItem = (event: React.MouseEvent, item: any, vaaluue?: any) => {
     event.stopPropagation();
-    console.log(vaaluue)
- 
+    console.log(vaaluue);
+
     setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
   };
- 
 
   const items = [
     {
       label: "View",
-      template: (item:MenuItem) => {
+      template: (item: MenuItem) => {
         return (
           <div
-          onClick={(event: any) => viewItem(event, item,CurrSelectedProduct)}
+            onClick={(event: any) => viewItem(event, item, CurrSelectedProduct)}
             style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
             className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
           >
@@ -111,25 +111,24 @@ export const Products = () => {
   const MenuBodyTemplate = (rowData: any) => {
     const handleClick = (event: any) => {
       event.preventDefault();
-      console.log(rowData)
+      console.log(rowData);
       setCurrSelectedProduct(rowData.id);
       menuLeft.current.toggle(event);
     };
-useEffect(()=>{
-  if(initial){
-    setInitial(false)
-        }else{
-          console.log(
-            "Menu",
-            MenuLabel,
-            "product",
-            selectedProducts, 
-            "CurrSelectedProduct",
-            CurrSelectedProduct
-          );
-        }
-        
-},[MenuLabel,CurrSelectedProduct])
+    useEffect(() => {
+      if (initial) {
+        setInitial(false);
+      } else {
+        console.log(
+          "Menu",
+          MenuLabel,
+          "product",
+          selectedProducts,
+          "CurrSelectedProduct",
+          CurrSelectedProduct
+        );
+      }
+    }, [MenuLabel, CurrSelectedProduct]);
     return (
       <>
         <div
@@ -153,7 +152,20 @@ useEffect(()=>{
 
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
-
+  useEffect(() => {
+    if (MenuLabel == "View") {
+      navigate(`/ProductDetail/${CurrSelectedProduct}`);
+    } else {
+      console.log(
+        "Menu",
+        MenuLabel,
+        "product",
+        selectedProducts,
+        "CurrSelectedProduct",
+        CurrSelectedProduct
+      );
+    }
+  }, [MenuLabel]);
   return (
     <div>
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
