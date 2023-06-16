@@ -21,6 +21,7 @@ export const CustomTableComponent = ({
   setLoadMore,
   ...props
 }: any) => {
+  console.log(filterData,"filterData");
   const[rowsize,setrowsize]=useState(LoadMore==true?10:filterData.length)
   return (
     <>

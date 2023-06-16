@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Header, DashCard, CreateCouponModel } from "../../../components";
+import { Header, DashCard, CreateCouponModel,SuccessModel } from "../../../components";
 import { CustomTableComponent } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import { MenuItem } from "primereact/menuitem";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
-import { getAllCoupons,DeleteCoupon } from "../../../store/Slices/Coupons";
+import { getAllCoupons,DeleteCoupons } from "../../../store/Slices/Coupons";
 import moment from "moment";
 export const Coupon = () => {
   const[initial,setInitial]=useState(true)
@@ -13,10 +13,11 @@ export const Coupon = () => {
   const[TotalCoupons,setTotalCoupons]=useState(0);
   const [MenuLabel, setMenuLabel] = useState("");
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
+  const[successVisible,setsuccessVisible]=useState(false)
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const menuLeft: any = useRef(null);
-  const [filterData,setfilterData] = useState([
-    {
+  const[TableData,setTableData]=useState([
+     {
       id: 1,
       title: "New Year Coupon",
       CouponCode: "43JDAO",
@@ -26,7 +27,7 @@ export const Coupon = () => {
       UsedTime: "20",
     },
     {
-      id: 2,
+      id: 1,
       title: "New Year Coupon",
       CouponCode: "43JDAO",
       OffPercentage: "20%",
@@ -34,33 +35,18 @@ export const Coupon = () => {
       Expiry: "30,aug,2022",
       UsedTime: "20",
     },
-    {
-      id: 3,
-      title: "New Year Coupon",
-      CouponCode: "43JDAO",
-      OffPercentage: "20%",
-      CreatedOn: "20,aug,2022",
-      Expiry: "30,aug,2022",
-      UsedTime: "20",
-    },
-    {
-      id: 4,
-      title: "New Year Coupon",
-      CouponCode: "43JDAO",
-      OffPercentage: "20%",
-      CreatedOn: "20,aug,2022",
-      Expiry: "30,aug,2022",
-      UsedTime: "20",
-    },
-    {
-      id: 5,
-      title: "New Year Coupon",
-      CouponCode: "43JDAO",
-      OffPercentage: "20%",
-      CreatedOn: "20,aug,2022",
-      Expiry: "30,aug,2022",
-      UsedTime: "20",
-    },
+  ])
+  const [filterData,setfilterData] = useState([
+    // {
+    //   id: 1,
+    //   title: "New Year Coupon",
+    //   CouponCode: "43JDAO",
+    //   OffPercentage: "20%",
+    //   CreatedOn: "20,aug,2022",
+    //   Expiry: "30,aug,2022",
+    //   UsedTime: "20",
+    // },
+  
   ]);
   const items = [
     // {
@@ -144,10 +130,20 @@ export const Coupon = () => {
     { field: "UsedTime", header: "Used (times)" },
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
+  const DeleteCoupon=async()=>{
+    let response=await DeleteCoupons(CurrSelectedProduct)
+ 
+    setCurrSelectedProduct("");
+    setsuccessVisible(true)
+    getCoupons();
+  }
   useEffect(() => {
     if(initial){
 setInitial(false)
     }else{
+      if(MenuLabel=="Delete"){
+        DeleteCoupon()
+      }
       console.log(
         "Menu",
         MenuLabel,
@@ -162,20 +158,25 @@ setInitial(false)
 
   const getCoupons=async()=>{
     let response=await getAllCoupons();
-    setTotalCoupons(response.results)
-    let latestArr=response.coupons.map((item:any)=>{
-      let newObj={
-        ...item,
-        CouponCode:item.code,
-        OffPercentage:item.discount,
-        CreatedOn:moment(item.created_on).format("DD,MMM,YYYY"),
-        Expiry:moment(item.expiry).format("DD,MMM,YYYY"),
-        UsedTime:item.maxUse
-      }
-      return newObj
-    })
-    latestArr.sort((a:any, b:any) => a.id - b.id);
-    setfilterData(latestArr)
+    if(response.coupons){
+      setTotalCoupons(response.results)
+      let latestArr=response.coupons.map((item:any)=>{
+        let newObj={
+          ...item,
+          CouponCode:item.code,
+          OffPercentage:item.discount,
+          CreatedOn:moment(item.created_on).format("DD,MMM,YYYY"),
+          Expiry:moment(item.expiry).format("DD,MMM,YYYY"),
+          UsedTime:item.maxUse
+        }
+        return newObj
+      })
+      latestArr.sort((a:any, b:any) => a.id - b.id);
+      setfilterData(latestArr)
+      setTableData(latestArr)
+      console.log(latestArr)
+    }
+    
    
   }
   useEffect(()=>{
@@ -188,6 +189,7 @@ setInitial(false)
         visible={modalVisible}
         setVisible={setmodalVisible}
       />
+       <SuccessModel visible={successVisible} setVisible={setsuccessVisible} txt={"Coupon deleted Successfully"}/>
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
       <div className="mt-[35px]">
         <div className="flex flex-wrap gap-6 mt-[28px]">
@@ -210,11 +212,12 @@ setInitial(false)
       <div className="mt-[20px]">
         <CustomTableComponent
           showWrapper={false}
-          filterData={filterData}
+          filterData={TableData}
           selectedProducts={selectedProducts}
           setSelectedProducts={setSelectedProducts}
           columnData={columnData}
           MultipleSelect={true}
+        
         />
       </div>
     </div>

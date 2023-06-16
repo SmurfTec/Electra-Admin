@@ -18,7 +18,7 @@ export const getAllCoupons=async()=>{
         return e;
       }
       }
-      export const DeleteCoupon=async(id:any)=>{
+      export const DeleteCoupons=async(id:any)=>{
         try{
           let response:any=await url.delete(`/coupons/${id}`)
           return response.data;
