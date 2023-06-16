@@ -17,7 +17,7 @@ export const CustomTableComponent = ({
   showlines, 
   MultipleHeaderStyle,
   columnHeaderFirst,
-  LoadMore,
+  LoadMore=false,
   setLoadMore,
   ...props
 }: any) => {

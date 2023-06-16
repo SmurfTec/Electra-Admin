@@ -8,163 +8,27 @@ import { CustomMenu } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 import { GetAllProducts } from "../../../store/Slices/ProductSlice.js";
 import moment from "moment";
+import { MenuItem } from "primereact/menuitem";
 export const Products = () => {
   const navigate = useNavigate();
-  const [filterData, setFilterData] = useState([
-    {
-      id: 1,
-      title: "Iphone 14",
-      category: "Phones",
-      Brand: "Apple",
-      addedon: "20,aug,2022",
-      listing: "24",
-      availibility: "Active",
-    },
-    // {
-    //   id: 2,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "Active",
-    // },
-    // {
-    //   id: 3,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "InActive",
-    // },
-    // {
-    //   id: 4,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "InActive",
-    // },
-    // {
-    //   id: 5,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "InActive",
-    // },
-    // {
-    //   id: 6,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "InActive",
-    // },
-    // {
-    //   id: 7,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "Active",
-    // },
-    // {
-    //   id: 8,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "Active",
-    // },
-    // {
-    //   id: 9,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "Active",
-    // },
-    // {
-    //   id: 10,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "Active",
-    // },
-    // {
-    //   id: 11,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "Active",
-    // },
-    // {
-    //   id: 12,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "Active",
-    // },
-    // {
-    //   id: 13,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "Active",
-    // },
-    // {
-    //   id: 14,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "Active",
-    // },
-    // {
-    //   id: 15,
-    //   title: "Iphone 14",
-    //   category: "Phones",
-    //   Brand: "Apple",
-    //   addedon: "20,aug,2022",
-    //   listing: "24",
-    //   availibility: "Active",
-    // },
-  ]);
+  const [filterData, setFilterData] = useState([]);
   const getProducts = async () => {
     try {
       const response = await GetAllProducts();
       let latestArray;
-      console.log(response.products);
-      latestArray=response.products.map((item:any,index:number)=>{
-        let newObj={
+      latestArray = response.products.map((item: any, index: number) => {
+        let newObj = {
           ...item,
-          category:item.category.name,
-          Brand:item.brand.title,
-          listing:item.properties.listings,
-          addedon:moment(item.created_on).format("DD,MMM,YYYY"),
-          availibility:item.is_active?"Active":"InActive"
-        }
-        return newObj
-      })
-      setFilterData(latestArray)
-        } catch (e) {}
+          category: item.category.name,
+          Brand: item.brand.title,
+          listing: item.properties.listings,
+          addedon: moment(item.created_on).format("DD,MMM,YYYY"),
+          availibility: item.is_active ? "Active" : "InActive",
+        };
+        return newObj;
+      });
+      setFilterData(latestArray);
+    } catch (e) {}
   };
   useEffect(() => {
     getProducts();
@@ -173,7 +37,7 @@ export const Products = () => {
   const menuLeft: any = useRef(null);
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const [LoadMore, setLoadMore] = useState(true);
-  const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
+  const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
   const SwitchTemplate = (option: any) => {
     const [checked, setChecked] = useState(
       option.availibility.toLowerCase() == "active" ? true : false
@@ -184,23 +48,24 @@ export const Products = () => {
       </>
     );
   };
-  const deleteItem = (event: React.MouseEvent, item: any) => {
+  const viewItem = (event: React.MouseEvent, item: any) => {
     event.stopPropagation();
     setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
   };
   const ViewItem = (event: React.MouseEvent, item: any) => {
+    console.log(CurrSelectedProduct, "VALUE");
     event.stopPropagation();
     setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
-    navigate("/ProductDetail");
+    // navigate("/ProductDetail");
   };
 
   const items = [
     {
       label: "View",
-      template: (item: any, options: any) => {
+      template: (item:MenuItem) => {
         return (
           <div
-            onClick={(event: any) => ViewItem(event, item)}
+          onClick={(event: any) => viewItem(event, item)}
             style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
             className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
           >
@@ -220,7 +85,7 @@ export const Products = () => {
       template: (item: any, options: any) => {
         return (
           <div
-            onClick={(event: any) => deleteItem(event, item)}
+            onClick={(event: any) => viewItem(event, item)}
             style={{ background: "rgba(231, 29, 54, 0.05)" }}
             className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
           >
@@ -234,7 +99,7 @@ export const Products = () => {
       template: (item: any, options: any) => {
         return (
           <div
-            onClick={(event: any) => ViewItem(event, item)}
+            // onClick={(event: any) => ViewItem(event, item)}
             style={{ background: "rgba(46, 102, 194, 0.05)" }}
             className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
           >
@@ -274,7 +139,22 @@ export const Products = () => {
 
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
-
+  useEffect(()=>{
+if(MenuLabel=="View"){
+  navigate(`/ProductDetail/${CurrSelectedProduct}`);
+}else{
+  console.log(
+    "Menu",
+    MenuLabel,
+    "product",
+    selectedProducts,
+    "CurrSelectedProduct",
+    CurrSelectedProduct
+  );
+}
+    
+  
+},[MenuLabel])
   return (
     <div>
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
