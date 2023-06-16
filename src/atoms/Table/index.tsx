@@ -1,5 +1,5 @@
 import { Column } from "primereact/column";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomTableWrapper, CustomTable } from "../global.style";
 import { CustomButton } from "..";
 import IMAGES from "../../assets/Images";
@@ -21,8 +21,10 @@ export const CustomTableComponent = ({
   setLoadMore,
   ...props
 }: any) => {
-  console.log(filterData,"filterData");
   const[rowsize,setrowsize]=useState(LoadMore==true?10:filterData.length)
+  useEffect(()=>{
+    setrowsize(LoadMore==true?10:filterData.length)
+  },[filterData])
   return (
     <>
       <div className="relative">

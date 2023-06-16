@@ -170,8 +170,7 @@ export const Coupon = () => {
           setSelectedProducts={setSelectedProducts}
           columnData={columnData}
           MultipleSelect={true}
-          LoadMore={LoadMore}
-          setLoadMore={setLoadMore}
+         
         />
       </div>
     </div>
