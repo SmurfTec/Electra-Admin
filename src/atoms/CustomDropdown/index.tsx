@@ -40,7 +40,7 @@ export const CustomDropdown = (props: any) => {
     <Drops
       placeholdercolor={props.placeholderColor}
       value={selectedItem}
-      onChange={(e:any) => setSelectedItem(e.value)}
+      onChange={(e:any) => {setSelectedItem(e.value);props.setvalue(e)}}
       className={props.mainclasses}
       placeholder={props.placeholder}
       options={props?.options || cities}

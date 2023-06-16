@@ -5,14 +5,17 @@ import { SVGIcon } from "../../../components/SVG";
 import { MenuItem } from "primereact/menuitem";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
-
+import { getAllCoupons,DeleteCoupon } from "../../../store/Slices/Coupons";
+import moment from "moment";
 export const Coupon = () => {
+  const[initial,setInitial]=useState(true)
   const [modalVisible, setmodalVisible] = useState(false);
+  const[TotalCoupons,setTotalCoupons]=useState(0);
   const [MenuLabel, setMenuLabel] = useState("");
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const menuLeft: any = useRef(null);
-  const [filterData] = useState([
+  const [filterData,setfilterData] = useState([
     {
       id: 1,
       title: "New Year Coupon",
@@ -60,21 +63,21 @@ export const Coupon = () => {
     },
   ]);
   const items = [
-    {
-      label: "View Item",
+    // {
+    //   label: "View Item",
 
-      template: (item: any) => {
-        return (
-          <div
-            onClick={(event) => deleteItem(event, item)}
-            style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
-            className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-          >
-            <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> View Item
-          </div>
-        );
-      },
-    },
+    //   template: (item: any) => {
+    //     return (
+    //       <div
+    //         onClick={(event) => deleteItem(event, item)}
+    //         style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+    //         className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+    //       >
+    //         <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> View Item
+    //       </div>
+    //     );
+    //   },
+    // },
     {
       label: "Delete",
       template: (item: MenuItem) => {
@@ -142,15 +145,42 @@ export const Coupon = () => {
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
   useEffect(() => {
-    console.log(
-      "Menu",
-      MenuLabel,
-      "product",
-      selectedProducts,
-      "CurrSelectedProduct",
-      CurrSelectedProduct
-    );
+    if(initial){
+setInitial(false)
+    }else{
+      console.log(
+        "Menu",
+        MenuLabel,
+        "product",
+        selectedProducts,
+        "CurrSelectedProduct",
+        CurrSelectedProduct
+      );
+    }
+    
   }, [MenuLabel]);
+
+  const getCoupons=async()=>{
+    let response=await getAllCoupons();
+    setTotalCoupons(response.results)
+    let latestArr=response.coupons.map((item:any)=>{
+      let newObj={
+        ...item,
+        CouponCode:item.code,
+        OffPercentage:item.discount,
+        CreatedOn:moment(item.created_on).format("DD,MMM,YYYY"),
+        Expiry:moment(item.expiry).format("DD,MMM,YYYY"),
+        UsedTime:item.maxUse
+      }
+      return newObj
+    })
+    latestArr.sort((a:any, b:any) => a.id - b.id);
+    setfilterData(latestArr)
+   
+  }
+  useEffect(()=>{
+    getCoupons()
+  },[])
   return (
     <div>
       <CreateCouponModel
@@ -164,7 +194,7 @@ export const Coupon = () => {
           <DashCard
             title={"Total Coupons"}
             titleStyle={`!text-[13px]`}
-            totalNumber={"6"}
+            totalNumber={String(TotalCoupons)}
             showDefaultNumber={false}
             Numberstyle={`!text-[28px]`}
           />

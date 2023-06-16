@@ -10,6 +10,7 @@ import { Confirmationmodal } from "../../../components/index.js";
 import { getAllUsers } from "../../../store/Slices/UserSlice.js";
 export const Users = () => {
   const navigate = useNavigate();
+  const[totalUsers,setTotalUsers]=useState(0)
   const [MenuLabel, setMenuLabel] = useState("");
   const [visible, setVisible] = useState(false);
   const[LoadMore,setLoadMore]=useState(true)
@@ -277,8 +278,13 @@ export const Users = () => {
     { field: "registerValue", header: "Registered Via" },
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
+  const getUsers=async()=>{
+    let response=await getAllUsers();
+    setTotalUsers(response.results)
+    console.log(response.users,"r")
+  }
   useEffect(()=>{
-    getAllUsers();
+    getUsers()
   },[])
   return (
     <div className="">
@@ -287,7 +293,7 @@ export const Users = () => {
         <DashCard
           onClick={() => setVisible(true)}
           title={"Total Users"}
-          totalNumber={"4500"}
+          totalNumber={String(totalUsers)}
           myImg={IMAGES.person}
           imgColor={"bg-custom-grey"}
           textDash={"bg-custom-blue w-[67px] "}

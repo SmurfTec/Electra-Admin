@@ -5,8 +5,12 @@ const initialState: any = {
     CurrentActiveUser:{}
   };
 export const getAllUsers=async()=>{
-let result=url.get('/users/?sort=id')
-console.log(result)
+try{
+  let response:any=await url.get('/users/?sort=id')
+  return response.data;
+}catch(e){
+  return e;
+}
 }
 const UserSlice=createSlice({
     name:"users",

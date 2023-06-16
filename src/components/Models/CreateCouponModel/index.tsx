@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react'
 import { CustomDialog } from '../../../atoms/global.style'
 import { InputTxt,CustomDropdown,CustomCalendar,CustomButton } from '../../../atoms'
 import { SuccessModel } from '..'
+import { CreateCoupon } from '../../../store/Slices/Coupons'
 export const CreateCouponModel = ({visible,setVisible,classes}:any) => {
     const [values,setValues]=useState({
         Title:'',
@@ -11,18 +12,34 @@ export const CreateCouponModel = ({visible,setVisible,classes}:any) => {
         UsageLimit:'',
 
     })
+    const[options,setoptions]=useState([
+        "1 Time","2 Times","3 Times","Unlimited"
+    ])
     const [successVisible,setsuccessVisible]=useState(false)
     const [buttonDisable,setbuttonDisable]=useState(true)
     const [Title,setTitle]=useState('')
     const[date,setDate]=useState('')
     useEffect(()=>{
         //&&(values.UsageLimit.length>0)
-        if((values.Title.length>0)&&(values.Title.length>0)&&(values.couponCode.length>0)&&(values.percentage.length>0)){
+        if((values.Title.length>0)&&(values.Title.length>0)&&(values.couponCode.length>0)&&(values.percentage.length>0)&&(values.UsageLimit.length>0)){
             setbuttonDisable(false) 
         }else{
             setbuttonDisable(true)
         }
     },[values])
+    const generateCode=async()=>{
+        console.log(values)
+        let newvalues={
+            "title": values.Title,
+    "code": values.couponCode,
+    "discount": Number(values.percentage),
+    "expiry": values.date,
+    "maxUse":20
+        }
+        let response=await CreateCoupon(newvalues)
+        console.log(response)
+        // setsuccessVisible(true)
+    }
   return (
    <>
    <CustomDialog className={classes} visible={visible} >
@@ -41,14 +58,14 @@ export const CreateCouponModel = ({visible,setVisible,classes}:any) => {
         <InputTxt inputClasses="!text-center" placeholder="Coupon Code" Title={values.couponCode} onChange={(e:any)=>setValues({...values,couponCode:e.target.value})} MainClasses='!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto'/>
         <p className='text-[12px] text-[#656565] text-right mr-[4rem]'>Max 6 Character Code</p>
         </div>
-       <CustomDropdown placeholderColor="#A4A4A4" placeholder="Usage Limit" mainclasses={'!w-[370px] !h-[54px] !border !border-black !rounded-[10px] !bg-[#FFFFFF] m-auto'}/>
+       <CustomDropdown options={options} value={""} setvalue={(e:any)=>setValues({...values,UsageLimit:e.value})} placeholderColor="#A4A4A4" placeholder="Usage Limit" mainclasses={'!w-[370px] !h-[54px] !border !border-black !rounded-[10px] !bg-[#FFFFFF] m-auto'}/>
        <div className='flex justify-center gap-3'>
         <CustomButton txt="Cancel" classes='!w-[179px] !h-[50px] !bg-[#E2E2E2] !rounded-[10px] !text-black !text-[16px]'/>
         <CustomButton txt="Generate Code" onClick={()=>{
             if(!buttonDisable){
                 setVisible(false)
-                setsuccessVisible(true)
-               
+                
+                generateCode()
             }
         }} classes={`!w-[179px] !h-[50px] ${buttonDisable==false?'!bg-[#212121]':'!bg-[#A4A4A4]'}  !rounded-[10px] !text-white !text-[16px]`}/>
        </div>
