@@ -6,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../../../store/Slices/ProductSlice";
 import { useEffect, useState } from "react";
-import { useProductDetail } from "../../../custom-hooks";
+import { useProductDetail,useVariantDetail } from "../../../custom-hooks";
 import moment from "moment";
 export const ProductView = () => {
   const params = useParams();
   let { id } = params;
   const navigate = useNavigate();
   const ProductData = useProductDetail(id);
+
   const [VariantsArray, setVariantArray] = useState([
     {
       txt: "Capacity",
