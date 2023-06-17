@@ -7,7 +7,24 @@ import { InputTxt } from '../../../atoms'
 import { SVGIcon } from '../../../components/SVG'
 import { CustomMenu } from "../../../atoms/global.style"
 import { MenuItem } from 'primereact/menuitem'
+import { getSingleUser } from '../../../store/Slices/UserSlice'
+import { useParams } from 'react-router-dom'
+import moment from 'moment'
+type UserInterface={
+  username:String,
+  email:String,
+  phone:String,
+  date:String,
+}
 export const UserProfile = () => {
+  const params = useParams();
+  let { id } = params;
+  const[UserData,setUserData]=useState<UserInterface>({
+    username:"",
+    email:"",
+    phone:"",
+    date:"",
+  })
   const [activetxt, setactivetxt] = useState('Active')
   const [search, setSearch] = useState('')
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
@@ -141,7 +158,20 @@ export const UserProfile = () => {
       menuLeft.current.toggle(event);
 
     };
-
+const GetUserDetail=async()=>{
+  let response=await getSingleUser(id);
+  setUserData(
+    {...UserData,
+     username:response?.profile?.firstname+" "+response?.profile?.lastname || "",
+    email:response.email || "",
+    phone:response.profile.mobile_no || "",
+    date:moment(response.created_at).format("DD,MM,YYYY")
+    })
+  
+}
+useEffect(()=>{
+  GetUserDetail()
+},[])
     return (
       <>
 
@@ -187,21 +217,21 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
         <div className=' w-[500px] h-[305px] border border-custom-border border-[#F7F7F8] rounded-[10px] flex flex-col pt-[11px] pb-[40px] pl-[17px] pr-[17px]'>
           <div className='flex justify-between'>
             <div className='flex flex-col gap-2'>
-              <h1 className='text-[24px] font-[600] text-[#212121] overflow-hidden'>John Carter</h1>
-              <p className='text-[14px] font-[400] text-[#969696] overflow-hidden'>annejacob2@ummoh.com</p>
+              <h1 className='text-[24px] font-[600] text-[#212121] overflow-hidden'>{UserData.username}</h1>
+              <p className='text-[14px] font-[400] text-[#969696] overflow-hidden'>{UserData.email}</p>
             </div>
           </div> 
           <div className='flex justify-between mt-[46px]'>
             <div className='flex flex-col'>
               <h1 className='text-[14px] font-[500] text-[#969696] overflow-hidden'>Joined On</h1>
-              <p className='text-[14px] font-[400] text-[#212121] overflow-hidden'>20 aug,2022</p>
+              <p className='text-[14px] font-[400] text-[#212121] overflow-hidden'>{UserData.date}</p>
             </div>
           </div>
           <hr className='w-full mt-[19px] border border-custom-border border-[#F7F7F8]' />
           <div className='flex justify-between mt-[19px]'>
             <div className='flex flex-col'>
               <h1 className='text-[14px] font-[500] text-[#969696] overflow-hidden'>Phone No</h1>
-              <p className='text-[14px] font-[400] text-[#212121] overflow-hidden'>+53563636366336</p>
+              <p className='text-[14px] font-[400] text-[#212121] overflow-hidden'>{UserData.phone}</p>
             </div>
           </div>
         </div>

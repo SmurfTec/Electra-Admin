@@ -10,7 +10,9 @@ export const Confirmationmodal = ({
   cnclebtnText,
   addValue,
   Feemodif,
-  placeholderclasses
+  placeholderclasses,
+  setOkButton,
+  setCancelButton
 }: any) => {
     // insert here
   return (
@@ -49,10 +51,13 @@ export const Confirmationmodal = ({
           <CustomButton
             txt={cnclebtnText}
             classes="!w-[179px] !h-[50px] !bg-[#E2E2E2] !rounded-[10px] !text-black !text-[16px]"
+            
+            onClick={setCancelButton}
           />
           <CustomButton
             txt={cnfrmbtnText}
             classes={`!w-[179px] !h-[50px] bg-[#212121] !rounded-[10px] !text-white !text-[16px]`}
+            onClick={setOkButton}
           />
         </div>
       </div>
