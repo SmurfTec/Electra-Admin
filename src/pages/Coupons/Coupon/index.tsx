@@ -9,7 +9,7 @@ import { getAllCoupons,DeleteCoupons } from "../../../store/Slices/Coupons";
 import moment from "moment";
 export const Coupon = () => {
   const [filterData,setfilterData] = useState([]);
- 
+  const[added,setadded]=useState(false)
   const getCoupons=async()=>{
     let response=await getAllCoupons();
     if(response.coupons){
@@ -25,6 +25,7 @@ export const Coupon = () => {
         }
         return newObj
       })
+      console.log(latestArr)
       latestArr.sort((a:any, b:any) => a.id - b.id);
       setfilterData(latestArr)
    
@@ -113,11 +114,15 @@ export const Coupon = () => {
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
   const DeleteCoupon=async()=>{
-    let response=await DeleteCoupons(CurrSelectedProduct)
+    try{
+      let response=await DeleteCoupons(CurrSelectedProduct)
  
     setCurrSelectedProduct("");
     setsuccessVisible(true)
     getCoupons();
+    }catch(err){
+      
+    }
   }
   useEffect(() => {
     if(MenuLabel=="Delete"){
@@ -134,13 +139,20 @@ export const Coupon = () => {
     
   }, [MenuLabel]);
 
- 
+ useEffect(()=>{
+  if(added){
+    setadded(false)
+    getCoupons()
+  }
+ },[added])
   return (
     <div>
       <CreateCouponModel
         classes={"!w-[496px] !h-[502px]"}
         visible={modalVisible}
         setVisible={setmodalVisible}
+        added={added}
+        setadded={setadded}
       />
        <SuccessModel visible={successVisible} setVisible={setsuccessVisible} txt={"Coupon deleted Successfully"}/>
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
