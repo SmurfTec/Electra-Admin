@@ -74,7 +74,7 @@ function App() {
               }
             />
             <Route path="/Users" element={<Users />} />
-            <Route path="/ProductDetail" element={<ProductView />} />
+            <Route path="/ProductDetail/:id" element={<ProductView />} />
             <Route path="/UserProfile" element={<UserProfile />} />
             <Route path="/AddProduct" element={<AddProduct />} />
             <Route path="/Productrequest" element={<ProductRequests />} />

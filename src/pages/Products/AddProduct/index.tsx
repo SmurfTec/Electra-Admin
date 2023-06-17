@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Header, Variants } from "../../../components";
 import {
   InputTxt,
@@ -8,6 +9,13 @@ import {
 } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
 export const AddProduct = () => {
+  const [productData,setProductData]=useState({
+    title:"",
+    is_active:true,
+    category:Number,
+    brand:Number
+
+  })
   const navigate=useNavigate()
   const VariantsArray = [
     {

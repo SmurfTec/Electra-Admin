@@ -1,5 +1,2 @@
-export const Customhook = () => {
-  return (
-    <div>Customhook</div>
-  )
-}
+export * from "./ProductHook"
+export * from "./VariantHooks"

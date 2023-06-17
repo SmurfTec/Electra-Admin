@@ -12,6 +12,15 @@ export const GetAllProducts = async () => {
     return e;
   }
 };
+export const getProductById = async (id:any) => {
+  try {
+    let response: any = await url.get(`/products/${id}`);
+    console.log(response);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+};
 export const AddProduct = async () => {
   try {
     let response: any = await url.post("/");
