@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header, Variants } from "../../../components";
 import {
   InputTxt,
@@ -8,94 +8,112 @@ import {
   FetchButton,
 } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
+import { useVariantDetail } from "../../../custom-hooks";
 export const AddProduct = () => {
-  const [productData,setProductData]=useState({
-    title:"",
-    is_active:true,
-    category:Number,
-    brand:Number
+  const [VariantsArray, setVariantArray] = useState([]);
+  const [VariantsArray2 ,setVariantArray2]= useState([])
+  const[ VariantsArray3,setVariantArray3] = useState([])
+  const[ VariantsArray4,setVariantArray4] = useState([])
+  const [productData, setProductData] = useState({
+    title: "",
+    is_active: true,
+    category: Number,
+    brand: Number,
+  });
+  const navigate = useNavigate();
+  const VariantsData = useVariantDetail();
+  console.log(VariantsData);
 
-  })
-  const navigate=useNavigate()
-  const VariantsArray = [
-    {
-      txt: "Capacity",
-      classes:
-        "!bg-[#FCE39C] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "64 GB",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "128 GB",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5 ",
-    },
-    {
-      txt: "256 GB",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "512 GB",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-  ];
-  const VariantsArray2 = [
-    {
-      txt: "Colors",
-      classes: "!bg-[#3C82D6] !w-[148px]  !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "Blue",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "Black",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5 ",
-    },
-    {
-      txt: "White",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "Purple",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-  ];
-  const VariantsArray3 = [
-    {
-      txt: "Carriers",
-      classes: " !w-[148px]  !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "At & T",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "Verizon",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5 ",
-    },
-    {
-      txt: "Factory Unlocked",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px] !text-center !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "T-Mobile",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-  ];
+  useEffect(() => {
+    if (VariantsData?.variants) {
+      let newData: any;
+      let newData2: any;
+      let newData3: any;
+      let newData4: any;
+      VariantsData.variants.map((item: any, index: any) => {
+        let mainObj = {
+          txt: item.title,
+          classes:
+            "!bg-[#FCE39C] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+        };
+        let mainObj2 = {
+          txt: item.title,
+          classes: "!bg-[#3C82D6] !w-[148px]  !p-4 !rounded-[9px] !mt-5",
+        };
+        let mainObj3 = {
+          txt: item.title,
+          classes: " !w-[148px]  !p-4 !rounded-[9px] !mt-5",
+        };
+        let mainObj4 = {
+          txt: item.title,
+          classes: " !w-[148px]  !p-4 !rounded-[9px] !mt-5",
+        };
+        if (item.title === "capacity") {
+          // Extract the string value and remove the curly braces
+          const stringValues = item.values.slice(1, -1);
+          // Convert the string to an array by splitting at each comma
+          const valueArray = stringValues.split(",");
+          newData = valueArray.map((item: any, index: any) => {
+            return {
+              txt: item,
+              classes:
+                "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+            };
+          });
+          newData.unshift(mainObj);
+        } 
+        else if (item.title === "color") {
+          // Extract the string value and remove the curly braces
+          const stringValues = item.values.slice(1, -1);
+          // Convert the string to an array by splitting at each comma
+          const valueArray = stringValues.split(",");
+          newData2 = valueArray.map((item: any, index: any) => {
+            return {
+              txt: item,
+              classes:
+                "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+            };
+          });
+          newData2.unshift(mainObj2);
+        }
+        else if (item.title === "carrier") {
+          // Extract the string value and remove the curly braces
+          const stringValues = item.values.slice(1, -1);
+          // Convert the string to an array by splitting at each comma
+          const valueArray = stringValues.split(",");
+          newData3 = valueArray.map((item: any, index: any) => {
+            return {
+              txt: item,
+              classes:
+              "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+            };
+          });
+          newData3.unshift(mainObj3);
+        }
+        else if (item.title === "screen") {
+          // Extract the string value and remove the curly braces
+          const stringValues = item.values.slice(1, -1);
+          // Convert the string to an array by splitting at each comma
+          const valueArray = stringValues.split(",");
+          newData4 = valueArray.map((item: any, index: any) => {
+            return {
+              txt: item,
+              classes:
+              "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+            };
+          });
+          newData4.unshift(mainObj4);
+        }
+      });
+      
+      console.log(newData2, "NEW DATA");
+      setVariantArray(newData);
+      setVariantArray2(newData2)
+      setVariantArray3(newData3)
+      setVariantArray4(newData4)
+    }
+  }, [VariantsData]);
+
   return (
     <div>
       <Header
@@ -143,6 +161,13 @@ export const AddProduct = () => {
         </div>
         <div className="flex gap-2">
           <Variants data={VariantsArray3} />
+          <CustomButton
+            txt={"+Add text"}
+            classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
+          />
+        </div>
+        <div className="flex gap-2">
+          <Variants data={VariantsArray4} />
           <CustomButton
             txt={"+Add text"}
             classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
@@ -226,8 +251,17 @@ export const AddProduct = () => {
           </div>
         </div>
         <div className="flex gap-3 mb-3">
-          <CustomButton txt={"Cancel"} classes={"!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]"}/>
-          <CustomButton   onClick={()=>navigate("/Productrequest")} txt={"Add Product"} classes={" !w-[179px] !rounded-[12px] !h-[50px]"}/>
+          <CustomButton
+            txt={"Cancel"}
+            classes={
+              "!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]"
+            }
+          />
+          <CustomButton
+            onClick={() => navigate("/Productrequest")}
+            txt={"Add Product"}
+            classes={" !w-[179px] !rounded-[12px] !h-[50px]"}
+          />
         </div>
       </div>
     </div>
