@@ -27,7 +27,6 @@ const [, setCookie] = useCookies(['Authentication','Refresh','AuthCheck'])
       email:Email,
       password:Password
     }
-    event.preventDefault();
   
     if (Email.length == 0 || Password.length == 0) {
       if (Email.length == 0) {
