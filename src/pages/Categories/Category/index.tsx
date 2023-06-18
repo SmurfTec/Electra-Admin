@@ -7,7 +7,7 @@ import IMAGES from '../../../assets/Images'
 import { CustomMenu } from "../../../atoms/global.style"
 import { useNavigate } from 'react-router-dom'
 import { getAllCategories } from '../../../store/Slices/Categories'
-import { getAllVariants } from '../../../store/Slices/Variants'
+import { getAllVariants } from '../../../store/Slices/VariantSlice'
 import moment from 'moment'
 export const Category = () => {
     const [MenuLabel, setMenuLabel] = useState("")
