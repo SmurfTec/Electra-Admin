@@ -121,7 +121,7 @@ export const ProductView = () => {
               View Technical Specifications
             </p>
             <CustomButton
-              txt={ProductData?.product.properties?.description}
+              txt={ProductData?.product.product_properties?.description}
               classes={
                 "!bg-[#FCE39C]  !w-[auto] !max-h-[auto] !text-[black] !p-2 !rounded-[7px] !mt-5"
               }

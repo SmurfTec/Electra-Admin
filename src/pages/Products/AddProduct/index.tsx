@@ -45,8 +45,10 @@ export const AddProduct = () => {
     values: [],
   });
   const navigate = useNavigate();
-  const VariantsData = useVariantDetail();
+  const VariantsData = useVariantDetail(fetchVariants);
+
   useEffect(() => {
+    
     if (VariantsData?.variants) {
       let newData: any;
       let newData2: any;
@@ -113,7 +115,7 @@ export const AddProduct = () => {
       setVariantArray3(newData3);
       setVariantArray4(newData4);
     }
-  }, [VariantsData, fetchVariants]);
+  }, [VariantsData]);
   const handleFunction = async (value: any) => {
     let prevArray = variant.values;
     let Newpush = [...prevArray.slice(1), value];
@@ -125,9 +127,11 @@ export const AddProduct = () => {
     };
     const sendVariant = await url.post("/variants", sendingData);
     if (sendVariant) {
-      setFetchVariants(!fetchVariants);
       setVisible(!visible);
+      VariantsData;
     }
+    setFetchVariants(!fetchVariants);
+
   };
   const handleChange = (setState: any) => (event: any) => {
     setState({

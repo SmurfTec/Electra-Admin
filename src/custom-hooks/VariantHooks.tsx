@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllVariants } from "../store/Slices/VariantSlice";
-export const useVariantDetail = () => {
+export const useVariantDetail = (value:any) => {
   const [data, setData] = useState<any>(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -13,7 +13,7 @@ export const useVariantDetail = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [value]);
   return data;
 
 };
