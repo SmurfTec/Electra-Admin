@@ -72,11 +72,6 @@ export const AddProduct = () => {
           classes: " !w-[148px]  !p-4 !rounded-[9px] !mt-5",
         };
         if (item.title === "capacity") {
-          // Extract the string value and remove the curly braces
-          // const stringValues = item.values.slice(1, -1);
-          // console.log(stringValues,"Stringvalues")
-          // // Convert the string to an array by splitting at each comma
-          // const valueArray = stringValues?.split(",");
           newData = item.values.map((item: any, index: any) => {
             return {
               txt: item,
@@ -86,10 +81,6 @@ export const AddProduct = () => {
           });
           newData.unshift(mainObj);
         } else if (item.title === "color") {
-          // Extract the string value and remove the curly braces
-          // const stringValues = item.values.slice(1, -1);
-          // // Convert the string to an array by splitting at each comma
-          // const valueArray = stringValues.split(",");
           newData2 = item.values.map((item: any, index: any) => {
             return {
               txt: item,
@@ -99,10 +90,6 @@ export const AddProduct = () => {
           });
           newData2.unshift(mainObj2);
         } else if (item.title === "carrier") {
-          // // Extract the string value and remove the curly braces
-          // const stringValues = item.values.slice(1, -1);
-          // // Convert the string to an array by splitting at each comma
-          // const valueArray = stringValues.split(",");
           newData3 = item.values.map((item: any, index: any) => {
             return {
               txt: item,
@@ -112,15 +99,11 @@ export const AddProduct = () => {
           });
           newData3.unshift(mainObj3);
         } else if (item.title === "screen") {
-          // // Extract the string value and remove the curly braces
-          // const stringValues = item.values.slice(1, -1);
-          // // Convert the string to an array by splitting at each comma
-          // const valueArray = stringValues.split(",");
           newData4 = item.values.map((item: any, index: any) => {
             return {
               txt: item,
               classes:
-                "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+                "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
             };
           });
           newData4.unshift(mainObj4);
@@ -177,8 +160,109 @@ export const AddProduct = () => {
       return { ...prevData, technicalSpecificationModel: updatedModel };
     });
   };
+  const updateVariantData = (variant: any, value: any) => {
+    let updateVariants: any = productData.productVariants;
+    const updatedVariants = updateVariants.findIndex(
+      (item:any) => item.value === value
+    );
+    if(value!=="capacity"&&value!=="color"&&value!=="carrier"&&value!=="screen"){
+    if (updatedVariants === -1) {
+      updateVariants.push({ variant: variant, value: value });
+      setProductData((prevData) => {
+        return { ...prevData, productVariants: updateVariants };
+      });
+      if(variant===1){
+        setVariantArray((prevData:any)=>{
+         return prevData.map((item:any,index:any)=>{
+            if (value === item.txt) {
+              item.classes = "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+            }
+            return item;
+          })
+        })
+      }
+      else if(variant===2){
+        setVariantArray2((prevData:any)=>{
+         return prevData.map((item:any,index:any)=>{
+            if (value === item.txt) {
+              item.classes = "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+            }
+            return item;
+          })
+        })
+      }
+      else if(variant===3){
+        setVariantArray3((prevData:any)=>{
+         return prevData.map((item:any,index:any)=>{
+            if (value === item.txt) {
+              item.classes = "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+            }
+            return item;
+          })
+        })
+      }
+      else if(variant===4){
+        setVariantArray4((prevData:any)=>{
+         return prevData.map((item:any,index:any)=>{
+            if (value === item.txt) {
+              item.classes = "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+            }
+            return item;
+          })
+        })
+      }
+
+    } else {
+      updateVariants = updateVariants.filter(
+        (item: any) => item.value !== value
+      );
+      setProductData((prevData) => {
+        return { ...prevData, productVariants: updateVariants };
+      });
+      if(variant===1){
+        setVariantArray((prevData:any)=>{
+         return prevData.map((item:any,index:any)=>{
+            if (value === item.txt) {
+              item.classes = "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+            }
+            return item;
+          })
+        })
+      }
+     else if(variant===2){
+        setVariantArray2((prevData:any)=>{
+         return prevData.map((item:any,index:any)=>{
+            if (value === item.txt) {
+              item.classes = "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+            }
+            return item;
+          })
+        })
+      }
+      else if(variant===3){
+        setVariantArray3((prevData:any)=>{
+         return prevData.map((item:any,index:any)=>{
+            if (value === item.txt) {
+              item.classes = "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+            }
+            return item;
+          })
+        })
+      }
+      else if(variant===4){
+        setVariantArray4((prevData:any)=>{
+         return prevData.map((item:any,index:any)=>{
+            if (value === item.txt) {
+              item.classes = "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+            }
+            return item;
+          })
+        })
+      }
+    }}
+  };
   const Addproduct = () => {};
-  console.log(images);
+  console.log(productData);
   return (
     <div>
       <Header
@@ -221,10 +305,11 @@ export const AddProduct = () => {
         <div className="flex gap-2">
           <Variants
             data={VariantsArray}
-            onClick={() => {
-              setVisible(!visible);
-              setVariant({ ...variant, title: "capacity" });
-            }}
+            handleFunction={(e: any) => updateVariantData(1, e)}
+            // onClick={() => {
+            //   setVisible(!visible);
+            //   setVariant({ ...variant, title: "capacity" });
+            // }}
           />
 
           <CustomButton
@@ -242,10 +327,7 @@ export const AddProduct = () => {
         <div className="flex gap-2">
           <Variants
             data={VariantsArray2}
-            onClick={() => {
-              setVisible(!visible);
-              setVariant({ ...variant, title: "color" });
-            }}
+            handleFunction={(e: any) => updateVariantData(2, e)}
           />
           <CustomButton
             onClick={() => {
@@ -262,10 +344,7 @@ export const AddProduct = () => {
         <div className="flex gap-2">
           <Variants
             data={VariantsArray3}
-            onClick={() => {
-              setVisible(!visible);
-              setVariant({ ...variant, title: "carrier" });
-            }}
+            handleFunction={(e: any) => updateVariantData(3, e)}
           />
           <CustomButton
             onClick={() => {
@@ -280,7 +359,7 @@ export const AddProduct = () => {
           />
         </div>
         <div className="flex gap-2">
-          <Variants data={VariantsArray4} />
+          <Variants data={VariantsArray4}   handleFunction={(e: any) => updateVariantData(4, e)}/>
           <CustomButton
             onClick={() => {
               let newVariant = VariantsArray4.map((item: any, index) => {
@@ -303,7 +382,7 @@ export const AddProduct = () => {
           }
         />
         <UploadPicture
-          setImage={(value:any) => {
+          setImage={(value: any) => {
             setImage(value);
           }}
         />
