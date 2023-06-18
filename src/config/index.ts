@@ -6,8 +6,8 @@ const cookies = document.cookie;
 // console.log(document.cookie)
 // wrapper(axios.create({ jar }))
 const instance = axios.create({
-  // baseURL: "http://ec2-3-21-106-215.us-east-2.compute.amazonaws.com:5000/",
-  baseURL: "https://24e8-103-169-64-13.ngrok-free.app/",
+ // baseURL: "http://ec2-3-21-106-215.us-east-2.compute.amazonaws.com:5000/",
+  baseURL: "https://be1b-103-169-64-13.ngrok-free.app",
   withCredentials: true,
   });
 export const setAuthToken = (tokeen?: any,Refreshtoken?:any) => {
