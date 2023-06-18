@@ -24,9 +24,13 @@ export const getProductById = async (id:any) => {
 
 export const CreateProduct = async (data:any) => {
   try {
-    let response: any = await url.post("/",data);
+    let response: any = await url.post("/products",data);
     return response;
-  } catch (e) {}
+  } catch (e) {
+    console.log(e)
+
+    return e
+  }
 };
 const ProductSlice = createSlice({
   name: "products",

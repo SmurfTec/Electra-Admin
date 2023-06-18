@@ -13,15 +13,15 @@ import url from "../../../config/index";
 import { CreateProduct } from "../../../store/Slices/ProductSlice";
 export const AddProduct = () => {
   type techSpec = {
-    title: String;
-    value: String;
+    title: string;
+    value: string;
   };
   type variantSpec = {
-    variant: String;
-    value: String;
+    variant: string;
+    value: string;
   };
   type descriptionProp = {
-    description: String;
+    description: string;
   };
   const [visible, setVisible] = useState(false);
   const [fetchVariants, setFetchVariants] = useState(false);
@@ -33,8 +33,8 @@ export const AddProduct = () => {
   const [productData, setProductData] = useState({
     title: "",
     is_active: true,
-    category: Number,
-    brand: Number,
+    category:'7',
+    brand: "",
     productProperties: {} as descriptionProp,
     productVariants: [] as variantSpec[],
     technicalSpecificationModel: [] as techSpec[],
@@ -48,7 +48,6 @@ export const AddProduct = () => {
   const VariantsData = useVariantDetail(fetchVariants);
 
   useEffect(() => {
-    
     if (VariantsData?.variants) {
       let newData: any;
       let newData2: any;
@@ -77,7 +76,7 @@ export const AddProduct = () => {
             return {
               txt: item,
               classes:
-                "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+                "!bg-[#FCFCFC] !w-[148px]   !text-[black] !p-4 !rounded-[9px] !mt-5",
             };
           });
           newData.unshift(mainObj);
@@ -95,7 +94,7 @@ export const AddProduct = () => {
             return {
               txt: item,
               classes:
-                "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+                "!bg-[#FCFCFC] !w-[148px] !text-center !text-[black] !p-4 !rounded-[9px] !mt-5",
             };
           });
           newData3.unshift(mainObj3);
@@ -131,7 +130,6 @@ export const AddProduct = () => {
       VariantsData;
     }
     setFetchVariants(!fetchVariants);
-
   };
   const handleChange = (setState: any) => (event: any) => {
     setState({
@@ -166,105 +164,133 @@ export const AddProduct = () => {
   const updateVariantData = (variant: any, value: any) => {
     let updateVariants: any = productData.productVariants;
     const updatedVariants = updateVariants.findIndex(
-      (item:any) => item.value === value
+      (item: any) => item.value === value
     );
-    if(value!=="capacity"&&value!=="color"&&value!=="carrier"&&value!=="screen"){
-    if (updatedVariants === -1) {
-      updateVariants.push({ variant: variant, value: value });
-      setProductData((prevData) => {
-        return { ...prevData, productVariants: updateVariants };
-      });
-      if(variant===1){
-        setVariantArray((prevData:any)=>{
-         return prevData.map((item:any,index:any)=>{
-            if (value === item.txt) {
-              item.classes = "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-            }
-            return item;
-          })
-        })
+    if (
+      value !== "capacity" &&
+      value !== "color" &&
+      value !== "carrier" &&
+      value !== "screen"
+    ) {
+      if (updatedVariants === -1) {
+        updateVariants.push({ variant: variant, value: value });
+        setProductData((prevData) => {
+          return { ...prevData, productVariants: updateVariants };
+        });
+        if (variant === 1) {
+          setVariantArray((prevData: any) => {
+            return prevData.map((item: any, index: any) => {
+              if (value === item.txt) {
+                item.classes =
+                  "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+              }
+              return item;
+            });
+          });
+        } else if (variant === 2) {
+          setVariantArray2((prevData: any) => {
+            return prevData.map((item: any, index: any) => {
+              if (value === item.txt) {
+                item.classes =
+                  "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+              }
+              return item;
+            });
+          });
+        } else if (variant === 3) {
+          setVariantArray3((prevData: any) => {
+            return prevData.map((item: any, index: any) => {
+              if (value === item.txt) {
+                item.classes =
+                  "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+              }
+              return item;
+            });
+          });
+        } else if (variant === 4) {
+          setVariantArray4((prevData: any) => {
+            return prevData.map((item: any, index: any) => {
+              if (value === item.txt) {
+                item.classes =
+                  "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+              }
+              return item;
+            });
+          });
+        }
+      } else {
+        updateVariants = updateVariants.filter(
+          (item: any) => item.value !== value
+        );
+        setProductData((prevData) => {
+          return { ...prevData, productVariants: updateVariants };
+        });
+        if (variant === 1) {
+          setVariantArray((prevData: any) => {
+            return prevData.map((item: any, index: any) => {
+              if (value === item.txt) {
+                item.classes =
+                  "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+              }
+              return item;
+            });
+          });
+        } else if (variant === 2) {
+          setVariantArray2((prevData: any) => {
+            return prevData.map((item: any, index: any) => {
+              if (value === item.txt) {
+                item.classes =
+                  "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+              }
+              return item;
+            });
+          });
+        } else if (variant === 3) {
+          setVariantArray3((prevData: any) => {
+            return prevData.map((item: any, index: any) => {
+              if (value === item.txt) {
+                item.classes =
+                  "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+              }
+              return item;
+            });
+          });
+        } else if (variant === 4) {
+          setVariantArray4((prevData: any) => {
+            return prevData.map((item: any, index: any) => {
+              if (value === item.txt) {
+                item.classes =
+                  "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
+              }
+              return item;
+            });
+          });
+        }
       }
-      else if(variant===2){
-        setVariantArray2((prevData:any)=>{
-         return prevData.map((item:any,index:any)=>{
-            if (value === item.txt) {
-              item.classes = "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-            }
-            return item;
-          })
-        })
-      }
-      else if(variant===3){
-        setVariantArray3((prevData:any)=>{
-         return prevData.map((item:any,index:any)=>{
-            if (value === item.txt) {
-              item.classes = "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-            }
-            return item;
-          })
-        })
-      }
-      else if(variant===4){
-        setVariantArray4((prevData:any)=>{
-         return prevData.map((item:any,index:any)=>{
-            if (value === item.txt) {
-              item.classes = "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-            }
-            return item;
-          })
-        })
-      }
-
-    } else {
-      updateVariants = updateVariants.filter(
-        (item: any) => item.value !== value
-      );
-      setProductData((prevData) => {
-        return { ...prevData, productVariants: updateVariants };
-      });
-      if(variant===1){
-        setVariantArray((prevData:any)=>{
-         return prevData.map((item:any,index:any)=>{
-            if (value === item.txt) {
-              item.classes = "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-            }
-            return item;
-          })
-        })
-      }
-     else if(variant===2){
-        setVariantArray2((prevData:any)=>{
-         return prevData.map((item:any,index:any)=>{
-            if (value === item.txt) {
-              item.classes = "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-            }
-            return item;
-          })
-        })
-      }
-      else if(variant===3){
-        setVariantArray3((prevData:any)=>{
-         return prevData.map((item:any,index:any)=>{
-            if (value === item.txt) {
-              item.classes = "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-            }
-            return item;
-          })
-        })
-      }
-      else if(variant===4){
-        setVariantArray4((prevData:any)=>{
-         return prevData.map((item:any,index:any)=>{
-            if (value === item.txt) {
-              item.classes = "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-            }
-            return item;
-          })
-        })
-      }
-    }}
+    }
   };
-  const Addproduct = () => {};
+  const Addproduct =async () => {
+    console.log(productData, "FINALs");
+    console.log(images, "IMAGe DATA");
+    let data = new FormData();
+    data.append("title", productData.title);
+    data.append("is_active", "true");
+    data.append("brand", productData.brand);
+    data.append("category",productData.category)
+    data.append("productProperties[description]", productData.productProperties.description);
+    productData.productVariants.length>0&& productData.productVariants.map((item,index)=>{
+      data.append(`productVariants[${index}][variant]`,item.variant)
+      data.append(`productVariants[${index}][value]`,item.value)
+    })
+    productData.technicalSpecificationModel.length>0&& productData.technicalSpecificationModel.map((item,index)=>{
+      data.append(`technicalSpecificationModel[${index}][title]`,item.title)
+      data.append(`technicalSpecificationModel[${index}][value]`,item.value)
+    })
+
+    data.append('images',images)
+    const add=await CreateProduct(data)
+    console.log(add,"DATA ADDED")
+  };
   return (
     <div>
       <Header
@@ -361,7 +387,10 @@ export const AddProduct = () => {
           />
         </div>
         <div className="flex gap-2">
-          <Variants data={VariantsArray4}   handleFunction={(e: any) => updateVariantData(4, e)}/>
+          <Variants
+            data={VariantsArray4}
+            handleFunction={(e: any) => updateVariantData(4, e)}
+          />
           <CustomButton
             onClick={() => {
               let newVariant = VariantsArray4.map((item: any, index) => {
@@ -527,7 +556,7 @@ export const AddProduct = () => {
             }
           />
           <CustomButton
-            onClick={() => navigate("/Productrequest")}
+            onClick={() => Addproduct()}
             txt={"Add Product"}
             classes={" !w-[179px] !rounded-[12px] !h-[50px]"}
           />
