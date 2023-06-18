@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Header, Variants } from "../../../components";
+import { Header, Variants, Confirmationmodal } from "../../../components";
 import {
   InputTxt,
   CustomDropdown,
@@ -9,21 +9,27 @@ import {
 } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
 import { useVariantDetail } from "../../../custom-hooks";
+import url from "../../../config/index";
 export const AddProduct = () => {
+  const [visible, setVisible] = useState(false);
+  const [fetchVariants, setFetchVariants] = useState(false);
   const [VariantsArray, setVariantArray] = useState([]);
-  const [VariantsArray2 ,setVariantArray2]= useState([])
-  const[ VariantsArray3,setVariantArray3] = useState([])
-  const[ VariantsArray4,setVariantArray4] = useState([])
+  const [VariantsArray2, setVariantArray2] = useState([]);
+  const [VariantsArray3, setVariantArray3] = useState([]);
+  const [VariantsArray4, setVariantArray4] = useState([]);
   const [productData, setProductData] = useState({
     title: "",
     is_active: true,
     category: Number,
     brand: Number,
   });
+  const [variant, setVariant] = useState<any>({
+    title: "",
+    datatype: String,
+    values: [],
+  });
   const navigate = useNavigate();
   const VariantsData = useVariantDetail();
-  console.log(VariantsData);
-
   useEffect(() => {
     if (VariantsData?.variants) {
       let newData: any;
@@ -61,8 +67,7 @@ export const AddProduct = () => {
             };
           });
           newData.unshift(mainObj);
-        } 
-        else if (item.title === "color") {
+        } else if (item.title === "color") {
           // Extract the string value and remove the curly braces
           const stringValues = item.values.slice(1, -1);
           // Convert the string to an array by splitting at each comma
@@ -75,8 +80,7 @@ export const AddProduct = () => {
             };
           });
           newData2.unshift(mainObj2);
-        }
-        else if (item.title === "carrier") {
+        } else if (item.title === "carrier") {
           // Extract the string value and remove the curly braces
           const stringValues = item.values.slice(1, -1);
           // Convert the string to an array by splitting at each comma
@@ -85,12 +89,11 @@ export const AddProduct = () => {
             return {
               txt: item,
               classes:
-              "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+                "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
             };
           });
           newData3.unshift(mainObj3);
-        }
-        else if (item.title === "screen") {
+        } else if (item.title === "screen") {
           // Extract the string value and remove the curly braces
           const stringValues = item.values.slice(1, -1);
           // Convert the string to an array by splitting at each comma
@@ -99,20 +102,33 @@ export const AddProduct = () => {
             return {
               txt: item,
               classes:
-              "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+                "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
             };
           });
           newData4.unshift(mainObj4);
         }
       });
-      
-      console.log(newData2, "NEW DATA");
       setVariantArray(newData);
-      setVariantArray2(newData2)
-      setVariantArray3(newData3)
-      setVariantArray4(newData4)
+      setVariantArray2(newData2);
+      setVariantArray3(newData3);
+      setVariantArray4(newData4);
     }
-  }, [VariantsData]);
+  }, [VariantsData, fetchVariants]);
+  const handleFunction = async (value: any) => {
+    let prevArray = variant.values;
+    let Newpush = [...prevArray.slice(1), value];
+    // Remove the first value from the array
+    let sendingData = {
+      title: variant.title,
+      datatype: "string",
+      values: Newpush,
+    };
+    const sendVariant = await url.post("/variants", sendingData);
+    if (sendVariant) {
+      setFetchVariants(!fetchVariants);
+      setVisible(!visible);
+    }
+  };
 
   return (
     <div>
@@ -146,22 +162,62 @@ export const AddProduct = () => {
           }
         />
         <div className="flex gap-2">
-          <Variants data={VariantsArray} />
+          <Variants
+            data={VariantsArray}
+            onClick={() => {
+              setVisible(!visible);
+              setVariant({ ...variant, title: "capacity" });
+            }}
+          />
+
           <CustomButton
+            onClick={() => {
+              let newVariant = VariantsArray.map((item: any, index) => {
+                return item.txt;
+              });
+              setVariant({ ...variant, title: "capacity", values: newVariant });
+              setVisible(!visible);
+            }}
             txt={"+Add text"}
             classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
           />
         </div>
         <div className="flex gap-2">
-          <Variants data={VariantsArray2} />
+          <Variants
+            data={VariantsArray2}
+            onClick={() => {
+              setVisible(!visible);
+              setVariant({ ...variant, title: "color" });
+            }}
+          />
           <CustomButton
+            onClick={() => {
+              let newVariant = VariantsArray2.map((item: any, index) => {
+                return item.txt;
+              });
+              setVariant({ ...variant, title: "color", values: newVariant });
+              setVisible(!visible);
+            }}
             txt={"+Add text"}
             classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
           />
         </div>
         <div className="flex gap-2">
-          <Variants data={VariantsArray3} />
+          <Variants
+            data={VariantsArray3}
+            onClick={() => {
+              setVisible(!visible);
+              setVariant({ ...variant, title: "carrier" });
+            }}
+          />
           <CustomButton
+            onClick={() => {
+              let newVariant = VariantsArray3.map((item: any, index) => {
+                return item.txt;
+              });
+              setVariant({ ...variant, title: "carrier", values: newVariant });
+              setVisible(!visible);
+            }}
             txt={"+Add text"}
             classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
           />
@@ -169,6 +225,14 @@ export const AddProduct = () => {
         <div className="flex gap-2">
           <Variants data={VariantsArray4} />
           <CustomButton
+            onClick={() => {
+              let newVariant = VariantsArray4.map((item: any, index) => {
+                return item.txt;
+              });
+              console.log(newVariant, "NEW VARIANT");
+              setVariant({ ...variant, title: "screen", values: newVariant });
+              setVisible(!visible);
+            }}
             txt={"+Add text"}
             classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
           />
@@ -264,6 +328,16 @@ export const AddProduct = () => {
           />
         </div>
       </div>
+      <Confirmationmodal
+        addValue={true}
+        PopupHeader={"Add variant"}
+        visible={visible}
+        setVisible={setVisible}
+        cnfrmbtnText={"Confirm"}
+        cnclebtnText={"Cancel"}
+        text={"Add name of the variant"}
+        handleFunction={handleFunction}
+      />
     </div>
   );
 };
