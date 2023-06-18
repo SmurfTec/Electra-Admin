@@ -12,60 +12,70 @@ import moment from 'moment'
 export const Verification = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const[OrderTrack,setOrderTrack]=useState('')
-  const menuLeft: any = React.useRef(null);
   const navigate=useNavigate()
-  const [MenuLabel, setMenuLabel] = useState("");
-  const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
   const [filterData,setFilterData] = useState([]);
   const[failData,setFailData]=useState([])
   const[PassData,setPassData]=useState([])
   const[PendingData,setPendingData]=useState([])
-  const deleteItem = (event: React.MouseEvent, item: any) => {
+  const deleteItem = (event: React.MouseEvent, id: any) => {
     event.stopPropagation();
-    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+    
   
   };
-  const ViewItem = (event: React.MouseEvent, item: any) => {
+  const ViewItem = (event: React.MouseEvent, id: any) => {
     event.stopPropagation();
-    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
-    navigate('/Verification/Step1')
+    navigate(`/Verification/Step1/${id}`)
   };
-  const items = [
-    {
-      label: "View Item",
-
-      template: (item: any) => {
-        return (
-          <div
-            onClick={(event) => ViewItem(event, item)}
-            style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
-            className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-          >
-            <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> View Item
-          </div>
-        );
-      },
-    },
-    {
-      label: "Delete",
-      template: (item:any) => {
-        return (
-          <div
-            onClick={(event) => deleteItem(event, item)}
-            style={{ background: "rgba(231, 29, 54, 0.05)" }}
-            className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-          >
-            <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
-          </div>
-        );
-      },
-    },
-  ];
+ 
   const MenuBodyTemplate = (rowData: any) => {
+    const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
+      const items = [
+        {
+          label: "View Item",
+    
+          template: (item: any) => {
+            return (
+              <div
+                onClick={(event) => ViewItem(event, rowData.id)}
+                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+              >
+                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> View Item
+              </div>
+            );
+          },
+        },
+        {
+          label: "Delete",
+          template: (item:any) => {
+            return (
+              <div
+                onClick={(event) => deleteItem(event, rowData.id)}
+                style={{ background: "rgba(231, 29, 54, 0.05)" }}
+                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+              >
+                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
+              </div>
+            );
+          },
+        },
+      ];
+
+      return (
+        <CustomMenu
+            popupAlignment="left"
+            height={"80px"}
+            model={items}
+            popup
+            ref={menuRef}
+            id="popup_menu_left"
+          />
+      );
+    };
+    const menuLeftRef = useRef<any>(null);
     const handleClick = (event: any) => {
       event.preventDefault();
-      setCurrSelectedProduct(rowData.id);
-      menuLeft.current.toggle(event);
+      menuLeftRef.current?.toggle(event);
     };
     return (
       <>
@@ -73,15 +83,8 @@ export const Verification = () => {
           className={` px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
           <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
-
-          <CustomMenu
-            popupAlignment="left"
-            height={"80px"}
-            model={items}
-            popup
-            ref={menuLeft}
-            id="popup_menu_left"
-          />
+          <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
+          
         </div>
       </>
     );
