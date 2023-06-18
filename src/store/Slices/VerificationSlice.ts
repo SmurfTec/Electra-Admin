@@ -9,3 +9,11 @@ export const getAllVerfications=async()=>{
       return e;
     }
     }
+    export const getVerficationById=async(id:any)=>{
+      try{
+        let response:any=await url.get(`/verifications/${id}`)
+        return response.data;
+      }catch(e){
+        return e;
+      }
+      }
