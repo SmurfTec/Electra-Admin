@@ -53,7 +53,6 @@ export const AddProduct = () => {
       let newData3: any;
       let newData4: any;
       VariantsData.variants.map((item: any, index: any) => {
-        console.log(item, "ITEM");
         let mainObj = {
           txt: item.title,
           classes:
@@ -262,7 +261,6 @@ export const AddProduct = () => {
     }}
   };
   const Addproduct = () => {};
-  console.log(productData);
   return (
     <div>
       <Header

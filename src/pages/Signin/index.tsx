@@ -39,10 +39,7 @@ const [, setCookie] = useCookies(['Authentication','Refresh','AuthCheck'])
     } else {
 
       const loginCall = await dispatch(Login(data) as any);
-      let expires = new Date().getTime()
-      setCookie('Authentication'as never, loginCall.payload.accessToken,{path:"/",expires:new Date(expires+(36000*1000))})
-      setCookie('Refresh'as never, loginCall.payload.refreshToken,{path:"/",expires:new Date(expires+(48000*1000))})
-      setCookie('AuthCheck'as never, loginCall.payload.authCheck,{path:"/",expires:new Date(expires+(48000*1000))})
+     
       localStorage.setItem("user", JSON.stringify(loginCall.payload.user));
       console.log(loginCall.payload)
       if(loginCall.payload.user){
