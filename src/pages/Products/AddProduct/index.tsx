@@ -37,6 +37,7 @@ export const AddProduct = () => {
       let newData3: any;
       let newData4: any;
       VariantsData.variants.map((item: any, index: any) => {
+        console.log(item,"ITEM")
         let mainObj = {
           txt: item.title,
           classes:
@@ -56,10 +57,11 @@ export const AddProduct = () => {
         };
         if (item.title === "capacity") {
           // Extract the string value and remove the curly braces
-          const stringValues = item.values.slice(1, -1);
-          // Convert the string to an array by splitting at each comma
-          const valueArray = stringValues.split(",");
-          newData = valueArray.map((item: any, index: any) => {
+          // const stringValues = item.values.slice(1, -1);
+          // console.log(stringValues,"Stringvalues")
+          // // Convert the string to an array by splitting at each comma
+          // const valueArray = stringValues?.split(",");
+          newData = item.values.map((item: any, index: any) => {
             return {
               txt: item,
               classes:
@@ -67,12 +69,13 @@ export const AddProduct = () => {
             };
           });
           newData.unshift(mainObj);
-        } else if (item.title === "color") {
+        }
+         else if (item.title === "color") {
           // Extract the string value and remove the curly braces
-          const stringValues = item.values.slice(1, -1);
-          // Convert the string to an array by splitting at each comma
-          const valueArray = stringValues.split(",");
-          newData2 = valueArray.map((item: any, index: any) => {
+          // const stringValues = item.values.slice(1, -1);
+          // // Convert the string to an array by splitting at each comma
+          // const valueArray = stringValues.split(",");
+          newData2 = item.values.map((item: any, index: any) => {
             return {
               txt: item,
               classes:
@@ -81,11 +84,11 @@ export const AddProduct = () => {
           });
           newData2.unshift(mainObj2);
         } else if (item.title === "carrier") {
-          // Extract the string value and remove the curly braces
-          const stringValues = item.values.slice(1, -1);
-          // Convert the string to an array by splitting at each comma
-          const valueArray = stringValues.split(",");
-          newData3 = valueArray.map((item: any, index: any) => {
+          // // Extract the string value and remove the curly braces
+          // const stringValues = item.values.slice(1, -1);
+          // // Convert the string to an array by splitting at each comma
+          // const valueArray = stringValues.split(",");
+          newData3 = item.values.map((item: any, index: any) => {
             return {
               txt: item,
               classes:
@@ -94,11 +97,11 @@ export const AddProduct = () => {
           });
           newData3.unshift(mainObj3);
         } else if (item.title === "screen") {
-          // Extract the string value and remove the curly braces
-          const stringValues = item.values.slice(1, -1);
-          // Convert the string to an array by splitting at each comma
-          const valueArray = stringValues.split(",");
-          newData4 = valueArray.map((item: any, index: any) => {
+          // // Extract the string value and remove the curly braces
+          // const stringValues = item.values.slice(1, -1);
+          // // Convert the string to an array by splitting at each comma
+          // const valueArray = stringValues.split(",");
+          newData4 = item.values.map((item: any, index: any) => {
             return {
               txt: item,
               classes:

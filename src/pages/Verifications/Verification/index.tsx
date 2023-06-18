@@ -1,4 +1,4 @@
-import React,{useState,useRef} from 'react'
+import React,{useState,useRef,useEffect} from 'react'
 import { Header } from '../../../components'
 import { CustomTableComponent, InputTxt } from '../../../atoms'
 import { CustomButton} from '../../../atoms'
@@ -7,6 +7,8 @@ import { TabPanel } from 'primereact/tabview';
 import { CustomTabView,CustomMenu } from '../../../atoms/global.style'
 import { SVGIcon } from '../../../components/SVG'
 import { useNavigate } from 'react-router-dom'
+import { getAllVerfications } from '../../../store/Slices/VerificationSlice'
+import moment from 'moment'
 export const Verification = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const[OrderTrack,setOrderTrack]=useState('')
@@ -14,7 +16,7 @@ export const Verification = () => {
   const navigate=useNavigate()
   const [MenuLabel, setMenuLabel] = useState("");
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
-  const [filterData] = useState([
+  const [filterData,setFilterData] = useState([
     {
       id: 1,
       Seller: "Jude John ",
@@ -175,7 +177,7 @@ export const Verification = () => {
     return (
       <>
         <p
-          className={`text-[14px] font-[600] p-2 px-[22px] rounded-[22px] text-[#212121] ${
+          className={`text-[14px] font-[600] p-2 px-[22px] !inline-block rounded-[22px] text-[#212121] ${
             options.Status == "Pass" ? "bg-custom-blue" : options.Status == "Fail" ?"bg-custom-pink":"bg-custom-button-yellow"
           }`}
         >
@@ -196,8 +198,30 @@ export const Verification = () => {
     { field: "Status", header: "Status", body: StatusBodyTemplate },
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
- 
-  
+
+const GetVerifications=async()=>{
+  let response=await getAllVerfications();
+  let latestArr=response?.verifications?.map((item:any)=>{
+    let newObj={
+      ...item,
+      Seller:item.seller.firstname+" "+item.seller.lastname,
+      Buyer:item.buyer.firstname+" "+item.buyer.lastname,
+      ItemName:item.product.title,
+      SalePrice:item.order.saleprice,
+      TrackingID:item.order.trackingid,
+      OrderNo:item.order.id,
+      ActionOn:moment(item.created_on).format("DD,MM,YYYY"),
+      Status:item.status
+    }
+    return newObj
+  })
+  latestArr?.sort((a:any,b:any)=>a.id - b.id)
+  setFilterData(latestArr)
+  console.log(response)
+}
+useEffect(()=>{
+  GetVerifications();
+},[])
 
   return (
     <div>
