@@ -16,76 +16,10 @@ export const Verification = () => {
   const navigate=useNavigate()
   const [MenuLabel, setMenuLabel] = useState("");
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
-  const [filterData,setFilterData] = useState([
-    {
-      id: 1,
-      Seller: "Jude John ",
-      Buyer: "Mike Adam",
-      ItemName: "Iphone 14",
-      SalePrice: "$999",
-      TrackingID: "2525252",
-      OrderNo: "25",
-      ActionOn: "22 aug,2022",
-      Status:"Pass",
-    },
-    {
-      id: 2,
-      Seller: "Jude John ",
-      Buyer: "Mike Adam",
-      ItemName: "Iphone 14",
-      SalePrice: "$999",
-      TrackingID: "2525252",
-      OrderNo: "25",
-      ActionOn: "22 aug,2022",
-      Status:"Pass",
-    },
-    {
-      id: 3,
-      Seller: "Jude John ",
-      Buyer: "Mike Adam",
-      ItemName: "Iphone 14",
-      SalePrice: "$999",
-      TrackingID: "2525252",
-      OrderNo: "25",
-      ActionOn: "22 aug,2022",
-      Status:"Pass",
-    },
-    {
-      id: 4,
-      Seller: "Jude John ",
-      Buyer: "Mike Adam",
-      ItemName: "Iphone 14",
-      SalePrice: "$999",
-      TrackingID: "2525252",
-      OrderNo: "25",
-      ActionOn: "22 aug,2022",
-      Status:"Fail",
-    },
-    {
-      id: 5,
-      Seller: "Jude John ",
-      Buyer: "Mike Adam",
-      ItemName: "Iphone 14",
-      SalePrice: "$999",
-      TrackingID: "2525252",
-      OrderNo: "25",
-      ActionOn: "22 aug,2022",
-      Status:"Pass",
-    },
-    {
-      id: 6,
-      Seller: "Jude John ",
-      Buyer: "Mike Adam",
-      ItemName: "Iphone 14",
-      SalePrice: "$999",
-      TrackingID: "2525252",
-      OrderNo: "25",
-      ActionOn: "22 aug,2022",
-      Status:"Pending",
-    },
-    
-  
-  ]);
+  const [filterData,setFilterData] = useState([]);
+  const[failData,setFailData]=useState([])
+  const[PassData,setPassData]=useState([])
+  const[PendingData,setPendingData]=useState([])
   const deleteItem = (event: React.MouseEvent, item: any) => {
     event.stopPropagation();
     setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
@@ -216,6 +150,12 @@ const GetVerifications=async()=>{
     return newObj
   })
   latestArr?.sort((a:any,b:any)=>a.id - b.id)
+  let pendingArr=latestArr.filter((item:any)=>item.Status.toLowerCase()=="pending")
+  let passArr=latestArr.filter((item:any)=>item.Status.toLowerCase()=="pass")
+  let failarr=latestArr.filter((item:any)=>item.Status.toLowerCase()=="fail")
+  setPendingData(pendingArr)
+  setPassData(passArr)
+  setFailData(failarr)
   setFilterData(latestArr)
   console.log(response)
 }
@@ -266,7 +206,7 @@ useEffect(()=>{
       </div>
       <div className='mt-[39px]'>
       <CustomTabView>
-      <TabPanel header="All(6)" >
+      <TabPanel header={`All(${filterData.length})`} >
                     <p className="m-0">
                        <CustomTableComponent
                       theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
@@ -280,16 +220,46 @@ useEffect(()=>{
                        />
                     </p>
                 </TabPanel>
-                <TabPanel header="Fail (1)" >
+                <TabPanel header={`Fail (${failData.length})`} >
                     <p className="m-0">
+                    <CustomTableComponent
+                      theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
+                      showWrapper={false}
+                      filterData={failData}
+                      selectedProducts={selectedProducts}
+                      setSelectedProducts={setSelectedProducts}
+                      columnData={columnData}
+                      MultipleSelect={true}
+                      MultipleHeaderStyle={{width:"10px",paddingLeft:'5px',paddingRight:'5px'}}
+                       />
                           </p>
                 </TabPanel>
-                <TabPanel header="Pass (1)" >
+                <TabPanel header={`Pass (${PassData.length})`} >
                     <p className="m-0">
+                    <CustomTableComponent
+                      theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
+                      showWrapper={false}
+                      filterData={PassData}
+                      selectedProducts={selectedProducts}
+                      setSelectedProducts={setSelectedProducts}
+                      columnData={columnData}
+                      MultipleSelect={true}
+                      MultipleHeaderStyle={{width:"10px",paddingLeft:'5px',paddingRight:'5px'}}
+                       />
                           </p>
                 </TabPanel>
-                <TabPanel header="Pending (1)" >
+                <TabPanel header={`Pending (${PendingData.length})`} >
                     <p className="m-0">
+                    <CustomTableComponent
+                      theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
+                      showWrapper={false}
+                      filterData={PendingData}
+                      selectedProducts={selectedProducts}
+                      setSelectedProducts={setSelectedProducts}
+                      columnData={columnData}
+                      MultipleSelect={true}
+                      MultipleHeaderStyle={{width:"10px",paddingLeft:'5px',paddingRight:'5px'}}
+                       />
                           </p>
                 </TabPanel>
       </CustomTabView>
