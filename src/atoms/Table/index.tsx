@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { CustomTableWrapper, CustomTable } from "../global.style";
 import { CustomButton } from "..";
 import IMAGES from "../../assets/Images";
-
+import { CheckBox } from "..";
 export const CustomTableComponent = ({
   columnStyle,
   headerStyle,
@@ -24,6 +24,7 @@ export const CustomTableComponent = ({
   ...props
 }: any) => {
   const[rowsize,setrowsize]=useState(LoadMore==true?initialRowSize:filterData.length)
+  
   useEffect(()=>{
     setrowsize(LoadMore==true?initialRowSize:filterData.length)
   },[filterData])
@@ -33,23 +34,23 @@ export const CustomTableComponent = ({
         {(LoadMore &&showLoadMore)&& <CustomTableWrapper></CustomTableWrapper>}
         <CustomTable
           {...props}
-         
+          selectionMode={'checkbox'} selection={selectedProducts}
           value={filterData.slice(0,rowsize)}
           scrollable={false}
-          selection={selectedProducts ? selectedProducts : []}
+          onSelectionChange={(e:any) => setSelectedProducts(e.value)}
           dataKey="id"
-          onSelectionChange={
-            selectedProducts
-              ? (e: any) => setSelectedProducts(e.value)
-              : undefined
-          }
+         
           tablebodycolor={rowStyling??""}
           columnheader={props.columnHeader}
           columnHeaderFirst={columnHeaderFirst}
           showGridlines ={showlines ?true:false}
         >
           {MultipleSelect && (
-            <Column selectionMode="multiple" headerStyle={ MultipleHeaderStyle? MultipleHeaderStyle: { width: "3rem" }} />
+            <Column
+            selectionMode="multiple"
+            headerStyle={MultipleHeaderStyle ? MultipleHeaderStyle : { width: "3rem" }}
+           
+          />
           )}
           {columnData?.map((item: any, index: any) => {
             

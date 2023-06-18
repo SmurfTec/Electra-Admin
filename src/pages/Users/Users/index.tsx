@@ -252,10 +252,10 @@ export const Users = () => {
         />
       </div>
       <div className="mt-[40px] relative">
-        <CustomTableComponent
+        <CustomTableComponent 
           filterData={filterData}
-          selectedUsers={selectedUsers}
-          setselectedUsers={setselectedUsers}
+          selectedProducts={selectedUsers}
+          setSelectedProducts={setselectedUsers}
           columnData={columnData}
           MultipleSelect={true}
           LoadMore={LoadMore}
