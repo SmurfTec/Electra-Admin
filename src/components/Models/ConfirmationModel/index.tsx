@@ -1,6 +1,6 @@
 import { CustomDialog } from "../../../atoms/global.style";
 import { CustomButton } from "../../../atoms";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 export const Confirmationmodal = ({
   PopupHeader,
   classes,
@@ -15,9 +15,12 @@ export const Confirmationmodal = ({
   handleFunction,
   setOkButton,
   setCancelButton,
+  Value="",
+  setValue
 }: any) => {
   // insert here
-  const [value, setValue] = useState("");
+
+  
   return (
     <CustomDialog
       className={`${classes} bg-[#FFFFFF] w-[543px] h-[268px] flex  justify-center align-middle items-center overflow-hidden `}
@@ -36,9 +39,10 @@ export const Confirmationmodal = ({
             {text}
           </p>
         ) : (
-          <div className="flex justify-between items-center px-2 border w-[370px] h-[54px] mx-auto mt-3 rounded-[10px]">
+          <div className="flex justify-between items-center px-2 border w-[370px] h-[54px] mx-auto mt-8 rounded-[10px]">
             <input
               placeholder="Enter color"
+              value={Value}
               onChange={(e) => setValue(e.target.value)}
               className="px-2 focus:outline-none"
             />
@@ -67,7 +71,7 @@ export const Confirmationmodal = ({
           <CustomButton
             onClick={() => {
               if (handleFunction) {
-                handleFunction(value);
+                handleFunction(Value);
               }
               if (setOkButton) {
                 setOkButton();

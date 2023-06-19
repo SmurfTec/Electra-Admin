@@ -15,7 +15,10 @@ export const CustomButton = ({
       name={txt}
       data-value={txt} 
       onClick={() => {
-         props?.onClick(txt);
+        if(props?.onClick){
+          props?.onClick(txt);
+        }
+        
       }}
       className={`w-[397px] h-[72px] gap-3 overflow-hidden flex items-center justify-center bg-black text-[white] text-[16px] font-[500] rounded-[17px] cursor-pointer ${classes}`}
     >

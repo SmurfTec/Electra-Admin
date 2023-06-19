@@ -17,3 +17,11 @@ export const DeleteSingleVariant= async (id:any)=>{
       return e;
     }
 }
+export const CreateVariantData=async(body:any)=>{
+  try {
+    let response: any = await url.post(`/variants`,body);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+}

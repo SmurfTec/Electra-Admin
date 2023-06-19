@@ -9,5 +9,13 @@ export const getAllCategories=async()=>{
       return e;
     }
     }
+    export const DeleteSingleCategory= async (id:any)=>{
+      try {
+          let response: any = await url.delete(`/genericcategories/${id}`);
+          return response.data;
+        } catch (e) {
+          return e;
+        }
+    }
 
    
