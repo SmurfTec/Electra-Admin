@@ -7,105 +7,71 @@ import IMAGES from '../../../assets/Images'
 import { CustomMenu } from "../../../atoms/global.style"
 import { useNavigate } from 'react-router-dom'
 import { getAllCategories } from '../../../store/Slices/Categories'
-import { getAllVariants } from '../../../store/Slices/VariantSlice'
+import { getAllVariants,DeleteSingleVariant } from '../../../store/Slices/VariantSlice'
 import moment from 'moment'
+import { SuccessModel } from '../../../components'
 export const Category = () => {
-    const [MenuLabel, setMenuLabel] = useState("")
+    const[Categoryvisible,setCategoryvisible]=useState(false)
+    const[Variantvisible,setVariantvisible]=useState(false)
     const [LoadMore1, setLoadMore1] = useState(true);
     const [LoadMore2, setLoadMore2] = useState(true);
-    const [CurrSelectedProduct, setCurrSelectedProduct] = useState('')
     const [selectedProducts, setSelectedProducts] = useState<any>([]);
-    const menuLeft: any = useRef(null);
     const navigate = useNavigate()
-    const [MenuLabel1, setMenuLabel1] = useState("")
-    const [CurrSelectedProduct1, setCurrSelectedProduct1] = useState('')
     const [selectedProducts1, setSelectedProducts1] = useState<any>([]);
     const[TotalCategories,setTotalCategories]=useState(0)
     const[TotalVariants,setTotalVariants]=useState(0)
-    const menuLeft1: any = useRef(null);
+   
     const [CategoriesData,setCategoriesData] = useState([]);
-    const [VariantData,setVariantData] = useState([
-        {
-            id: 1,
-            title: "Color",
-            DataType: "String",
-            Values: "4",
-
-        },
-        {
-            id: 2,
-            title: "Color",
-            DataType: "String",
-            Values: "4",
-        },
-        {
-            id: 3,
-            title: "Color",
-            DataType: "String",
-            Values: "4",
-        },
-        {
-            id: 4,
-            title: "Color",
-            DataType: "String",
-            Values: "4",
-        },
-        {
-            id: 5,
-            title: "Color",
-            DataType: "String",
-            Values: "4",
-        },
-
-
-
-    ]);
-    const items = [
-        {
-            label: "View Item",
-
-            template: (item: any) => {
-
-                return (
-                    <div onClick={(event) => deleteItem(event, item)} style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
-                        <SVGIcon
-                            fillcolor={'#212121'}
-                            src={IMAGES.Ban}
-                        /> View Item
-                    </div>
-                )
-            }
-        },
-        {
-            label: "Delete",
-            template: (item: MenuItem) => {
-
-                return (
-                    <div onClick={(event) => deleteItem(event, item)} style={{ background: 'rgba(231, 29, 54, 0.05)' }} className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]">
-                        <SVGIcon
-
-                            fillcolor={'#E71D36'}
-                            src={IMAGES.Delete}
-                        /> Delete
-                    </div>
-                )
-            }
-        },
-
-    ]
-
-    const deleteItem = (event: React.MouseEvent, item: any) => {
+    const [VariantData,setVariantData] = useState([]);
+    
+    const deleteCategoryItem = (event: React.MouseEvent, id: any) => {
         event.stopPropagation();
-        setMenuLabel((prevLabel) => (prevLabel === item.label ? '' : item.label));
+       
 
     };
-    const MenuBodyTemplate = (rowData: any) => {
+    const deleteVariantItem = async (event: React.MouseEvent, id: any) => {
+        event.stopPropagation();
+        try{
+        let r=await DeleteSingleVariant(id);
+        setVariantvisible(true)
+        GetVariants();
+       }catch(err){
+        
+       }
 
+
+    };
+    const CategoryMenuBodyTemplate = (rowData: any) => {
+        const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
+            let [items] = useState([
+             
+                
+                {
+                    label: "Delete",
+                    template: (item: MenuItem) => {
+        
+                        return (
+                            <div onClick={(event) => deleteCategoryItem(event, rowData.id)} style={{ background: 'rgba(231, 29, 54, 0.05)' }} className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]">
+                                <SVGIcon
+        
+                                    fillcolor={'#E71D36'}
+                                    src={IMAGES.Delete}
+                                /> Delete
+                            </div>
+                        )
+                    }
+                },
+            ]);
+      
+            return (
+              <CustomMenu popupAlignment="left" height={'auto'} model={items} popup ref={menuRef} id="popup_menu_left" />
+            );
+          };
+        const menuLeftRef = useRef<any>(null);
         const handleClick = (event: any) => {
 
             event.preventDefault();
-            setCurrSelectedProduct(rowData.id)
-            menuLeft.current.toggle(event);
+            menuLeftRef.current?.toggle(event);
 
         };
         return (
@@ -120,19 +86,43 @@ export const Category = () => {
                         src={IMAGES.Dots}
                     />
 
-                    <CustomMenu popupAlignment="left" height={'80px'} model={items} popup ref={menuLeft} id="popup_menu_left" />
+                   
+                    <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
                 </div>
 
             </>
         );
     };
-    const MenuBodyTemplate1 = (rowData: any) => {
-
+    const VariantMenuBodyTemplate = (rowData: any) => {
+        const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
+            let [items] = useState([
+             
+                {
+                    label: "Delete",
+                    template: (item: MenuItem) => {
+        
+                        return (
+                            <div onClick={(event) => deleteVariantItem(event, rowData.id)} style={{ background: 'rgba(231, 29, 54, 0.05)' }} className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]">
+                                <SVGIcon
+        
+                                    fillcolor={'#E71D36'}
+                                    src={IMAGES.Delete}
+                                /> Delete
+                            </div>
+                        )
+                    }
+                },
+            ]);
+      
+            return (
+              <CustomMenu popupAlignment="left" height={'auto'} model={items} popup ref={menuRef} id="popup_menu_left" />
+            );
+          };
+        const menuLeftRef = useRef<any>(null);
         const handleClick = (event: any) => {
 
             event.preventDefault();
-            setCurrSelectedProduct1(rowData.id)
-            menuLeft1.current.toggle(event);
+            menuLeftRef.current?.toggle(event);
 
         };
         return (
@@ -147,19 +137,20 @@ export const Category = () => {
                         src={IMAGES.Dots}
                     />
 
-                    <CustomMenu popupAlignment="left" height={'80px'} model={items} popup ref={menuLeft1} id="popup_menu_left" />
+                   
+                    <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
                 </div>
 
             </>
         );
     };
-    const [columnData] = useState([
+    const [CategoriescolumnData] = useState([
         { field: "id", header: 'ID' },
         { field: "title", header: 'Title' },
         { field: "Fee", header: 'Fee' },
         { field: "Products", header: 'Products' },
         { field: "CreatedOn", header: 'Created On' },
-        { field: "", header: '', body: MenuBodyTemplate }
+        { field: "", header: '', body: CategoryMenuBodyTemplate }
     ])
     const [VariantcolumnData] = useState([
         { field: "id", header: 'ID' },
@@ -167,11 +158,9 @@ export const Category = () => {
         { field: "DataType", header: 'Data Type',className:'dataType' },
         { field: "Values", header: 'Values' },
 
-        { field: "", header: '', body: MenuBodyTemplate }
+        { field: "", header: '', body: VariantMenuBodyTemplate }
     ])
-    useEffect(() => {
-        console.log('Menu', MenuLabel, "product", selectedProducts, "CurrSelectedProduct", CurrSelectedProduct)
-    }, [MenuLabel])
+   
     const GetCategories=async()=>{
         let response=await getAllCategories()
         setTotalCategories(response.results)
@@ -211,7 +200,8 @@ export const Category = () => {
     },[])
     return (
         <div>
-
+<SuccessModel visible={Categoryvisible} setVisible={setCategoryvisible} txt="Category Deleted Successfully"/>
+<SuccessModel visible={Variantvisible} setVisible={setVariantvisible} txt="Variant Deleted Successfully"/>
             <Header
                 typeSearch={true}
 
@@ -276,7 +266,7 @@ export const Category = () => {
                         filterData={CategoriesData}
                         selectedProducts={selectedProducts}
                         setSelectedProducts={setSelectedProducts}
-                        columnData={columnData}
+                        columnData={CategoriescolumnData}
                         MultipleSelect={true}
                         LoadMore={LoadMore1}
                         initialRowSize={5}

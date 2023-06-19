@@ -9,3 +9,11 @@ export const getAllVariants= async ()=>{
         return e;
       }
 }
+export const DeleteSingleVariant= async (id:any)=>{
+  try {
+      let response: any = await url.delete(`/variants/${id}`);
+      return response.data;
+    } catch (e) {
+      return e;
+    }
+}

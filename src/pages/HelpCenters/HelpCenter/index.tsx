@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import { Header } from "../../../components";
 import { SVGIcon } from "../../../components/SVG";
 import { CustomTableComponent } from "../../../atoms";
@@ -6,6 +6,7 @@ import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
 import { MenuItem } from "primereact/menuitem";
 import { useNavigate } from "react-router-dom";
+import { getAllSupport } from "../../../store/Slices/HelpCenterSlice";
 export const HelpCenter = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const [MenuLabel, setMenuLabel] = useState("");
@@ -269,6 +270,13 @@ export const HelpCenter = () => {
     { field: "status", header: "Status", body: StatusBodyTemplate },
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
+  const getSupport=async()=>{
+    let response = await getAllSupport();
+    console.log(response)
+  }
+  useEffect(()=>{
+    getSupport()
+  },[])
   return (
     <div>
       <Header chooseFilter={true} typeSearch={true} UserBox={true} />
