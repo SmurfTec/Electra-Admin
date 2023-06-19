@@ -1,9 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IMAGES from "../../../assets/Images";
 import { Header, StatusCard, Productdetailcard } from "../../../components";
 import { Confirmationmodal } from "../../../components";
+import { useAllProductRequests } from "../../../custom-hooks";
 export const ProductRequests = () => {
-  const [visible, setVisible] =useState(false);
+  type Stats = {
+    status: string;
+    count: string;
+  };
+  const [visible, setVisible] = useState(false);
+  const data = useAllProductRequests();
+  const [productRequest, setProductRequest] = useState([]);
+  const [productRequestStats, setProductRequestStats] = useState([{} as Stats]);
+
+  useEffect(() => {
+    if (data) {
+      setProductRequest(data.productRequests);
+      setProductRequestStats(data.productRequestsStats);
+    }
+  }, [data]);
 
   return (
     <div>
@@ -14,86 +29,43 @@ export const ProductRequests = () => {
         UserBox={true}
       />
       <div className="flex gap-2">
-        <StatusCard onClick={()=>{setVisible(true)}} title="All" number="55" img={IMAGES.Person} />
-        <StatusCard title="New" number="5" img={IMAGES.New} />
-        <StatusCard title="Rejected" number="14" img={IMAGES.greencross} />
-        <StatusCard title="Accepted" number="14" img={IMAGES.bluetick} />
+        <StatusCard
+          onClick={() => {
+            setVisible(true);
+          }}
+          title="All"
+          number={`${productRequest.length}`}
+          img={IMAGES.Person}
+        />
+        <StatusCard
+          title={`${productRequestStats[2]?.status} `}
+          number={`${productRequestStats[2]?.count} `}
+          img={IMAGES.New}
+        />
+        <StatusCard
+          title={`${productRequestStats[1]?.status} `}
+          number={`${productRequestStats[1]?.count} `}
+          img={IMAGES.greencross}
+        />
+        <StatusCard
+          title={`${productRequestStats[0]?.status} `}
+          number={`${productRequestStats[0]?.count} `}
+          img={IMAGES.bluetick}
+        />
       </div>
       <div className="flex flex-wrap gap-5 py-4">
-        <div className="flex flex-col ">
-       
-        <Productdetailcard
-          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
-          interdum. Cras fermentum purus et est laoreet, et posuere massa
-          convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an`}
-        />
-        </div>
-        <div className="flex flex-col ">
-      
-        <Productdetailcard
-          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
-          interdum. Cras fermentum purus et est laoreet, et posuere massa
-          convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an`}
-        />
-        </div>
-        <div className="flex flex-col ">
-      
-        <Productdetailcard
-          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
-          interdum. Cras fermentum purus et est laoreet, et posuere massa
-          convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an`}
-        />
-        </div>
-        <div className="flex flex-col ">
-        <Productdetailcard
-          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
-          interdum. Cras fermentum purus et est laoreet, et posuere massa
-          convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an`}
-        />
-       
-        </div>
-        <div className="flex flex-col ">
-        <Productdetailcard
-          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
-          interdum. Cras fermentum purus et est laoreet, et posuere massa
-          convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an`}
-        />
-       
-        </div>
-        <div className="flex flex-col ">
-        <Productdetailcard
-          text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas
-          ultricies tincidunt Morbi luctus nisi ac leo porttitor a varius ante
-          interdum. Cras fermentum purus et est laoreet, et posuere massa
-          convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Sed egestas ultricies tincidunt. Morbi luctus nisi ac leo porttitor, a
-          varius an`}
-        />
-       
-        </div>
-       
-      
+        {productRequest.length > 0 &&
+          productRequest.map((item: any, index: any) => {
+            return (
+              <div className="flex flex-col " key={index}>
+                <Productdetailcard
+                  created={item.created_on}
+                  title={item.title}
+                  text={item.description}
+                />
+              </div>
+            );
+          })}
       </div>
 
       <Confirmationmodal
