@@ -3,16 +3,25 @@ import url from "../../config/index";
 const initialState: any = {
   Product: [],
 };
+/**
+ * Retrieves all products.
+ * @returns {Promise<any>} The response data.
+ */
 export const GetAllProducts = async () => {
   try {
     let response: any = await url.get("/products");
-    console.log(response.data.user, "RESPONSE");
+    console.log(response.data, "RESPONSE");
     return response.data;
   } catch (e) {
     return e;
   }
 };
-export const getProductById = async (id:any) => {
+/**
+ * Retrieves a product by its ID.
+ * @param {any} id - The ID of the product.
+ * @returns {Promise<any>} The response data.
+ */
+export const getProductById = async (id: any) => {
   try {
     let response: any = await url.get(`/products/${id}`);
     console.log(response);
@@ -21,15 +30,32 @@ export const getProductById = async (id:any) => {
     return e;
   }
 };
-
-export const CreateProduct = async (data:any) => {
+/**
+ * Creates a new product.
+ * @param {any} data - The data for the new product.
+ * @returns {Promise<any>} The response data.
+ */
+export const CreateProduct = async (data: any) => {
   try {
-    let response: any = await url.post("/products",data);
+    let response: any = await url.post("/products", data);
     return response;
   } catch (e) {
-    console.log(e)
+    console.log(e);
 
-    return e
+    return e;
+  }
+};
+/**
+ * Retrieves all product requests.
+ * @returns {Promise<any>} The response data.
+ * @throws {Error} If an error occurs.
+ */
+export const getAllProductRequest = async () => {
+  try {
+    let response: any = await url.get("/productrequests");
+    return response.data;
+  } catch (e:any) {
+    throw new Error(e);
   }
 };
 const ProductSlice = createSlice({

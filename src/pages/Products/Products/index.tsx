@@ -37,6 +37,7 @@ export const Products = () => {
   useEffect(() => {
     getProducts();
   }, []);
+  console.log(filterData)
   const [MenuLabel, setMenuLabel] = useState("");
   const menuLeft: any = useRef(null);
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
@@ -220,6 +221,7 @@ export const Products = () => {
           MultipleSelect={true}
           LoadMore={LoadMore}
           setLoadMore={setLoadMore}
+          pagination={true}
         />
       </div>
     </div>

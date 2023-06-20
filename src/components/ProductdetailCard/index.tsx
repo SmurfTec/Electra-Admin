@@ -2,6 +2,7 @@ import { useState ,useRef} from "react";
 import IMAGES from "../../assets/Images";
 import {CustomMenu} from "../../atoms/global.style";
 import { SVGIcon } from "../SVG/index.js";
+import moment from "moment";
 export const Productdetailcard = (props: any) => {
   const [ViewMore, SetViewMore] = useState(true);
   const menuLeft: any = useRef(null);
@@ -61,10 +62,10 @@ export const Productdetailcard = (props: any) => {
     <div className="border border-custom w-[363px] h-[auto] rounded-xl overflow-hidden">
       <div className="flex justify-between mt-2 px-4 items-center">
         <div className="flex gap-3 items-center">
-          <p className="font-bold">PS4 Slim Version</p>
+          <p className="font-bold">{props.title}</p>
           <img src={IMAGES.New} />
         </div>
-        <p className="font-light text-[12px] text-[#656565]">20 aug,2022</p>
+        <p className="font-light text-[12px] text-[#656565]">{moment(props.created).format("DD MMM, YYYY")}</p>
       </div>
       <div className="overflow-hidden h-auto">
         <p

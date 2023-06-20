@@ -21,6 +21,7 @@ export const CustomTableComponent = ({
   setLoadMore,
   showLoadMore=true,
   initialRowSize=10,
+  pagination=false,
   ...props
 }: any) => {
   const[rowsize,setrowsize]=useState(LoadMore==true?initialRowSize:filterData.length)
@@ -39,11 +40,14 @@ export const CustomTableComponent = ({
           scrollable={false}
           onSelectionChange={(e:any) => setSelectedProducts(e.value)}
           dataKey="id"
-         
+          rows={20}
+          paginator={pagination?true:false}
           tablebodycolor={rowStyling??""}
           columnheader={props.columnHeader}
           columnHeaderFirst={columnHeaderFirst}
           showGridlines ={showlines ?true:false}
+          // onPage={(e)=>{console.log("EE",e)}}
+          
         >
           {MultipleSelect && (
             <Column

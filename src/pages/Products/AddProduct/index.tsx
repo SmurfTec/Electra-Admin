@@ -33,7 +33,7 @@ export const AddProduct = () => {
   const [productData, setProductData] = useState({
     title: "",
     is_active: true,
-    category:'7',
+    category:'2',
     brand: "",
     productProperties: {} as descriptionProp,
     productVariants: [] as variantSpec[],
