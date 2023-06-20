@@ -9,4 +9,12 @@ export const getAllSupport=async()=>{
       return e;
     }
     }
+    export const getSupportById=async(id:any)=>{
+      try{
+        let response:any=await url.get(`/supports/${id}`)
+        return response.data;
+      }catch(e){
+        return e;
+      }
+      }
   

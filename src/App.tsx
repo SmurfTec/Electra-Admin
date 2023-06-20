@@ -87,7 +87,7 @@ function App() {
             <Route path="/CreateCategory" element={<CreateCategory />} />
             <Route path="/AddNewVariant" element={<AddNewVariant />} />
             <Route path="/HelpCenter" element={<HelpCenter />} />
-            <Route path="/HelpCenterDetail" element={<HelpCenterDetail />} />
+            <Route path="/HelpCenterDetail/:id" element={<HelpCenterDetail />} />
             <Route path="/Newadmin" element={<CreateNewadmin />} />
             <Route path="/Viewadmin" element={<ViewAdmin />} />
             <Route path="/Searchrole" element={<Searchrole />} />
