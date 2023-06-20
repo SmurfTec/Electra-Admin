@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Header, Confirmationmodal,SuccessModel } from "../../../components";
 import { InputTxt, CustomButton, CustomDropdown } from "../../../atoms";
 import IMAGES from "../../../assets/Images";
-
-import { CreateVariantData } from "../../../store/Slices/VariantSlice";
+import { useNavigate } from "react-router-dom";
+import { CreateVariantData,getAllVariants } from "../../../store/Slices/VariantSlice";
 export const AddNewVariant = () => {
   const[successVisible,setsuccessVisible]=useState(false)
-  
+  const navigate=useNavigate()
   const [Variant, setVariant] = useState("");
   const [Addvisible, setAddVisible] = useState(false);
   const [Editvisible, setEditVisible] = useState(false);
@@ -46,8 +46,8 @@ export const AddNewVariant = () => {
     const newArray = valuesArr.slice(0, index).concat(valuesArr.slice(index + 1))
     setvaluesArr(newArray)
   }
-  const CreateVariant=async()=>{
-   
+  const CreateVariant=async(value:any)=>{
+   console.log(value,"value")
     try{
       let body={
         "title": Variant,
@@ -56,7 +56,7 @@ export const AddNewVariant = () => {
       }
       let response=await CreateVariantData(body)
       if(response){
-        setsuccessVisible(true)
+        // setsuccessVisible(true)
         setvaluesArr([])
         setVariant("")
       }
@@ -116,11 +116,12 @@ export const AddNewVariant = () => {
         />
         <div className="flex gap-3 flex-wrap mt-[50px]">
           <CustomButton
+          onClick={(value:any)=>navigate("/Category")}
             txt="Cancel"
             classes="!w-[179px] !h-[50px] !rounded-[10px] !bg-custome-button-grey !text-black"
           />
           <CustomButton
-           onClick={CreateVariant}
+           onClick={(value:any)=>CreateVariant(value)}
             txt="Create Variant"
             classes="!w-[179px] !h-[50px] !rounded-[10px] "
           />
