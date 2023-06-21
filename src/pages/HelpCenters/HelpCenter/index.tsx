@@ -6,18 +6,25 @@ import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
 import { MenuItem } from "primereact/menuitem";
 import { useNavigate } from "react-router-dom";
-import { getAllSupport } from "../../../store/Slices/HelpCenterSlice";
+import { getAllSupport,DeleteSupport } from "../../../store/Slices/HelpCenterSlice";
+import { SuccessModel } from "../../../components";
 import moment from "moment";
 export const HelpCenter = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const[LoadMore,setLoadMore]=useState(true)
-
+  const[visible,setvisible]=useState(false)
   const navigate=useNavigate()
   const [filterData,setFilterData] = useState([
   ]);
-  const deleteItem = (event: React.MouseEvent, id: any) => {
+  const deleteItem = async(event: React.MouseEvent, id: any) => {
     event.stopPropagation();
-    
+    try{
+      let r=await DeleteSupport(id)
+      setvisible(true)
+      getSupport()
+    }catch(err){
+
+    }
   
   };
   const ViewItem = (event: React.MouseEvent, id: any) => {
@@ -99,7 +106,7 @@ export const HelpCenter = () => {
       <>
         <p
           className={`text-[14px] font-[600] p-2 rounded-[22px] text-white ${
-            options.status == "Solved" ? "bg-blue" : "bg-black"
+            options.status == "resolved" ? "bg-blue" : "bg-black"
           }`}
         >
           {options.status}
@@ -109,8 +116,8 @@ export const HelpCenter = () => {
   };
   const [columnData] = useState([
     { field: "id", header: "ID" },
-    { field: "firstName", header: "First Name" },
-    { field: "lastName", header: "Last Name" },
+    { field: "firstname", header: "First Name" },
+    { field: "lastname", header: "Last Name" },
     { field: "email", header: "Email" },
     { field: "order", header: "Order No", body: OrderBodyTemplate },
     { field: "category", header: "Category", body: CategoryBodyTemplate },
@@ -128,7 +135,7 @@ export const HelpCenter = () => {
       }
       return newObj
     })
-    console.log(response?.supports)
+   
     setFilterData(newArr)
   }
   useEffect(()=>{
@@ -136,6 +143,7 @@ export const HelpCenter = () => {
   },[])
   return (
     <div>
+       <SuccessModel visible={visible} setVisible={setvisible} txt="Deleted Successfully" />
       <Header chooseFilter={true} typeSearch={true} UserBox={true} />
       <div>
         <CustomTableComponent
