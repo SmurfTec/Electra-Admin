@@ -24,10 +24,10 @@ export const CustomTableComponent = ({
   pagination=false,
   ...props
 }: any) => {
-  const[rowsize,setrowsize]=useState(LoadMore==true?initialRowSize:filterData.length)
+  const[rowsize,setrowsize]=useState(LoadMore==true?initialRowSize:filterData?.length)
   
   useEffect(()=>{
-    setrowsize(LoadMore==true?initialRowSize:filterData.length)
+    setrowsize(LoadMore==true?initialRowSize:filterData?.length)
   },[filterData])
   return (
     <>
@@ -36,7 +36,7 @@ export const CustomTableComponent = ({
         <CustomTable
           {...props}
           selectionMode={'checkbox'} selection={selectedProducts}
-          value={filterData.slice(0,rowsize)}
+          value={filterData?.slice(0,rowsize)}
           scrollable={false}
           onSelectionChange={(e:any) => setSelectedProducts(e.value)}
           dataKey="id"

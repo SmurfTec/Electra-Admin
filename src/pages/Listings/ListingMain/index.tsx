@@ -1,14 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "../../../components";
 import { CustomTableComponent, CustomButton } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
 import { Navigate, useNavigate } from "react-router-dom";
-
+import { useListingDetail } from "../../../custom-hooks";
+import moment from "moment";
 export const Listings = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
+  const ListingData = useListingDetail();
+  const [listings, setListings] = useState([]);
+  const getListings=async()=>{
+    console.log(ListingData);
+    let latestArray;
+    latestArray = ListingData?.data?.listings?.map((item: any, index: any) => {
+      console.log(item,"ITEM")
+      let newObj = {
+        ...item,
+        id: 1,
+        Account: item?.Account,
+        ItemName: item.product.title,
+        Ask: item.ask,
+        "Lwst Offer": item.lowest_offer??"-",
+        "Hgst Offer": item.highest_offer??"-",
+        "Sale Price": item.saleprice?`$ ${item.saleprice}`:"-",
+        "Listed On": moment(item?.created_on).format("DD MMM, YYYY"),
+        Role: item.is_active?"Unsold":"Sold",
+      };
+      return newObj;
+    });
+    
+    setListings(latestArray)
+  }
+  useEffect(() => {
+ getListings()
+  }, [ListingData]);
+
   const items = [
     {
       items: [
@@ -57,52 +86,8 @@ export const Listings = () => {
       ],
     },
   ];
-  const filterData = [
-    {
-      id: 1,
-      Account: "ListedBy",
-      ItemName: "ItemName",
-      Ask: "Ask",
-      "Lwst Offer": "Lwst Offer",
-      "Hgst Offer": "Hgst Offer",
-      "Sale Price": "$4345",
-      "Listed On": "Listed On",
-      Role: "Sold",
-    },
-    {
-      id: 2,
-      Account: "ListedBy",
-      ItemName: "ItemName",
-      Ask: "Ask",
-      "Lwst Offer": "Lwst Offer",
-      "Hgst Offer": "Hgst Offer",
-      "Sale Price": "$4345",
-      "Listed On": "Listed On",
-      Role: "Sold",
-    },
-    {
-      id: 3,
-      Account: "ListedBy",
-      ItemName: "ItemName",
-      Ask: "Ask",
-      "Lwst Offer": "Lwst Offer",
-      "Hgst Offer": "Hgst Offer",
-      "Sale Price": "$4345",
-      "Listed On": "Listed On",
-      Role: "Unsold",
-    },
-    {
-      id: 4,
-      Account: "ListedBy",
-      ItemName: "ItemName",
-      Ask: "Ask",
-      "Lwst Offer": "Lwst Offer",
-      "Hgst Offer": "Hgst Offer",
-      "Sale Price": "$4345",
-      "Listed On": "Listed On",
-      Role: "Unsold",
-    },
-  ];
+ 
+  ;
   const AccountBodyTemplate = (option: any) => {
     return (
       <div className="flex gap-2 items-center justify-center">
@@ -172,6 +157,7 @@ export const Listings = () => {
     { field: "Role", header: "Role", body: StatusBodyTemplate },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
+  console.log(listings)
   return (
     <div>
       <Header
@@ -196,23 +182,25 @@ export const Listings = () => {
             <p className="text-[#B4B4B4]">Admin (3) </p>
             <p className="text-[#B4B4B4]">Sub Admin(9)</p>
           </div>
-          <CustomTableComponent
+     <CustomTableComponent
             colume={{ backgroundColor: "#FCFCFC !important" }}
-            headerStyle={{ color: "black", fontWeight: "800" ,backgroundColor:"#FCFCFC"}}
-            filterData={filterData}
+            headerStyle={{
+              color: "black",
+              fontWeight: "800",
+              backgroundColor: "#FCFCFC",
+            }}
+            filterData={listings}
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
-            
           />
         </div>
       </div>
       <div>
         <CustomButton
-        onClick={()=>{
-          navigate("/ListingsDetail")
-        }}
+          onClick={() => {
+            navigate("/ListingsDetail");
+          }}
           iconLeft={<img src={IMAGES.Flag} />}
           classes="!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]"
           txt="Mark for review"

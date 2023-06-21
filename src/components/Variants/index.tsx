@@ -2,6 +2,8 @@ import React from "react";
 import { CustomButton } from "../../atoms";
 
 export const Variants = (props: any) => {
+  console.log(props)
+
   return (
     <div className="flex gap-3">
       {props.data.map((item:any, index:number) => {
