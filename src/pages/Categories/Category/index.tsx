@@ -287,7 +287,7 @@ export const Category = () => {
                     </div>
                     <CustomTableComponent
                         theadStyles={{ background: '#FCFCFC' }}
-                        width="37rem"
+                        width="100%"
 
                         showWrapper={false}
                         filterData={VariantData}

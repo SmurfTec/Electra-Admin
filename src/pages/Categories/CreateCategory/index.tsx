@@ -5,7 +5,9 @@ import IMAGES from '../../../assets/Images'
 import { getAllVariants } from '../../../store/Slices/VariantSlice'
 import { CreateCategories } from '../../../store/Slices/Categories'
 import { useNavigate } from 'react-router-dom'
+import { SuccessModel } from '../../../components'
 export const CreateCategory = () => {
+  const[successVisible,setsuccessVisible]=useState(false)
   const[Name,setName]=useState('')
   const[fee,setfee]=useState('')
   const navigate=useNavigate()
@@ -13,7 +15,6 @@ export const CreateCategory = () => {
   const [selectedVariant,setSelectedVariant]=useState<any>([])
   const getVariant=async()=>{
     let response=await getAllVariants()
-    console.log(response.variants)
     setVariants(response.variants)
   }
   useEffect(()=>{
@@ -44,13 +45,19 @@ export const CreateCategory = () => {
         "variants":selectedVariant
       }
       let response=await CreateCategories(body)
-      console.log(response)
+      if(response){
+        setsuccessVisible(true)
+        setName("")
+        setfee('')
+        getVariant()
+      }
     }catch(err){
 
     }
   }
   return (
     <div>
+      <SuccessModel visible={successVisible} setVisible={setsuccessVisible} txt="Category Created Successfully" />
        <Header
        headerClasses={'!h-[69px]'}
        titleClass={'!mt-[10px]'}
