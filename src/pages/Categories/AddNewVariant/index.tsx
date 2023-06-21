@@ -54,9 +54,10 @@ export const AddNewVariant = () => {
         "datatype": dataTypeValue,
         "values":valuesArr
       }
+     
       let response=await CreateVariantData(body)
       if(response){
-        // setsuccessVisible(true)
+        setsuccessVisible(true)
         setvaluesArr([])
         setVariant("")
       }
@@ -84,7 +85,7 @@ export const AddNewVariant = () => {
         />
         <CustomDropdown
         value={dataTypeValue}
-        setvalue={setdataTypeValue}
+        setvalue={(e:any)=>setdataTypeValue(e.value)}
         options={options}
           placeholderColor={"#A4A4A4"}
           placeholder="Select Data Type"
