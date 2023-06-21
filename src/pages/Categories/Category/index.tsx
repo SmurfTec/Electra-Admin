@@ -6,106 +6,78 @@ import { MenuItem } from 'primereact/menuitem'
 import IMAGES from '../../../assets/Images'
 import { CustomMenu } from "../../../atoms/global.style"
 import { useNavigate } from 'react-router-dom'
-import { getAllCategories } from '../../../store/Slices/Categories'
-import { getAllVariants } from '../../../store/Slices/VariantSlice'
+import { getAllCategories, DeleteSingleCategory } from '../../../store/Slices/Categories'
+import { getAllVariants, DeleteSingleVariant } from '../../../store/Slices/VariantSlice'
 import moment from 'moment'
+import { SuccessModel } from '../../../components'
 export const Category = () => {
-    const [MenuLabel, setMenuLabel] = useState("")
+    const [Categoryvisible, setCategoryvisible] = useState(false)
+    const [Variantvisible, setVariantvisible] = useState(false)
     const [LoadMore1, setLoadMore1] = useState(true);
     const [LoadMore2, setLoadMore2] = useState(true);
-    const [CurrSelectedProduct, setCurrSelectedProduct] = useState('')
     const [selectedProducts, setSelectedProducts] = useState<any>([]);
-    const menuLeft: any = useRef(null);
     const navigate = useNavigate()
-    const [MenuLabel1, setMenuLabel1] = useState("")
-    const [CurrSelectedProduct1, setCurrSelectedProduct1] = useState('')
     const [selectedProducts1, setSelectedProducts1] = useState<any>([]);
-    const[TotalCategories,setTotalCategories]=useState(0)
-    const[TotalVariants,setTotalVariants]=useState(0)
-    const menuLeft1: any = useRef(null);
-    const [CategoriesData,setCategoriesData] = useState([]);
-    const [VariantData,setVariantData] = useState([
-        {
-            id: 1,
-            title: "Color",
-            DataType: "String",
-            Values: "4",
+    const [TotalCategories, setTotalCategories] = useState(0)
+    const [TotalVariants, setTotalVariants] = useState(0)
 
-        },
-        {
-            id: 2,
-            title: "Color",
-            DataType: "String",
-            Values: "4",
-        },
-        {
-            id: 3,
-            title: "Color",
-            DataType: "String",
-            Values: "4",
-        },
-        {
-            id: 4,
-            title: "Color",
-            DataType: "String",
-            Values: "4",
-        },
-        {
-            id: 5,
-            title: "Color",
-            DataType: "String",
-            Values: "4",
-        },
+    const [CategoriesData, setCategoriesData] = useState([]);
+    const [VariantData, setVariantData] = useState([]);
 
-
-
-    ]);
-    const items = [
-        {
-            label: "View Item",
-
-            template: (item: any) => {
-
-                return (
-                    <div onClick={(event) => deleteItem(event, item)} style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
-                        <SVGIcon
-                            fillcolor={'#212121'}
-                            src={IMAGES.Ban}
-                        /> View Item
-                    </div>
-                )
-            }
-        },
-        {
-            label: "Delete",
-            template: (item: MenuItem) => {
-
-                return (
-                    <div onClick={(event) => deleteItem(event, item)} style={{ background: 'rgba(231, 29, 54, 0.05)' }} className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]">
-                        <SVGIcon
-
-                            fillcolor={'#E71D36'}
-                            src={IMAGES.Delete}
-                        /> Delete
-                    </div>
-                )
-            }
-        },
-
-    ]
-
-    const deleteItem = (event: React.MouseEvent, item: any) => {
+    const deleteCategoryItem = async (event: React.MouseEvent, id: any) => {
         event.stopPropagation();
-        setMenuLabel((prevLabel) => (prevLabel === item.label ? '' : item.label));
+        try {
+            let r = await DeleteSingleCategory(id)
+            setCategoryvisible(true)
+            GetCategories()
+        } catch (err) {
+
+        }
 
     };
-    const MenuBodyTemplate = (rowData: any) => {
+    const deleteVariantItem = async (event: React.MouseEvent, id: any) => {
+        event.stopPropagation();
+        try {
+            let r = await DeleteSingleVariant(id);
+            setVariantvisible(true)
+            GetVariants();
+        } catch (err) {
 
+        }
+
+
+    };
+    const CategoryMenuBodyTemplate = (rowData: any) => {
+        const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
+            let [items] = useState([
+
+
+                {
+                    label: "Delete",
+                    template: (item: MenuItem) => {
+
+                        return (
+                            <div onClick={(event) => deleteCategoryItem(event, rowData.id)} style={{ background: 'rgba(231, 29, 54, 0.05)' }} className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]">
+                                <SVGIcon
+
+                                    fillcolor={'#E71D36'}
+                                    src={IMAGES.Delete}
+                                /> Delete
+                            </div>
+                        )
+                    }
+                },
+            ]);
+
+            return (
+                <CustomMenu popupAlignment="left" height={'auto'} model={items} popup ref={menuRef} id="popup_menu_left" />
+            );
+        };
+        const menuLeftRef = useRef<any>(null);
         const handleClick = (event: any) => {
 
             event.preventDefault();
-            setCurrSelectedProduct(rowData.id)
-            menuLeft.current.toggle(event);
+            menuLeftRef.current?.toggle(event);
 
         };
         return (
@@ -120,19 +92,43 @@ export const Category = () => {
                         src={IMAGES.Dots}
                     />
 
-                    <CustomMenu popupAlignment="left" height={'80px'} model={items} popup ref={menuLeft} id="popup_menu_left" />
+
+                    <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
                 </div>
 
             </>
         );
     };
-    const MenuBodyTemplate1 = (rowData: any) => {
+    const VariantMenuBodyTemplate = (rowData: any) => {
+        const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
+            let [items] = useState([
 
+                {
+                    label: "Delete",
+                    template: (item: MenuItem) => {
+
+                        return (
+                            <div onClick={(event) => deleteVariantItem(event, rowData.id)} style={{ background: 'rgba(231, 29, 54, 0.05)' }} className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]">
+                                <SVGIcon
+
+                                    fillcolor={'#E71D36'}
+                                    src={IMAGES.Delete}
+                                /> Delete
+                            </div>
+                        )
+                    }
+                },
+            ]);
+
+            return (
+                <CustomMenu popupAlignment="left" height={'auto'} model={items} popup ref={menuRef} id="popup_menu_left" />
+            );
+        };
+        const menuLeftRef = useRef<any>(null);
         const handleClick = (event: any) => {
 
             event.preventDefault();
-            setCurrSelectedProduct1(rowData.id)
-            menuLeft1.current.toggle(event);
+            menuLeftRef.current?.toggle(event);
 
         };
         return (
@@ -147,71 +143,71 @@ export const Category = () => {
                         src={IMAGES.Dots}
                     />
 
-                    <CustomMenu popupAlignment="left" height={'80px'} model={items} popup ref={menuLeft1} id="popup_menu_left" />
+
+                    <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
                 </div>
 
             </>
         );
     };
-    const [columnData] = useState([
+    const [CategoriescolumnData] = useState([
         { field: "id", header: 'ID' },
         { field: "title", header: 'Title' },
         { field: "Fee", header: 'Fee' },
         { field: "Products", header: 'Products' },
         { field: "CreatedOn", header: 'Created On' },
-        { field: "", header: '', body: MenuBodyTemplate }
+        { field: "", header: '', body: CategoryMenuBodyTemplate }
     ])
     const [VariantcolumnData] = useState([
         { field: "id", header: 'ID' },
         { field: "title", header: 'Title' },
-        { field: "DataType", header: 'Data Type',className:'dataType' },
+        { field: "DataType", header: 'Data Type', className: 'dataType' },
         { field: "Values", header: 'Values' },
 
-        { field: "", header: '', body: MenuBodyTemplate }
+        { field: "", header: '', body: VariantMenuBodyTemplate }
     ])
-    useEffect(() => {
-        console.log('Menu', MenuLabel, "product", selectedProducts, "CurrSelectedProduct", CurrSelectedProduct)
-    }, [MenuLabel])
-    const GetCategories=async()=>{
-        let response=await getAllCategories()
+
+    const GetCategories = async () => {
+        let response = await getAllCategories()
         setTotalCategories(response.results)
-        let NewArr=response.categories.map((item:any)=>{
-            let newObj={
+        let NewArr = response.categories.map((item: any) => {
+            let newObj = {
                 ...item,
-                id:item.c_id,
+                id: item.c_id,
                 title: item.c_name,
-            Fee: item.c_fees,
-            Products: item.c_products,
-            CreatedOn: moment(item.c_created_on).format("DD,MM,YYYY"),
+                Fee: item.c_fees,
+                Products: item.c_products,
+                CreatedOn: moment(item.c_created_on).format("DD,MM,YYYY"),
             }
             return newObj
         })
-        NewArr.sort((a:any,b:any)=>a.id - b.id)
+        NewArr.sort((a: any, b: any) => a.id - b.id)
         setCategoriesData(NewArr)
-        
+
     }
-    const GetVariants=async()=>{
-        let response=await getAllVariants()
+    const GetVariants = async () => {
+        let response = await getAllVariants()
         setTotalVariants(response.results)
-        let NewArr=response.variants.map((item:any)=>{
-            let newObj={
+        let NewArr = response.variants.map((item: any) => {
+            let newObj = {
                 ...item,
-                DataType: item.datatype                ,
+                DataType: item.datatype,
                 Values: item.values,
             }
             return newObj
         })
-        NewArr.sort((a:any,b:any)=>a.id - b.id)
+        NewArr.sort((a: any, b: any) => a.id - b.id)
         setVariantData(NewArr)
-        
+
     }
-    useEffect(()=>{
+    useEffect(() => {
         GetCategories()
         GetVariants()
-    },[])
+    }, [])
     return (
         <div>
-
+            <SuccessModel visible={Categoryvisible} setVisible={setCategoryvisible} txt="Category Deleted Successfully" />
+            <SuccessModel visible={Variantvisible} setVisible={setVariantvisible} txt="Variant Deleted Successfully" />
             <Header
                 typeSearch={true}
 
@@ -221,7 +217,7 @@ export const Category = () => {
                 <div className='flex flex-wrap md:gap-[2rem] lg:gap-[2rem] xl:gap-[9rem] mt-[28px]'>
                     <div className='flex gap-6'>
                         <DashCard
-                        outerclasses={'!w-[207px] !h-[101px]'}
+                            outerclasses={'!w-[207px] !h-[101px]'}
                             title={"Total Categories"}
                             titleStyle={`!text-[13px]`}
                             totalNumber={String(TotalCategories)}
@@ -230,7 +226,7 @@ export const Category = () => {
 
                         />
                         <DashCard
-                        
+
                             onClick={() => navigate('/CreateCategory')}
                             Addimg={IMAGES.AddItem}
                             Add={true}
@@ -267,7 +263,7 @@ export const Category = () => {
                 <div className='flex flex-col gap-4 border border-lightgray rounded-[10px] pt-[21px] '>
                     <div className='flex justify-between pl-[14px] pr-[10px]'>
                         <p className='text-[13px] font-[600]'>Categories</p>
-                        <div className='border rounded-[15px] px-2 py-1 text-[11px] text-[#212121] flex items-center'>Sort By: <b className='mr-1'>Date </b><img src={IMAGES.DropDown2}/>  </div>
+                        <div className='border rounded-[15px] px-2 py-1 text-[11px] text-[#212121] flex items-center'>Sort By: <b className='mr-1'>Date </b><img src={IMAGES.DropDown2} />  </div>
                     </div>
                     <CustomTableComponent
                         theadStyles={{ background: '#FCFCFC' }}
@@ -276,18 +272,18 @@ export const Category = () => {
                         filterData={CategoriesData}
                         selectedProducts={selectedProducts}
                         setSelectedProducts={setSelectedProducts}
-                        columnData={columnData}
+                        columnData={CategoriescolumnData}
                         MultipleSelect={true}
                         LoadMore={LoadMore1}
                         initialRowSize={5}
                         showLoadMore={false}
                     />
-                   {LoadMore1==true && <div onClick={()=>setLoadMore1(false)} className='flex justify-center items-center -mt-[10px] pb-3 font-[500] text-[#B4B4B4] cursor-pointer'>View More</div>}  
+                    {LoadMore1 == true && <div onClick={() => setLoadMore1(false)} className='flex justify-center items-center -mt-[10px] pb-3 font-[500] text-[#B4B4B4] cursor-pointer'>View More</div>}
                 </div>
                 <div className='flex flex-col gap-4   border rounded-[10px] border-lightgray '>
                     <div className='flex justify-between pl-[14px] border-b-0 pt-[21px]     pr-[10px] '>
                         <p className='text-[13px] font-[600]'>Variant</p>
-                        <div className='border rounded-[15px] px-2 py-1 text-[11px] text-[#212121] flex items-center'>Sort By: <b className='mr-1'>Date </b><img src={IMAGES.DropDown2}/>  </div>
+                        <div className='border rounded-[15px] px-2 py-1 text-[11px] text-[#212121] flex items-center'>Sort By: <b className='mr-1'>Date </b><img src={IMAGES.DropDown2} />  </div>
                     </div>
                     <CustomTableComponent
                         theadStyles={{ background: '#FCFCFC' }}
@@ -303,8 +299,8 @@ export const Category = () => {
                         initialRowSize={5}
                         showLoadMore={false}
                     />
-                   
-                    {LoadMore2==true && <div onClick={()=>setLoadMore2(false)} className='flex justify-center items-center  pb-3 font-[500] text-[#B4B4B4] cursor-pointer'>View More</div>}  
+
+                    {LoadMore2 == true && <div onClick={() => setLoadMore2(false)} className='flex justify-center items-center  pb-3 font-[500] text-[#B4B4B4] cursor-pointer'>View More</div>}
                 </div>
             </div>
         </div>

@@ -13,7 +13,6 @@ export const ProductView = () => {
   const params = useParams();
   let { id } = params;
   const navigate = useNavigate();
-  console.log(id, "IIDDD");
   const ProductData = useProductDetail(id);
 
   const [VariantsArray, setVariantArray] = useState([]);

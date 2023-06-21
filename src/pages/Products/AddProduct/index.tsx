@@ -27,6 +27,7 @@ export const AddProduct = () => {
   const [fetchVariants, setFetchVariants] = useState(false);
   const [VariantsArray, setVariantArray] = useState<{ variant: any; values: any; }[]>([]);
   const [images, setImage] = useState("");
+  const [varVal,setVariantValue]=useState("")
   const [productData, setProductData] = useState({
     title: "",
     is_active: true,
@@ -40,6 +41,7 @@ export const AddProduct = () => {
     title: "",
     datatype: String,
     values: [],
+    id:Number
   });
   const navigate = useNavigate();
   const VariantsData = useVariantDetail(fetchVariants);
@@ -73,13 +75,12 @@ export const AddProduct = () => {
   const handleFunction = async (value: any) => {
     let prevArray = variant.values;
     let Newpush = [...prevArray, value];
-    // Remove the first value from the array
     let sendingData = {
       title: variant.title,
       datatype: "string",
       values: Newpush,
     };
-    const sendVariant = await url.post("/variants", sendingData);
+    const sendVariant = await url.put(`/variants/${variant.id}`, sendingData);
     if (sendVariant) {
       setVisible(!visible);
       VariantsData;
@@ -152,37 +153,7 @@ export const AddProduct = () => {
           };
         });
         setVariantArray( newData );
-        // else if (variant === 2) {
-        //   setVariantArray2((prevData: any) => {
-        //     return prevData.map((item: any, index: any) => {
-        //       if (value === item.txt) {
-        //         item.classes =
-        //           "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-        //       }
-        //       return item;
-        //     });
-        //   });
-        // } else if (variant === 3) {
-        //   setVariantArray3((prevData: any) => {
-        //     return prevData.map((item: any, index: any) => {
-        //       if (value === item.txt) {
-        //         item.classes =
-        //           "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-        //       }
-        //       return item;
-        //     });
-        //   });
-        // } else if (variant === 4) {
-        //   setVariantArray4((prevData: any) => {
-        //     return prevData.map((item: any, index: any) => {
-        //       if (value === item.txt) {
-        //         item.classes =
-        //           "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-        //       }
-        //       return item;
-        //     });
-        //   });
-        // }
+
       } else {
         updateVariants = updateVariants.filter(
           (item: any) => item.value !== value
@@ -209,47 +180,7 @@ export const AddProduct = () => {
           };
         });
         setVariantArray( newData );
-          // setVariantArray((prevData: any) => {
-          //   return prevData.map((item: any, index: any) => {
-          //     if (value === item.txt) {
-          //       item.classes =
-          //         "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-          //     }
-          //     return item;
-          //   });
-          // });
-        
-        // else if (variant === 2) {
-        //   setVariantArray2((prevData: any) => {
-        //     return prevData.map((item: any, index: any) => {
-        //       if (value === item.txt) {
-        //         item.classes =
-        //           "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-        //       }
-        //       return item;
-        //     });
-        //   });
-        // } else if (variant === 3) {
-        //   setVariantArray3((prevData: any) => {
-        //     return prevData.map((item: any, index: any) => {
-        //       if (value === item.txt) {
-        //         item.classes =
-        //           "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-        //       }
-        //       return item;
-        //     });
-        //   });
-        // } else if (variant === 4) {
-        //   setVariantArray4((prevData: any) => {
-        //     return prevData.map((item: any, index: any) => {
-        //       if (value === item.txt) {
-        //         item.classes =
-        //           "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-        //       }
-        //       return item;
-        //     });
-        //   });
-        // }
+      
       }
     }
   };
@@ -302,10 +233,7 @@ export const AddProduct = () => {
           placeholder="Brand"
           MainClasses="mt-[40px] !border !border-custom  !w-[43%]"
         />
-        {/* <InputTxt
-          placeholder="Model"
-          MainClasses="mt-[40px] !border !border-custom"
-        /> */}
+      
       </div>
       <textarea
         onChange={(e) => handleChangeDescription(e.target.value)}
@@ -347,6 +275,7 @@ export const AddProduct = () => {
                       ...variant,
                       title: item.variant.txt,
                       values: newVariant,
+                      id:item.variant.id
                     });
                     setVisible(!visible);
                   }}
@@ -356,58 +285,7 @@ export const AddProduct = () => {
               </div>
             );
           })}
-        {/* <div className="flex gap-2">
-          <Variants
-            data={VariantsArray2}
-            handleFunction={(e: any) => updateVariantData(2, e)}
-          />
-          <CustomButton
-            onClick={() => {
-              let newVariant = VariantsArray2.map((item: any, index) => {
-                return item.txt;
-              });
-              setVariant({ ...variant, title: "color", values: newVariant });
-              setVisible(!visible);
-            }}
-            txt={"+Add text"}
-            classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
-          />
-        </div> */}
-        {/* <div className="flex gap-2">
-          <Variants
-            data={VariantsArray3}
-            handleFunction={(e: any) => updateVariantData(3, e)}
-          />
-          <CustomButton
-            onClick={() => {
-              let newVariant = VariantsArray3.map((item: any, index) => {
-                return item.txt;
-              });
-              setVariant({ ...variant, title: "carrier", values: newVariant });
-              setVisible(!visible);
-            }}
-            txt={"+Add text"}
-            classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
-          />
-        </div>
-        <div className="flex gap-2">
-          <Variants
-            data={VariantsArray4}
-            handleFunction={(e: any) => updateVariantData(4, e)}
-          />
-          <CustomButton
-            onClick={() => {
-              let newVariant = VariantsArray4.map((item: any, index) => {
-                return item.txt;
-              });
-              console.log(newVariant, "NEW VARIANT");
-              setVariant({ ...variant, title: "screen", values: newVariant });
-              setVisible(!visible);
-            }}
-            txt={"+Add text"}
-            classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
-          />
-        </div> */}
+      
       </div>
       <div>
         <CustomButton
@@ -575,6 +453,8 @@ export const AddProduct = () => {
         cnclebtnText={"Cancel"}
         text={"Add name of the variant"}
         handleFunction={handleFunction}
+        setValue={setVariantValue}
+        Value={varVal}
       />
     </div>
   );

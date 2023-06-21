@@ -1,13 +1,17 @@
-import React,{useState,useRef} from 'react'
+import React,{useState,useRef,useEffect} from 'react'
 import { Header } from '../../../components'
 import { CustomButton,InputTxt } from '../../../atoms'
 import { SVGIcon } from '../../../components/SVG'
 import IMAGES from '../../../assets/Images'
 import { CustomMenu } from '../../../atoms/global.style'
-
+import { useParams } from 'react-router-dom'
+import { getSupportById } from '../../../store/Slices/HelpCenterSlice'
 export const HelpCenterDetail = () => {
   const menuLeft: any = useRef(null);
-  
+  const {id}=useParams()
+  const[detail,setDetail]=useState<any>({
+    
+  })
   const[Reply,setReply]=useState('')
   const ChangeStatus = (event: React.MouseEvent, item: any) => {
     event.preventDefault();
@@ -15,48 +19,66 @@ export const HelpCenterDetail = () => {
      
    
   };
-  const items = [
-    {
-      label: "Mark Solved",
-
-      template: (item: any) => {
-        return (
-          <div
-            onClick={(event) => ChangeStatus(event, item)}
-            style={{ backgroundColor: "rgba(60, 130, 214, 0.05) " }}
-            className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-          >
-            <SVGIcon fillcolor={"#3C82D6"} src={IMAGES.pending} /> Mark Solved
-          </div>
-        );
+  const[ items,setItems] = useState(
+    [
+      {
+        label: "Mark Solved",
+  
+        template: (item: any) => {
+          return (
+            <div
+              onClick={(event) => ChangeStatus(event, item)}
+              style={{ backgroundColor: "rgba(60, 130, 214, 0.05) " }}
+              className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+            >
+              <SVGIcon fillcolor={"#3C82D6"} src={IMAGES.pending} /> Mark Solved
+            </div>
+          );
+        },
       },
-    },
-    {
-      label: "Delete",
-      template: (item:any) => {
-        return (
-          <div
-            onClick={(event) => ChangeStatus(event, item)}
-            style={{ background: "rgba(231, 29, 54, 0.05)" }}
-            className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-          >
-            <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
-          </div>
-        );
+      {
+        label: "Delete",
+        template: (item:any) => {
+          return (
+            <div
+              onClick={(event) => ChangeStatus(event, item)}
+              style={{ background: "rgba(231, 29, 54, 0.05)" }}
+              className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+            >
+              <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
+            </div>
+          );
+        },
       },
-    },
-  ];
+    ]
+  )
+  
   const handleClick=(event:any)=>{
     menuLeft.current.toggle(event);
   }
+  const getDetail=async()=>{
+    try{
+      let response = await getSupportById(id)
+      setDetail(response.support)
+     console.log(response.support)
+    }catch(err){
+
+    }
+  }
+  useEffect(()=>{
+    getDetail()
+  },[])
+  useEffect(()=>{
+console.log(detail,"detail")
+  },[detail])
   return (
    <div>
       <Header chooseFilter={true} typeSearch={true} UserBox={true} />
       <div className='w-[98%] h-auto border border-inputBorder rounded-[7px] mt-[35px] '>
         <div className='flex justify-between pt-[21px] pb-[18px] items-center border-b border-inputBorder px-[39px]'>
-          <p className='text-[20px] font-[600]'>Help (ID #1234)</p>
+          <p className='text-[20px] font-[600]'>Help (ID #{detail.id})</p>
           <div className='flex gap-4 items-center'>
-          <CustomButton txt="Pending" classes="!w-auto px-[32px] !h-auto !py-[6px] !rounded-[22px] "  />
+          <CustomButton txt={detail.status} classes="!w-auto px-[32px] !h-auto !py-[6px] !rounded-[22px] "  />
           <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
           <CustomMenu
             popupAlignment="left"
@@ -72,50 +94,50 @@ export const HelpCenterDetail = () => {
         <div className='flex justify-between items-center w-[20rem]'>
           <div className='flex flex-col gap-1'>
             <p className='text-black font-[600] text-[12px] uppercase'>FIRSTNAME</p>
-            <p className='text-[#000000] font-[600] text-[14px]'>Huzayfah</p>
+            <p className='text-[#000000] font-[600] text-[14px]'>{detail.firstName}</p>
           </div>
           <div className='flex flex-col gap-1'>
             <p className='text-black font-[600] text-[12px] uppercase'>LASTNAME</p>
-            <p className='text-[#000000] font-[600] text-[14px]'>Huzayfah</p>
+            <p className='text-[#000000] font-[600] text-[14px]'>{detail.lastName}</p>
           </div>
         </div>
         <div className='flex justify-between items-center w-[20rem]'>
           <div className='flex flex-col gap-1'>
             <p className='text-black font-[600] text-[12px] uppercase'>Email</p>
-            <p className='text-[#000000] font-[600] text-[14px]'>huz@gmail.com</p>
+            <p className='text-[#000000] font-[600] text-[14px]'>{detail?.email}</p>
           </div>
           <div className='flex flex-col gap-1'>
             <p className='text-black font-[600] text-[12px] uppercase'>Phone No</p>
-            <p className='text-[#000000] font-[600] text-[14px]'>342422525</p>
+            <p className='text-[#000000] font-[600] text-[14px]'>{detail.phone}</p>
           </div>
         </div>
         <div className='flex justify-between items-center w-[20rem]'>
           <div className='flex flex-col gap-1'>
             <p className='text-black font-[600] text-[12px] uppercase'>Order No</p>
-            <p className='text-[#000000] font-[600] text-[14px]'>24</p>
+            <p className='text-[#000000] font-[600] text-[14px]'>{detail?.order?.id}</p>
           </div>
           <div className='flex flex-col gap-1'>
             <p className='text-black font-[600] text-[12px] uppercase'>Category</p>
-            <p className='text-[#000000] font-[600] text-[14px]'>Phone</p>
+            <p className='text-[#000000] font-[600] text-[14px]'>{detail?.category}</p>
           </div>
         </div>
         <div className=' w-[25rem] h-auto'>
           <div className='flex flex-col gap-1'>
             <p className='text-black font-[600] text-[12px] uppercase'>Message</p>
-            <p className='text-[#000000] font-[600] text-[14px]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis 
-ipsum sem. Nunc bibendum mi mauris, eget iaculis nisl sagittis ut.
-Sed sagittis sollicitudin vulputate.</p>
+            <p className='text-[#000000] font-[600] text-[14px]'>{detail?.message}</p>
           </div>
           
         </div>
         <p className='text-[11px] font-[500] absolute bottom-4 right-5 text-[#A4A4A4]'>10.00 PM</p>
         </div>
-        <div className='w-[33.5rem] text-[14px] pr-[47px] font-[400] leading-[26px] relative pt-[24px] pl-[28px] pb-[56px] h-auto bg-black text-white mt-[22px] ml-[39px] rounded-[7px]'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis  ipsum
- sem. Nunc bibendum mi mauris, eget iaculis nisl sagittis ut. Sed
-sagittis sollicitudin vulputate.
+     {(detail?.replies?.length!==0 && detail?.replies!==null)
+     && 
+     <div className='w-[33.5rem] text-[14px] pr-[47px] font-[400] leading-[26px] relative pt-[24px] pl-[28px] pb-[56px] h-auto bg-black text-white mt-[22px] ml-[39px] rounded-[7px]'>
+    { detail?.replies || ""}
 <p className='text-[11px] font-[500] absolute bottom-2 right-5 text-[#A4A4A4]'>10.00 PM</p>
-        </div>
+      </div>
+     
+     }   
         {/* <div className='flex gap-3 justify-center items-center mt-[46px]'>
         <hr className="w-[18.5rem] border-[#A4A4A4]" />
         <CustomButton txt="Solved" classes="!w-auto !bg-blue !text-white px-[32px] !h-auto !py-[6px] !rounded-[22px] "  />
