@@ -25,15 +25,13 @@ export const AddProduct = () => {
   };
   const [visible, setVisible] = useState(false);
   const [fetchVariants, setFetchVariants] = useState(false);
-  const [VariantsArray, setVariantArray] = useState([]);
-  const [VariantsArray2, setVariantArray2] = useState([]);
-  const [VariantsArray3, setVariantArray3] = useState([]);
-  const [VariantsArray4, setVariantArray4] = useState([]);
+  const [VariantsArray, setVariantArray] = useState<{ variant: any; values: any; }[]>([]);
   const [images, setImage] = useState("");
+  const [varVal,setVariantValue]=useState("")
   const [productData, setProductData] = useState({
     title: "",
     is_active: true,
-    category:'2',
+    category: "2",
     brand: "",
     productProperties: {} as descriptionProp,
     productVariants: [] as variantSpec[],
@@ -43,88 +41,46 @@ export const AddProduct = () => {
     title: "",
     datatype: String,
     values: [],
+    id:Number
   });
   const navigate = useNavigate();
   const VariantsData = useVariantDetail(fetchVariants);
 
   useEffect(() => {
     if (VariantsData?.variants) {
-      let newData: any;
-      let newData2: any;
-      let newData3: any;
-      let newData4: any;
-      VariantsData.variants.map((item: any, index: any) => {
-        let mainObj = {
-          txt: item.title,
+      const mappedData = VariantsData?.variants.map((item: any) => {
+        const { title, values, value,id } = item;
+        const options = values.map((value1: any) => ({
+          txt: value1,
           classes:
-            "!bg-[#FCE39C] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+            value === value1
+              ? "!bg-[#FCFCFC] !w-[148px] ml-2 !border !border-[#3C82D6] !text-[black] !p-4 !rounded-[9px] !mt-5"
+              : "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+        }));
+
+        return {
+          variant: {
+            id:id,
+            txt: title,
+            classes:
+              "!bg-[#FCE39C] !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5",
+          },
+          values: options,
         };
-        let mainObj2 = {
-          txt: item.title,
-          classes: "!bg-[#3C82D6] !w-[148px]  !p-4 !rounded-[9px] !mt-5",
-        };
-        let mainObj3 = {
-          txt: item.title,
-          classes: " !w-[148px]  !p-4 !rounded-[9px] !mt-5",
-        };
-        let mainObj4 = {
-          txt: item.title,
-          classes: " !w-[148px]  !p-4 !rounded-[9px] !mt-5",
-        };
-        if (item.title === "capacity") {
-          newData = item.values.map((item: any, index: any) => {
-            return {
-              txt: item,
-              classes:
-                "!bg-[#FCFCFC] !w-[148px]   !text-[black] !p-4 !rounded-[9px] !mt-5",
-            };
-          });
-          newData.unshift(mainObj);
-        } else if (item.title === "color") {
-          newData2 = item.values.map((item: any, index: any) => {
-            return {
-              txt: item,
-              classes:
-                "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-            };
-          });
-          newData2.unshift(mainObj2);
-        } else if (item.title === "carrier") {
-          newData3 = item.values.map((item: any, index: any) => {
-            return {
-              txt: item,
-              classes:
-                "!bg-[#FCFCFC] !w-[148px] !text-center !text-[black] !p-4 !rounded-[9px] !mt-5",
-            };
-          });
-          newData3.unshift(mainObj3);
-        } else if (item.title === "screen") {
-          newData4 = item.values.map((item: any, index: any) => {
-            return {
-              txt: item,
-              classes:
-                "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-            };
-          });
-          newData4.unshift(mainObj4);
-        }
       });
-      setVariantArray(newData);
-      setVariantArray2(newData2);
-      setVariantArray3(newData3);
-      setVariantArray4(newData4);
+      setVariantArray(mappedData);
+   
     }
   }, [VariantsData]);
   const handleFunction = async (value: any) => {
     let prevArray = variant.values;
-    let Newpush = [...prevArray.slice(1), value];
-    // Remove the first value from the array
+    let Newpush = [...prevArray, value];
     let sendingData = {
       title: variant.title,
       datatype: "string",
       values: Newpush,
     };
-    const sendVariant = await url.post("/variants", sendingData);
+    const sendVariant = await url.put(`/variants/${variant.id}`, sendingData);
     if (sendVariant) {
       setVisible(!visible);
       VariantsData;
@@ -174,50 +130,30 @@ export const AddProduct = () => {
     ) {
       if (updatedVariants === -1) {
         updateVariants.push({ variant: variant, value: value });
+        console.log(updateVariants, "Variants");
         setProductData((prevData) => {
           return { ...prevData, productVariants: updateVariants };
         });
-        if (variant === 1) {
-          setVariantArray((prevData: any) => {
-            return prevData.map((item: any, index: any) => {
-              if (value === item.txt) {
-                item.classes =
-                  "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-              }
-              return item;
-            });
+        let newData = VariantsArray.map((item: any) => {
+          const updatedValues = item.values.map((valueItem: any) => {
+            if (value === valueItem.txt) {
+              return {
+                txt: valueItem.txt,
+                classes:
+                  "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+              };
+            } else {
+              return valueItem;
+            }
           });
-        } else if (variant === 2) {
-          setVariantArray2((prevData: any) => {
-            return prevData.map((item: any, index: any) => {
-              if (value === item.txt) {
-                item.classes =
-                  "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-              }
-              return item;
-            });
-          });
-        } else if (variant === 3) {
-          setVariantArray3((prevData: any) => {
-            return prevData.map((item: any, index: any) => {
-              if (value === item.txt) {
-                item.classes =
-                  "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-              }
-              return item;
-            });
-          });
-        } else if (variant === 4) {
-          setVariantArray4((prevData: any) => {
-            return prevData.map((item: any, index: any) => {
-              if (value === item.txt) {
-                item.classes =
-                  "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-              }
-              return item;
-            });
-          });
-        }
+
+          return {
+            variant: item.variant,
+            values: updatedValues,
+          };
+        });
+        setVariantArray( newData );
+
       } else {
         updateVariants = updateVariants.filter(
           (item: any) => item.value !== value
@@ -225,71 +161,55 @@ export const AddProduct = () => {
         setProductData((prevData) => {
           return { ...prevData, productVariants: updateVariants };
         });
-        if (variant === 1) {
-          setVariantArray((prevData: any) => {
-            return prevData.map((item: any, index: any) => {
-              if (value === item.txt) {
-                item.classes =
-                  "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-              }
-              return item;
-            });
+        let newData = VariantsArray.map((item: any) => {
+          const updatedValues = item.values.map((valueItem: any) => {
+            if (value === valueItem.txt) {
+              return {
+                txt: valueItem.txt,
+                classes:
+                  "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+              };
+            } else {
+              return valueItem;
+            }
           });
-        } else if (variant === 2) {
-          setVariantArray2((prevData: any) => {
-            return prevData.map((item: any, index: any) => {
-              if (value === item.txt) {
-                item.classes =
-                  "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-              }
-              return item;
-            });
-          });
-        } else if (variant === 3) {
-          setVariantArray3((prevData: any) => {
-            return prevData.map((item: any, index: any) => {
-              if (value === item.txt) {
-                item.classes =
-                  "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-              }
-              return item;
-            });
-          });
-        } else if (variant === 4) {
-          setVariantArray4((prevData: any) => {
-            return prevData.map((item: any, index: any) => {
-              if (value === item.txt) {
-                item.classes =
-                  "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5";
-              }
-              return item;
-            });
-          });
-        }
+
+          return {
+            variant: item.variant,
+            values: updatedValues,
+          };
+        });
+        setVariantArray( newData );
+      
       }
     }
   };
-  const Addproduct =async () => {
+  const Addproduct = async () => {
     console.log(productData, "FINALs");
     console.log(images, "IMAGe DATA");
     let data = new FormData();
     data.append("title", productData.title);
     data.append("is_active", "true");
     data.append("brand", productData.brand);
-    data.append("category",productData.category)
-    data.append("productProperties[description]", productData.productProperties.description);
-    productData.productVariants.length>0&& productData.productVariants.map((item,index)=>{
-      data.append(`productVariants[${index}][variant]`,item.variant)
-      data.append(`productVariants[${index}][value]`,item.value)
-    })
-    productData.technicalSpecificationModel.length>0&& productData.technicalSpecificationModel.map((item,index)=>{
-      data.append(`technicalSpecificationModel[${index}][title]`,item.title)
-      data.append(`technicalSpecificationModel[${index}][value]`,item.value)
-    })
+    data.append("category", productData.category);
+    data.append(
+      "productProperties[description]",
+      productData.productProperties.description
+    );
+    productData.productVariants.length > 0 &&
+      productData.productVariants.map((item, index) => {
+        data.append(`productVariants[${index}][variant]`, item.variant);
+        data.append(`productVariants[${index}][value]`, item.value);
+      });
+    productData.technicalSpecificationModel.length > 0 &&
+      productData.technicalSpecificationModel.map((item, index) => {
+        data.append(`technicalSpecificationModel[${index}][title]`, item.title);
+        data.append(`technicalSpecificationModel[${index}][value]`, item.value);
+      });
 
-    data.append('images',images)
-    const add=await CreateProduct(data)
-    console.log(add,"DATA ADDED")
+    data.append("images", images);
+    const add = await CreateProduct(data);
+    console.log(add, "DATA ADDED");
   };
   return (
     <div>
@@ -313,10 +233,7 @@ export const AddProduct = () => {
           placeholder="Brand"
           MainClasses="mt-[40px] !border !border-custom  !w-[43%]"
         />
-        {/* <InputTxt
-          placeholder="Model"
-          MainClasses="mt-[40px] !border !border-custom"
-        /> */}
+      
       </div>
       <textarea
         onChange={(e) => handleChangeDescription(e.target.value)}
@@ -330,80 +247,45 @@ export const AddProduct = () => {
             "!w-[100px] !h-[40px] !mt-6 !mb-4 !rounded-[12px] !bg-[#EFEFEF] !text-[black]"
           }
         />
-        <div className="flex gap-2">
-          <Variants
-            data={VariantsArray}
-            handleFunction={(e: any) => updateVariantData(1, e)}
-            // onClick={() => {
-            //   setVisible(!visible);
-            //   setVariant({ ...variant, title: "capacity" });
-            // }}
-          />
+        {VariantsArray &&
+          VariantsArray.map((item: any, index: any) => {
+            return (
+              <div className="flex gap-2" key={index}>
+                <CustomButton
+                  key={index}
+                  txt={item.variant.txt}
+                  classes={item.variant.classes}
+                />
 
-          <CustomButton
-            onClick={() => {
-              let newVariant = VariantsArray.map((item: any, index) => {
-                return item.txt;
-              });
-              setVariant({ ...variant, title: "capacity", values: newVariant });
-              setVisible(!visible);
-            }}
-            txt={"+Add text"}
-            classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
-          />
-        </div>
-        <div className="flex gap-2">
-          <Variants
-            data={VariantsArray2}
-            handleFunction={(e: any) => updateVariantData(2, e)}
-          />
-          <CustomButton
-            onClick={() => {
-              let newVariant = VariantsArray2.map((item: any, index) => {
-                return item.txt;
-              });
-              setVariant({ ...variant, title: "color", values: newVariant });
-              setVisible(!visible);
-            }}
-            txt={"+Add text"}
-            classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
-          />
-        </div>
-        <div className="flex gap-2">
-          <Variants
-            data={VariantsArray3}
-            handleFunction={(e: any) => updateVariantData(3, e)}
-          />
-          <CustomButton
-            onClick={() => {
-              let newVariant = VariantsArray3.map((item: any, index) => {
-                return item.txt;
-              });
-              setVariant({ ...variant, title: "carrier", values: newVariant });
-              setVisible(!visible);
-            }}
-            txt={"+Add text"}
-            classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
-          />
-        </div>
-        <div className="flex gap-2">
-          <Variants
-            data={VariantsArray4}
-            handleFunction={(e: any) => updateVariantData(4, e)}
-          />
-          <CustomButton
-            onClick={() => {
-              let newVariant = VariantsArray4.map((item: any, index) => {
-                return item.txt;
-              });
-              console.log(newVariant, "NEW VARIANT");
-              setVariant({ ...variant, title: "screen", values: newVariant });
-              setVisible(!visible);
-            }}
-            txt={"+Add text"}
-            classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
-          />
-        </div>
+                <Variants
+                  data={item.values}
+                  handleFunction={(e: any) =>
+                    updateVariantData(item.variant.id, e)
+                  }
+                />
+
+                <CustomButton
+                  onClick={() => {
+                    let newVariant = item.values.map(
+                      (item: any, index: any) => {
+                        return item.txt;
+                      }
+                    );
+                    setVariant({
+                      ...variant,
+                      title: item.variant.txt,
+                      values: newVariant,
+                      id:item.variant.id
+                    });
+                    setVisible(!visible);
+                  }}
+                  txt={"+Add text"}
+                  classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
+                />
+              </div>
+            );
+          })}
+      
       </div>
       <div>
         <CustomButton
@@ -571,6 +453,8 @@ export const AddProduct = () => {
         cnclebtnText={"Cancel"}
         text={"Add name of the variant"}
         handleFunction={handleFunction}
+        setValue={setVariantValue}
+        Value={varVal}
       />
     </div>
   );
