@@ -22,7 +22,7 @@ export const ProductView = () => {
   }, []);
   useEffect(() => {
     if (ProductData) {
-      const mappedData = ProductData?.product?.product_variants.map(
+      const mappedData =ProductData?.product?.product_variants? ProductData?.product?.product_variants.map(
         (item: any) => {
           const { variant, values,value } = item;
           const options = values.map((value1: any) => ({
@@ -39,7 +39,9 @@ export const ProductView = () => {
             values: options,
           };
         }
-      );
+      )
+      :[]
+      ;
       setVariantArray(mappedData);
     }
   }, [ProductData]);
@@ -77,12 +79,16 @@ export const ProductView = () => {
             />
             <div className="mt-5">
               <ul className="list-tick">
-                {ProductData?.product?.technical_specifications.length > 0 &&
+                {ProductData?.product?.technical_specifications?ProductData?.product?.technical_specifications?.length > 0 &&
                   ProductData?.product?.technical_specifications.map(
                     (item: any, index: any) => {
                       return <li key={index}>{item?.title}</li>;
                     }
-                  )}
+                  )
+                
+                :
+                
+                null}
               </ul>
             </div>
             <div className="flex gap-8">
