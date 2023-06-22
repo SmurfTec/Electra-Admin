@@ -17,4 +17,28 @@ export const getAllSupport=async()=>{
         return e;
       }
       }
+    export const ChangeSupportStatus=async(id:any,body:any)=>{
+      try{
+        let response:any=await url.patch(`/supports/${id}`,body)
+        return response.data;
+      }catch(e){
+        return e
+      }
+    }
+    export const DeleteSupport=async(id:any)=>{
+      try{
+        let response:any=await url.delete(`/supports/${id}`)
+        return response.data;
+      }catch(e){
+        return e
+      }
+    }
+    export const ReplySupportCenter=async(id:any,body:any)=>{
+      try{
+        let response:any=await url.post(`/supports/${id}/reply`,body)
+        return response.data;
+      }catch(e){
+        return e
+      }
+    }
   
