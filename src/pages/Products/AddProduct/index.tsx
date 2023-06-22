@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { useVariantDetail } from "../../../custom-hooks";
 import url from "../../../config/index";
 import { CreateProduct } from "../../../store/Slices/ProductSlice";
+import { getBrands } from "../../../store/Slices/BrandSlice";
+import { getAllCategories } from "../../../store/Slices/Categories";
 export const AddProduct = () => {
   type techSpec = {
     title: string;
@@ -31,10 +33,12 @@ export const AddProduct = () => {
   const [images, setImage] = useState("");
   const [varVal, setVariantValue] = useState("");
   const [techType, setTechType] = useState(1);
+  const [brands, setBrands] = useState([]);
+  const [category, setCategories] = useState([]);
   const [productData, setProductData] = useState({
     title: "",
     is_active: true,
-    category: "2",
+    category: "",
     brand: "",
     productProperties: {} as descriptionProp,
     productVariants: [] as variantSpec[],
@@ -48,7 +52,29 @@ export const AddProduct = () => {
   });
   const navigate = useNavigate();
   const VariantsData = useVariantDetail(fetchVariants);
-
+  const getAllBrands = async () => {
+    let data = await getBrands();
+    let dataCat = await getAllCategories();
+    data = data.brands.map((item: any, index: any) => {
+      let newObj = {
+        id: item.id,
+        title: item.title,
+      };
+      return newObj;
+    });
+    setBrands(data);
+    dataCat = dataCat.categories.map((item: any, index: any) => {
+      let newObj = {
+        id: item.c_id,
+        title: item.c_name,
+      };
+      return newObj;
+    });
+    setCategories(dataCat);
+  };
+  useEffect(() => {
+    getAllBrands();
+  }, []);
   useEffect(() => {
     if (VariantsData?.variants) {
       const mappedData = VariantsData?.variants.map((item: any) => {
@@ -210,8 +236,9 @@ export const AddProduct = () => {
     data.append("images", images);
     const add = await CreateProduct(data);
     console.log(add, "DATA ADDED");
-    navigate("/Products")
+    navigate("/Products");
   };
+  console.log(productData,"YOO")
   return (
     <div>
       <Header
@@ -227,12 +254,28 @@ export const AddProduct = () => {
         name={"title"}
       />
       <div className="flex gap-4">
-        <CustomDropdown placeholder="Phone" mainclasses={"mt-10  !w-[35%]"} />
-        <InputTxt
-          onChange={handleChange(setProductData)}
-          name={"brand"}
-          placeholder="Brand"
-          MainClasses="mt-[40px] !border !border-custom  !w-[43%]"
+        <CustomDropdown
+         setValue={(value:any)=>{
+          setProductData({
+            ...productData,
+            brand: value,
+          });
+        }}
+          placeholder="Category"
+          options={brands}
+          mainclasses={"mt-10  !w-[35%]"}
+        />
+        <CustomDropdown
+        
+        setValue={(value:any)=>{
+          setProductData({
+            ...productData,
+            category: value,
+          });
+        }}
+          placeholder="Brands"
+          options={category}
+          mainclasses={"mt-10  !w-[35%]"}
         />
       </div>
       <textarea
@@ -437,7 +480,7 @@ export const AddProduct = () => {
             </div>
           </>
         )}
-        
+
         <div className="flex gap-3 mb-3">
           <CustomButton
             txt={"Cancel"}
