@@ -231,7 +231,7 @@ export const Step1 = () => {
                     "!bg-[#FCE39C] !w-[98px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
                   }
                 />
-                <div className="mt-5">
+                <div className="mt-5 max-w-[55rem]">
                   <ul className="list-tick">
                     <li>
                     {ItemData?.product?.description}

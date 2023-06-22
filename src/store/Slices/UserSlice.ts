@@ -46,6 +46,15 @@ export const DeleteSingleUser = async (body: any) => {
     return e;
   }
 };
+export const GetAllUserOrder= async (id: any) => {
+
+  try {
+    let response: any = await url.get(`/orders/${id}/me`,);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+};
 const UserSlice = createSlice({
   name: "users",
   initialState,

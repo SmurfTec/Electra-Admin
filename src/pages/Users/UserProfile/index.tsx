@@ -7,7 +7,7 @@ import { InputTxt } from '../../../atoms'
 import { SVGIcon } from '../../../components/SVG'
 import { CustomMenu } from "../../../atoms/global.style"
 import { MenuItem } from 'primereact/menuitem'
-import { getSingleUser } from '../../../store/Slices/UserSlice'
+import { getSingleUser,GetAllUserOrder } from '../../../store/Slices/UserSlice'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
 type UserInterface={
@@ -167,10 +167,20 @@ const GetUserDetail=async()=>{
     phone:response.profile.mobile_no || "",
     date:moment(response.created_at).format("DD,MM,YYYY")
     })
+    console.log(response)
   
+}
+const getUserOrder=async()=>{
+ try{
+  let r=await GetAllUserOrder(id);
+  console.log(r,"userOrder")
+ }catch(err){
+
+ }
 }
 useEffect(()=>{
   GetUserDetail()
+  getUserOrder()
 },[])
     return (
       <>
@@ -280,8 +290,8 @@ console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",Cu
           return (
             <React.Fragment key={index}>
               <CustomButton txt={item?.txt}
-                onClick={(e: any) => {
-                  e.preventDefault()
+                onClick={(txt:any) => {
+                 console.log(txt,"txt")
                   handleButton(item.id)
                 }}
                 classes={item.active ? '!h-[52px] !w-[164px] !font-[600] !rounded-[10px] !bg-[#FFFFFF] !shadow-custom-shadow !text-[black]' :
