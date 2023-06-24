@@ -17,3 +17,11 @@ export const getAllVerfications=async()=>{
         return e;
       }
       }
+      export const UpdateVerfication=async(id:any,body:any)=>{
+        try{
+          let response:any=await url.patch(`/verifications/${id}`,body)
+          return response.data;
+        }catch(e){
+          return e;
+        }
+        }

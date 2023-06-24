@@ -89,7 +89,7 @@ export const Carouselcard = ({Images}:any) => {
       <img
         src={item.itemImageSrc}
         alt={item.alt}
-        style={{ width: "100%", display: "block", height: "300px",paddingTop:"6px" }}
+        style={{ width: "100%", display: "block", height: "300px" }}
       />
     );
   };
@@ -104,7 +104,7 @@ export const Carouselcard = ({Images}:any) => {
     );
   };
 useEffect(()=>{
-  console.log(Images,"Images")
+  
 if(Images){
   setImages(Images)
 }

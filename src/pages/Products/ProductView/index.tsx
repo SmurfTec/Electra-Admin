@@ -10,7 +10,7 @@ import { useProductDetail, useVariantDetail } from "../../../custom-hooks";
 import moment from "moment";
 import { BaseURL } from "../../../config";
 export const ProductView = () => {
-  const params = useParams();
+  const params = useParams(); 
   let { id } = params;
   const navigate = useNavigate();
   const ProductData = useProductDetail(id);

@@ -16,6 +16,7 @@ export const Verification = () => {
   const [filterData,setFilterData] = useState([]);
   const[failData,setFailData]=useState([])
   const[PassData,setPassData]=useState([])
+
   const[PendingData,setPendingData]=useState([])
   const deleteItem = (event: React.MouseEvent, id: any) => {
     event.stopPropagation();
@@ -154,8 +155,8 @@ const GetVerifications=async()=>{
   })
   latestArr?.sort((a:any,b:any)=>a.id - b.id)
   let pendingArr=latestArr.filter((item:any)=>item.Status.toLowerCase()=="pending")
-  let passArr=latestArr.filter((item:any)=>item.Status.toLowerCase()=="pass")
-  let failarr=latestArr.filter((item:any)=>item.Status.toLowerCase()=="fail")
+  let passArr=latestArr.filter((item:any)=>item.Status.toLowerCase()=="verified")
+  let failarr=latestArr.filter((item:any)=>item.Status.toLowerCase()=="rejected")
   setPendingData(pendingArr)
   setPassData(passArr)
   setFailData(failarr)

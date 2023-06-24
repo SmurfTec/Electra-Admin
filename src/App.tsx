@@ -94,7 +94,7 @@ function App() {
             <Route path="/Verification" element={<Verification />} />
             <Route path="/Verification/Step1/:id" element={<Step1 />} />
             <Route
-              path="/Verification/ItemVerification"
+              path="/Verification/ItemVerification/:id"
               element={<ItemVerification />}
             />
             <Route path="/Settings" element={<Settings />} />
