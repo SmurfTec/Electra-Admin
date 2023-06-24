@@ -3,6 +3,7 @@ import { Galleria, GalleriaResponsiveOptions } from "primereact/galleria";
 import IMAGES from "../../assets/Images";
 import { Threebuttons } from "..";
 import styled from "styled-components";
+import { BaseURL } from "../../config";
 const CustomCarousel = styled(Galleria)`
   .p-galleria-thumbnail-wrapper {
     .p-galleria-thumbnail-container {
@@ -11,7 +12,6 @@ const CustomCarousel = styled(Galleria)`
   }
   .p-galleria-thumbnail-items-container {
     width: 58%;
- 
   }
   .p-galleria-indicators {
     padding: 1rem;
@@ -24,57 +24,21 @@ const CustomCarousel = styled(Galleria)`
     }
   }
 `;
-export const Webcarousel = () => {
-  const images = [
-   
-    {
-      itemImageSrc: IMAGES.webandbanner5,
-      thumbnailImageSrc: IMAGES.webandbanner5,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.Ultrablackiphone,
-      thumbnailImageSrc: IMAGES.Ultrablackiphone,
-      alt: "Description for Image 4",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.webandbanner2,
-      thumbnailImageSrc: IMAGES.webandbanner2,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.webandbanner3,
-      thumbnailImageSrc: IMAGES.webandbanner3,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.webandbanner4,
-      thumbnailImageSrc: IMAGES.webandbanner4,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-
-    {
-      itemImageSrc: IMAGES.Ultrablackiphone2,
-      thumbnailImageSrc: IMAGES.Ultrablackiphone2,
-      alt: "Description for Image 4",
-      title: "Title 1",
-    },
-    {
-        itemImageSrc: IMAGES.webandbanner,
-        thumbnailImageSrc: IMAGES.webandbanner,
-        alt: "Description for Image 1",
-        title: "Title 1",
-      },
-  ];
+export const Webcarousel = (props: any) => {
+  const images =
+    props.images &&
+    props?.images.map((item: any, index: any) => {
+      return {
+        itemImageSrc: `${BaseURL}${item.filename}`,
+        thumbnailImageSrc: `${BaseURL}${item.filename}`,
+        alt: "Description for Image",
+        title: item.id,
+      };
+    });
   const responsiveOptions: GalleriaResponsiveOptions[] = [
     {
       breakpoint: "991px",
-      numVisible: 4,
+      numVisible: props?.images?.length,
     },
     {
       breakpoint: "767px",
@@ -88,17 +52,21 @@ export const Webcarousel = () => {
   const itemTemplate = (item: any) => {
     return (
       <div
-        className=""
+        className="relative"
         style={{
-          backgroundImage: `url(${item.itemImageSrc})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
           width: "99%",
-          height: "530px",
-          position: "relative",
-          borderRadius: "10px",
         }}
       >
+        <img
+          className=""
+          src={item.itemImageSrc}
+          style={{
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            width: "99%",
+            height: "530px",
+          }}
+        ></img>
         <div className=" absolute top-[40%] left-[40%]">
           <Threebuttons />
         </div>
@@ -108,7 +76,7 @@ export const Webcarousel = () => {
 
   const thumbnailTemplate = (item: any) => {
     return (
-      <div className="flex justify-start ">
+      <div className="flex flex-wrap justify-start ">
         <img
           src={item.thumbnailImageSrc}
           alt={item.alt}
@@ -117,7 +85,7 @@ export const Webcarousel = () => {
             background: "white",
             width: "100px",
             height: "100px",
-            marginRight:"14px"
+            marginRight: "14px",
           }}
         />
       </div>
@@ -130,8 +98,7 @@ export const Webcarousel = () => {
         value={images}
         responsiveOptions={responsiveOptions}
         showThumbnails
-        numVisible={7}
-      
+        numVisible={props?.images?.length}
         style={{ maxWidth: "100%" }}
         item={itemTemplate}
         thumbnail={thumbnailTemplate}

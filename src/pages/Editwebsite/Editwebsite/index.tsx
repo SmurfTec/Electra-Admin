@@ -1,19 +1,21 @@
-import{useEffect} from "react"
+import { useEffect, useState } from "react";
 import IMAGES from "../../../assets/Images";
 import { Header, Webcarousel, Threebuttons } from "../../../components";
 import { CustomButton } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useGetWebsiteId } from "../../../custom-hooks/WebsiteHook";
+import { BaseURL } from "../../../config";
 export const Webandbanner = () => {
   const navigate = useNavigate();
   const params = useParams();
   let { id } = params;
 
-  const webData=useGetWebsiteId(id)
-  useEffect(()=>{
-console.log(webData)
-  },[webData])
+  const webData = useGetWebsiteId(id);
+  const [websiteData, setWebsiteData] = useState<any>();
+  useEffect(() => {
+    setWebsiteData(webData);
+  }, [webData]);
   return (
     <div>
       <Header
@@ -22,9 +24,16 @@ console.log(webData)
         UserBox={true}
       />
       <div className="mb-2">
-        <p className="font-bold text-[19px]">{webData.name}</p>
+        <p className="font-bold text-[19px]">{webData?.name}</p>
         <div className="w-full mt-3 ">
-          <Webcarousel />
+          <Webcarousel
+            images={
+              websiteData?.sections.length > 0 &&
+              websiteData?.sections[0]?.section === "Carousel"
+                ? websiteData?.sections[0]?.images
+                : websiteData?.sections[1]?.images
+            }
+          />
           <p className="text-[#A4A4A4] flex gap-2 items-center">
             <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
               i
@@ -63,27 +72,43 @@ console.log(webData)
             <img src={IMAGES.Editpen} />
           </div>
         </div>
-        <div className="flex gap-9 justify-around mt-10 ">
-          <div
-            className=" bg-cover bg-center w-[50%] h-[550px] rounded-[10px] relative"
-            style={{
-              backgroundImage: `url(${IMAGES.Ultrablackiphone})`,
-            }}
-          >
-            <div className=" absolute top-[40%] left-[30%]">
-              <Threebuttons />
-            </div>
-          </div>
-          <div
-            className=" bg-cover bg-center w-[50%] h-[550px] rounded-[10px] relative"
-            style={{
-              backgroundImage: `url(${IMAGES.Ultrablackiphone2})`,
-            }}
-          >
-            <div className=" absolute top-[40%] left-[30%]">
-              <Threebuttons />
-            </div>
-          </div>
+        <div className="flex flex-wrap gap-9 justify-around mt-10 ">
+          {websiteData?.sections.length > 0 &&
+          websiteData?.sections[0]?.section === "Cards"
+            ?  websiteData?.sections[0]?.images.map((item: any, index: any) => {
+              return (
+                <div className="  relative" key={index}>
+                  <img
+                    className="bg-cover bg-center  h-[250px] rounded-[10px]"
+                    src={`${BaseURL}/${item.filename}`}
+                    style={{
+                      width: "99%",
+                      height: "530px",
+                    }}
+                  ></img>
+                  <div className=" absolute top-[40%] left-[25%]">
+                    <Threebuttons />
+                  </div>
+                </div>
+              );
+            })
+            : websiteData?.sections[1]?.images.map((item: any, index: any) => {
+                return (
+                  <div className="  relative" key={index}>
+                    <img
+                      className="bg-cover bg-center  h-[250px] rounded-[10px]"
+                      src={`${BaseURL}/${item.filename}`}
+                      style={{
+                        width: "99%",
+                        height: "530px",
+                      }}
+                    ></img>
+                    <div className=" absolute top-[40%] left-[25%]">
+                      <Threebuttons />
+                    </div>
+                  </div>
+                );
+              })}
         </div>
         <div className="flex gap-3 mt-3">
           <CustomButton
