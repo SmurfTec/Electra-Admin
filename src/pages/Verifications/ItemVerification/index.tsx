@@ -101,12 +101,18 @@ export const ItemVerification = () => {
         newFormData.append(`order_verification_details[4][is_pass]`,state.IMEIswitch)
         newFormData.append("images", images);
       console.log(images)
+      if(images.length<6){
+        alert("Please upload atleast 6 Images")
+      }else{
         let response = await UpdateVerfication(id,newFormData)
-        if(response.status==400){
-            alert(response.message)
+        if(response){
             navigate('/Verification')
+           
         }
-        console.log(response)
+       
+      }
+        
+        
     }
     const GetVerificationDetail=async()=>{
         let response=await getVerficationById(id);

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import {
   Header,
   AdminCards,
@@ -11,11 +11,12 @@ import IMAGES from "../../../assets/Images";
 import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 import { TabPanel } from "primereact/tabview";
+import { getRoles } from "../../../store/Slices/RoleSlice";
 export const Roles = () => {
   const [visible, setVisible] = React.useState(false);
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
-
+  const[Roles,setRoles]=useState<any>([])
   const filterData = [
     {
       Account: "Huzayfah",
@@ -165,6 +166,13 @@ export const Roles = () => {
     { field: "Role", header: "Role", body: StatusBodyTemplate,className:'role' },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
+  const getAllRoles=async()=>{
+    let response=await getRoles();
+    console.log(response)
+  }
+  useEffect(()=>{
+    getAllRoles();
+  },[])
   return (
     <div>
       <ShippingModal visible={visible} setVisible={setVisible} />
