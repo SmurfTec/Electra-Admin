@@ -64,7 +64,7 @@ export const Step1 = () => {
   const GetVerificationDetail=async()=>{
     let response=await getVerficationById(id);
     setItemData(response)
-    console.log(response)
+    console.log(response,"response")
   }
   useEffect(()=>{
     GetVerificationDetail();
@@ -363,29 +363,29 @@ export const Step1 = () => {
                 <p className="font-semibold text-[12px]">
                   MarketPlace Fee (7.5%)
                 </p>
-                <p className="font-semibold text-[20px]">$5</p>
+                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[0]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">SALES TAX (8.025%)</p>
-                <p className="font-semibold text-[20px]">$3</p>
+                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[2]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">SHIPPING FEE</p>
-                <p className="font-semibold text-[20px]">$15</p>
+                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[1]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">PLATFORM FEE</p>
-                <p className="font-semibold text-[20px]">$5</p>
+                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[3]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">DISCOUNT</p>
-                <p className="font-semibold text-[20px]">%0</p>
+                <p className="font-semibold text-[20px]">%{ItemData?.receipt_fees[5]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 pb-3 border-b border-dotted ">
                 <p className="font-semibold text-[12px]">
                   13 MONTH PROTECTION PLAN
                 </p>
-                <p className="font-semibold text-[20px]">$50</p>
+                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[4]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">PURCHASE PRICE</p>
