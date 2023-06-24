@@ -62,12 +62,12 @@ export const Listingdetail = () => {
 
   const data = [
     {
-      "Listed by": "John Adam",
-      Ask: "$1000",
-      "Lowest Offer": "$1000",
-      "Highest Offer": "$1000",
-      Status: "Sold",
-      "Sale Price": "$1000",
+      "Listed by": listingg?.listing.user[0].firstname,
+      Ask: `$ ${listingg?.listing.ask}`,
+      "Lowest Offer": listingg?.listing.lowest_offer??"-",
+      "Highest Offer":listingg?.listing.highest_offer??"-",
+      Status: listingg?.listing.is_active?"Unsold":"Sold",
+      "Sale Price": listingg?.listing.saleprice??"-",
     },
   ];
   const columnData = [

@@ -21,6 +21,20 @@ export const GetAllProducts = async () => {
  * @param {any} id - The ID of the product.
  * @returns {Promise<any>} The response data.
  */
+
+export const deleteProductById = async (id:any) => {
+  try {
+    let response: any = await url.delete(`/products/${id}`);
+    return response.data;
+  } catch (e:any) {
+    throw new Error(e);
+  }
+};
+/**
+ * Retrieves a product by its ID.
+ * @param {any} id - The ID of the product.
+ * @returns {Promise<any>} The response data.
+ */
 export const getProductById = async (id: any) => {
   try {
     let response: any = await url.get(`/products/${id}`);
@@ -58,6 +72,7 @@ export const getAllProductRequest = async () => {
     throw new Error(e);
   }
 };
+
 const ProductSlice = createSlice({
   name: "products",
   initialState,

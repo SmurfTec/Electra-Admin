@@ -77,7 +77,7 @@ export const AddProduct = () => {
   }, []);
   useEffect(() => {
     if (VariantsData?.variants) {
-      const mappedData = VariantsData?.variants.map((item: any) => {
+      const mappedData = VariantsData?.variants.map((item: any) => {  
         const { title, values, value, id,background_color } = item;
         const options = values.map((value1: any) => ({
           txt: value1,

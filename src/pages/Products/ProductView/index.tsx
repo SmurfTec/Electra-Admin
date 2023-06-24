@@ -4,7 +4,7 @@ import { DashCard, Variants, Header } from "../../../components";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { getProductById } from "../../../store/Slices/ProductSlice";
+import { getProductById,deleteProductById } from "../../../store/Slices/ProductSlice";
 import { useEffect, useState } from "react";
 import { useProductDetail, useVariantDetail } from "../../../custom-hooks";
 import moment from "moment";
@@ -46,6 +46,17 @@ export const ProductView = () => {
       setVariantArray(mappedData);
     }
   }, [ProductData]);
+  const deleteProduct= async()=>{
+    try{
+const DeleteProduct =await deleteProductById(id)
+console.log("DeleteProduct",DeleteProduct)
+if(DeleteProduct){
+  navigate("/products")
+}
+    }catch(e){
+
+    }
+  }
   return (
     <div>
       <Header title={"Product Details"} UserBox={true} />
@@ -66,7 +77,7 @@ export const ProductView = () => {
               {ProductData?.product?.title}
             </p>
             <RoundedButton icon={IMAGES.Pen} classes={"bg-[#212121]"} />
-            <RoundedButton icon={IMAGES.Bin} classes={"bg-[#FF0000]"} />
+            <RoundedButton onClick={()=>deleteProduct()} icon={IMAGES.Bin} classes={"bg-[#FF0000]"} />
           </div>
           <div className="mt-3">
             <p className="bg-[#FCFCFC] text-center rounded-2xl w-[295px] h-[37px] flex items-center justify-center">
