@@ -315,9 +315,28 @@ export const Step1 = () => {
         <div className="flex items-center gap-7 mt-1">
           <div>
             <h1 className="text-[24px] font-bold my-3">Product Variants</h1>
-            <Variants data={VariantsArray} />
+            {ItemData?.product?.variants.map((item:any,index:any)=>{
+              console.log(item)
+              let arr=[
+                {
+                  txt: item.variant,
+                  classes: `!w-[148px]  !p-4 !rounded-[9px] !mt-5 !text-[${item.color}] !bg-[${item.background_color}]`,
+                },
+                {
+                  txt: item.value,
+                  classes:
+                    "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+                },
+              ]
+              return(
+               <React.Fragment key={index}>
+          <Variants data={arr} />
+               </React.Fragment>
+              )
+            })}
+            {/* <Variants data={VariantsArray} />
             <Variants data={VariantsArray2} />
-            <Variants data={VariantsArray3} />
+            <Variants data={VariantsArray3} /> */}
           </div>
           <div>
             <h1 className="text-[24px] font-bold my-3">
@@ -432,14 +451,24 @@ export const Step1 = () => {
           </div>
         </div>
         {/* Button */}
+        {ItemData?.status=="pending"?
         <CustomButton
         onClick={()=>{
-          navigate("/Verification/ItemVerification")
+          navigate(`/Verification/ItemVerification/${id}`)
         }}
           iconLeft={<img src={IMAGES.Verified} />}
-          classes="!w-auto !max-w-[150px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3CD670]"
-          txt="Mark for review"
-        />
+          classes="!w-auto !max-w-[150px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3C82D6]"
+          txt="Verify"
+        />:
+<CustomButton
+       
+       iconLeft={<img src={IMAGES.Verified} />}
+       classes="!w-auto !max-w-[150px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3CD670]"
+       txt="Mark for review"
+     />
+      }
+        
+        
       </div>
     </div>
   );

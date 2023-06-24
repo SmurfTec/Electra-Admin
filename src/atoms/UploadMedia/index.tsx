@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import IMAGES from "../../assets/Images";
 
-export function UploadPicture({multipleImages=false,setImage}:any,) {
+export function UploadPicture({multipleImages=false,setImage,setImages,images}:any,) {
   const fileInputRef:any = useRef(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImages, setSelectedImages] = useState<any>([]);
@@ -16,6 +16,9 @@ export function UploadPicture({multipleImages=false,setImage}:any,) {
     if(setImage){
     setImage(event.target.files[0])
 
+    }
+    if(setImages){
+      setImages([...images,event.target.files[0]])
     }
     setSelectedImages([...selectedImages,URL.createObjectURL(selectedFile)])
     // Handle the selected file (e.g., upload or process it)
