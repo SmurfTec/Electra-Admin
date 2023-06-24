@@ -24,7 +24,7 @@ export const ProductView = () => {
     if (ProductData) {
       const mappedData = ProductData?.product?.product_variants
         ? ProductData?.product?.product_variants.map((item: any) => {
-            const { variant, values, value } = item;
+            const { variant, values, value,background_color } = item;
             const options = values.map((value1: any) => ({
               txt: value1,
               classes:
@@ -37,10 +37,10 @@ export const ProductView = () => {
               variant: {
                 txt: variant,
                 classes:
-                  "!bg-[#FCE39C] !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5",
+                `!bg-[${background_color}]  !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5`,
               },
               values: options,
-            };
+              };
           })
         : [];
       setVariantArray(mappedData);
@@ -57,13 +57,13 @@ export const ProductView = () => {
         >
           <img
             className="h-[390px]"
-            src={`${BaseURL}${ProductData?.product.images[0].filename}`}
+            src={`${BaseURL}${ProductData?.product?.images[0]?.filename}`}
           />
         </div>
         <div>
           <div className="flex gap-2 items-center">
             <p className="text-[36px] font-extrabold">
-              {ProductData?.product.title}
+              {ProductData?.product?.title}
             </p>
             <RoundedButton icon={IMAGES.Pen} classes={"bg-[#212121]"} />
             <RoundedButton icon={IMAGES.Bin} classes={"bg-[#FF0000]"} />
@@ -73,23 +73,15 @@ export const ProductView = () => {
               View Technical Specifications
             </p>
             <CustomButton
-              txt={ProductData?.product.product_properties?.description}
+              txt={"description"}
               classes={
-                "!bg-[#FCE39C]  !w-[auto] !max-h-[auto] !text-[black] !p-2 !rounded-[7px] !mt-5"
+                "!bg-[#FCE39C]  !w-[97px] !h-[50px] !text-[black] !p-2 !rounded-[7px] !mt-5"
               }
             />
             <div className="mt-5">
-              <ul className="list-tick">
-                {ProductData?.product?.technical_specifications
-                  ? ProductData?.product?.technical_specifications?.length >
-                      0 &&
-                    ProductData?.product?.technical_specifications.map(
-                      (item: any, index: any) => {
-                        return <li key={index}>{item?.title}</li>;
-                      }
-                    )
-                  : null}
-              </ul>
+              <p>
+                {ProductData?.product.product_properties?.description}
+              </p>
             </div>
             <div className="flex gap-8">
               <div className="flex flex-col gap-4">
