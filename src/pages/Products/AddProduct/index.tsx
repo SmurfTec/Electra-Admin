@@ -78,7 +78,7 @@ export const AddProduct = () => {
   useEffect(() => {
     if (VariantsData?.variants) {
       const mappedData = VariantsData?.variants.map((item: any) => {
-        const { title, values, value, id } = item;
+        const { title, values, value, id,background_color } = item;
         const options = values.map((value1: any) => ({
           txt: value1,
           classes:
@@ -92,7 +92,7 @@ export const AddProduct = () => {
             id: id,
             txt: title,
             classes:
-              "!bg-[#FCE39C] !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5",
+            `!bg-[${background_color}]  !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5`,
           },
           values: options,
         };

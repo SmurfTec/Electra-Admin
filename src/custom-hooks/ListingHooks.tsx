@@ -29,7 +29,7 @@ export const useListingById=(id:any)=>{
     const fetchData = async () => {
       try {
         const response = await getListingById(id);
-        setData(response);
+        setData(response.data);
       } catch (error) {
         // Handle error
         console.error(error);

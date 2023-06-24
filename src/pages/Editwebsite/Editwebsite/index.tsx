@@ -1,9 +1,19 @@
+import{useEffect} from "react"
 import IMAGES from "../../../assets/Images";
 import { Header, Webcarousel, Threebuttons } from "../../../components";
 import { CustomButton } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useGetWebsiteId } from "../../../custom-hooks/WebsiteHook";
 export const Webandbanner = () => {
   const navigate = useNavigate();
+  const params = useParams();
+  let { id } = params;
+
+  const webData=useGetWebsiteId(id)
+  useEffect(()=>{
+console.log(webData)
+  },[webData])
   return (
     <div>
       <Header
@@ -12,7 +22,7 @@ export const Webandbanner = () => {
         UserBox={true}
       />
       <div className="mb-2">
-        <p className="font-bold text-[19px]">Home Page</p>
+        <p className="font-bold text-[19px]">{webData.name}</p>
         <div className="w-full mt-3 ">
           <Webcarousel />
           <p className="text-[#A4A4A4] flex gap-2 items-center">

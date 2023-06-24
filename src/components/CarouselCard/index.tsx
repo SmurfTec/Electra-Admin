@@ -4,7 +4,7 @@ import IMAGES from "../../assets/Images";
 import styled from "styled-components";
 const CustomCarousel = styled(Galleria)`
   border: 1px solid rgba(0, 0, 0, 0.11);
-  width:363px;
+  min-width:380px;
   .p-galleria-thumbnail-wrapper {
     margin-top: 10px;
     .p-galleria-thumbnail-container {
@@ -59,49 +59,16 @@ const CustomCarousel = styled(Galleria)`
     display: none;
   }
   .p-galleria-thumbnail-container {
-    padding:1rem 2.25rem
+    padding:1rem 1.25rem;
+  }
+  .p-galleria-thumbnail-item-content img{
+    height:50px;
+    margin-left: 5px;
+   
   }
 `;
 export const Carouselcard = ({Images}:any) => {
-  const [images, setImages] = useState([
-    {
-      itemImageSrc: IMAGES.pinkphone,
-      thumbnailImageSrc: IMAGES.pinkphone,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.Iphone22,
-      thumbnailImageSrc: IMAGES.Iphone22,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.Greeniphone,
-      thumbnailImageSrc: IMAGES.Greeniphone,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.yellowiphone,
-      thumbnailImageSrc: IMAGES.yellowiphone,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.Greeniphone,
-      thumbnailImageSrc: IMAGES.Greeniphone,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.Greeniphone,
-      thumbnailImageSrc: IMAGES.Greeniphone,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    
-  ]);
+  const [images, setImages] = useState();
   const responsiveOptions: GalleriaResponsiveOptions[] = [
     {
       breakpoint: "991px",
