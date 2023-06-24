@@ -115,7 +115,7 @@ export const Verification = () => {
       <>
         <p
           className={`text-[14px] font-[600] p-2 px-[22px] !inline-block rounded-[22px] text-[#212121] ${
-            options.Status == "Pass" ? "bg-custom-blue" : options.Status == "Fail" ?"bg-custom-pink":"bg-custom-button-yellow"
+            options.Status == "verified" ? "bg-custom-blue" : options.Status == "rejected" ?"bg-custom-pink":"bg-custom-button-yellow"
           }`}
         >
           {options.Status}

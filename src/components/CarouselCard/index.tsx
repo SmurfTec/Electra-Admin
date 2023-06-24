@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Galleria, GalleriaResponsiveOptions } from "primereact/galleria";
 import IMAGES from "../../assets/Images";
 import styled from "styled-components";
@@ -62,7 +62,7 @@ const CustomCarousel = styled(Galleria)`
     padding:1rem 2.25rem
   }
 `;
-export const Carouselcard = () => {
+export const Carouselcard = ({Images}:any) => {
   const [images, setImages] = useState([
     {
       itemImageSrc: IMAGES.pinkphone,
@@ -94,6 +94,13 @@ export const Carouselcard = () => {
       alt: "Description for Image 1",
       title: "Title 1",
     },
+    {
+      itemImageSrc: IMAGES.Greeniphone,
+      thumbnailImageSrc: IMAGES.Greeniphone,
+      alt: "Description for Image 1",
+      title: "Title 1",
+    },
+    
   ]);
   const responsiveOptions: GalleriaResponsiveOptions[] = [
     {
@@ -129,7 +136,12 @@ export const Carouselcard = () => {
       />
     );
   };
-
+useEffect(()=>{
+  console.log(Images,"Images")
+if(Images){
+  setImages(Images)
+}
+},[Images])
   return (
     <div className="card ">
       <CustomCarousel

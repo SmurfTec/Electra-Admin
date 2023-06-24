@@ -14,6 +14,7 @@ import "../../Listings/Listingdetail/index.css"
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import { getVerficationById } from "../../../store/Slices/VerificationSlice";
+import { BaseURL } from "../../../config";
 const CustomSidebar = styled(Sidebar)`
   .p-sidebar-header {
     display: none;
@@ -27,6 +28,7 @@ export const Step1 = () => {
   const {id} = useParams()
   const [select, setSelect] = React.useState(0);
   const[ItemData,setItemData]=useState<any>();
+  const[images,setImages]=useState([])
   const VariantsArray = [
     {
       txt: "Capacity",
@@ -63,12 +65,23 @@ export const Step1 = () => {
   ];
   const GetVerificationDetail=async()=>{
     let response=await getVerficationById(id);
+    let ImagesArr=response.product.images.map((item:any,index:any)=>{
+      let newObj={
+        itemImageSrc: `${BaseURL}${item.filename}`,
+        thumbnailImageSrc:`${BaseURL}${item.filename}`,
+        alt: `Description for Image ${index}`,
+        title: `Title ${index}`,
+      }
+      return newObj
+    })
     setItemData(response)
-    console.log(response,"response")
+    setImages(ImagesArr)
+    console.log(response,"response",ImagesArr)
   }
   useEffect(()=>{
     GetVerificationDetail();
   },[])
+  
   return (
     <div>
       <Header title="Item Verification & Details" UserBox={true} />
@@ -179,7 +192,7 @@ export const Step1 = () => {
         <div className="flex">
           <div className="flex gap-5 ">
             {/* <img src={IMAGES.IphoneView} /> */}
-            <Carouselcard />
+            <Carouselcard  Images={images}/>
             <div>
               <div className="flex gap-2 items-center">
                 <p className="text-[36px] font-extrabold">{ItemData?.product?.title}</p>
