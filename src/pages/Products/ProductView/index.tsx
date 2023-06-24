@@ -91,7 +91,7 @@ if(DeleteProduct){
             />
             <div className="mt-5">
               <p>
-                {ProductData?.product.product_properties?.description}
+                {ProductData?.product?.product_properties?.description}
               </p>
             </div>
             <div className="flex gap-8">
@@ -161,7 +161,7 @@ if(DeleteProduct){
                 <label className="switch">
                   <input
                     type="checkbox"
-                    checked={ProductData?.product.is_active ? true : false}
+                    checked={ProductData?.product?.is_active ? true : false}
                     className="toggle-input"
                   />
                   <span className="slider"></span>

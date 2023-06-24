@@ -4,7 +4,7 @@ import IMAGES from "../../assets/Images";
 import styled from "styled-components";
 const CustomCarousel = styled(Galleria)`
   border: 1px solid rgba(0, 0, 0, 0.11);
-  min-width:380px;
+  width:380px;
   .p-galleria-thumbnail-wrapper {
     margin-top: 10px;
     .p-galleria-thumbnail-container {
@@ -110,7 +110,7 @@ if(Images){
 }
 },[Images])
   return (
-    <div className="card ">
+    <div className="card " style={{width:"510px",overflowX:"auto"}}>
       <CustomCarousel
         value={images}
         responsiveOptions={responsiveOptions}
