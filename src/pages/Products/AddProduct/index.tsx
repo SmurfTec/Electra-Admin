@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { useVariantDetail } from "../../../custom-hooks";
 import url from "../../../config/index";
 import { CreateProduct } from "../../../store/Slices/ProductSlice";
+import { getBrands } from "../../../store/Slices/BrandSlice";
+import { getAllCategories } from "../../../store/Slices/Categories";
 export const AddProduct = () => {
   type techSpec = {
     title: string;
@@ -25,13 +27,18 @@ export const AddProduct = () => {
   };
   const [visible, setVisible] = useState(false);
   const [fetchVariants, setFetchVariants] = useState(false);
-  const [VariantsArray, setVariantArray] = useState<{ variant: any; values: any; }[]>([]);
+  const [VariantsArray, setVariantArray] = useState<
+    { variant: any; values: any }[]
+  >([]);
   const [images, setImage] = useState("");
-  const [varVal,setVariantValue]=useState("")
+  const [varVal, setVariantValue] = useState("");
+  const [techType, setTechType] = useState(1);
+  const [brands, setBrands] = useState([]);
+  const [category, setCategories] = useState([]);
   const [productData, setProductData] = useState({
     title: "",
     is_active: true,
-    category: "2",
+    category: "",
     brand: "",
     productProperties: {} as descriptionProp,
     productVariants: [] as variantSpec[],
@@ -41,15 +48,37 @@ export const AddProduct = () => {
     title: "",
     datatype: String,
     values: [],
-    id:Number
+    id: Number,
   });
   const navigate = useNavigate();
   const VariantsData = useVariantDetail(fetchVariants);
-
+  const getAllBrands = async () => {
+    let data = await getBrands();
+    let dataCat = await getAllCategories();
+    data = data.brands.map((item: any, index: any) => {
+      let newObj = {
+        id: item.id,
+        title: item.title,
+      };
+      return newObj;
+    });
+    setBrands(data);
+    dataCat = dataCat.categories.map((item: any, index: any) => {
+      let newObj = {
+        id: item.c_id,
+        title: item.c_name,
+      };
+      return newObj;
+    });
+    setCategories(dataCat);
+  };
+  useEffect(() => {
+    getAllBrands();
+  }, []);
   useEffect(() => {
     if (VariantsData?.variants) {
       const mappedData = VariantsData?.variants.map((item: any) => {
-        const { title, values, value,id } = item;
+        const { title, values, value, id } = item;
         const options = values.map((value1: any) => ({
           txt: value1,
           classes:
@@ -60,7 +89,7 @@ export const AddProduct = () => {
 
         return {
           variant: {
-            id:id,
+            id: id,
             txt: title,
             classes:
               "!bg-[#FCE39C] !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5",
@@ -69,7 +98,6 @@ export const AddProduct = () => {
         };
       });
       setVariantArray(mappedData);
-   
     }
   }, [VariantsData]);
   const handleFunction = async (value: any) => {
@@ -152,8 +180,7 @@ export const AddProduct = () => {
             values: updatedValues,
           };
         });
-        setVariantArray( newData );
-
+        setVariantArray(newData);
       } else {
         updateVariants = updateVariants.filter(
           (item: any) => item.value !== value
@@ -179,8 +206,7 @@ export const AddProduct = () => {
             values: updatedValues,
           };
         });
-        setVariantArray( newData );
-      
+        setVariantArray(newData);
       }
     }
   };
@@ -210,7 +236,9 @@ export const AddProduct = () => {
     data.append("images", images);
     const add = await CreateProduct(data);
     console.log(add, "DATA ADDED");
+    navigate("/Products");
   };
+  console.log(productData,"YOO")
   return (
     <div>
       <Header
@@ -226,14 +254,29 @@ export const AddProduct = () => {
         name={"title"}
       />
       <div className="flex gap-4">
-        <CustomDropdown placeholder="Phone" mainclasses={"mt-10  !w-[35%]"} />
-        <InputTxt
-          onChange={handleChange(setProductData)}
-          name={"brand"}
-          placeholder="Brand"
-          MainClasses="mt-[40px] !border !border-custom  !w-[43%]"
+        <CustomDropdown
+         setValue={(value:any)=>{
+          setProductData({
+            ...productData,
+            brand: value,
+          });
+        }}
+          placeholder="Category"
+          options={brands}
+          mainclasses={"mt-10  !w-[35%]"}
         />
-      
+        <CustomDropdown
+        
+        setValue={(value:any)=>{
+          setProductData({
+            ...productData,
+            category: value,
+          });
+        }}
+          placeholder="Brands"
+          options={category}
+          mainclasses={"mt-10  !w-[35%]"}
+        />
       </div>
       <textarea
         onChange={(e) => handleChangeDescription(e.target.value)}
@@ -275,7 +318,7 @@ export const AddProduct = () => {
                       ...variant,
                       title: item.variant.txt,
                       values: newVariant,
-                      id:item.variant.id
+                      id: item.variant.id,
                     });
                     setVisible(!visible);
                   }}
@@ -285,7 +328,6 @@ export const AddProduct = () => {
               </div>
             );
           })}
-      
       </div>
       <div>
         <CustomButton
@@ -316,120 +358,129 @@ export const AddProduct = () => {
           }
           icon={true}
         />
-        <div>
-          <p className="bg-lightgray p-4 w-[60%] rounded mt-5 border border-custom">
-            Technical Specifiactions for <b>iphone 14 pro max</b> was selected
-            via 3rd party. Click on search to replace
-          </p>
-        </div>
-        <div className="mb-5">
-          <p className="text-[black] font-extrabold bg-lightgray border-b-0 p-4 w-[60%] rounded mt-5 border border-custom">
-            Technical Specifications
-          </p>
+        {techType === 1 && (
+          <>
+            <div>
+              <p className="bg-lightgray p-4 w-[60%] rounded mt-5 border border-custom">
+                Technical Specifiactions for <b>iphone 14 pro max</b> was
+                selected via 3rd party. Click on search to replace
+              </p>
+            </div>
+            <div className="mb-5">
+              <p className="text-[black] font-extrabold bg-lightgray border-b-0 p-4 w-[60%] rounded mt-5 border border-custom">
+                Technical Specifications
+              </p>
 
-          <div className="border border-custom  w-[60%] pb-4">
-            <div className="ml-5">
-              <p className="text-[#656565] text-[12px] mt-4">RELEASE DATE</p>
-              <InputTxt
-                name="Release Date"
-                onChange={(e: any) =>
-                  updateTechnicalSpecificationModel(
-                    e.target.name,
-                    e.target.value
-                  )
-                }
-                placeholder={"eg: 20 aug 2022"}
-                MainClasses={"!h-[28px] !bg-white"}
-              />
-            </div>
-            <div className="ml-5">
-              <p className="text-[#656565] text-[12px] mt-4">BLUETOOTH</p>
-              <InputTxt
-                name="Bluetooth"
-                onChange={(e: any) =>
-                  updateTechnicalSpecificationModel(
-                    e.target.name,
-                    e.target.value
-                  )
-                }
-                placeholder={"5.0"}
-                MainClasses={"!h-[28px] !bg-white"}
-              />
-            </div>
-            <div className="ml-5">
-              <p className="text-[#656565] text-[12px] mt-4">BATTERY</p>
-              <InputTxt
-                name="Battery"
-                onChange={(e: any) =>
-                  updateTechnicalSpecificationModel(
-                    e.target.name,
-                    e.target.value
-                  )
-                }
-                placeholder={"eg: Battery info"}
-                MainClasses={"!h-[28px] !bg-white"}
-              />
-            </div>
-            <div className="ml-5">
-              <p className="text-[#656565] text-[12px] mt-4">STORAGE</p>
-              <InputTxt
-                name="Storage"
-                onChange={(e: any) =>
-                  updateTechnicalSpecificationModel(
-                    e.target.name,
-                    e.target.value
-                  )
-                }
-                placeholder={"eg: 512 GB"}
-                MainClasses={"!h-[28px] !bg-white"}
-              />
-            </div>
-            <div className="ml-5">
-              <p className="text-[#656565] text-[12px] mt-4">CAMERA</p>
-              <InputTxt
-                name="Camera"
-                onChange={(e: any) =>
-                  updateTechnicalSpecificationModel(
-                    e.target.name,
-                    e.target.value
-                  )
-                }
-                placeholder={"eg: Camera Specs"}
-                MainClasses={"!h-[28px] !bg-white"}
-              />
-            </div>
-            <div className="ml-5">
-              <p className="text-[#656565] text-[12px] mt-4">CONNECTIVITY</p>
-              <InputTxt
-                name="Connectivity"
-                onChange={(e: any) =>
-                  updateTechnicalSpecificationModel(
-                    e.target.name,
-                    e.target.value
-                  )
-                }
-                placeholder={"eg: bluetooth, wifi"}
-                MainClasses={"!h-[28px] !bg-white"}
-              />
-              {/* <li className="font-medium"> Wi-Fi 6 (802.11ax) with MIMO</li>
+              <div className="border border-custom  w-[60%] pb-4">
+                <div className="ml-5">
+                  <p className="text-[#656565] text-[12px] mt-4">
+                    RELEASE DATE
+                  </p>
+                  <InputTxt
+                    name="Release Date"
+                    onChange={(e: any) =>
+                      updateTechnicalSpecificationModel(
+                        e.target.name,
+                        e.target.value
+                      )
+                    }
+                    placeholder={"eg: 20 aug 2022"}
+                    MainClasses={"!h-[28px] !bg-white"}
+                  />
+                </div>
+                <div className="ml-5">
+                  <p className="text-[#656565] text-[12px] mt-4">BLUETOOTH</p>
+                  <InputTxt
+                    name="Bluetooth"
+                    onChange={(e: any) =>
+                      updateTechnicalSpecificationModel(
+                        e.target.name,
+                        e.target.value
+                      )
+                    }
+                    placeholder={"5.0"}
+                    MainClasses={"!h-[28px] !bg-white"}
+                  />
+                </div>
+                <div className="ml-5">
+                  <p className="text-[#656565] text-[12px] mt-4">BATTERY</p>
+                  <InputTxt
+                    name="Battery"
+                    onChange={(e: any) =>
+                      updateTechnicalSpecificationModel(
+                        e.target.name,
+                        e.target.value
+                      )
+                    }
+                    placeholder={"eg: Battery info"}
+                    MainClasses={"!h-[28px] !bg-white"}
+                  />
+                </div>
+                <div className="ml-5">
+                  <p className="text-[#656565] text-[12px] mt-4">STORAGE</p>
+                  <InputTxt
+                    name="Storage"
+                    onChange={(e: any) =>
+                      updateTechnicalSpecificationModel(
+                        e.target.name,
+                        e.target.value
+                      )
+                    }
+                    placeholder={"eg: 512 GB"}
+                    MainClasses={"!h-[28px] !bg-white"}
+                  />
+                </div>
+                <div className="ml-5">
+                  <p className="text-[#656565] text-[12px] mt-4">CAMERA</p>
+                  <InputTxt
+                    name="Camera"
+                    onChange={(e: any) =>
+                      updateTechnicalSpecificationModel(
+                        e.target.name,
+                        e.target.value
+                      )
+                    }
+                    placeholder={"eg: Camera Specs"}
+                    MainClasses={"!h-[28px] !bg-white"}
+                  />
+                </div>
+                <div className="ml-5">
+                  <p className="text-[#656565] text-[12px] mt-4">
+                    CONNECTIVITY
+                  </p>
+                  <InputTxt
+                    name="Connectivity"
+                    onChange={(e: any) =>
+                      updateTechnicalSpecificationModel(
+                        e.target.name,
+                        e.target.value
+                      )
+                    }
+                    placeholder={"eg: bluetooth, wifi"}
+                    MainClasses={"!h-[28px] !bg-white"}
+                  />
+                  {/* <li className="font-medium"> Wi-Fi 6 (802.11ax) with MIMO</li>
               <li className="font-medium"> Bluetooth 5.0 </li> */}
+                </div>
+                <div className="ml-5">
+                  <p className="text-[#656565] text-[12px] mt-4"> SCREEN </p>
+                  <InputTxt
+                    name="Screen"
+                    onChange={(e: any) =>
+                      updateTechnicalSpecificationModel(
+                        e.target.name,
+                        e.target.value
+                      )
+                    }
+                    placeholder={"eg: 1080px"}
+                    MainClasses={"!h-[28px] !bg-white"}
+                  />
+                </div>
+              </div>
             </div>
-            <div className="ml-5">
-              <p className="text-[#656565] text-[12px] mt-4"> SCREEN </p>
-              <InputTxt
-                name="Screen"
-                onChange={(e: any) =>
-                  updateTechnicalSpecificationModel(
-                    e.target.name,
-                    e.target.value
-                  )
-                }
-                placeholder={"eg: 1080px"}
-                MainClasses={"!h-[28px] !bg-white"}
-              />
-            </div>
-          </div>
-        </div>
+          </>
+        )}
+
         <div className="flex gap-3 mb-3">
           <CustomButton
             txt={"Cancel"}

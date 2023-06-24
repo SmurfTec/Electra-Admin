@@ -17,29 +17,32 @@ export const ProductView = () => {
 
   const [VariantsArray, setVariantArray] = useState([]);
 
-   useEffect(() => {
+  useEffect(() => {
     getProductById(id);
   }, []);
   useEffect(() => {
     if (ProductData) {
-      const mappedData = ProductData?.product?.product_variants.map(
-        (item: any) => {
-          const { variant, values,value } = item;
-          const options = values.map((value1: any) => ({
-            txt: value1,
-            classes:value===value1?"!bg-[#FCFCFC] !w-[148px] ml-2 !border !border-[#3C82D6] !text-[black] !p-4 !rounded-[9px] !mt-5": "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-          }));
-
-          return {
-            variant: {
-              txt: variant,
+      const mappedData = ProductData?.product?.product_variants
+        ? ProductData?.product?.product_variants.map((item: any) => {
+            const { variant, values, value } = item;
+            const options = values.map((value1: any) => ({
+              txt: value1,
               classes:
-                "!bg-[#FCE39C] !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5",
-            },
-            values: options,
-          };
-        }
-      );
+                value === value1
+                  ? "!bg-[#FCFCFC] !w-[148px] ml-2 !border !border-[#3C82D6] !text-[black] !p-4 !rounded-[9px] !mt-5"
+                  : "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+            }));
+
+            return {
+              variant: {
+                txt: variant,
+                classes:
+                  "!bg-[#FCE39C] !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5",
+              },
+              values: options,
+            };
+          })
+        : [];
       setVariantArray(mappedData);
     }
   }, [ProductData]);
@@ -77,12 +80,15 @@ export const ProductView = () => {
             />
             <div className="mt-5">
               <ul className="list-tick">
-                {ProductData?.product?.technical_specifications.length > 0 &&
-                  ProductData?.product?.technical_specifications.map(
-                    (item: any, index: any) => {
-                      return <li key={index}>{item?.title}</li>;
-                    }
-                  )}
+                {ProductData?.product?.technical_specifications
+                  ? ProductData?.product?.technical_specifications?.length >
+                      0 &&
+                    ProductData?.product?.technical_specifications.map(
+                      (item: any, index: any) => {
+                        return <li key={index}>{item?.title}</li>;
+                      }
+                    )
+                  : null}
               </ul>
             </div>
             <div className="flex gap-8">
@@ -165,7 +171,7 @@ export const ProductView = () => {
       {/* PRODUCT  VARIATNNSSSSS */}
       <div>
         <h1 className="text-[24px] font-bold my-3">Product Variants</h1>
-        {VariantsArray.map((item:any, index) => {
+        {VariantsArray.map((item: any, index) => {
           return (
             <div className="flex" key={index}>
               <CustomButton
@@ -173,7 +179,6 @@ export const ProductView = () => {
                 txt={item.variant.txt}
                 classes={item.variant.classes}
               />
-              
               <Variants data={item.values} />;
             </div>
           );
@@ -221,6 +226,29 @@ export const ProductView = () => {
           />
         </div>
       </div>
+      <>
+        <div className="mb-5">
+          <p className="text-[black] font-extrabold bg-lightgray border-b-0 p-4 w-[60%] rounded mt-5 border border-custom">
+            Technical Specifications
+          </p>
+          <>
+            <div className="border border-custom  w-[60%] pb-4" >
+              {ProductData?.product?.technical_specifications&&ProductData?.product?.technical_specifications.map(
+                (item: any, index: any) => {
+                  return (
+                    <div className="ml-5" key={index}> 
+                      <p className="text-[#656565] text-[12px] mt-4">
+                       {item.title}
+                      </p>
+                      <p>{item.value}</p>
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          </>
+        </div>
+      </>
     </div>
   );
 };

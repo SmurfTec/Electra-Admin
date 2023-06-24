@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Header, Variants, Carouselcard } from "../../../components";
 import { Sidebar } from "primereact/sidebar";
 import {
@@ -8,9 +8,12 @@ import {
   InputTxt,
   Miniselect,
 } from "../../../atoms";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import IMAGES from "../../../assets/Images";
 import styled from "styled-components";
 import "./index.css"
+import { useListingById } from "../../../custom-hooks";
 const CustomSidebar = styled(Sidebar)`
   .p-sidebar-header {
     display: none;
@@ -21,6 +24,15 @@ const CustomSidebar = styled(Sidebar)`
 `;
 export const Listingdetail = () => {
   const [select, setSelect] = React.useState(0);
+  const params = useParams();
+  let { id } = params;
+  const Listings=useListingById(id)
+  useEffect(() => {
+  if(Listings){
+    console.log(Listings)
+  }
+  }, [Listings])
+  
   const VariantsArray = [
     {
       txt: "Capacity",
