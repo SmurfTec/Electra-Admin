@@ -1,62 +1,17 @@
-import React from "react";
+import React, { useEffect,useRef } from "react";
 import { SVGIcon } from "../../components/SVG";
 import { CustomTableComponent, Miniselect, CustomButton } from "../../atoms";
 import { useNavigate } from "react-router-dom";
 import { Header, Receiptmodal } from "../../components";
 import IMAGES from "../../assets/Images";
-import { CustomMenu } from "../../atoms/global.style";
+import { CustomMenu,CustomTabView } from "../../atoms/global.style";
+import { TabPanel } from "primereact/tabview";
+import { getAllOrders } from "../../store/Slices/OrderSlice";
 export const Orders = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
   const [visible,setVisible]=React.useState(false)
-  const items = [
-    {
-      items: [
-        {
-          label: "Ban User",
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-              >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> Ban User
-              </div>
-            );
-          },
-        },
-        {
-          label: "Delete",
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ background: "rgba(231, 29, 54, 0.05)" }}
-                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-              >
-                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
-              </div>
-            );
-          },
-        },
-        {
-          label: "Select",
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ background: "rgba(46, 102, 194, 0.05)" }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-              >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
-              </div>
-            );
-          },
-        },
-      ],
-    },
-  ];
+ 
   const filterData = [
     {
       id: 1,
@@ -115,20 +70,67 @@ export const Orders = () => {
     },
   ];
   const MenuBodyTemplate = (rowData: any) => {
+    const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
+      const items = [
+        {
+          label: "View Item",
+    
+          template: (item: any) => {
+            return (
+              <div
+              // onClick={(event) => deleteItem(event, rowData.id)}
+                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+              >
+                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> View Item
+              </div>
+            );
+          },
+        },
+        {
+          label: "Delete",
+          template: (item:any) => {
+            return (
+              <div
+                // onClick={(event) => deleteItem(event, rowData.id)}
+                style={{ background: "rgba(231, 29, 54, 0.05)" }}
+                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+              >
+                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
+              </div>
+            );
+          },
+        },
+      ];
+
+      return (
+       <>
+        <CustomMenu
+            popupAlignment="left"
+            height={"80px"}
+            model={items}
+            popup
+            ref={menuRef}
+            id="popup_menu_left"
+          /></>
+      );
+    };
+    const menuLeftRef = useRef<any>(null);
+    const handleClick = (event: any) => {
+      event.preventDefault();
+      menuLeftRef.current?.toggle(event);
+    };
     return (
       <>
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
           <SVGIcon
-            onClick={(event: any) => {
-              event.preventDefault();
-              menuLeft.current.toggle(event);
-            }}
+            onClick={handleClick}
             src={IMAGES.Dots}
           />
 
-          <CustomMenu model={items} popup ref={menuLeft} id="popup_menu_left" />
+<MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
         </div>
       </>
     );
@@ -183,6 +185,13 @@ export const Orders = () => {
     { field: "Status", header: "Status", body: StatusBodyTemplate },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
+  const getOrders=async()=>{
+    let r=await getAllOrders()
+    console.log(r)
+  }
+  useEffect(()=>{
+    getOrders();
+  },[])
   return (
     <div>
       <Header
@@ -206,18 +215,14 @@ export const Orders = () => {
               classes="!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]"
               txt="Export CSV"
             />
-          </div>
+          </div> 
 
-          <div className="flex gap-8 px-4 border-b border-custom ">
-            <p className="border-b-4 border-[#3C82D6] text-[#3C82D6] pb-2 font-semibold">
-              All (9)
-            </p>
-            <p className="text-[#B4B4B4]">Cancelled (2 )</p>
-            <p className="text-[#B4B4B4]">Completed (2) </p>
-            <p className="text-[#B4B4B4]">Shipping inprogress(2)</p>
-            <p className="text-[#B4B4B4]">Shipped (1)</p>
-          </div>
-          <CustomTableComponent
+          
+         <div>
+         <CustomTabView>
+         <TabPanel header={`All(9)`}>
+         <p className="m-0">
+         <CustomTableComponent
             columnStyle={{ backgroundColor: "#FCFCFC" }}
             headerStyle={{ color: "black", fontWeight: "800" }}
             filterData={filterData}
@@ -225,6 +230,59 @@ export const Orders = () => {
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
           />
+          </p>
+         </TabPanel>
+         <TabPanel header={`Cancelled(9)`}>
+         <p className="m-0">
+         <CustomTableComponent
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
+            filterData={filterData}
+            columnData={columnData}
+            rowStyling={"#FCFCFC !important"}
+            MultipleSelect={true}
+          />
+          </p>
+         </TabPanel>
+         <TabPanel header={`Completed(9)`}>
+         <p className="m-0">
+         <CustomTableComponent
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
+            filterData={filterData}
+            columnData={columnData}
+            rowStyling={"#FCFCFC !important"}
+            MultipleSelect={true}
+          />
+          </p>
+         </TabPanel>
+         <TabPanel header={`Shipping inprogress(9)`}>
+         <p className="m-0">
+         <CustomTableComponent
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
+            filterData={filterData}
+            columnData={columnData}
+            rowStyling={"#FCFCFC !important"}
+            MultipleSelect={true}
+          />
+          </p>
+         </TabPanel>
+         <TabPanel header={`Shipped(9)`}>
+         <p className="m-0">
+         <CustomTableComponent
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
+            filterData={filterData}
+            columnData={columnData}
+            rowStyling={"#FCFCFC !important"}
+            MultipleSelect={true}
+          />
+          </p>
+         </TabPanel>
+            </CustomTabView>
+         </div>
+          
         </div>
       </div>
       <div className="mt-3">
