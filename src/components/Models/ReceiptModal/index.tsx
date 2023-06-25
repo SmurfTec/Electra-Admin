@@ -71,7 +71,7 @@ export const Receiptmodal = ({ visible, setVisible }: any) => {
           <p className="text-[#000000] pt-3  font-bold">3456</p>
         </div>
       </div>
-      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dotted mx-3 ">
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
         <p className="font-bold text-[#000000] text-[16px]">Item Price</p>
         <p className="font-bold text-[#000000] text-[20px]">$437</p>
       </div>
@@ -98,7 +98,7 @@ export const Receiptmodal = ({ visible, setVisible }: any) => {
         <p className="font-bold text-[#000000] text-[16px]">Item Price</p>
         <p className="font-bold text-[#000000] text-[20px]">$437</p>
       </div>
-      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dotted mx-3 ">
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
         <p className="font-bold text-[#000000] text-[16px]">Purchase Price</p>
         <p className="font-bold text-[#3C82D6] text-[20px]">$437</p>
       </div>
