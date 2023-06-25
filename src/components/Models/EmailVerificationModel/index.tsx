@@ -1,9 +1,10 @@
-import React,{useState,useRef} from 'react'
+import React,{useState,useRef,useEffect} from 'react'
 import { CustomDialog } from '../../../atoms/global.style'
 import { InputTxt } from '../../../atoms'
 import { CustomButton } from '../../../atoms'
 import Countdown from 'react-countdown';
-export const EmailVerificationModel = ({classes,visible,setVisible,title="Email Verification",onClick}:any) => {
+
+export const EmailVerificationModel = ({classes,visible,setVisible,title="Email Verification",onClick,SendEmail,verifytxt=""}:any) => {
     const[Code,setCode]=useState("")
     const [resetKey, setResetKey] = useState(0);
 
@@ -11,6 +12,7 @@ export const EmailVerificationModel = ({classes,visible,setVisible,title="Email 
     const renderer = ({  minutes, seconds, completed }:any) => {
         if (completed) {
           setResetKey((prevKey) => prevKey + 1);
+          SendEmail();
         } else { 
           return (
             <p className='text-[#656565] text-[16px] underline'>
@@ -19,7 +21,7 @@ export const EmailVerificationModel = ({classes,visible,setVisible,title="Email 
           );
         } 
       };
-  
+   
   return (
    <>
     <CustomDialog className={`${classes} bg-[#FFFFFF] w-[543px] h-[358px] flex  justify-center align-middle items-center `} visible={visible} >
@@ -43,7 +45,7 @@ export const EmailVerificationModel = ({classes,visible,setVisible,title="Email 
    ref={countDown.current}
  ></Countdown>   
        </div>
-       <CustomButton onClick={onClick} txt={"VERIFY"} classes={`!w-[126px] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]  `}/> 
+       <CustomButton onClick={()=>onClick(Code,verifytxt)} txt={"VERIFY"} classes={`!w-[126px] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]  `}/> 
         </div>
         </CustomDialog>
    </>

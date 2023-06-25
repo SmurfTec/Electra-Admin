@@ -13,6 +13,30 @@ export const getAllUsers = async () => {
     return e;
   }
 };
+export const SendEmail=async()=>{
+  try{
+    let response=await url.post("/auth/email-2fa")
+    return response.data;
+  }catch(e){
+    return e;
+  }
+}
+export const VerifyUserCode=async(code:any)=>{
+  try{
+    let response=await url.get(`/auth/email-2fa/${code}`)
+    return response.data;
+  }catch(e){
+    return e;
+  }
+}
+export const UpdateUser=async(body:any)=>{
+  try{
+    let response=await url.patch(`/users/me`,body)
+    return response.data;
+  }catch(e){
+    return e;
+  }
+}
 export const getSingleUser = async (id: any) => {
   try {
     let response: any = await url.get(`/users/${id}`);

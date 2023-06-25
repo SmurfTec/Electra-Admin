@@ -3,8 +3,16 @@ import { Header } from '../../components'
 import IMAGES from '../../assets/Images'
 import { CustomSwitch } from '../../atoms'
 import { SVGIcon } from '../../components/SVG'
+import { SendEmail,VerifyUserCode,UpdateUser } from '../../store/Slices/UserSlice'
 import { EmailVerificationModel,ChangePasswordModel,SuccessModel,AuthValueModel,BankAccountModel,BankAccountPinModel } from '../../components'
 export const Settings = () => {
+    let [userdata,setuserdata]=useState<any>()
+if (localStorage.getItem("user")) {
+  userdata = JSON.parse(localStorage.getItem("user")!);
+}
+
+     const[twoFactorAuth,settwoFactorAuth]=useState(userdata?.profile?.is_two_step_verification_enabled)
+     const[Notifications,setNotifications]=useState(userdata?.profile?.receive_notifications)
     const[EmailModel,setEmailModel]=useState(false)
     const[PassModel,setPassModel]=useState(false)
     const[ChangePassModel,setChangePassModel]=useState(false)
@@ -36,6 +44,42 @@ export const Settings = () => {
         setaddbank(false)
         setBankAccountPin(true)
     }
+    const EmailSend=async()=>{
+        let r=await SendEmail();
+      }
+    const VerifyCode=async(code:any,txt:any)=>{
+       
+        if(txt=="verifyEmail"){
+            let r=await VerifyUserCode(code)
+            if((r.status!==400)&& (r.status!==undefined)){
+                setauthmodel(true);   
+            }
+        }else if(txt=="verifyPhone"){
+            let response=await VerifyUserCode(code)
+            if(response.status!=400 && response.status!==undefined){
+                console.log(response.status)
+                setchangephonemodel(true);   
+            }
+        }
+    }
+    const updateUserData=async(successtxt:any,databody:any)=>{
+       try{
+        let body=databody
+        let response=await UpdateUser(body)
+        if(!(response.status==400)){
+            setauthmodel(false);
+            setEmailModel(false);
+            setphonemodel(false);
+            setchangephonemodel(false);
+            setuserdata(response.user)
+            localStorage.setItem('user',JSON.stringify(response.user))
+            setsuccesstxt(successtxt)
+            setsuccessModel(true)
+        }
+       }catch(err){
+
+       }
+    }
     
   return ( 
     <div>
@@ -53,8 +97,9 @@ export const Settings = () => {
         visible={EmailModel} 
         setVisible={setEmailModel}
         title="CHANGE EMAIL"
-        onClick={handleEmail}
-       
+        onClick={(code:any,verify:any)=>VerifyCode(code,verify)}
+        SendEmail={EmailSend}
+        verifytxt="verifyEmail"
         />
         <EmailVerificationModel 
         visible={addbank} 
@@ -67,20 +112,21 @@ export const Settings = () => {
         visible={phonemodel} 
         setVisible={setphonemodel}
         title="CHANGE PHONE NUMBER"
-        onClick={handlePhone}
-       
+        SendEmail={EmailSend}
+        verifytxt="verifyPhone"
+        onClick={(code:any,verify:any)=>VerifyCode(code,verify)}
         />
         <AuthValueModel 
         visible={authmodel} 
         setVisible={setauthmodel}
         title="CHANGE EMAIL"
-        onClick={()=>setauthmodel(false)}
+        onClick={(Code:any)=>{setauthmodel(false);updateUserData("Email Updated Successfully",{email:Code})}}
         />
          <AuthValueModel 
         visible={changephonemodel} 
         setVisible={setchangephonemodel}
         title="CHANGE PHONE NUMBER"
-        onClick={()=>{setchangephonemodel(false);setsuccesstxt("Your phone number has been changed.");setsuccessModel(true)}}
+        onClick={(Code:any)=>{setchangephonemodel(false);updateUserData("Phone Updated Successfully",{"mobile_no":Code})}}
         body="Enter your new phone number"
         placeholder="Phone Number"
         />
@@ -122,9 +168,9 @@ export const Settings = () => {
                   
                     <p className='text-[12px] text-gray'>EMAIL</p>
                 </div>
-                <p className='text-[16px] font-[600]'>Huzayfahhanif@gmail.com</p>
+                <p className='text-[16px] font-[600]'>{userdata?.email}</p>
             </div>
-            <div className='w-[33px] h-[33px] bg-lightgray rounded-[50px] flex justify-center items-center cursor-pointer' onClick={()=>setEmailModel(true)}>
+            <div className='w-[33px] h-[33px] bg-lightgray rounded-[50px] flex justify-center items-center cursor-pointer' onClick={()=>{setEmailModel(true);EmailSend()}}>
                 <img src={IMAGES.Edit}/>
             </div>
         </div>
@@ -165,9 +211,9 @@ export const Settings = () => {
                     />
                     <p className='text-[12px] text-gray'>PHONE NO</p>
                 </div>
-                <p className='text-[16px] font-[600]'>355454564646</p>
+                <p className='text-[16px] font-[600]'>{userdata?.profile?.mobile_no}</p>
             </div>
-            <div className='w-[33px] h-[33px] bg-lightgray rounded-[50px] flex justify-center items-center cursor-pointer' onClick={()=>setphonemodel(true)}>
+            <div className='w-[33px] h-[33px] bg-lightgray rounded-[50px] flex justify-center items-center cursor-pointer' onClick={()=>{setphonemodel(true);EmailSend()}}>
                 <img src={IMAGES.Edit}/>
             </div>
         </div>
@@ -209,7 +255,7 @@ export const Settings = () => {
                 <p className='text-[16px] font-[600]'>Turn on all notifications related to your website.</p>
             </div>
             <div className=''>
-                <CustomSwitch checked={true}/>
+                <CustomSwitch checked={Notifications} setChecked={setNotifications}/>
             </div>
         </div>
       </div>
@@ -222,7 +268,7 @@ export const Settings = () => {
                 <p className='text-[16px] font-[600]'>Enable two factor authentication for keeping your account secure.</p>
             </div>
             <div className=''>
-                <CustomSwitch checked={false}/>
+                <CustomSwitch checked={twoFactorAuth} setChecked={settwoFactorAuth}/>
             </div>
         </div>
       </div>

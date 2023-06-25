@@ -21,7 +21,7 @@ export const AuthValueModel = ({classes,visible,setVisible,title="Email Verifica
        </div>
        <InputTxt inputClasses="!text-center !text-[#3C82D6]  !text-[20px]" placeholder={placeholder} Title={Code} onChange={(e:any)=>setCode(e.target.value)} MainClasses='!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto'/>
        
-       <CustomButton onClick={onClick} txt={"Confirm"} classes={`!w-[126px] !mt-[35px] !bg-[#3C82D6] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]  `}/> 
+       <CustomButton onClick={()=>onClick(Code)} txt={"Confirm"} classes={`!w-[126px] !mt-[35px] !bg-[#3C82D6] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]  `}/> 
         </div>
         </CustomDialog>
    </>
