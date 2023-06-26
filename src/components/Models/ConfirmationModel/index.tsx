@@ -16,7 +16,8 @@ export const Confirmationmodal = ({
   setOkButton,
   setCancelButton,
   Value="",
-  setValue
+  setValue,
+  placeholderValue
 }: any) => {
   // insert here
 
@@ -54,7 +55,8 @@ export const Confirmationmodal = ({
         {Feemodif && (
           <div className="flex justify-between items-center mt-3 px-2 border w-[200px] h-[54px] mx-auto rounded-[10px]">
             <input
-              placeholder="Enter color"
+            onChange={(e) => setValue(e.target.value)}
+              placeholder={placeholderValue}
               className={`px-2 focus:outline-none ${placeholderclasses} `}
             />
             <div className=" flex justify-center items-center text-[black] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
