@@ -15,7 +15,7 @@ export const Feemodifier = () => {
   const feeData = useFeesAll();
   const [feesModif, setFeesModif] = useState();
   const [currSelected, setCurrSelectedProduct] = useState<any>();
-  const [feeValue, setFeeValue] = useState("");
+  const [feeValue, setFeeValue] = useState(0);
   useEffect(() => {
     let newData = feeData?.fees.map((item: any, index: any) => {
       return {
@@ -147,11 +147,9 @@ export const Feemodifier = () => {
       console.log(currSelected);
       let newData = {
         type: currSelected.type,
-        fees: feeValue,
-        category: currSelected.Category,
+        fees: Number(feeValue),
       };
       let addFees= await CreateFees(currSelected.ID,newData);
-      console.log(addFees)
       setVisible(!visible)
     } catch (e) {
       console.log(e)
