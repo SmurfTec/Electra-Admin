@@ -169,15 +169,16 @@ export const Category = () => {
 
     const GetCategories = async () => {
         let response = await getAllCategories()
+        console.log(response.categories)
         setTotalCategories(response.results)
         let NewArr = response.categories.map((item: any) => {
             let newObj = {
                 ...item,
-                id: item.c_id,
-                title: item.c_name,
-                Fee: item.c_fees,
-                Products: item.c_products,
-                CreatedOn: moment(item.c_created_on).format("DD,MM,YYYY"),
+                id: item.id,
+                title: item.name,
+                Fee: item.fees,
+                Products: item.products,
+                CreatedOn: moment(item.created_on).format("DD,MM,YYYY"),
             }
             return newObj
         })
