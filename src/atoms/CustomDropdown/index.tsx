@@ -54,10 +54,7 @@ export const CustomDropdown = (props: any) => {
         }}}
       className={props.mainclasses}
       placeholder={props.placeholder}
-      options={Values.map((item:any,index:any)=>{
-        let {id,title}=item
-        return title
-      })}
+      options={props.options}
     />
   );
 };

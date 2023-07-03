@@ -1,16 +1,20 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Header } from '../../components'
 import IMAGES from '../../assets/Images'
 import { CustomSwitch } from '../../atoms'
 import { SVGIcon } from '../../components/SVG'
 import { SendEmail,VerifyUserCode,UpdateUser } from '../../store/Slices/UserSlice'
+
 import { EmailVerificationModel,ChangePasswordModel,SuccessModel,AuthValueModel,BankAccountModel,BankAccountPinModel } from '../../components'
 export const Settings = () => {
     let [userdata,setuserdata]=useState<any>()
 if (localStorage.getItem("user")) {
   userdata = JSON.parse(localStorage.getItem("user")!);
+  console.log(userdata)
 }
 
+    const[initial1,setinitial1]=useState(true)
+    const[initial2,setinitial2]=useState(true)
      const[twoFactorAuth,settwoFactorAuth]=useState(userdata?.profile?.is_two_step_verification_enabled)
      const[Notifications,setNotifications]=useState(userdata?.profile?.receive_notifications)
     const[EmailModel,setEmailModel]=useState(false)
@@ -24,6 +28,7 @@ if (localStorage.getItem("user")) {
     const[bankmodel,setbankmodel]=useState(false)
     const[addbank,setaddbank]=useState(false)
     const[BankAccountPin,setBankAccountPin]=useState(false)
+    const[password]=useState()
     const handlePass=()=>{
         setPassModel(false)
         setChangePassModel(true)
@@ -80,7 +85,28 @@ if (localStorage.getItem("user")) {
 
        }
     }
-    
+    useEffect(()=>{
+if(initial1){
+setinitial1(false)
+}else{
+    let body={
+      
+    "receive_notifications": Notifications
+    }
+    updateUserData("Notifications updated successfully",body)
+}
+    },[Notifications])
+    useEffect(()=>{
+        if(initial2){
+        setinitial2(false)
+        }else{
+            let body={
+                "is_two_step_verification_enabled": twoFactorAuth,
+          
+            }
+            updateUserData("Verfication updated successfully",body)
+        }
+            },[twoFactorAuth])
   return ( 
     <div>
         <BankAccountModel
