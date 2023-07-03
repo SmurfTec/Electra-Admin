@@ -25,16 +25,26 @@ const CustomCarousel = styled(Galleria)`
   }
 `;
 export const Webcarousel = (props: any) => {
+  const [newImg,setNewImg]=useState<any>([])
   const images =
-    props.images &&
-    props?.images.map((item: any, index: any) => {
-      return {
-        itemImageSrc: `${BaseURL}${item.filename}`,
-        thumbnailImageSrc: `${BaseURL}${item.filename}`,
-        alt: "Description for Image",
-        title: item.id,
-      };
-    });
+  props.images &&
+  props?.images.map((item: any, index: any) => {
+    return {
+      itemImageSrc: `${BaseURL}${item.filename}`,
+      thumbnailImageSrc: `${BaseURL}${item.filename}`,
+      alt: "Description for Image",
+      title: item.id,
+    };
+  });
+  // Function to handle the file upload
+  const handleFileUpload = (event:any) => {
+    console.log(event.target.files[0])
+    const file = event.target.files[0];
+    setNewImg([...newImg, file]);
+
+   
+  };
+
   const responsiveOptions: GalleriaResponsiveOptions[] = [
     {
       breakpoint: "991px",
@@ -68,7 +78,7 @@ export const Webcarousel = (props: any) => {
           }}
         ></img>
         <div className=" absolute top-[40%] left-[40%]">
-          <Threebuttons />
+          <Threebuttons handleFileUpload={handleFileUpload} />
         </div>
       </div>
     );
