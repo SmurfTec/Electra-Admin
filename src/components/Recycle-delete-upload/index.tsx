@@ -1,5 +1,5 @@
 import IMAGES from "../../assets/Images";
-export const Threebuttons = (props:any) => {
+export const Threebuttons = (props: any) => {
   return (
     <div
       className="flex items-center gap-5 justify-center h-[134px] w-[309px] rounded-lg"
@@ -11,11 +11,23 @@ export const Threebuttons = (props:any) => {
       <button className="bg-[#D9D9D9] h-[69px] rounded ">
         <img src={IMAGES.recycle} className="h-[69px] max-w-[169px] p-5" />
       </button>
-      <button className="bg-[#D9D9D9] h-[69px] rounded ">
+      <button 
+      onClick={props.deletePicture}
+      className="bg-[#D9D9D9] h-[69px] rounded ">
         <img src={IMAGES.delete} className="h-[69px] max-w-[169px] p-5" />
       </button>
-      <button className="bg-[#D9D9D9] h-[69px] rounded ">
-      <input type="file" onChange={props.handleFileUpload} />
+      <button className="relative bg-[#D9D9D9] h-[69px] rounded ">
+        <label
+          htmlFor="fileInput"
+          className="absolute w-[200px] h-[69px] right-[5%]"
+        >
+          <input
+            id="fileInput"
+            className="hidden"
+            type="file"
+            onChange={props.handleFileUpload}
+          />
+        </label>
         <img src={IMAGES.cam} className="h-[69px] max-w-[169px] p-5" />
       </button>
     </div>

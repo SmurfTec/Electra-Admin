@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Galleria, GalleriaResponsiveOptions } from "primereact/galleria";
 import IMAGES from "../../assets/Images";
 import { Threebuttons } from "..";
 import styled from "styled-components";
 import { BaseURL } from "../../config";
+import { updateSeciton } from "../../store/Slices/WebsiteSlice";
 const CustomCarousel = styled(Galleria)`
   .p-galleria-thumbnail-wrapper {
     .p-galleria-thumbnail-container {
@@ -25,26 +26,66 @@ const CustomCarousel = styled(Galleria)`
   }
 `;
 export const Webcarousel = (props: any) => {
-  const [newImg,setNewImg]=useState<any>([])
-  const images =
-  props.images &&
-  props?.images.map((item: any, index: any) => {
-    return {
-      itemImageSrc: `${BaseURL}${item.filename}`,
-      thumbnailImageSrc: `${BaseURL}${item.filename}`,
-      alt: "Description for Image",
-      title: item.id,
-    };
-  });
-  // Function to handle the file upload
-  const handleFileUpload = (event:any) => {
-    console.log(event.target.files[0])
-    const file = event.target.files[0];
-    setNewImg([...newImg, file]);
+  const [selectedId, setSelectedId] = useState();
+  const [images, setImages] = useState<any>([]);
 
-   
+  useEffect(() => {
+    const mappedImages =
+      props.images &&
+      props.images?.map((item: any) => ({
+        itemImageSrc: `${BaseURL}${item.filename}`,
+        thumbnailImageSrc: `${BaseURL}${item.filename}`,
+        alt: "Description for Image",
+        title: item.id,
+      }));
+    if (mappedImages) {
+      setImages(mappedImages);
+    } else {
+      setImages([
+        {
+          itemImageSrc: "",
+          thumbnailImageSrc: "",
+          alt: "No Image",
+          title: "",
+        },
+      ]);
+    }
+    setSelectedId(
+      mappedImages && mappedImages.length > 0 ? mappedImages[0].title : ""
+    );
+  }, [props.images]);
+  useEffect(() => {
+    console.log(selectedId, "SELECTEDID");
+  }, [selectedId]);
+
+  // Function to handle the file upload
+  const handleFileUpload = async (event: any) => {
+    const file = event.target.files[0];
+    let sendingData = new FormData();
+    sendingData.append("images", file);
+
+    props.images &&
+      props.images.forEach((item: any) => {
+        sendingData.append("attachments", item.id);
+      });
+    const Adding = await updateSeciton(props.sectionId, sendingData);
+    props.setWebsiteData(Adding);
   };
 
+  // function to delete a photo
+  const deletePicture = async () => {
+    try {
+      console.log(selectedId, "CURRENTID");
+      let sendingData = new FormData();
+      props.images.forEach((item: any) => {
+        if (item.id !== selectedId) {
+          sendingData.append("attachments", item.id);
+        }
+      });
+      const Adding = await updateSeciton(props.sectionId, sendingData);
+      props.setWebsiteData(Adding);
+    } catch (e) {}
+  };
   const responsiveOptions: GalleriaResponsiveOptions[] = [
     {
       breakpoint: "991px",
@@ -60,6 +101,7 @@ export const Webcarousel = (props: any) => {
     },
   ];
   const itemTemplate = (item: any) => {
+    console.log(item, "HERE");
     return (
       <div
         className="relative"
@@ -69,7 +111,8 @@ export const Webcarousel = (props: any) => {
       >
         <img
           className=""
-          src={item.itemImageSrc}
+          alt="blank"
+          src={item?.itemImageSrc}
           style={{
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -78,7 +121,10 @@ export const Webcarousel = (props: any) => {
           }}
         ></img>
         <div className=" absolute top-[40%] left-[40%]">
-          <Threebuttons handleFileUpload={handleFileUpload} />
+          <Threebuttons
+            handleFileUpload={handleFileUpload}
+            deletePicture={deletePicture}
+          />
         </div>
       </div>
     );
@@ -88,6 +134,10 @@ export const Webcarousel = (props: any) => {
     return (
       <div className="flex flex-wrap justify-start ">
         <img
+          onClick={() => {
+            setSelectedId(item.title);
+            console.log(item);
+          }}
           src={item.thumbnailImageSrc}
           alt={item.alt}
           style={{
@@ -113,6 +163,9 @@ export const Webcarousel = (props: any) => {
         item={itemTemplate}
         thumbnail={thumbnailTemplate}
         showIndicators
+        onChange={(e) => {
+          console.log(e.target);
+        }}
       />
     </div>
   );

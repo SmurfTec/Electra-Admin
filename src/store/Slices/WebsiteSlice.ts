@@ -21,10 +21,29 @@ export const getWebsiteById = async (id: any) => {
 // SECTIONS
 export const updateSeciton = async (id: any, body: any) => {
   try {
-    let response: any = await url.get(`/sections/${id}`, body);
-    getWebsite();
-    return response.data;
+    console.log(body,"BODy")
+    let response: any = await url.put(`/sections/${id}`, body);
+    if(response){
+      const getNew=await getWebsiteById(id);
+      return getNew.data;
+    }
+   
   } catch (e) {
     return e;
   }
 };
+// SECTIONS
+export const deleteSeciton = async (id: any, body: any) => {
+  try {
+    console.log(body,"BODy")
+    let response: any = await url.put(`/sections/${id}`, body);
+    if(response){
+      const getNew=await getWebsiteById(id);
+      return getNew.data;
+    }
+   
+  } catch (e) {
+    return e;
+  }
+};
+

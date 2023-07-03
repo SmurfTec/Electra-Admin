@@ -10,7 +10,6 @@ export const Webandbanner = () => {
   const navigate = useNavigate();
   const params = useParams();
   let { id } = params;
-
   const webData = useGetWebsiteId(id);
   const [websiteData, setWebsiteData] = useState<any>();
   useEffect(() => {
@@ -27,6 +26,8 @@ export const Webandbanner = () => {
         <p className="font-bold text-[19px]">{webData?.name}</p>
         <div className="w-full mt-3 ">
           <Webcarousel
+            setWebsiteData={setWebsiteData}
+            sectionId={id}
             images={
               websiteData?.sections.length > 0 &&
               websiteData?.sections[0]?.section === "Carousel"
@@ -75,23 +76,23 @@ export const Webandbanner = () => {
         <div className="flex flex-wrap gap-9 justify-around mt-10 ">
           {websiteData?.sections.length > 0 &&
           websiteData?.sections[0]?.section === "Cards"
-            ?  websiteData?.sections[0]?.images.map((item: any, index: any) => {
-              return (
-                <div className="  relative" key={index}>
-                  <img
-                    className="bg-cover bg-center  h-[250px] rounded-[10px]"
-                    src={`${BaseURL}/${item.filename}`}
-                    style={{
-                      width: "99%",
-                      height: "530px",
-                    }}
-                  ></img>
-                  <div className=" absolute top-[40%] left-[25%]">
-                    <Threebuttons />
+            ? websiteData?.sections[0]?.images.map((item: any, index: any) => {
+                return (
+                  <div className="  relative" key={index}>
+                    <img
+                      className="bg-cover bg-center  h-[250px] rounded-[10px]"
+                      src={`${BaseURL}/${item.filename}`}
+                      style={{
+                        width: "99%",
+                        height: "530px",
+                      }}
+                    ></img>
+                    <div className=" absolute top-[40%] left-[25%]">
+                      <Threebuttons />
+                    </div>
                   </div>
-                </div>
-              );
-            })
+                );
+              })
             : websiteData?.sections[1]?.images.map((item: any, index: any) => {
                 return (
                   <div className="  relative" key={index}>

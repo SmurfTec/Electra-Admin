@@ -62,7 +62,7 @@ export const Listingdetail = () => {
 
   const data = [
     {
-      "Listed by": listingg?.listing.user[0].firstname,
+      "Listed by": listingg?.listing?.user[0]?.firstname,
       Ask: `$ ${listingg?.listing.ask}`,
       "Lowest Offer": listingg?.listing.lowest_offer ?? "-",
       "Highest Offer": listingg?.listing.highest_offer ?? "-",
