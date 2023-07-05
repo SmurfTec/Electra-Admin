@@ -19,12 +19,12 @@ export const getWebsiteById = async (id: any) => {
 };
 
 // SECTIONS
-export const updateSeciton = async (id: any, body: any) => {
+export const updateSeciton = async (wid:any,id:any, body: any) => {
   try {
     console.log(body,"BODy")
     let response: any = await url.put(`/sections/${id}`, body);
     if(response){
-      const getNew=await getWebsiteById(id);
+      const getNew=await getWebsiteById(wid);
       return getNew.data;
     }
    

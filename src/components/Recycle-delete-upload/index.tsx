@@ -12,7 +12,7 @@ export const Threebuttons = (props: any) => {
         <img src={IMAGES.recycle} className="h-[69px] max-w-[169px] p-5" />
       </button>
       <button 
-      onClick={props.deletePicture}
+      onClick={props?.deletePicture}
       className="bg-[#D9D9D9] h-[69px] rounded ">
         <img src={IMAGES.delete} className="h-[69px] max-w-[169px] p-5" />
       </button>
@@ -25,7 +25,7 @@ export const Threebuttons = (props: any) => {
             id="fileInput"
             className="hidden"
             type="file"
-            onChange={props.handleFileUpload}
+            onChange={(e)=>props.handleFileUpload?props.handleFileUpload(e):props.handleFileUpload2(e)}
           />
         </label>
         <img src={IMAGES.cam} className="h-[69px] max-w-[169px] p-5" />

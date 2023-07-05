@@ -5,6 +5,7 @@ import { CustomButton } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useGetWebsiteId } from "../../../custom-hooks/WebsiteHook";
+import { updateSeciton } from "../../../store/Slices/WebsiteSlice";
 import { BaseURL } from "../../../config";
 export const Webandbanner = () => {
   const navigate = useNavigate();
@@ -12,9 +13,48 @@ export const Webandbanner = () => {
   let { id } = params;
   const webData = useGetWebsiteId(id);
   const [websiteData, setWebsiteData] = useState<any>();
+
   useEffect(() => {
     setWebsiteData(webData);
   }, [webData]);
+  // Function to handle the file upload
+  const handleFileUpload = async (ind: any, event: any) => {
+    console.log("Functino call came here", ind);
+    const file = event.target.files[0];
+    let sendingData = new FormData();
+    sendingData.append("images", file);
+
+    websiteData?.sections[1]?.images &&
+      websiteData?.sections[1]?.images.forEach((item: any) => {
+        sendingData.append("attachments[]", item.id);
+      });
+    const Adding = await updateSeciton(
+      id,
+      websiteData?.sections[1]?.id,
+      sendingData
+    );
+    setWebsiteData(Adding);
+  };
+
+  // function to delete a photo
+  const deletePicture = async (Did?: any, secID?: any) => {
+    try {
+      const attachments = websiteData?.sections[1]?.images
+        .filter((item: any) => item.id !== Did)
+        .map((item: any) => item.id);
+
+      if (attachments.length === 0) {
+        attachments.push(""); // Push an empty string to create an empty attachment array
+      }
+      console.log(Did, "CURRENTID");
+      let sendingData = new FormData();
+      attachments.forEach((attachment: any) => {
+        sendingData.append("attachments[]", attachment);
+      });
+      const Adding = await updateSeciton(id, secID, sendingData);
+      setWebsiteData(Adding);
+    } catch (e) {}
+  };
   return (
     <div>
       <Header
@@ -26,8 +66,10 @@ export const Webandbanner = () => {
         <p className="font-bold text-[19px]">{webData?.name}</p>
         <div className="w-full mt-3 ">
           <Webcarousel
+            handleFileUpload={handleFileUpload}
             setWebsiteData={setWebsiteData}
-            sectionId={id}
+            sectionId={websiteData?.sections[0]?.id}
+            webId={id}
             images={
               websiteData?.sections.length > 0 &&
               websiteData?.sections[0]?.section === "Carousel"
@@ -75,41 +117,69 @@ export const Webandbanner = () => {
         </div>
         <div className="flex flex-wrap gap-9 justify-around mt-10 ">
           {websiteData?.sections.length > 0 &&
-          websiteData?.sections[0]?.section === "Cards"
-            ? websiteData?.sections[0]?.images.map((item: any, index: any) => {
-                return (
-                  <div className="  relative" key={index}>
-                    <img
-                      className="bg-cover bg-center  h-[250px] rounded-[10px]"
-                      src={`${BaseURL}/${item.filename}`}
-                      style={{
-                        width: "99%",
-                        height: "530px",
-                      }}
-                    ></img>
-                    <div className=" absolute top-[40%] left-[25%]">
-                      <Threebuttons />
-                    </div>
+          websiteData?.sections[0]?.section === "Cards" ? (
+            websiteData?.sections[0]?.images.map((item: any, index: any) => {
+              return (
+                <div className="  relative" key={index}>
+                  <img
+                    className="bg-cover bg-center  h-[250px] rounded-[10px]"
+                    src={`${BaseURL}/${item.filename}`}
+                    style={{
+                      width: "99%",
+                      height: "530px",
+                    }}
+                  ></img>
+                  <div className=" absolute top-[40%] left-[25%]">
+                    <Threebuttons
+                      ind={1}
+                      handleFileUpload={handleFileUpload}
+                      deletePicture={() =>
+                        deletePicture(item.id, websiteData?.sections[1]?.id)
+                      }
+                    />
                   </div>
-                );
-              })
-            : websiteData?.sections[1]?.images.map((item: any, index: any) => {
-                return (
-                  <div className="  relative" key={index}>
-                    <img
-                      className="bg-cover bg-center  h-[250px] rounded-[10px]"
-                      src={`${BaseURL}/${item.filename}`}
-                      style={{
-                        width: "99%",
-                        height: "530px",
-                      }}
-                    ></img>
-                    <div className=" absolute top-[40%] left-[25%]">
-                      <Threebuttons />
-                    </div>
+                </div>
+              );
+            })
+          ) : websiteData?.sections[1]?.images ? (
+            websiteData?.sections[1]?.images?.map((item: any, index: any) => {
+              return (
+                <div className="  relative" key={index}>
+                  <img
+                    className="bg-cover bg-center  h-[250px] rounded-[10px]"
+                    src={`${BaseURL}/${item.filename}`}
+                    style={{
+                      width: "99%",
+                      height: "530px",
+                    }}
+                  ></img>
+                  <div className=" absolute top-[40%] left-[25%]">
+                    <Threebuttons
+                      handleFileUpload={handleFileUpload}
+                      deletePicture={() =>
+                        deletePicture(item.id, websiteData?.sections[1]?.id)
+                      }
+                    />
                   </div>
-                );
-              })}
+                </div>
+              );
+            })
+          ) : (
+            <div className="  relative">
+              <img
+                className="bg-cover bg-center border-2 h-[250px] rounded-[10px]"
+                alt="no-pic"
+                // src={`${BaseURL}/${item.filename}`}
+                style={{
+                  width: "550px",
+                  height: "530px",
+                }}
+              ></img>
+              <div className=" absolute top-[40%] left-[25%]">
+                <Threebuttons ind={1} handleFileUpload={handleFileUpload} />
+              </div>
+            </div>
+          )}
         </div>
         <div className="flex gap-3 mt-3">
           <CustomButton

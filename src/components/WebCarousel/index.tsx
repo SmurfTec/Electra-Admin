@@ -54,11 +54,11 @@ export const Webcarousel = (props: any) => {
       mappedImages && mappedImages.length > 0 ? mappedImages[0].title : ""
     );
   }, [props.images]);
-  useEffect(() => {
-    console.log(selectedId, "SELECTEDID");
-  }, [selectedId]);
 
-  // Function to handle the file upload
+useEffect(()=>{
+console.log("RENDER")
+},[])
+  // // Function to handle the file upload
   const handleFileUpload = async (event: any) => {
     const file = event.target.files[0];
     let sendingData = new FormData();
@@ -68,21 +68,24 @@ export const Webcarousel = (props: any) => {
       props.images.forEach((item: any) => {
         sendingData.append("attachments", item.id);
       });
-    const Adding = await updateSeciton(props.sectionId, sendingData);
+    const Adding = await updateSeciton(props.webId,props.sectionId, sendingData);
     props.setWebsiteData(Adding);
   };
 
   // function to delete a photo
   const deletePicture = async () => {
     try {
-      console.log(selectedId, "CURRENTID");
+      const attachments =props.images
+      .filter((item: any) => item.id !== selectedId)
+      .map((item: any) => item.id);
+      if (attachments.length === 0) {
+        attachments.push(""); // Push an empty string to create an empty attachment array
+      }
       let sendingData = new FormData();
-      props.images.forEach((item: any) => {
-        if (item.id !== selectedId) {
-          sendingData.append("attachments", item.id);
-        }
+      attachments.forEach((attachment:any) => {
+        sendingData.append("attachments[]", attachment);
       });
-      const Adding = await updateSeciton(props.sectionId, sendingData);
+      const Adding = await updateSeciton(props.webId,props.sectionId, sendingData);
       props.setWebsiteData(Adding);
     } catch (e) {}
   };
@@ -101,7 +104,6 @@ export const Webcarousel = (props: any) => {
     },
   ];
   const itemTemplate = (item: any) => {
-    console.log(item, "HERE");
     return (
       <div
         className="relative"
@@ -122,7 +124,7 @@ export const Webcarousel = (props: any) => {
         ></img>
         <div className=" absolute top-[40%] left-[40%]">
           <Threebuttons
-            handleFileUpload={handleFileUpload}
+            handleFileUpload2={handleFileUpload}
             deletePicture={deletePicture}
           />
         </div>
