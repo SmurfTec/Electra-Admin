@@ -65,8 +65,8 @@ export const AddProduct = () => {
     setBrands(data);
     dataCat = dataCat.categories.map((item: any, index: any) => {
       let newObj = {
-        id: item.c_id,
-        title: item.c_name,
+        value: item.c_id,
+        label: item.c_name,
       };
       return newObj;
     });
