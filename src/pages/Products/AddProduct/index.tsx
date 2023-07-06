@@ -57,12 +57,13 @@ export const AddProduct = () => {
     let dataCat = await getAllCategories();
     data = data.brands.map((item: any, index: any) => {
       let newObj = {
-        id: item.id,
-        title: item.title,
+        value: item.id,
+        label: item.title,
       };
       return newObj;
     });
     setBrands(data);
+    console.log(data)
     dataCat = dataCat.categories.map((item: any, index: any) => {
       let newObj = {
         value: item.c_id,
@@ -71,6 +72,7 @@ export const AddProduct = () => {
       return newObj;
     });
     setCategories(dataCat);
+    console.log(dataCat)
   };
   useEffect(() => {
     getAllBrands();
@@ -262,7 +264,7 @@ export const AddProduct = () => {
           });
         }}
           placeholder="Category"
-          options={brands}
+          options={category}
           mainclasses={"mt-10  !w-[35%]"}
         />
         <CustomDropdown
@@ -274,7 +276,7 @@ export const AddProduct = () => {
           });
         }}
           placeholder="Brands"
-          options={category}
+          options={brands}
           mainclasses={"mt-10  !w-[35%]"}
         />
       </div>
