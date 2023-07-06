@@ -63,16 +63,14 @@ export const AddProduct = () => {
       return newObj;
     });
     setBrands(data);
-    console.log(data)
     dataCat = dataCat.categories.map((item: any, index: any) => {
       let newObj = {
-        value: item.c_id,
-        label: item.c_name,
+        value: item.id,
+        label: item.name,
       };
       return newObj;
     });
     setCategories(dataCat);
-    console.log(dataCat)
   };
   useEffect(() => {
     getAllBrands();

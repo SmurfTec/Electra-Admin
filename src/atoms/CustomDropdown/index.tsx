@@ -36,9 +36,7 @@ font-size: 16px;
 `;
 export const CustomDropdown = (props: any) => {
   const [selectedItem, setSelectedItem] = useState([props.options]);
-  console.log(props)
   let Values = props.options
-  console.log(Values,"COITTIE")
   return (
     <Drops
       placeholdercolor={props.placeholderColor}
