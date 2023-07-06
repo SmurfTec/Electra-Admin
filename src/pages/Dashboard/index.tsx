@@ -90,6 +90,7 @@ export const Dashboard = () => {
           textDash={"bg-custom-blue"}
           textColor={"#3C82D6"}
           arrowImg={IMAGES.uparrow}
+          outerclasses={`!w-[400px]`}
         />
         <DashCard
           title={"Products Sold"}
@@ -99,6 +100,8 @@ export const Dashboard = () => {
           textDash={"bg-custom-blue"}
           textColor={"#3C82D6"}
           arrowImg={IMAGES.uparrow}
+          outerclasses={`!w-[400px] `}
+
         />
         <DashCard
           title={"Total Users"}
@@ -108,6 +111,8 @@ export const Dashboard = () => {
           textDash={"bg-custom-red"}
           textColor={"#FF0000"}
           arrowImg={IMAGES.downarrow}
+          outerclasses={`!w-[400px]`}
+
         />
         <DashCard
           title={"Total Listings"}
@@ -117,6 +122,8 @@ export const Dashboard = () => {
           textDash={"bg-custom-red"}
           textColor={"#FF0000"}
           arrowImg={IMAGES.downarrow}
+          outerclasses={`!w-[400px]`}
+
         />
       </div>
       <div className="flex mt-3 gap-2 w-full   ">

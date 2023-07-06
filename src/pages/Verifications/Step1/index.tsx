@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Header, Carouselcard, Variants } from "../../../components";
 import {
   CustomButton,
@@ -10,6 +10,11 @@ import { Sidebar } from "primereact/sidebar";
 import IMAGES from "../../../assets/Images";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import "../../Listings/Listingdetail/index.css"
+import { useParams } from "react-router-dom";
+import moment from "moment";
+import { getVerficationById } from "../../../store/Slices/VerificationSlice";
+import { BaseURL } from "../../../config";
 const CustomSidebar = styled(Sidebar)`
   .p-sidebar-header {
     display: none;
@@ -20,7 +25,10 @@ const CustomSidebar = styled(Sidebar)`
 `;
 export const Step1 = () => {
   const navigate= useNavigate()
+  const {id} = useParams()
   const [select, setSelect] = React.useState(0);
+  const[ItemData,setItemData]=useState<any>();
+  const[images,setImages]=useState([])
   const VariantsArray = [
     {
       txt: "Capacity",
@@ -55,6 +63,25 @@ export const Step1 = () => {
         "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
     },
   ];
+  const GetVerificationDetail=async()=>{
+    let response=await getVerficationById(id);
+    let ImagesArr=response.product.images.map((item:any,index:any)=>{
+      let newObj={
+        itemImageSrc: `${BaseURL}${item.filename}`,
+        thumbnailImageSrc:`${BaseURL}${item.filename}`,
+        alt: `Description for Image ${index}`,
+        title: `Title ${index}`,
+      }
+      return newObj
+    })
+    setItemData(response)
+    setImages(ImagesArr)
+    console.log(response,"response",ImagesArr)
+  }
+  useEffect(()=>{
+    GetVerificationDetail();
+  },[])
+  
   return (
     <div>
       <Header title="Item Verification & Details" UserBox={true} />
@@ -87,24 +114,24 @@ export const Step1 = () => {
         <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
           What best describes overall condition of your item?
         </p>
-        <ul className="list-tick border-b border-custom pb-6 px-4">
-          <li>
+        <ul className="list-tick border-b pb-3 border-custom">
+          <li className="list-element">
             Device has signs of heavy use such as deep scratches, dents, scuffs,
             or excessive scratching
           </li>
-          <li>
+          <li className="list-element">
             Device has signs of heavy use such as deep scratches, dents, scuffs,
             or excessive scratching
           </li>
-          <li>
+          <li className="list-element">
             Device has signs of heavy use such as deep scratches, dents, scuffs,
             or excessive scratching
           </li>
-          <li>
+          <li className="list-element">
             Device has signs of heavy use such as deep scratches, dents, scuffs,
             or excessive scratching
           </li>{" "}
-          <li>
+          <li className="list-element">
             Device has signs of heavy use such as deep scratches, dents, scuffs,
             or excessive scratching
           </li>
@@ -165,10 +192,10 @@ export const Step1 = () => {
         <div className="flex">
           <div className="flex gap-5 ">
             {/* <img src={IMAGES.IphoneView} /> */}
-            <Carouselcard />
+            <Carouselcard  Images={images}/>
             <div>
               <div className="flex gap-2 items-center">
-                <p className="text-[36px] font-extrabold">IPHONE 14 PRO MAX</p>
+                <p className="text-[36px] font-extrabold">{ItemData?.product?.title}</p>
 
                 <RoundedButton icon={IMAGES.Bin} classes={"bg-[#FF0000]"} />
               </div>
@@ -217,14 +244,12 @@ export const Step1 = () => {
                     "!bg-[#FCE39C] !w-[98px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
                   }
                 />
-                <div className="mt-5">
+                <div className="mt-5 max-w-[55rem]">
                   <ul className="list-tick">
                     <li>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    {ItemData?.product?.description}
                     </li>
-                    <li>Lorem ipsum dolor sit amet,</li>
-                    <li>Mauris id lacus gravida erat rutrum facilisis.</li>
-                    <li>Sed et quam pretium, laoreet metus sed,</li>
+                   
                   </ul>
                 </div>
                 <div className="flex gap-8">
@@ -236,7 +261,7 @@ export const Step1 = () => {
                       }
                     />
                     <p className="font-medium text-[14px] text-[#212121]">
-                      phone
+                    {ItemData?.product?.category}
                     </p>
                   </div>
                   <div className="flex flex-col gap-4">
@@ -247,7 +272,7 @@ export const Step1 = () => {
                       }
                     />
                     <p className="font-medium text-[14px] text-[#212121]">
-                      Apple
+                    {ItemData?.product?.brand}
                     </p>
                   </div>
                   <div className="flex flex-col gap-4">
@@ -258,7 +283,7 @@ export const Step1 = () => {
                       }
                     />
                     <p className="font-medium text-[14px] text-[#212121]">
-                      20 Aug, 2022
+                    {moment( ItemData?.product?.created_on).format("DD,MM,YYYY")}
                     </p>
                   </div>
                   <div className="flex flex-col gap-4">
@@ -268,7 +293,7 @@ export const Step1 = () => {
                         "!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
                       }
                     />
-                    <p className="font-medium text-[14px] text-[#212121]">24</p>
+                    <p className="font-medium text-[14px] text-[#212121]">{ItemData?.product?.listings}</p>
                   </div>
                   <div className="flex flex-col gap-4">
                     <CustomButton
@@ -290,9 +315,28 @@ export const Step1 = () => {
         <div className="flex items-center gap-7 mt-1">
           <div>
             <h1 className="text-[24px] font-bold my-3">Product Variants</h1>
-            <Variants data={VariantsArray} />
+            {ItemData?.product?.variants.map((item:any,index:any)=>{
+              console.log(item)
+              let arr=[
+                {
+                  txt: item.variant,
+                  classes: `!w-[148px]  !p-4 !rounded-[9px] !mt-5 !text-[${item.color}] !bg-[${item.background_color}]`,
+                },
+                {
+                  txt: item.value,
+                  classes:
+                    "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+                },
+              ]
+              return(
+               <React.Fragment key={index}>
+          <Variants data={arr} />
+               </React.Fragment>
+              )
+            })}
+            {/* <Variants data={VariantsArray} />
             <Variants data={VariantsArray2} />
-            <Variants data={VariantsArray3} />
+            <Variants data={VariantsArray3} /> */}
           </div>
           <div>
             <h1 className="text-[24px] font-bold my-3">
@@ -306,15 +350,15 @@ export const Step1 = () => {
                 <div className="border-t  border-custom">
                   <div className=" p-3 gap-3">
                     <p className="font-semibold">NAME</p>
-                    <p className="font-semibold">Huzaifa hanif</p>
+                    <p className="font-semibold">{ItemData?.seller?.firstname+" "+ItemData?.seller?.lasttname}</p>
                   </div>
                   <div className=" p-3 gap-3">
                     <p className="font-semibold">EMAIL</p>
-                    <p className="font-semibold">Huzaifah@gmail.com</p>
+                    <p className="font-semibold">{ItemData?.seller?.email}</p>
                   </div>
                   <div className=" p-3 gap-3">
                     <p className="font-semibold">PHONE NO</p>
-                    <p className="font-semibold">+094345345454</p>
+                    <p className="font-semibold">{ItemData?.seller?.phone}</p>
                   </div>
                 </div>
               </div>
@@ -323,15 +367,15 @@ export const Step1 = () => {
                 <div className="border-t  border-custom">
                   <div className=" p-3 gap-3">
                     <p className="font-semibold">NAME</p>
-                    <p className="font-semibold">Huzaifa hanif</p>
+                    <p className="font-semibold">{ItemData?.buyer?.firstname+" "+ItemData?.buyer?.lasttname}</p>
                   </div>
                   <div className=" p-3 gap-3">
                     <p className="font-semibold">EMAIL</p>
-                    <p className="font-semibold">Huzaifah@gmail.com</p>
+                    <p className="font-semibold">{ItemData?.buyer?.email}</p>
                   </div>
                   <div className=" p-3 gap-3">
                     <p className="font-semibold">PHONE NO</p>
-                    <p className="font-semibold">+094345345454</p>
+                    <p className="font-semibold">{ItemData?.buyer?.phone}</p>
                   </div>
                 </div>
               </div>
@@ -345,77 +389,86 @@ export const Step1 = () => {
             <div className="border w-[547px] border-custom p-4 rounded">
               <div className="flex items-center justify-between gap-3 border-b border-dotted">
                 <p className="font-semibold text-[12px]">Item Price</p>
-                <p className="font-semibold text-[20px]">$437</p>
+                <p className="font-semibold text-[20px]">${ItemData?.receipt?.item_price}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">
                   MarketPlace Fee (7.5%)
                 </p>
-                <p className="font-semibold text-[20px]">$5</p>
+                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[0]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">SALES TAX (8.025%)</p>
-                <p className="font-semibold text-[20px]">$3</p>
+                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[2]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">SHIPPING FEE</p>
-                <p className="font-semibold text-[20px]">$15</p>
+                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[1]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">PLATFORM FEE</p>
-                <p className="font-semibold text-[20px]">$5</p>
+                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[3]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">DISCOUNT</p>
-                <p className="font-semibold text-[20px]">%0</p>
+                <p className="font-semibold text-[20px]">%{ItemData?.receipt_fees[5]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 pb-3 border-b border-dotted ">
                 <p className="font-semibold text-[12px]">
                   13 MONTH PROTECTION PLAN
                 </p>
-                <p className="font-semibold text-[20px]">$50</p>
+                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[4]?.fees}</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">PURCHASE PRICE</p>
-                <p className="font-semibold text-[20px] text-[#3C82D6]">$465</p>
+                <p className="font-semibold text-[20px] text-[#3C82D6]">${ItemData?.receipt?.purchase_price}</p>
               </div>
             </div>
             <div className="border w-[547px] border-custom p-6 rounded">
               <div className=" gap-4 flex-col">
                 <p className="font-semibold text-[12px]">ORDER DATE</p>
-                <p className="font-semibold text-[20px]">23/10/2023</p>
+                <p className="font-semibold text-[20px]">{moment(ItemData?.created_on).format("DD,MM,YYYY")}</p>
               </div>
               <div className=" gap-4 flex-col my-4">
-                <p className="font-semibold text-[12px]">ORDER DATE</p>
+                <p className="font-semibold text-[12px]">TRACKING ID</p>
                 <p className="font-semibold text-[20px] text-[#3C82D6]">
-                  141442
+                 {ItemData?.order?.trackingid}
                 </p>
               </div>
               <div className=" gap-4 flex-col my-4">
-                <p className="font-semibold text-[12px]">ORDER DATE</p>
+                <p className="font-semibold text-[12px]">ORDER NO</p>
                 <p className="font-semibold text-[20px]  text-[#3C82D6]">
-                  1415
+                {ItemData?.order?.id}
                 </p>
               </div>
               <div className=" gap-5 flex-col my-4">
                 <p className="font-semibold text-[12px] mb-3">SHIPPING ADDRESS</p>
                 <p className="font-semibold text-[15px]">
-                  Mr John Smith. 132, My Street, Kingston, New York 12401.
-                  United States Of America
+                  {ItemData?.receipt?.address}
                 </p>
               </div>
             </div>
           </div>
         </div>
         {/* Button */}
+        {ItemData?.status=="pending"?
         <CustomButton
         onClick={()=>{
-          navigate("/Verification/ItemVerification")
+          navigate(`/Verification/ItemVerification/${id}`)
         }}
           iconLeft={<img src={IMAGES.Verified} />}
-          classes="!w-auto !max-w-[150px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3CD670]"
-          txt="Mark for review"
-        />
+          classes="!w-auto !max-w-[150px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3C82D6]"
+          txt="Verify"
+        />:
+<CustomButton
+       
+       iconLeft={<img src={IMAGES.Verified} />}
+       classes="!w-auto !max-w-[150px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3CD670]"
+       txt="Mark for review"
+     />
+      }
+        
+        
       </div>
     </div>
   );

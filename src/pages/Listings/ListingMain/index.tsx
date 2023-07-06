@@ -1,27 +1,70 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "../../../components";
 import { CustomTableComponent, CustomButton } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import IMAGES from "../../../assets/Images";
-import { CustomMenu } from "../../../atoms/global.style";
+import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useListingDetail } from "../../../custom-hooks";
+import { TabPanel } from "primereact/tabview";
 
+import moment from "moment";
 export const Listings = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
+  const ListingData = useListingDetail();
+  const [listings, setListings] = useState([]);
+  const [MenuLabel, setMenuLabel] = useState("");
+  const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
+  const [initial, setInitial] = useState(true);
+
+  const getListings = async () => {
+    console.log(ListingData);
+    let latestArray;
+    latestArray = ListingData?.data?.listings?.map((item: any, index: any) => {
+      console.log(item, "ITEM");
+      let newObj = {
+        ...item,
+        id: item.id,
+        Account: item?.Account,
+        ItemName: item.product.title,
+        Ask: item.ask,
+        "Lwst Offer": item.lowest_offer ?? "-",
+        "Hgst Offer": item.highest_offer ?? "-",
+        "Sale Price": item.saleprice ? `$ ${item.saleprice}` : "-",
+        "Listed On": moment(item?.created_on).format("DD MMM, YYYY"),
+        Role: item.is_active ? "Unsold" : "Sold",
+      };
+      return newObj;
+    });
+
+    setListings(latestArray);
+  };
+  useEffect(() => {
+    getListings();
+  }, [ListingData]);
+  const viewItem = (event: React.MouseEvent, item: any, vaaluue?: any) => {
+    event.stopPropagation();
+    console.log(vaaluue);
+
+    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+  };
+
   const items = [
     {
       items: [
         {
-          label: "Ban User",
+          label: "View",
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
+            onClick={(event: any) => viewItem(event, item, CurrSelectedProduct)}
+
                 style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> Ban User
+                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> View listings
               </div>
             );
           },
@@ -57,52 +100,7 @@ export const Listings = () => {
       ],
     },
   ];
-  const filterData = [
-    {
-      id: 1,
-      Account: "ListedBy",
-      ItemName: "ItemName",
-      Ask: "Ask",
-      "Lwst Offer": "Lwst Offer",
-      "Hgst Offer": "Hgst Offer",
-      "Sale Price": "$4345",
-      "Listed On": "Listed On",
-      Role: "Sold",
-    },
-    {
-      id: 2,
-      Account: "ListedBy",
-      ItemName: "ItemName",
-      Ask: "Ask",
-      "Lwst Offer": "Lwst Offer",
-      "Hgst Offer": "Hgst Offer",
-      "Sale Price": "$4345",
-      "Listed On": "Listed On",
-      Role: "Sold",
-    },
-    {
-      id: 3,
-      Account: "ListedBy",
-      ItemName: "ItemName",
-      Ask: "Ask",
-      "Lwst Offer": "Lwst Offer",
-      "Hgst Offer": "Hgst Offer",
-      "Sale Price": "$4345",
-      "Listed On": "Listed On",
-      Role: "Unsold",
-    },
-    {
-      id: 4,
-      Account: "ListedBy",
-      ItemName: "ItemName",
-      Ask: "Ask",
-      "Lwst Offer": "Lwst Offer",
-      "Hgst Offer": "Hgst Offer",
-      "Sale Price": "$4345",
-      "Listed On": "Listed On",
-      Role: "Unsold",
-    },
-  ];
+
   const AccountBodyTemplate = (option: any) => {
     return (
       <div className="flex gap-2 items-center justify-center">
@@ -112,16 +110,32 @@ export const Listings = () => {
     );
   };
   const MenuBodyTemplate = (rowData: any) => {
+    const handleClick = (event: any) => {
+      event.preventDefault();
+      console.log(rowData);
+      setCurrSelectedProduct(rowData.id);
+      menuLeft.current.toggle(event);
+    };
+    useEffect(() => {
+      if (initial) {
+        setInitial(false);
+      } else {
+        console.log(
+          "Menu",
+          MenuLabel,
+          
+          "CurrSelectedProduct",
+          CurrSelectedProduct
+        );
+      }
+    }, [MenuLabel, CurrSelectedProduct]);
     return (
       <>
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
           <SVGIcon
-            onClick={(event: any) => {
-              event.preventDefault();
-              menuLeft.current.toggle(event);
-            }}
+           onClick={handleClick}
             src={IMAGES.Dots}
           />
 
@@ -172,6 +186,20 @@ export const Listings = () => {
     { field: "Role", header: "Role", body: StatusBodyTemplate },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
+  useEffect(() => {
+    if (MenuLabel == "View") {
+      navigate(`/ListingsDetail/${CurrSelectedProduct}`);
+    } else {
+      console.log(
+        "Menu",
+        MenuLabel,
+        "product",
+        // selectedProducts,
+        "CurrSelectedProduct",
+        CurrSelectedProduct
+      );
+    }
+  }, [MenuLabel]);
   return (
     <div>
       <Header
@@ -188,31 +216,40 @@ export const Listings = () => {
               Check All the Listings
             </span>
           </p>
-          <div className="flex gap-8 px-4 border-b border-custom ">
-            <p className="border-b-4 border-[#3C82D6] text-[#3C82D6] pb-2 font-semibold">
-              All (9)
-            </p>
-            <p className="text-[#B4B4B4]">Super Admin (3)</p>
-            <p className="text-[#B4B4B4]">Admin (3) </p>
-            <p className="text-[#B4B4B4]">Sub Admin(9)</p>
-          </div>
-          <CustomTableComponent
-            colume={{ backgroundColor: "#FCFCFC !important" }}
-            headerStyle={{ color: "black", fontWeight: "800" ,backgroundColor:"#FCFCFC"}}
-            filterData={filterData}
-            columnData={columnData}
-            rowStyling={"#FCFCFC !important"}
-            MultipleSelect={true}
+          <div className="flex gap-8 px-4 border-b border-custom "></div>
+          <CustomTabView className="!bg-[#FCFCFC]">
+            <TabPanel header="All(6)">
+              <CustomTableComponent
+                colume={{ backgroundColor: "#FCFCFC !important" }}
+                headerStyle={{
+                  color: "black",
+                  fontWeight: "800",
+                  backgroundColor: "#FCFCFC",
+                }}
+                filterData={listings}
+                columnData={columnData}
+                rowStyling={"#FCFCFC !important"}
+                MultipleSelect={true}
+              />
+            </TabPanel>
 
-            
-          />
+            <TabPanel className="!bg-[#FCFCFC]" header="Fail (1)">
+              <p className="m-0"></p>
+            </TabPanel>
+            <TabPanel header="Pass (1)">
+              <p className="m-0"></p>
+            </TabPanel>
+            <TabPanel header="Pending (1)">
+              <p className="m-0"></p>
+            </TabPanel>
+          </CustomTabView>
         </div>
       </div>
       <div>
         <CustomButton
-        onClick={()=>{
-          navigate("/ListingsDetail")
-        }}
+          onClick={() => {
+            navigate("/ListingsDetail");
+          }}
           iconLeft={<img src={IMAGES.Flag} />}
           classes="!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]"
           txt="Mark for review"

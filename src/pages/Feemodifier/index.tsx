@@ -1,14 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SVGIcon } from "../../components/SVG";
 import { CustomTableComponent } from "../../atoms";
 import { CustomMenu } from "../../atoms/global.style";
 import IMAGES from "../../assets/Images";
 import { Header, Feemodifcard, Confirmationmodal } from "../../components";
+import { useFeesAll } from "../../custom-hooks/feeshooks";
+import { CreateFees } from "../../store/Slices/FeesSlice";
+import moment from "moment";
 export const Feemodifier = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
   const [visible, setVisible] = React.useState(false);
+  const feeData = useFeesAll();
+  const [feesModif, setFeesModif] = useState();
+  const [currSelected, setCurrSelectedProduct] = useState<any>();
+  const [feeValue, setFeeValue] = useState(0);
+  useEffect(() => {
+    let newData = feeData?.fees.map((item: any, index: any) => {
+      return {
+        ID: item.id,
+        Category: item.category.name,
+        "Marketplace Fee": item.fees,
+        "Last Changed On": moment(item.updated_on).format("DD MMM, YYYY"),
+        Action: "Edit",
+        type: item.type,
+      };
+    });
+    setFeesModif(newData);
+  }, [feeData]);
   const items = [
     {
       items: [
@@ -57,22 +77,7 @@ export const Feemodifier = () => {
       ],
     },
   ];
-  const filterData = [
-    {
-      ID: 1,
-      Category: "0342525252525",
-      "Marketplace Fee": "%7.00",
-      "Last Changed On": "Huz@gmail.com",
-      Action: "Edit",
-    },
-    {
-      ID: 1,
-      Category: "0342525252525",
-      "Marketplace Fee": "%7.00",
-      "Last Changed On": "Huz@gmail.com",
-      Action: "Edit",
-    },
-  ];
+
   const AccountBodyTemplate = (option: any) => {
     return (
       <div className="flex gap-2 items-center justify-center">
@@ -99,10 +104,18 @@ export const Feemodifier = () => {
       </>
     );
   };
-  const StatusBodyTemplate = (option: any) => {
+  const StatusBodyTemplate = (rowData: any) => {
+    const handleClick = (event: any) => {
+      event.preventDefault();
+      console.log(rowData);
+      setCurrSelectedProduct(rowData);
+      // menuLeft.current.toggle(event);
+      setVisible(!visible);
+    };
     return (
       <>
         <div
+          onClick={handleClick}
           className="bg-[#212121] w-[83px] h-[29px]
             mx-auto
             rounded
@@ -115,7 +128,7 @@ export const Feemodifier = () => {
             "
         >
           <img src={IMAGES.Editpen} />
-          <p className="font-bold text-[white] ">{option.Action}</p>
+          <p className="font-bold text-[white] ">{rowData.Action}</p>
           <img src={IMAGES.dropdown} />
         </div>
       </>
@@ -129,6 +142,19 @@ export const Feemodifier = () => {
     { field: "Action", header: "Action", body: StatusBodyTemplate },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
+  const handleFunction = async (value?: any) => {
+    try {
+      console.log(currSelected);
+      let newData = {
+        type: currSelected.type,
+        fees: Number(feeValue),
+      };
+      let addFees= await CreateFees(currSelected.ID,newData);
+      setVisible(!visible)
+    } catch (e) {
+      console.log(e)
+    }
+  };
   return (
     <div>
       <Header
@@ -154,7 +180,7 @@ export const Feemodifier = () => {
         <p className="font-semibold ml-3 text-[20px]">Market Place Fee</p>
         <CustomTableComponent
           headerStyle={{ color: "black" }}
-          filterData={filterData}
+          filterData={feesModif}
           columnData={columnData}
         />
       </div>
@@ -170,6 +196,10 @@ export const Feemodifier = () => {
         }
         placeholderclasses={"text-[#3C82D6]"}
         Feemodif={true}
+        setValue={setFeeValue}
+        value={feeValue}
+        placeholderValue={"Enter Fees"}
+        handleFunction={handleFunction}
       />
     </div>
   );

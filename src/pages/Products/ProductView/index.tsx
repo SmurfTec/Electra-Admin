@@ -3,125 +3,96 @@ import { RoundedButton, CustomButton } from "../../../atoms";
 import { DashCard, Variants, Header } from "../../../components";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { getProductById,deleteProductById } from "../../../store/Slices/ProductSlice";
+import { useEffect, useState } from "react";
+import { useProductDetail, useVariantDetail } from "../../../custom-hooks";
+import moment from "moment";
+import { BaseURL } from "../../../config";
 export const ProductView = () => {
+  const params = useParams(); 
+  let { id } = params;
   const navigate = useNavigate();
-  const VariantsArray = [
-    {
-      txt: "Capacity",
-      classes:
-        "!bg-[#FCE39C] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "64 GB",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "128 GB",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5 ",
-    },
-    {
-      txt: "256 GB",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "512 GB",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-  ];
-  const VariantsArray2 = [
-    {
-      txt: "Colors",
-      classes: "!bg-[#3C82D6] !w-[148px]  !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "Blue",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "Black",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5 ",
-    },
-    {
-      txt: "White",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "Purple",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-  ];
-  const VariantsArray3 = [
-    {
-      txt: "Carriers",
-      classes: " !w-[148px]  !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "At & T",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "Verizon",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5 ",
-    },
-    {
-      txt: "Factory Unlocked",
-      classes:
-        "!bg-[#FCFCFC] !w-[188px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-    {
-      txt: "T-Mobile",
-      classes:
-        "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-    },
-  ];
+  const ProductData = useProductDetail(id);
+
+  const [VariantsArray, setVariantArray] = useState([]);
+
+  useEffect(() => {
+    getProductById(id);
+  }, []);
+  useEffect(() => {
+    if (ProductData) {
+      const mappedData = ProductData?.product?.product_variants
+        ? ProductData?.product?.product_variants.map((item: any) => {
+            const { variant, values, value,background_color } = item;
+            const options = values.map((value1: any) => ({
+              txt: value1,
+              classes:
+                value === value1
+                  ? "!bg-[#FCFCFC] !w-[148px] ml-2 !border !border-[#3C82D6] !text-[black] !p-4 !rounded-[9px] !mt-5"
+                  : "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+            }));
+
+            return {
+              variant: {
+                txt: variant,
+                classes:
+                `!bg-[${background_color}]  !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5`,
+              },
+              values: options,
+              };
+          })
+        : [];
+      setVariantArray(mappedData);
+    }
+  }, [ProductData]);
+  const deleteProduct= async()=>{
+    try{
+const DeleteProduct =await deleteProductById(id)
+console.log("DeleteProduct",DeleteProduct)
+if(DeleteProduct){
+  navigate("/products")
+}
+    }catch(e){
+
+    }
+  }
   return (
     <div>
-      <Header title={"Product Details"}
-      
-      UserBox={true}/>
+      <Header title={"Product Details"} UserBox={true} />
       <div className="flex gap-11">
         <div
           onClick={() => {
             navigate("/AddProduct");
           }}
         >
-          <img src={IMAGES.IphoneView} />
+          <img
+            className="h-[390px]"
+            src={`${BaseURL}${ProductData?.product?.images[0]?.filename}`}
+          />
         </div>
         <div>
           <div className="flex gap-2 items-center">
-            <p className="text-[36px] font-extrabold">IPHONE 14 PRO MAX</p>
+            <p className="text-[36px] font-extrabold">
+              {ProductData?.product?.title}
+            </p>
             <RoundedButton icon={IMAGES.Pen} classes={"bg-[#212121]"} />
-            <RoundedButton icon={IMAGES.Bin} classes={"bg-[#FF0000]"} />
+            <RoundedButton onClick={()=>deleteProduct()} icon={IMAGES.Bin} classes={"bg-[#FF0000]"} />
           </div>
           <div className="mt-3">
             <p className="bg-[#FCFCFC] text-center rounded-2xl w-[295px] h-[37px] flex items-center justify-center">
               View Technical Specifications
             </p>
             <CustomButton
-              txt={"Description"}
+              txt={"description"}
               classes={
-                "!bg-[#FCE39C] !w-[98px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
+                "!bg-[#FCE39C]  !w-[97px] !h-[50px] !text-[black] !p-2 !rounded-[7px] !mt-5"
               }
             />
             <div className="mt-5">
-              <ul className="list-tick">
-                <li>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </li>
-                <li>Lorem ipsum dolor sit amet,</li>
-                <li>Mauris id lacus gravida erat rutrum facilisis.</li>
-                <li>Sed et quam pretium, laoreet metus sed,</li>
-              </ul>
+              <p>
+                {ProductData?.product?.product_properties?.description}
+              </p>
             </div>
             <div className="flex gap-8">
               <div className="flex flex-col gap-4">
@@ -131,7 +102,9 @@ export const ProductView = () => {
                     "!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
                   }
                 />
-                <p className="font-medium text-[14px] text-[#212121]">phone</p>
+                <p className="font-medium text-[14px] text-[#212121]">
+                  {ProductData?.product?.category.name}
+                </p>
               </div>
               <div className="flex flex-col gap-4">
                 <CustomButton
@@ -140,7 +113,9 @@ export const ProductView = () => {
                     "!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
                   }
                 />
-                <p className="font-medium text-[14px] text-[#212121]">Apple</p>
+                <p className="font-medium text-[14px] text-[#212121]">
+                  {ProductData?.product?.brand?.title}
+                </p>
               </div>
               <div className="flex flex-col gap-4">
                 <CustomButton
@@ -150,7 +125,9 @@ export const ProductView = () => {
                   }
                 />
                 <p className="font-medium text-[14px] text-[#212121]">
-                  20 Aug, 2022
+                  {moment(ProductData?.product?.created_on).format(
+                    "DD-MMM-YYYY"
+                  )}
                 </p>
               </div>
               <div className="flex flex-col gap-4">
@@ -160,7 +137,10 @@ export const ProductView = () => {
                     "!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
                   }
                 />
-                <p className="font-medium text-[14px] text-[#212121]">24</p>
+                <p className="font-medium text-[14px] text-[#212121]">
+                  {" "}
+                  {ProductData?.product?.product_properties?.listings}
+                </p>
               </div>
               <div className="flex flex-col gap-4">
                 <CustomButton
@@ -179,7 +159,11 @@ export const ProductView = () => {
                   }
                 />
                 <label className="switch">
-                  <input type="checkbox" className="toggle-input" />
+                  <input
+                    type="checkbox"
+                    checked={ProductData?.product?.is_active ? true : false}
+                    className="toggle-input"
+                  />
                   <span className="slider"></span>
                 </label>
               </div>
@@ -190,9 +174,18 @@ export const ProductView = () => {
       {/* PRODUCT  VARIATNNSSSSS */}
       <div>
         <h1 className="text-[24px] font-bold my-3">Product Variants</h1>
-        <Variants data={VariantsArray} />
-        <Variants data={VariantsArray2} />
-        <Variants data={VariantsArray3} />
+        {VariantsArray.map((item: any, index) => {
+          return (
+            <div className="flex" key={index}>
+              <CustomButton
+                key={index}
+                txt={item.variant.txt}
+                classes={item.variant.classes}
+              />
+              <Variants data={item.values} />;
+            </div>
+          );
+        })}
       </div>
       <div>
         <h1 className="text-[24px] font-bold my-3">Statistics</h1>
@@ -236,6 +229,29 @@ export const ProductView = () => {
           />
         </div>
       </div>
+      <>
+        <div className="mb-5">
+          <p className="text-[black] font-extrabold bg-lightgray border-b-0 p-4 w-[60%] rounded mt-5 border border-custom">
+            Technical Specifications
+          </p>
+          <>
+            <div className="border border-custom  w-[60%] pb-4" >
+              {ProductData?.product?.technical_specifications&&ProductData?.product?.technical_specifications.map(
+                (item: any, index: any) => {
+                  return (
+                    <div className="ml-5" key={index}> 
+                      <p className="text-[#656565] text-[12px] mt-4">
+                       {item.title}
+                      </p>
+                      <p>{item.value}</p>
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          </>
+        </div>
+      </>
     </div>
   );
 };

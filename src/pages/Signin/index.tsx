@@ -5,11 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { EmailVerificationModel, ChangePasswordModel } from "../../components";
 import { useDispatch } from "react-redux";
 import { Login } from "../../store/Slices/AuthSlice";
+import useCookies from "react-cookie/cjs/useCookies";
 type LoginData = {
   email: string;
   password: string;
 };
 export const Signin = () => {
+const [, setCookie] = useCookies(['Authentication','Refresh','AuthCheck'])
+
   const dispatch = useDispatch();
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -24,10 +27,7 @@ export const Signin = () => {
       email:Email,
       password:Password
     }
-    event.preventDefault();
-    let user: any = {
-      name: "sherry",
-    };
+  
     if (Email.length == 0 || Password.length == 0) {
       if (Email.length == 0) {
         setEmailErr(true);
@@ -36,12 +36,13 @@ export const Signin = () => {
         setPasswordErr(true);
       }
     } else {
-      localStorage.setItem("user", JSON.stringify(user));
+
       const loginCall = await dispatch(Login(data) as any);
-      console.log()
+     
+      localStorage.setItem("user", JSON.stringify(loginCall.payload.user));
+      console.log(loginCall.payload)
       if(loginCall.payload.user){
         navigate("/Dashboard");
-      
       }
     }
   };

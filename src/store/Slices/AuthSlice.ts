@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import url from "../../config/index";
+import { setAuthToken } from "../../config/index";
+
+
 type LoginData = {
   email: string;
   password: string;
@@ -22,9 +25,13 @@ export const Login = createAsyncThunk<
 >("auth/login", async (data: LoginData) => {
   try {
     let response: any = await url.post("/auth/login", data);
-    console.log(response.data.user, "RESPONSE");
-    localStorage.setItem("token", JSON.stringify(response.data.user));
-    // setAuthToken(response.data.accessTokenCookie);
+    console.log(response.data,"RESPONSEE")
+    const accesstoken=response.data.authentication
+    const refreshtoken=response.data.refresh
+    localStorage.setItem("token", JSON.stringify(accesstoken));
+    localStorage.setItem("refresh", JSON.stringify(refreshtoken));
+    // localStorage.setItem("x-refresh-token", JSON.stringify(response.data.refreshTokenCookie));
+    setAuthToken(accesstoken,refreshtoken);
     return response.data;
   } catch (e) {
     return e;
@@ -65,9 +72,9 @@ const authSlice = createSlice({
       state.status = action.error.message;
     }),
       builder.addCase(Login.fulfilled, (state, action) => {
-        const email = action.payload.user.email;
-        state.auth = true;
-        state.email = email;
+        // const email = action.payload.user.email;
+        // state.auth = true;
+        // state.email = email;
         state.status = "Success";
       });
     builder.addCase(changePassword.pending, (state) => {

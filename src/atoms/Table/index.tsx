@@ -1,9 +1,9 @@
 import { Column } from "primereact/column";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomTableWrapper, CustomTable } from "../global.style";
 import { CustomButton } from "..";
 import IMAGES from "../../assets/Images";
-
+import { CheckBox } from "..";
 export const CustomTableComponent = ({
   columnStyle,
   headerStyle,
@@ -17,34 +17,44 @@ export const CustomTableComponent = ({
   showlines, 
   MultipleHeaderStyle,
   columnHeaderFirst,
-  LoadMore,
+  LoadMore=false,
   setLoadMore,
+  showLoadMore=true,
+  initialRowSize=10,
+  pagination=false,
   ...props
 }: any) => {
-  const[rowsize,setrowsize]=useState(LoadMore==true?10:filterData.length)
+  const[rowsize,setrowsize]=useState(LoadMore==true?initialRowSize:filterData?.length)
+  
+  useEffect(()=>{
+    setrowsize(LoadMore==true?initialRowSize:filterData?.length)
+  },[filterData,LoadMore])
   return (
     <>
       <div className="relative">
-        {LoadMore && <CustomTableWrapper></CustomTableWrapper>}
+        {(LoadMore &&showLoadMore)&& <CustomTableWrapper></CustomTableWrapper>}
         <CustomTable
           {...props}
-         
-          value={filterData.slice(0,rowsize)}
+          selectionMode={'checkbox'} selection={selectedProducts}
+          value={filterData?.slice(0,rowsize)}
           scrollable={false}
-          selection={selectedProducts ? selectedProducts : []}
+          onSelectionChange={(e:any) => setSelectedProducts(e.value)}
           dataKey="id"
-          onSelectionChange={
-            selectedProducts
-              ? (e: any) => setSelectedProducts(e.value)
-              : undefined
-          }
+          rows={20}
+          paginator={pagination?true:false}
           tablebodycolor={rowStyling??""}
           columnheader={props.columnHeader}
           columnHeaderFirst={columnHeaderFirst}
           showGridlines ={showlines ?true:false}
+          // onPage={(e)=>{console.log("EE",e)}}
+          
         >
           {MultipleSelect && (
-            <Column selectionMode="multiple" headerStyle={ MultipleHeaderStyle? MultipleHeaderStyle: { width: "3rem" }} />
+            <Column
+            selectionMode="multiple"
+            headerStyle={MultipleHeaderStyle ? MultipleHeaderStyle : { width: "3rem" }}
+           
+          />
           )}
           {columnData?.map((item: any, index: any) => {
             
@@ -62,7 +72,7 @@ export const CustomTableComponent = ({
             );
           })}
         </CustomTable>
-    {LoadMore &&
+    {(LoadMore && showLoadMore) &&
     <div className='flex justify-center mt-3 w-full '>
     <CustomButton onClick={()=>{
       setLoadMore(false)

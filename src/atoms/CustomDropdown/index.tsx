@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 interface DropsProps {
   placeholdercolor: string;
+  options:[]
   // Add here other props if necessary
 }
 
@@ -35,15 +36,25 @@ font-size: 16px;
 `;
 export const CustomDropdown = (props: any) => {
   const [selectedItem, setSelectedItem] = useState([props.value]);
-  const cities = ["Iphone11", "Iphone12", "Iphone13", "Iphone14"];
+  console.log(props)
+  let Values = props.options
+  console.log(Values,"COITTIE")
   return (
     <Drops
       placeholdercolor={props.placeholderColor}
       value={selectedItem}
-      onChange={(e:any) => setSelectedItem(e.value)}
+      onChange={(e:any) => {
+        console.log(e,"EEE")
+        setSelectedItem(e.value);
+        const selectedOption = Values.find((item: any) => item.title === e.value);
+        if (selectedOption) {
+          props.setValue(selectedOption.id);
+        } else {
+          props.setValue(null); // Handle the case when no option is selected
+        }}}
       className={props.mainclasses}
       placeholder={props.placeholder}
-      options={props?.options || cities}
+      options={props.options}
     />
   );
 };

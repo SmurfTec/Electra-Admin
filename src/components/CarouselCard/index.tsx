@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Galleria, GalleriaResponsiveOptions } from "primereact/galleria";
 import IMAGES from "../../assets/Images";
 import styled from "styled-components";
 const CustomCarousel = styled(Galleria)`
   border: 1px solid rgba(0, 0, 0, 0.11);
-  width:363px;
+  width:380px;
   .p-galleria-thumbnail-wrapper {
     margin-top: 10px;
     .p-galleria-thumbnail-container {
@@ -59,42 +59,16 @@ const CustomCarousel = styled(Galleria)`
     display: none;
   }
   .p-galleria-thumbnail-container {
-    padding:1rem 2.25rem
+    padding:1rem 1.25rem;
+  }
+  .p-galleria-thumbnail-item-content img{
+    height:50px;
+    margin-left: 5px;
+   
   }
 `;
-export const Carouselcard = () => {
-  const [images, setImages] = useState([
-    {
-      itemImageSrc: IMAGES.pinkphone,
-      thumbnailImageSrc: IMAGES.pinkphone,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.Iphone22,
-      thumbnailImageSrc: IMAGES.Iphone22,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.Greeniphone,
-      thumbnailImageSrc: IMAGES.Greeniphone,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.yellowiphone,
-      thumbnailImageSrc: IMAGES.yellowiphone,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-    {
-      itemImageSrc: IMAGES.Greeniphone,
-      thumbnailImageSrc: IMAGES.Greeniphone,
-      alt: "Description for Image 1",
-      title: "Title 1",
-    },
-  ]);
+export const Carouselcard = ({Images}:any) => {
+  const [images, setImages] = useState();
   const responsiveOptions: GalleriaResponsiveOptions[] = [
     {
       breakpoint: "991px",
@@ -115,7 +89,7 @@ export const Carouselcard = () => {
       <img
         src={item.itemImageSrc}
         alt={item.alt}
-        style={{ width: "100%", display: "block", height: "300px",paddingTop:"6px" }}
+        style={{ width: "100%", display: "block", height: "300px" }}
       />
     );
   };
@@ -129,9 +103,14 @@ export const Carouselcard = () => {
       />
     );
   };
-
+useEffect(()=>{
+  
+if(Images){
+  setImages(Images)
+}
+},[Images])
   return (
-    <div className="card ">
+    <div className="card " style={{width:"510px",overflowX:"auto"}}>
       <CustomCarousel
         value={images}
         responsiveOptions={responsiveOptions}
