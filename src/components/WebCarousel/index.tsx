@@ -124,7 +124,8 @@ console.log("RENDER")
         ></img>
         <div className=" absolute top-[40%] left-[40%]">
           <Threebuttons
-            handleFileUpload2={handleFileUpload}
+          class={"Carousell"}
+            handleFileUpload={handleFileUpload}
             deletePicture={deletePicture}
           />
         </div>

@@ -18,14 +18,14 @@ export const Threebuttons = (props: any) => {
       </button>
       <button className="relative bg-[#D9D9D9] h-[69px] rounded ">
         <label
-          htmlFor="fileInput"
+          htmlFor={props.class}
           className="absolute w-[200px] h-[69px] right-[5%]"
         >
           <input
-            id="fileInput"
+            id={props.class}
             className="hidden"
             type="file"
-            onChange={(e)=>props.handleFileUpload?props.handleFileUpload(e):props.handleFileUpload2(e)}
+            onChange={(e)=>props.handleFileUpload(e)}
           />
         </label>
         <img src={IMAGES.cam} className="h-[69px] max-w-[169px] p-5" />
