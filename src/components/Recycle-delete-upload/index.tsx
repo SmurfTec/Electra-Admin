@@ -1,5 +1,6 @@
 import IMAGES from "../../assets/Images";
 export const Threebuttons = (props: any) => {
+ 
   return (
     <div
       className="flex items-center gap-5 justify-center h-[134px] w-[309px] rounded-lg"
@@ -25,7 +26,10 @@ export const Threebuttons = (props: any) => {
             id="fileInput"
             className="hidden"
             type="file"
-            onChange={(e)=>props.handleFileUpload?props.handleFileUpload(e):props.handleFileUpload2(e)}
+            onChange={(e)=>{
+              console.log(props)
+              // props.handleFileUpload?props.handleFileUpload(e):props.handleFileUpload2(e)
+            }}
           />
         </label>
         <img src={IMAGES.cam} className="h-[69px] max-w-[169px] p-5" />

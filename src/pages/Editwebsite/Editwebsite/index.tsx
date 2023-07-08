@@ -18,8 +18,8 @@ export const Webandbanner = () => {
     setWebsiteData(webData);
   }, [webData]);
   // Function to handle the file upload
-  const handleFileUpload = async (ind: any, event: any) => {
-    console.log("Functino call came here", ind);
+  const handleFileUpload = async (event: any) => {
+
     const file = event.target.files[0];
     let sendingData = new FormData();
     sendingData.append("images", file);
@@ -33,9 +33,10 @@ export const Webandbanner = () => {
       websiteData?.sections[1]?.id,
       sendingData
     );
+    console.log("bsdk2")
     setWebsiteData(Adding);
   };
-
+ 
   // function to delete a photo
   const deletePicture = async (Did?: any, secID?: any) => {
     try {
@@ -154,7 +155,8 @@ export const Webandbanner = () => {
                     }}
                   ></img>
                   <div className=" absolute top-[40%] left-[25%]">
-                    <Threebuttons
+                  <Threebuttons
+                  
                       handleFileUpload={handleFileUpload}
                       deletePicture={() =>
                         deletePicture(item.id, websiteData?.sections[1]?.id)
@@ -176,9 +178,9 @@ export const Webandbanner = () => {
                 }}
               ></img>
               <div className=" absolute top-[40%] left-[25%]">
-                <Threebuttons ind={1} handleFileUpload={handleFileUpload} />
+              <Threebuttons id={2} ind={1} handleFileUpload={handleFileUpload} />
               </div>
-            </div>
+            </div> 
           )}
         </div>
         <div className="flex gap-3 mt-3">

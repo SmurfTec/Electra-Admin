@@ -55,11 +55,9 @@ export const Webcarousel = (props: any) => {
     );
   }, [props.images]);
 
-useEffect(()=>{
-console.log("RENDER")
-},[])
+
   // // Function to handle the file upload
-  const handleFileUpload = async (event: any) => {
+  const handleFileUpload123 = async (event: any) => {
     const file = event.target.files[0];
     let sendingData = new FormData();
     sendingData.append("images", file);
@@ -70,6 +68,7 @@ console.log("RENDER")
       });
     const Adding = await updateSeciton(props.webId,props.sectionId, sendingData);
     props.setWebsiteData(Adding);
+    console.log("bsdk")
   };
 
   // function to delete a photo
@@ -124,8 +123,9 @@ console.log("RENDER")
         ></img>
         <div className=" absolute top-[40%] left-[40%]">
           <Threebuttons
-            handleFileUpload2={handleFileUpload}
-            deletePicture={deletePicture}
+          id={1}
+            // handleFileUpload2={handleFileUpload123}
+            // deletePicture={deletePicture}
           />
         </div>
       </div>

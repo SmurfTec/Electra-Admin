@@ -187,7 +187,12 @@ export const Orders = () => {
   ];
   const getOrders=async()=>{
     let r=await getAllOrders()
-    console.log(r)
+    let newarr=r.orders.map((item:any)=>{
+      let updatedObj={
+        ...item,
+        
+      }
+    })
   }
   useEffect(()=>{
     getOrders();
