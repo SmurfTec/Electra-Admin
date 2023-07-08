@@ -5,7 +5,10 @@ const initialState: any = {
   users: [],
   CurrentActiveUser: {},
 };
-
+type RoleBody = {
+  name: string;
+  permissions: string[];
+};
 export const getRoles = async () => {
   try {
     let response: any = await url.get("/authorization/roles");
@@ -14,6 +17,24 @@ export const getRoles = async () => {
     return e;
   }
 };
+
+export const createRole = async (body: RoleBody) => {
+  try {
+    let response: any = await url.post("/authorization/role", body);
+    return response.data;
+  } catch (e) {
+    return e
+  }
+};
+
+export const getPermission=async()=>{
+  try{
+    let response: any = await url.get("/authorization/permissions");
+    return response.data;
+  }catch(e){
+
+  }
+}
 
 const RoleSlice = createSlice({
   name: "role",

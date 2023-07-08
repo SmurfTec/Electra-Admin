@@ -199,7 +199,7 @@ export const Roles = () => {
           Addimg={IMAGES.newmembers}
         />
         <DashCard
-          onClick={() => setVisible(true)}
+          onClick={() => navigate("/Searchrole")}
           outerclasses={"!bg-[#3C82D6] !w-[187px] !h-[93px]"}
           Add={true}
           txt={"View Roles"}
