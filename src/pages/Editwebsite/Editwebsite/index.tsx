@@ -7,19 +7,39 @@ import { useParams } from "react-router-dom";
 import { useGetWebsiteId } from "../../../custom-hooks/WebsiteHook";
 import { updateSeciton } from "../../../store/Slices/WebsiteSlice";
 import { BaseURL } from "../../../config";
+type Section = {
+  id: number;
+  section: string;
+  images: Image[];
+};
+
+type Image = {
+  id: number;
+  url: string;
+  filename: string;
+  mime_type: string;
+  size: number;
+};
+
+type Data = {
+  created_on: string;
+  id: number;
+  name: string;
+  sections: Section[];
+  updated_on: string;
+};
 export const Webandbanner = () => {
   const navigate = useNavigate();
   const params = useParams();
   let { id } = params;
   const webData = useGetWebsiteId(id);
-  const [websiteData, setWebsiteData] = useState<any>();
+  const [websiteData, setWebsiteData] = useState<Data | any>();
 
   useEffect(() => {
     setWebsiteData(webData);
   }, [webData]);
   // Function to handle the file upload
   const handleFileUpload = async (event: any) => {
-
     const file = event.target.files[0];
     let sendingData = new FormData();
     sendingData.append("images", file);
@@ -44,12 +64,11 @@ export const Webandbanner = () => {
         .filter((item: any) => item.id !== Did)
         .map((item: any) => item.id);
 
-      if (attachments.length === 0) {
+      if (attachments?.length === 0) {
         attachments.push(""); // Push an empty string to create an empty attachment array
       }
-      console.log(Did, "CURRENTID");
       let sendingData = new FormData();
-      attachments.forEach((attachment: any) => {
+      attachments?.forEach((attachment: any) => {
         sendingData.append("attachments[]", attachment);
       });
       const Adding = await updateSeciton(id, secID, sendingData);
@@ -66,18 +85,15 @@ export const Webandbanner = () => {
       <div className="mb-2">
         <p className="font-bold text-[19px]">{webData?.name}</p>
         <div className="w-full mt-3 ">
-          <Webcarousel
-            handleFileUpload={handleFileUpload}
-            setWebsiteData={setWebsiteData}
-            sectionId={websiteData?.sections[0]?.id}
-            webId={id}
-            images={
-              websiteData?.sections.length > 0 &&
-              websiteData?.sections[0]?.section === "Carousel"
-                ? websiteData?.sections[0]?.images
-                : websiteData?.sections[1]?.images
-            }
-          />
+          {websiteData?.sections && websiteData?.sections.length !== 0 && (
+            <Webcarousel
+              handleFileUpload={handleFileUpload}
+              setWebsiteData={setWebsiteData}
+              sectionId={websiteData?.sections[0]?.id}
+              webId={id}
+              images={websiteData?.sections[0]?.images}
+            />
+          )}
           <p className="text-[#A4A4A4] flex gap-2 items-center">
             <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
               i
@@ -116,73 +132,55 @@ export const Webandbanner = () => {
             <img src={IMAGES.Editpen} />
           </div>
         </div>
-        <div className="flex flex-wrap gap-9 justify-around mt-10 ">
-          {websiteData?.sections.length > 0 &&
-          websiteData?.sections[0]?.section === "Cards" ? (
-            websiteData?.sections[0]?.images.map((item: any, index: any) => {
-              return (
-                <div className="  relative" key={index}>
-                  <img
-                    className="bg-cover bg-center  h-[250px] rounded-[10px]"
-                    src={`${BaseURL}/${item.filename}`}
-                    style={{
-                      width: "99%",
-                      height: "530px",
-                    }}
-                  ></img>
-                  <div className=" absolute top-[40%] left-[25%]">
-                    <Threebuttons
-                      ind={1}
-                      handleFileUpload={handleFileUpload}
-                      deletePicture={() =>
-                        deletePicture(item.id, websiteData?.sections[1]?.id)
-                      }
-                    />
+        {websiteData?.sections && websiteData?.sections.length !== 0 && (
+          <div className="flex flex-wrap gap-9 justify-around mt-10 ">
+            {websiteData?.sections?.length > 0 &&
+            websiteData?.sections[1]?.images ? (
+              websiteData?.sections[1]?.images?.map((item: any, index: any) => {
+                return (
+                  <div className="  relative" key={index}>
+                    <img
+                      className="bg-cover bg-center  h-[250px] rounded-[10px]"
+                      src={`${BaseURL}/${item.filename}`}
+                      style={{
+                        width: "99%",
+                        height: "530px",
+                      }}
+                    ></img>
+                    <div className=" absolute top-[40%] left-[25%]">
+                      <Threebuttons
+                        class={"Carddss"}
+                        handleFileUpload={handleFileUpload}
+                        deletePicture={() =>
+                          deletePicture(item.id, websiteData?.sections[1]?.id)
+                        }
+                      />
+                    </div>
                   </div>
-                </div>
-              );
-            })
-          ) : websiteData?.sections[1]?.images ? (
-            websiteData?.sections[1]?.images?.map((item: any, index: any) => {
-              return (
-                <div className="  relative" key={index}>
-                  <img
-                    className="bg-cover bg-center  h-[250px] rounded-[10px]"
-                    src={`${BaseURL}/${item.filename}`}
-                    style={{
-                      width: "99%",
-                      height: "530px",
-                    }}
-                  ></img>
-                  <div className=" absolute top-[40%] left-[25%]">
+                );
+              })
+            ) : (
+              <div className="  relative">
+                <img
+                  className="bg-cover bg-center border-2 h-[250px] rounded-[10px]"
+                  alt="no-pic"
+                  // src={`${BaseURL}/${item.filename}`}
+                  style={{
+                    width: "550px",
+                    height: "530px",
+                  }}
+                ></img>
+                <div className=" absolute top-[40%] left-[25%]">
                   <Threebuttons
-                  
-                      handleFileUpload={handleFileUpload}
-                      deletePicture={() =>
-                        deletePicture(item.id, websiteData?.sections[1]?.id)
-                      }
-                    />
-                  </div>
+                    class={"Carddss"}
+                    ind={1}
+                    handleFileUpload={handleFileUpload}
+                  />
                 </div>
-              );
-            })
-          ) : (
-            <div className="  relative">
-              <img
-                className="bg-cover bg-center border-2 h-[250px] rounded-[10px]"
-                alt="no-pic"
-                // src={`${BaseURL}/${item.filename}`}
-                style={{
-                  width: "550px",
-                  height: "530px",
-                }}
-              ></img>
-              <div className=" absolute top-[40%] left-[25%]">
-              <Threebuttons id={2} ind={1} handleFileUpload={handleFileUpload} />
               </div>
-            </div> 
-          )}
-        </div>
+            )}
+          </div>
+        )}
         <div className="flex gap-3 mt-3">
           <CustomButton
             txt={"Cancel"}

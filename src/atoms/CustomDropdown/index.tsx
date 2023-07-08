@@ -35,10 +35,8 @@ font-size: 16px;
   }
 `;
 export const CustomDropdown = (props: any) => {
-  const [selectedItem, setSelectedItem] = useState([props.value]);
-  console.log(props)
+  const [selectedItem, setSelectedItem] = useState([props.options]);
   let Values = props.options
-  console.log(Values,"COITTIE")
   return (
     <Drops
       placeholdercolor={props.placeholderColor}
@@ -46,7 +44,7 @@ export const CustomDropdown = (props: any) => {
       onChange={(e:any) => {
         console.log(e,"EEE")
         setSelectedItem(e.value);
-        const selectedOption = Values.find((item: any) => item.title === e.value);
+        const selectedOption = Values.find((item: any) => item.value === e.value);
         if (selectedOption) {
           props.setValue(selectedOption.id);
         } else {

@@ -1,8 +1,10 @@
-import {useState} from "react"
+import {useState,useEffect} from "react"
 import IMAGES from "../../assets/Images";
 import { HeaderSearch, ChooseDate, ChooseFilter,HeaderDropDown } from "../../atoms";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "primereact/dropdown";
+import { io } from "socket.io-client";
+import { BaseURL } from "../../config";
 type headerProps = {
   typeSearch?: boolean;
   title?: string;
@@ -15,10 +17,49 @@ type headerProps = {
   headerClasses?:string;
   dropdown?:boolean
 };
+
 export const Header = (props: headerProps) => {
   const [drop, setDrop] = useState(false);
-
+  const [socket,setsocket]=useState<any>()
+  const [notification,setnotification]=useState<any>()
   const navigate=useNavigate()
+  useEffect(()=>{
+    const token = JSON.parse(localStorage.getItem("token") as string);
+    const refresh = JSON.parse(localStorage.getItem("refresh") as string);
+    const socket = io(BaseURL,{
+      transports: ['websocket'],
+      auth: {
+        headers: {
+        
+          Authentication:`${token}`,
+       
+          // Add any other headers you need
+        },
+      },
+    });
+    socket.on('connect', () => {
+      console.log(`Hurrah Socket ${socket.id} Connected`);
+        socket.emit("notifications" , {
+    "userId" : 1
+     })
+ })
+    setsocket(socket);
+    return () => {
+      socket.disconnect(); // Clean up the socket connection when component unmounts
+    };
+  },[])
+  useEffect(() => {
+    if (socket) {
+      
+      socket.on("notifications", (data:any)=>{
+        setnotification(data)
+      });
+      console.log(socket,"socket")
+    }
+  }, [socket]);
+  useEffect(()=>{
+    console.log(notification,"notification")
+  },[notification])
   return (
     <>
       <div className={`overflow-hidden h-16 mt-2 mb-2 flex items-center justify-between px-2 ${props.headerClasses} relative`}>

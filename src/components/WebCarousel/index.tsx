@@ -57,7 +57,7 @@ export const Webcarousel = (props: any) => {
 
 
   // // Function to handle the file upload
-  const handleFileUpload123 = async (event: any) => {
+  const handleFileUpload = async (event: any) => {
     const file = event.target.files[0];
     let sendingData = new FormData();
     sendingData.append("images", file);
@@ -123,9 +123,9 @@ export const Webcarousel = (props: any) => {
         ></img>
         <div className=" absolute top-[40%] left-[40%]">
           <Threebuttons
-          id={1}
-            // handleFileUpload2={handleFileUpload123}
-            // deletePicture={deletePicture}
+          class={"Carousell"}
+            handleFileUpload={handleFileUpload}
+            deletePicture={deletePicture}
           />
         </div>
       </div>

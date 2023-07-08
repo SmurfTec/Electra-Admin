@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Header,
   AdminCards,
@@ -12,11 +12,21 @@ import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 import { TabPanel } from "primereact/tabview";
 import { getRoles } from "../../../store/Slices/RoleSlice";
+import { useGetRoles } from "../../../custom-hooks/roles/RolesHooks";
+interface RoleStats {
+  role: string;
+  users: number;
+}
+
+type Stats = RoleStats[];
+
 export const Roles = () => {
   const [visible, setVisible] = React.useState(false);
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
-  const[Roles,setRoles]=useState<any>([])
+  const { roles, rolesStats }: { roles: any; rolesStats: Stats |any } =
+    useGetRoles();
+  console.log(rolesStats);
   const filterData = [
     {
       Account: "Huzayfah",
@@ -163,16 +173,15 @@ export const Roles = () => {
     { field: "Email Address", header: "Email Address" },
     { field: "Phone No", header: "Phone No" },
     { field: "Assigned On", header: "Assigned On" },
-    { field: "Role", header: "Role", body: StatusBodyTemplate,className:'role' },
+    {
+      field: "Role",
+      header: "Role",
+      body: StatusBodyTemplate,
+      className: "role",
+    },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
-  const getAllRoles=async()=>{
-    let response=await getRoles();
-    console.log(response)
-  }
-  useEffect(()=>{
-    getAllRoles();
-  },[])
+
   return (
     <div>
       <ShippingModal visible={visible} setVisible={setVisible} />
@@ -183,9 +192,11 @@ export const Roles = () => {
         UserBox={true}
       />
       <div className="flex gap-2">
-        <AdminCards accounts={"3 ACCOUNTS"} title={"Super Admin"} />
-        <AdminCards accounts={"3 ACCOUNTS"} title={"Admin"} />
-        <AdminCards accounts={"3 ACCOUNTS"} title={"Sub Admin"} />
+        {rolesStats &&
+          rolesStats.length > 0 &&
+          rolesStats?.map((item: RoleStats, index: number) => {
+            return <AdminCards key={index} accounts={item.users} title={item.role} />
+          })}
         <DashCard
           onClick={() => navigate("/Newadmin")}
           outerclasses={"!bg-[#212121] !w-[187px] !h-[93px]"}
@@ -211,16 +222,17 @@ export const Roles = () => {
               Find all of your team accounts
             </span>
           </p>
-           <CustomTabView >
-            <TabPanel 
-            
-            header="All(6)">
+          <CustomTabView>
+            <TabPanel header="All(6)">
               <p className="m-0">
                 <CustomTableComponent
                   columnStyle={{ backgroundColor: "#FCFCFC" }}
-                  headerStyle={{ color: "black",fontWeight:"800",textAlign:"left" }}
+                  headerStyle={{
+                    color: "black",
+                    fontWeight: "800",
+                    textAlign: "left",
+                  }}
                   columnHeaderFirst={"start"}
-                  
                   filterData={filterData}
                   columnData={columnData}
                   rowStyling={"#FCFCFC !important"}

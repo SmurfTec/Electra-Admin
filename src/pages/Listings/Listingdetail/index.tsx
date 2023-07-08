@@ -6,7 +6,7 @@ import {
   CustomButton,
   CustomTableComponent,
   InputTxt,
-  Miniselect,
+
 } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -34,13 +34,14 @@ export const Listingdetail = () => {
 
   useEffect(() => {
     if (Listings) {
+      console.log(Listings.listing)
       setListing(Listings);
       setImages(Listings.listing.images);
-      const variaantts = Listings?.listing?.listing_variants.map(
+      const variaantts = Listings?.listing?.listing_variants?.map(
         (item: any, index: any) => {
           const { variant, values, value, background_color } = item;
-          console.log(background_color,"ITEM")
-          const options = values.map((value1: any) => ({
+          console.log(values,"ITEM")
+          const options = values?.map((value1: any) => ({
             txt: value1,
             classes:
               value === value1
@@ -52,10 +53,11 @@ export const Listingdetail = () => {
               txt: variant,
               classes: `!bg-[${background_color}]  !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5`,
             },
-            values: options,
+            values: options??[],
           };
         }
       );
+      console.log(variaantts)
       setVariantArray(variaantts);
     }
   }, [Listings]);
@@ -285,7 +287,7 @@ export const Listingdetail = () => {
                   txt={item.variant.txt}
                   classes={item.variant.classes}
                 />
-                <Variants data={item.values} />;
+                <Variants data={item.values} />
               </div>
             );
           })}
