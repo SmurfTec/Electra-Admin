@@ -5,6 +5,7 @@ const initialState: any = {
   users: [],
   CurrentActiveUser: {},
 };
+
 export const getRoles = async () => {
   try {
     let response: any = await url.get("/authorization/roles");

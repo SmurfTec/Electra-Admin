@@ -13,50 +13,57 @@ import { useNavigate } from "react-router-dom";
 import { TabPanel } from "primereact/tabview";
 import { getRoles } from "../../../store/Slices/RoleSlice";
 import { useGetRoles } from "../../../custom-hooks/roles/RolesHooks";
+import moment from "moment";
 interface RoleStats {
   role: string;
   users: number;
 }
 
 type Stats = RoleStats[];
-
+type Account = {
+  email: string;
+  created_at: string;
+  role: string;
+  profile?: {
+    username: string;
+    mobile_no: string;
+    firstname: string;
+    lastname: string;
+  };
+};
+type User = {
+  id: string;
+  email: string;
+  // Other user properties...
+  role: string;
+};
+type userArray = User[];
+type PartialAccount = Partial<Account>;
 export const Roles = () => {
   const [visible, setVisible] = React.useState(false);
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
-  const { roles, rolesStats }: { roles: any; rolesStats: Stats |any } =
-    useGetRoles();
-  console.log(rolesStats);
-  const filterData = [
-    {
-      Account: "Huzayfah",
-      "Email Address": "Huzayfah",
-      "Phone No": "0342525252525",
-      "Assigned On": "Huz@gmail.com",
-      Role: "Super Admin",
-    },
-    {
-      Account: "Huzayfah",
-      "Email Address": "Huzayfah",
-      "Phone No": "0342525252525",
-      "Assigned On": "Huz@gmail.com",
-      Role: "Super Admin",
-    },
-    {
-      Account: "Huzayfah",
-      "Email Address": "Huzayfah",
-      "Phone No": "0342525252525",
-      "Assigned On": "Huz@gmail.com",
-      Role: "Sub Admin",
-    },
-    {
-      Account: "Huzayfah",
-      "Email Address": "Huzayfah",
-      "Phone No": "0342525252525",
-      "Assigned On": "Huz@gmail.com",
-      Role: " Admin",
-    },
-  ];
+  const {
+    
+    rolesStats,
+    users,
+    roleArray,
+  }: {
+    roles?: any;
+    rolesStats: Stats | any;
+    users: userArray | any;
+    roleArray: any;
+  } = useGetRoles();
+  const filterData = users?.map((item: PartialAccount, index: number) => {
+    return {
+      Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
+      "Email Address": item.email,
+      "Phone No": item.profile?.mobile_no ?? "-",
+      "Assigned On": moment(item.created_at).format("DD MMM YYYY"),
+      Role: item.role,
+    };
+  });
+
   const items = [
     {
       items: [
@@ -134,31 +141,15 @@ export const Roles = () => {
   };
   const StatusBodyTemplate = (option: any) => {
     let style;
-    if (option.Role === "Super Admin") {
-      style = `px-[14px] py-[4px]
+
+    style = `px-[14px] py-[4px]
           text-center
           h-[33px]
            bg-custom-blue text-[black]
        max-w-[160px]
           
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
-    } else if (option.Role === " Admin") {
-      style = `px-[14px] py-[4px]
-          text-center
-          h-[33px]
-           bg-custom-yellow text-[black]
-        max-w-[160px]
-       
-            flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
-    } else if (option.Role === "Sub Admin") {
-      style = `px-[14px] py-[4px]
-          text-center
-          h-[33px]
-           bg-custom-pink text-[black]
-        max-w-[160px]
-        
-            flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
-    }
+
     return (
       <>
         <div className={style}>
@@ -195,7 +186,9 @@ export const Roles = () => {
         {rolesStats &&
           rolesStats.length > 0 &&
           rolesStats?.map((item: RoleStats, index: number) => {
-            return <AdminCards key={index} accounts={item.users} title={item.role} />
+            return (
+              <AdminCards key={index} accounts={item.users} title={item.role} />
+            );
           })}
         <DashCard
           onClick={() => navigate("/Newadmin")}
@@ -223,7 +216,7 @@ export const Roles = () => {
             </span>
           </p>
           <CustomTabView>
-            <TabPanel header="All(6)">
+            <TabPanel header={`All(${filterData?.length})`}>
               <p className="m-0">
                 <CustomTableComponent
                   columnStyle={{ backgroundColor: "#FCFCFC" }}
@@ -240,15 +233,37 @@ export const Roles = () => {
                 />
               </p>
             </TabPanel>
-            <TabPanel header="Fail (1)">
-              <p className="m-0"></p>
-            </TabPanel>
-            <TabPanel header="Pass (1)">
-              <p className="m-0"></p>
-            </TabPanel>
-            <TabPanel header="Pending (1)">
-              <p className="m-0"></p>
-            </TabPanel>
+            {roleArray?.map((item: any, index: any) => {
+              const filterData2 = item.users?.map((item: PartialAccount, index: number) => {
+                return {
+                  Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
+                  "Email Address": item.email,
+                  "Phone No": item.profile?.mobile_no ?? "-",
+                  "Assigned On": moment(item.created_at).format("DD MMM YYYY"),
+                  Role: item.role,
+                };
+              });
+              return (
+                <TabPanel key={index} header={item.name}>
+                  
+                  <CustomTableComponent
+                  columnStyle={{ backgroundColor: "#FCFCFC" }}
+                  headerStyle={{
+                    color: "black",
+                    fontWeight: "800",
+                    textAlign: "left",
+                  }}
+                  columnHeaderFirst={"start"}
+                  filterData={filterData2}
+                  columnData={columnData}
+                  rowStyling={"#FCFCFC !important"}
+                  // columnHeader={"flex-start"}
+                />
+                
+                </TabPanel>
+              );
+            })}
+      
           </CustomTabView>
         </div>
       </div>
