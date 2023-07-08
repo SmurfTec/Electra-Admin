@@ -2,6 +2,7 @@ import axios from "axios";
 import { CookieJar } from "tough-cookie";
 import {wrapper} from "axios-cookiejar-support";
 export const BaseURL="http://ec2-3-21-106-215.us-east-2.compute.amazonaws.com:5000/"
+// export const BaseURL="http://localhost:5000/"
 const jar = new CookieJar();
 const cookies = document.cookie;
 // console.log(document.cookie)
