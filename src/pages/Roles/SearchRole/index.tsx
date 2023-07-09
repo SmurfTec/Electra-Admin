@@ -31,7 +31,7 @@ export const Searchrole = () => {
       Role: item.name,
       "User Count": item.description ??"-",
       "Created On": moment(item.created_at).format("DD MMM YYYY"),
-      Edit: "Edit",
+      Edit: item.name,
     };
   });
 
@@ -113,6 +113,9 @@ export const Searchrole = () => {
     return (
       <>
         <div
+        onClick={()=>{
+          navigate(`/Editroles/${option.Edit}`)
+        }}
           className="bg-[#212121] w-[83px] h-[29px]
         mx-auto
         rounded
@@ -125,7 +128,7 @@ export const Searchrole = () => {
         "
         >
           <img src={IMAGES.Editpen} />
-          <p className="font-bold text-[white] ">{option.Edit}</p>
+          <p className="font-bold text-[white] ">Edit</p>
           <img src={IMAGES.dropdown} />
         </div>
       </>

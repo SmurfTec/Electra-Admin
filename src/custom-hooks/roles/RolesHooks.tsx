@@ -3,6 +3,7 @@ import { getRoles } from "../../store/Slices/RoleSlice";
 import { getAllUsers, addAdmin } from "../../store/Slices/UserSlice";
 import { getPermission } from "../../store/Slices/RoleSlice";
 import { useNavigate } from "react-router-dom";
+import { getRolesByName,getUserByID } from "../../store/Slices/RoleSlice";
 interface RoleStats {
   role: string;
   users: number;
@@ -145,3 +146,55 @@ export const useGetPermission = () => {
   }, []);
   return { perm, loading };
 };
+type rolePermission = {
+  permissions: string;
+  role: string;
+  created_by: string;
+  created_at: string;
+};
+type rolePermissionData = rolePermission[];
+
+export const useGetRoleByName =  (name?: string) => {
+  try {
+    const [perm1, setPerm] = React.useState<rolePermissionData>();
+    const [loading1,setLoading]=React.useState(true);
+    
+    const fetchPermission = async () => {
+      try {
+        const response = await getRolesByName(name);
+        setPerm(response.data);
+        setLoading(false);
+      } catch (e) {
+        return e
+      }
+    };
+    useEffect(() => {
+      fetchPermission();
+    }, [name]);
+    return {perm1,loading1}
+  } catch (e) {
+    return e
+  }
+};
+
+export const useGetUserById=(id?:string)=>{
+  try{
+    const [user, setUser] = React.useState();
+    const [userLoading,setLoading]=React.useState(true);
+    const fetchUser = async () => {
+      try {
+        const response = await getUserByID(id);
+       setUser(response[0]);
+        setLoading(false);
+      } catch (e) {
+        return e
+      }
+    };
+    useEffect(() => {
+      fetchUser();
+    }, [id]);
+    return{user,userLoading}
+  }catch(e){
+
+  }
+}

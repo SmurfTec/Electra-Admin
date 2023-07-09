@@ -21,6 +21,7 @@ interface RoleStats {
 
 type Stats = RoleStats[];
 type Account = {
+  id:string;
   email: string;
   created_at: string;
   role: string;
@@ -43,8 +44,10 @@ export const Roles = () => {
   const [visible, setVisible] = React.useState(false);
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
+  const [CurrSelectedProduct, setCurrSelectedProduct] = useState<PartialAccount>({});
+  const [MenuLabel, setMenuLabel] = useState("");
+
   const {
-    
     rolesStats,
     users,
     roleArray,
@@ -56,6 +59,7 @@ export const Roles = () => {
   } = useGetRoles();
   const filterData = users?.map((item: PartialAccount, index: number) => {
     return {
+      id:item.id,
       Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
       "Email Address": item.email,
       "Phone No": item.profile?.mobile_no ?? "-",
@@ -63,20 +67,35 @@ export const Roles = () => {
       Role: item.role,
     };
   });
+  const viewItem = (event: React.MouseEvent, item: any, vaaluue?: any) => {
+    event.stopPropagation();
+    console.log(vaaluue);
+
+    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+  };
 
   const items = [
     {
       items: [
         {
-          label: "Ban User",
+          label: "View",
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
+                onClick={(event: any) =>
+                  viewItem(event, item, CurrSelectedProduct)
+                }
                 style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> Ban User
+                <SVGIcon
+                  width="9px"
+                  height="6px"
+                  fillcolor={"#212121"}
+                  src={IMAGES.eye}
+                />
+                View Admin
               </div>
             );
           },
@@ -95,20 +114,6 @@ export const Roles = () => {
             );
           },
         },
-        {
-          label: "Select",
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ background: "rgba(46, 102, 194, 0.05)" }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-              >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
-              </div>
-            );
-          },
-        },
       ],
     },
   ];
@@ -121,20 +126,35 @@ export const Roles = () => {
     );
   };
   const MenuBodyTemplate = (rowData: any) => {
+    const handleClick = (event: any) => {
+      event.preventDefault();
+      console.log(rowData);
+      setCurrSelectedProduct(rowData.id);
+      menuLeft.current.toggle(event);
+    };
+    useEffect(() => {
+      console.log(
+        "Menu",
+        MenuLabel,
+        "CurrSelectedProduct",
+        CurrSelectedProduct
+      );
+    }, [MenuLabel, CurrSelectedProduct]);
+
     return (
       <>
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon
-            onClick={(event: any) => {
-              event.preventDefault();
-              menuLeft.current.toggle(event);
-            }}
-            src={IMAGES.Dots}
-          />
+          <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
 
-          <CustomMenu model={items} popup ref={menuLeft} id="popup_menu_left" />
+          <CustomMenu
+            height={"78px"}
+            model={items}
+            popup
+            ref={menuLeft}
+            id="popup_menu_left"
+          />
         </div>
       </>
     );
@@ -172,7 +192,11 @@ export const Roles = () => {
     },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
-
+  useEffect(() => {
+    if (MenuLabel == "View") {
+      navigate(`/Viewadmin/${CurrSelectedProduct}`);
+    }
+  }, [MenuLabel]);
   return (
     <div>
       <ShippingModal visible={visible} setVisible={setVisible} />
@@ -234,36 +258,37 @@ export const Roles = () => {
               </p>
             </TabPanel>
             {roleArray?.map((item: any, index: any) => {
-              const filterData2 = item.users?.map((item: PartialAccount, index: number) => {
-                return {
-                  Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
-                  "Email Address": item.email,
-                  "Phone No": item.profile?.mobile_no ?? "-",
-                  "Assigned On": moment(item.created_at).format("DD MMM YYYY"),
-                  Role: item.role,
-                };
-              });
+              const filterData2 = item.users?.map(
+                (item: PartialAccount, index: number) => {
+                  return {
+                    Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
+                    "Email Address": item.email,
+                    "Phone No": item.profile?.mobile_no ?? "-",
+                    "Assigned On": moment(item.created_at).format(
+                      "DD MMM YYYY"
+                    ),
+                    Role: item.role,
+                  };
+                }
+              );
               return (
                 <TabPanel key={index} header={item.name}>
-                  
                   <CustomTableComponent
-                  columnStyle={{ backgroundColor: "#FCFCFC" }}
-                  headerStyle={{
-                    color: "black",
-                    fontWeight: "800",
-                    textAlign: "left",
-                  }}
-                  columnHeaderFirst={"start"}
-                  filterData={filterData2}
-                  columnData={columnData}
-                  rowStyling={"#FCFCFC !important"}
-                  // columnHeader={"flex-start"}
-                />
-                
+                    columnStyle={{ backgroundColor: "#FCFCFC" }}
+                    headerStyle={{
+                      color: "black",
+                      fontWeight: "800",
+                      textAlign: "left",
+                    }}
+                    columnHeaderFirst={"start"}
+                    filterData={filterData2}
+                    columnData={columnData}
+                    rowStyling={"#FCFCFC !important"}
+                    // columnHeader={"flex-start"}
+                  />
                 </TabPanel>
               );
             })}
-      
           </CustomTabView>
         </div>
       </div>

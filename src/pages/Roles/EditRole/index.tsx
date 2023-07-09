@@ -1,35 +1,71 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Header } from "../../../components";
 import { InputTxt, CustomButton, CustomSwitch } from "../../../atoms";
-import { useGetPermission } from "../../../custom-hooks/roles/RolesHooks";
-import { createRole } from "../../../store/Slices/RoleSlice";
-import { useNavigate } from "react-router-dom";
+import {
+  useGetPermission,
+  useGetRoleByName,
+} from "../../../custom-hooks/roles/RolesHooks";
+import { editRole } from "../../../store/Slices/RoleSlice";
+import { useNavigate, useLocation } from "react-router-dom";
+
 type permission = {
-  description: string;
+  permissions: {
+    name: string;
+    description: string;
+  };
   name: string;
+  created_by: string;
+  created_at: string;
 };
 type PermissionHookState = {
-  perm?: permission[];
-  loading?: boolean;
+  perm?: simplePermission[] | any;
+  loading?: boolean | any;
+};
+type PermissionHookState1 = {
+  perm1: permission[] | any;
+  loading1: boolean | any;
 };
 type PermissionBody = {
-  name: string;
+  name?: string;
   permissions: string[];
 };
-export const Createrole = () => {
-  const navigate = useNavigate();
+type simplePermission = {
+  name?: string;
+  description?: string;
+};
+export const Editrole = () => {
   const [permissions, setPermissions] = useState<permission[]>();
-  // This state is for sending data in the api
   const [permissionData, setPermissionData] = useState<PermissionBody>({
     name: "",
     permissions: [],
   });
+  const location = useLocation();
+  const { pathname } = location;
+  const name = pathname.split("/").pop();
+  const hookResult = useGetRoleByName(name) as PermissionHookState1;
+  const { perm1, loading1 } = hookResult;
   const { perm, loading }: PermissionHookState = useGetPermission();
+
   useEffect(() => {
-    if (!loading) {
+    if (perm1 && !loading1) {
+      let newPerm = perm1?.map((item: permission, index: any) => {
+        let { name } = item.permissions;
+        return name;
+      });
+      setPermissionData({
+        name: name,
+        permissions: newPerm,
+      });
+    }
+  }, [loading1]);
+  useEffect(() => {
+    if (perm && !loading) {
       setPermissions(perm);
     }
   }, [loading]);
+  const navigate = useNavigate();
+  // This state is for sending data in the api
+
   const handleChangePermission = (permissionValue: string) => {
     console.log(permissionValue);
     const existingPermissionIndex = permissionData.permissions?.findIndex(
@@ -53,25 +89,29 @@ export const Createrole = () => {
       });
     }
   };
-  const addRole = async () => {
-    const ADD = await createRole(permissionData);
+  const EDIT = async () => {
+    const ADD = await editRole(permissionData, name);
     console.log(ADD);
     if (ADD) {
       navigate("/Searchrole");
     }
   };
+  useEffect(() => {
+    console.log(permissionData);
+  }, [permissionData]);
   return (
     <div>
       {" "}
       <Header
-        title={"Create Role"}
-        semiTitle={"Create role and give permissions"}
+        title={"Edit Role"}
+        semiTitle={"Edit role and give permissions"}
         UserBox={true}
       />
       <InputTxt
+        value={permissionData.name}
         placeholder="Title"
         MainClasses="mt-[40px]"
-        onChange={(e:any) => {
+        onChange={(e: any) => {
           setPermissionData({
             ...permissionData,
             name: e.target.value,
@@ -81,34 +121,36 @@ export const Createrole = () => {
       <div className="border-custom border w-[50%] mt-3">
         <p className="text-[19px] font-bold p-3">Permissions</p>
         <div className="border-t  border-custom">
-          {!loading &&
-            permissions?.map((item: permission, index: number) => {
-              const existingPermissionIndex =
-                permissionData.permissions?.findIndex(
-                  (item1) => item1 === item.name
-                );
-              return (
-                <div className="flex p-3 gap-3" key={index}>
-                  <CustomSwitch
-                    value={item.name}
-                    onChange={handleChangePermission}
-                    checked={existingPermissionIndex !== -1 ? true : false}
-                  />
-                  <p className="font-bold">{item.description}</p>
-                </div>
+          {permissions?.map((item?: simplePermission, index?: number) => {
+            const existingPermissionIndex =
+              permissionData.permissions?.findIndex(
+                (item1) => item1 === item?.name
               );
-            })}
+            return (
+              <div className="flex p-3 gap-3" key={index}>
+                <CustomSwitch
+                  value={item?.name}
+                  onChange={handleChangePermission}
+                  checked={existingPermissionIndex !== -1 ? true : false}
+                />
+                <p className="font-bold">{item?.description}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="flex  mt-2 gap-4">
         <CustomButton
+          onClick={() => {
+            navigate("/Searchrole");
+          }}
           txt={"Cancel"}
           classes={
             "!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]"
           }
         />
         <CustomButton
-          onClick={addRole}
+          onClick={EDIT}
           txt={"Create Role"}
           classes={" !w-[179px] !rounded-[12px] !h-[50px]"}
         />
