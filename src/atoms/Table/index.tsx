@@ -25,7 +25,7 @@ export const CustomTableComponent = ({
   ...props
 }: any) => {
   const[rowsize,setrowsize]=useState(LoadMore==true?initialRowSize:filterData?.length)
-  
+
   useEffect(()=>{
     setrowsize(LoadMore==true?initialRowSize:filterData?.length)
   },[filterData,LoadMore])

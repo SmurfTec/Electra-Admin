@@ -182,7 +182,7 @@ export const Roles = () => {
         chooseFilter={true}
         UserBox={true}
       />
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         {rolesStats &&
           rolesStats.length > 0 &&
           rolesStats?.map((item: RoleStats, index: number) => {

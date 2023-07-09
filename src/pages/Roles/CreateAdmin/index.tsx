@@ -153,7 +153,6 @@ if(!loading){
           <CustomButton
             onClick={() => {
               setAdmin(adminBody);
-              Navigate("/Roles")
             }}
             txt={"Create Admin"}
             classes={" !w-[179px] !rounded-[12px] !h-[50px]"}

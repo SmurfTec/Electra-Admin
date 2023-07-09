@@ -6,7 +6,7 @@ import {
   CustomButton,
   CustomTableComponent,
   InputTxt,
-  Miniselect,
+
 } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";

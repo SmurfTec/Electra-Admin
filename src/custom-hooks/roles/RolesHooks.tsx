@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { getRoles } from "../../store/Slices/RoleSlice";
 import { getAllUsers, addAdmin } from "../../store/Slices/UserSlice";
 import { getPermission } from "../../store/Slices/RoleSlice";
-
+import { useNavigate } from "react-router-dom";
 interface RoleStats {
   role: string;
   users: number;
@@ -16,7 +16,7 @@ type User = {
 type Role = {
   name: string;
   description: string;
-  parent_role: string ;
+  parent_role: string;
   created_by: string;
 };
 type RoleArray = {
@@ -43,12 +43,14 @@ type permission = {
   description: string;
   name: string;
 };
-type permissionData=permission[]
+type permissionData = permission[];
 export const useGetRoles = () => {
   const [roles, setRoles] = React.useState();
   const [users, setUsers] = React.useState();
   const [rolesStats, setRolesStats] = React.useState<Stats>([]);
   const [roleArray, setRoleArray] = React.useState<RoleArray>();
+  const [loading, setLoading] = React.useState(true);
+
   const fetchRoles = async () => {
     try {
       const ROLES = await getRoles();
@@ -77,15 +79,18 @@ export const useGetRoles = () => {
 
       roleArrays.push({ name: role.name, users: roleArray });
     });
+    setLoading(false);
 
     return roleArrays;
   }
   useEffect(() => {
     fetchRoles();
   }, []);
-  return { roles, rolesStats, users, roleArray };
+  return { roles, rolesStats, users, roleArray, loading };
 };
 export const useCreateAdmin = (): UseCreateAdminReturnType => {
+  const Navigate = useNavigate();
+
   const [roles, setRoles] = React.useState<Role[]>([]);
   const [adminBody, setAdmin] = React.useState<AdminBody | any>();
   const [loading, setLoading] = React.useState(true);
@@ -93,7 +98,9 @@ export const useCreateAdmin = (): UseCreateAdminReturnType => {
   const addingAdmin = async () => {
     try {
       const add = await addAdmin(adminBody);
-      console.log(add, "ADDED");
+      if (add) {
+        Navigate("/Roles");
+      }
     } catch (e) {
       setLoading(false);
     }
@@ -122,20 +129,19 @@ export const useCreateAdmin = (): UseCreateAdminReturnType => {
   return { roles, setAdmin, loading };
 };
 
-export const useGetPermission=()=>{
+export const useGetPermission = () => {
   const [perm, setPerm] = React.useState<permissionData>();
-  const [loading,setLoading]=React.useState(true);
+  const [loading, setLoading] = React.useState(true);
   const fetchPermission = async () => {
     try {
       const fetch = await getPermission();
       console.log(fetch);
-      setPerm(fetch.data)
-      setLoading(false)
-    
+      setPerm(fetch.data);
+      setLoading(false);
     } catch (e) {}
   };
   useEffect(() => {
     fetchPermission();
   }, []);
-  return {perm,loading}
-}
+  return { perm, loading };
+};

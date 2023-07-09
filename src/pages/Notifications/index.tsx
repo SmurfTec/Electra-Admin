@@ -1,8 +1,16 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { Header } from '../../components'
 import IMAGES from '../../assets/Images'
 import { CustomButton } from '../../atoms'
+import { getNotifications } from '../../store/Slices/UserSlice'
 export const Notifications = () => {
+const GetNotifications=async()=>{
+    let r=await getNotifications();
+    console.log(r);
+}
+    useEffect(()=>{
+        GetNotifications()
+    },[])
   return (
     <div>
         <Header UserBox={true} typeSearch={true}  />

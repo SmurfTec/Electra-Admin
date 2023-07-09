@@ -6,35 +6,35 @@ import { CustomTableComponent } from "../../../atoms";
 import IMAGES from "../../../assets/Images";
 import { SVGIcon } from "../../../components/SVG";
 import { CustomMenu } from "../../../atoms/global.style";
+import { useGetRoles } from "../../../custom-hooks/roles/RolesHooks";
+import moment from "moment";
+type SuperAdminRole = {
+  created_at: string;
+  created_by: string;
+  description: string;
+  name: string;
+  parent_role: string | null;
+};
+type ROLE={
+  roles:SuperAdminRole[] |any ;
+  loading:boolean
+}
 export const Searchrole = () => {
-  const navigate= useNavigate()
+  const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
-  const filterData = [
-    {
-      Role: "Role",
-      "User Count": "0342525252525",
-      "Created On": "Huz@gmail.com",
+  const { roles, loading }:Partial<ROLE> = useGetRoles();
+  if (!loading) {
+    console.log(roles);
+  }
+  const filterData = roles?.map((item: SuperAdminRole, index: number) => {
+    return {
+      Role: item.name,
+      "User Count": item.description ??"-",
+      "Created On": moment(item.created_at).format("DD MMM YYYY"),
       Edit: "Edit",
-    },
-    {
-      Role: "Admin",
-      "User Count": "0342525252525",
-      "Created On": "Huz@gmail.com",
-      Edit: "Edit",
-    },
-    {
-      Role: "Admin",
-      "User Count": "0342525252525",
-      "Created On": "Huz@gmail.com",
-      Edit: "Edit",
-    },
-    {
-      Role: "Admin",
-      "User Count": "0342525252525",
-      "Created On": "Huz@gmail.com",
-      Edit: "Edit",
-    },
-  ];
+    };
+  });
+
   const items = [
     {
       items: [
@@ -83,7 +83,7 @@ export const Searchrole = () => {
       ],
     },
   ];
-  const AccountBodyTemplate = (option:any) => {
+  const AccountBodyTemplate = (option: any) => {
     return (
       <div className="flex gap-2 items-center justify-center">
         <p className="font-bold">{option.Role}</p>
@@ -148,7 +148,7 @@ export const Searchrole = () => {
       />
       <div>
         <DashCard
-        onClick={()=>navigate("/Creationroles")}
+          onClick={() => navigate("/Creationroles")}
           outerclasses={"!bg-[#212121] !w-[187px] !h-[93px] !mt-10"}
           Add={true}
           txt={"Add New Member"}
@@ -170,7 +170,7 @@ export const Searchrole = () => {
             </div>
             <CustomTableComponent
               columnStyle={{ backgroundColor: "#FCFCFC" }}
-              headerStyle={{ color: "black",fontWeight:"800" }}
+              headerStyle={{ color: "black", fontWeight: "800" }}
               //   columnHeader={"flex-start"}
               filterData={filterData}
               columnData={columnData}

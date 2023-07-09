@@ -1,5 +1,6 @@
 import IMAGES from "../../assets/Images";
 export const Threebuttons = (props: any) => {
+ 
   return (
     <div
       className="flex items-center gap-5 justify-center h-[134px] w-[309px] rounded-lg"

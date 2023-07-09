@@ -93,6 +93,14 @@ export const addAdmin = async (body: adminBody) => {
     return e;
   }
 };
+export const getNotifications=async()=>{
+  try{
+let response:any =await url.get('/notifications/own/all');
+return response.data
+  }catch(e){
+
+  }
+}
 const UserSlice = createSlice({
   name: "users",
   initialState,
