@@ -45,6 +45,14 @@ export const UpdateUser = async (body: any) => {
     return e;
   }
 };
+export const ChangePassword=async(body:any)=>{
+  try{
+    let response = await url.patch(`/auth/update-password`, body);
+    return response.data;
+  }catch(e){
+    return e;
+  }
+}
 export const getSingleUser = async (id: any) => {
   try {
     let response: any = await url.get(`/users/${id}`);

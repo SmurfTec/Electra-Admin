@@ -3,6 +3,7 @@ import { CustomDialog } from "../../../atoms/global.style";
 import { InputPassword } from "../../../atoms";
 import { CustomButton } from "../../../atoms";
 import IMAGES from "../../../assets/Images";
+import { ChangePassword } from "../../../store/Slices/UserSlice";
 export const ChangePasswordModel = ({
   classes,
   visible,
@@ -10,10 +11,20 @@ export const ChangePasswordModel = ({
   showSuccessModel = true,
   onClick,
 }: any) => {
-  const [Code, setCode] = useState("");
-  const [Code1, setCode1] = useState("");
+  const [currentPass, setcurrentPass] = useState("");
+  const [newPass, setnewPass] = useState("");
   const [Success, setSuccess] = useState(false);
 
+  const ChangeUserPassword=async()=>{
+    let body={
+      "currentPassword" :currentPass,
+      "newPassword" :newPass
+    }
+    let response=await ChangePassword(body)
+    if(!(response.status==404) || (!(response.status==401))){
+      setSuccess(true)
+    }
+  }
   return (
     <>
       <CustomDialog
@@ -34,16 +45,16 @@ export const ChangePasswordModel = ({
           <InputPassword
             inputClasses="!text-center !text-[#3C82D6] !text-[20px]"
             placeholder="Enter New Password"
-            Title={Code}
-            onChange={(e: any) => setCode(e.target.value)}
+            Title={currentPass}
+            onChange={(e: any) => setcurrentPass(e.target.value)}
             MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
           />
           <div className="flex flex-col gap-2">
             <InputPassword
               inputClasses="!text-center !text-[#3C82D6] !text-[20px]"
               placeholder="Confirm Password"
-              Title={Code1}
-              onChange={(e: any) => setCode1(e.target.value)}
+              Title={newPass}
+              onChange={(e: any) => setnewPass(e.target.value)}
               MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
             />
             <p className="text-[12px] ml-[5.6rem] font-[500] text-[#656565]">
@@ -52,9 +63,9 @@ export const ChangePasswordModel = ({
           </div>
           <CustomButton
             onClick={() => {
-              showSuccessModel && setSuccess(true);
+              // showSuccessModel && setSuccess(true);
               setVisible(false);
-              onClick && onClick();
+              onClick && ChangeUserPassword();
             }}
             txt="UPDATE"
             classes="!w-[155px] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]"

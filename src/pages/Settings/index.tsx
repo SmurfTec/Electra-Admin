@@ -51,6 +51,7 @@ if (localStorage.getItem("user")) {
     }
     const EmailSend=async()=>{
         let r=await SendEmail();
+        console.log(r)
       }
     const VerifyCode=async(code:any,txt:any)=>{
        
@@ -64,6 +65,12 @@ if (localStorage.getItem("user")) {
             if(response.status!=400 && response.status!==undefined){
                 console.log(response.status)
                 setchangephonemodel(true);   
+            }
+        }else if(txt="verifyPass"){
+            let response=await VerifyUserCode(code)
+            if(response.status!=400 && response.status!==undefined){
+                setChangePassModel(true);
+                setPassModel(false)  
             }
         }
     }
@@ -85,6 +92,7 @@ if (localStorage.getItem("user")) {
 
        }
     }
+
     useEffect(()=>{
 if(initial1){
 setinitial1(false)
@@ -160,14 +168,17 @@ setinitial1(false)
         visible={PassModel} 
         setVisible={setPassModel}
         title="CHANGE PASSWORD"
-        onClick={handlePass}
+        onClick={(code:any,verify:any)=>VerifyCode(code,verify)}
+        verifytxt={"verifyPass"}
         />
         <ChangePasswordModel 
         visible={ChangePassModel} 
         setVisible={setChangePassModel}
         title="CHANGE PASSWORD"
+       
         onClick={handleUpdatePass}
         showSuccessModel={false}
+    
         />
         <SuccessModel 
         visible={successModel} 
@@ -223,7 +234,7 @@ setinitial1(false)
                 <p className='w-[6px] h-[6px] rounded bg-black font-[600]'></p>
                 </div>
             </div>
-            <div className='w-[33px] h-[33px] bg-lightgray rounded-[50px] flex justify-center items-center cursor-pointer'  onClick={()=>setPassModel(true)}>
+            <div className='w-[33px] h-[33px] bg-lightgray rounded-[50px] flex justify-center items-center cursor-pointer'  onClick={()=>{setPassModel(true);EmailSend()}}>
                 <img src={IMAGES.Edit}/>
             </div>
         </div>
