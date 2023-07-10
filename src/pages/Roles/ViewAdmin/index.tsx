@@ -177,56 +177,58 @@ export const ViewAdmin = () => {
           </div>
         </div>
         <div className="border border-[#F7F7F8] h-[454px] w-[400px]">
-          {
-      view?    user?.user_activities.map((item: UserActivity, index) => {
-            return (
-              <div
-                key={index}
-                className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]"
-              >
-                <img className="p-2" src={IMAGES.Loginarrow} />
-                <div>
-                  <p>{item.message}</p>
-                  <p className="text-[#969696] mt-2 text-[11px]">
-                    {moment(item.created_on).format("hh:mm A - dddd")}
-                  </p>
-                </div>
-              </div>
-            );
-          })
-        :
-        user?.user_activities?.slice(0,6).map((item: UserActivity, index) => {
-          return (
-            <div
-              key={index}
-              className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]"
-            >
-              <img className="p-2" src={IMAGES.Loginarrow} />
-              <div>
-                <p>{item.message}</p>
-                <p className="text-[#969696] mt-2 text-[11px]">
-                  {moment(item.created_on).format("hh:mm A - dddd")}
-                </p>
-              </div>
-            </div>
-          );
-        })
-        
-        }
+          {view
+            ? user?.user_activities.map((item: UserActivity, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]"
+                  >
+                    <img className="p-2" src={IMAGES.Loginarrow} />
+                    <div>
+                      <p>{item.message}</p>
+                      <p className="text-[#969696] mt-2 text-[11px]">
+                        {moment(item.created_on).format("hh:mm A - dddd")}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })
+            : user?.user_activities
+                ?.slice(0, 6)
+                .map((item: UserActivity, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]"
+                    >
+                      <img className="p-2" src={IMAGES.Loginarrow} />
+                      <div>
+                        <p>{item.message}</p>
+                        <p className="text-[#969696] mt-2 text-[11px]">
+                          {moment(item.created_on).format("hh:mm A - dddd")}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
 
           {view ? (
             <div
-            onClick={()=>{
-              setView(!view)
-            }}
-            className="flex justify-center items-center cursor-pointer">
+              onClick={() => {
+                setView(!view);
+              }}
+              className="flex justify-center items-center cursor-pointer"
+            >
               <p className="text-center items-center p-1">View less</p>
             </div>
           ) : (
             <div
-            onClick={()=>{
-              setView(!view)
-            }} className="flex justify-center items-center cursor-pointer">
+              onClick={() => {
+                setView(!view);
+              }}
+              className="flex justify-center items-center cursor-pointer"
+            >
               <p className="text-center items-center p-1">View More</p>
             </div>
           )}

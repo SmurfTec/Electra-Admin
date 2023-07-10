@@ -11,8 +11,10 @@ import IMAGES from "../../../assets/Images";
 import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 import { TabPanel } from "primereact/tabview";
-import { getRoles } from "../../../store/Slices/RoleSlice";
-import { useGetRoles } from "../../../custom-hooks/roles/RolesHooks";
+import {
+  useGetRoles,
+  useDeleteRole,
+} from "../../../custom-hooks/roles/RolesHooks";
 import moment from "moment";
 interface RoleStats {
   role: string;
@@ -21,7 +23,7 @@ interface RoleStats {
 
 type Stats = RoleStats[];
 type Account = {
-  id:string;
+  id: string;
   email: string;
   created_at: string;
   role: string;
@@ -42,10 +44,16 @@ type userArray = User[];
 type PartialAccount = Partial<Account>;
 export const Roles = () => {
   const [visible, setVisible] = React.useState(false);
+  const [fetch, setFetch] = React.useState(false);
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
-  const [CurrSelectedProduct, setCurrSelectedProduct] = useState<PartialAccount>({});
+  const [CurrSelectedProduct, setCurrSelectedProduct] =
+    useState<PartialAccount>({});
   const [MenuLabel, setMenuLabel] = useState("");
+  const [Body, setBody] = useState({
+    ids: [],
+  });
+  const { userLoading }: any = useDeleteRole(Body, setFetch, fetch);
 
   const {
     rolesStats,
@@ -56,10 +64,10 @@ export const Roles = () => {
     rolesStats: Stats | any;
     users: userArray | any;
     roleArray: any;
-  } = useGetRoles();
+  } = useGetRoles(fetch);
   const filterData = users?.map((item: PartialAccount, index: number) => {
     return {
-      id:item.id,
+      id: item.id,
       Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
       "Email Address": item.email,
       "Phone No": item.profile?.mobile_no ?? "-",
@@ -73,7 +81,14 @@ export const Roles = () => {
 
     setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
   };
+  const deleteItem = (event: React.MouseEvent, item: any, vaaluue?: any) => {
+    event.stopPropagation();
+    setBody({
+      ids: [vaaluue],
+    });
 
+    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+  };
   const items = [
     {
       items: [
@@ -102,10 +117,14 @@ export const Roles = () => {
         },
         {
           label: "Delete",
+
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
+                onClick={(event: any) =>
+                  deleteItem(event, item, CurrSelectedProduct)
+                }
                 style={{ background: "rgba(231, 29, 54, 0.05)" }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
               >
