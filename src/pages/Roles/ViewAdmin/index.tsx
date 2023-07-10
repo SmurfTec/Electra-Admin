@@ -1,11 +1,61 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Header } from "../../../components";
 import IMAGES from "../../../assets/Images";
 import { SVGIcon } from "../../../components/SVG";
 import { CustomMenu } from "../../../atoms/global.style";
 import { CustomButton } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
+import { useGetUserById } from "../../../custom-hooks/roles/RolesHooks";
+import { useLocation } from "react-router-dom";
+import moment from "moment";
+type UserProfile = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  coins: number;
+  mobile_no: string;
+  image_url: string;
+};
+
+type UserActivity = {
+  message: string;
+  type: string;
+  created_on: string;
+};
+
+type User = {
+  id: string;
+  email: string;
+  password: string;
+  is_active: boolean;
+  profile: UserProfile;
+  has_logged_in: boolean;
+  created_by: null | string;
+  created_at: string;
+  updated_by: null | string;
+  updated_at: string;
+  is_banned: boolean;
+  code_2fa: null | string;
+  last_login: string;
+  hach_refresh_token: string;
+  role: string;
+  assigned_on: string;
+  user_activities: UserActivity[];
+};
+type DATA = {
+  user?: User;
+  userLoading: boolean;
+};
 export const ViewAdmin = () => {
+  const location = useLocation();
+  const { pathname } = location;
+  const id = pathname.split("/").pop();
+  const { user, userLoading } = useGetUserById(id) as DATA;
+  useEffect(() => {
+    if (user && !userLoading) {
+      console.log(user);
+    }
+  }, [userLoading]);
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
   const items = [
@@ -69,12 +119,14 @@ export const ViewAdmin = () => {
           <div className="p-1 flex gap-3 border-b border-custom">
             <img className="h-[136px] w-[136px]" src={IMAGES.Laughingadmin} />
             <div className="w-[70%] ">
-              <p className="font-bold text-[24px]">John Carter</p>
-              <p className="text-[#969696]">annejacob2@ummoh.com</p>
+              <p className="font-bold text-[24px]">
+                {user?.profile?.firstname} {user?.profile.lastname}
+              </p>
+              <p className="text-[#969696]">{user?.email}</p>
               <div className="mt-8 flex justify-between w-[100%]">
                 <div>
                   <p className="text-[#969696]">Assigned On</p>
-                  <p>20 Aug, 2022</p>
+                  <p>{moment(user?.assigned_on).format("DD MMM, YYYY")}</p>
                 </div>
                 <div
                   className={`text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
@@ -100,22 +152,22 @@ export const ViewAdmin = () => {
           <div>
             <div>
               <p className="text-[#969696] ml-2">Role</p>
-              <p className="ml-2">Sub Admin</p>
+              <p className="ml-2">{user?.role}</p>
             </div>
             <div className="mt-3">
               <p className="text-[#969696] ml-2">Phone</p>
-              <p className="ml-2">+53563636366336</p>
+              <p className="ml-2">{user?.profile.mobile_no}</p>
             </div>
             <div className="mt-3">
               <p className="text-[#969696] ml-2">Last Active On</p>
-              <p className="ml-2">10.00 Pm - Thursday</p>
+              <p className="ml-2">{moment(user?.last_login).format("hh:mm A - dddd")}</p>
             </div>
           </div>
           <div className=" flex justify-center">
             <CustomButton
-           onClick={() => {
-            navigate("/Searchrole");
-          }}
+              onClick={() => {
+                navigate("/Searchrole");
+              }}
               txt={"Create Admin"}
               classes={" !w-[90%]  !rounded-[6px] !h-[50px] mt-10 "}
             />
@@ -175,12 +227,7 @@ export const ViewAdmin = () => {
             </div>
           </div>
           <div className="flex justify-center items-center">
-            <p
-             
-              className="text-center items-center p-1"
-            >
-              View More
-            </p>
+            <p className="text-center items-center p-1">View More</p>
           </div>
         </div>
       </div>

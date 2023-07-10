@@ -5,6 +5,14 @@ const initialState: any = {
   users: [],
   CurrentActiveUser: {},
 };
+type adminBody = {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  mobile_no: string;
+  role: string;
+};
 export const getAllUsers = async () => {
   try {
     let response: any = await url.get("/users/?sort=id");
@@ -13,30 +21,30 @@ export const getAllUsers = async () => {
     return e;
   }
 };
-export const SendEmail=async()=>{
-  try{
-    let response=await url.post("/auth/email-2fa")
+export const SendEmail = async () => {
+  try {
+    let response = await url.post("/auth/email-2fa");
     return response.data;
-  }catch(e){
+  } catch (e) {
     return e;
   }
-}
-export const VerifyUserCode=async(code:any)=>{
-  try{
-    let response=await url.get(`/auth/email-2fa/${code}`)
+};
+export const VerifyUserCode = async (code: any) => {
+  try {
+    let response = await url.get(`/auth/email-2fa/${code}`);
     return response.data;
-  }catch(e){
+  } catch (e) {
     return e;
   }
-}
-export const UpdateUser=async(body:any)=>{
-  try{
-    let response=await url.patch(`/users/me`,body)
+};
+export const UpdateUser = async (body: any) => {
+  try {
+    let response = await url.patch(`/users/me`, body);
     return response.data;
-  }catch(e){
+  } catch (e) {
     return e;
   }
-}
+};
 export const getSingleUser = async (id: any) => {
   try {
     let response: any = await url.get(`/users/${id}`);
@@ -62,7 +70,6 @@ export const UnBanUser = async (body: any) => {
   }
 };
 export const DeleteSingleUser = async (body: any) => {
-
   try {
     let response: any = await url.delete(`/users`, { data: body });
     return response.data;
@@ -70,11 +77,18 @@ export const DeleteSingleUser = async (body: any) => {
     return e;
   }
 };
-export const GetAllUserOrder= async (id: any) => {
-
+export const GetAllUserOrder = async (id: any) => {
   try {
-    let response: any = await url.get(`/orders/${id}/me`,);
+    let response: any = await url.get(`/orders/${id}/me`);
     return response.data;
+  } catch (e) {
+    return e;
+  }
+};
+export const addAdmin = async (body: adminBody) => {
+  try {
+    let response: any = await url.post("/users/admin", body);
+    return response;
   } catch (e) {
     return e;
   }
@@ -87,6 +101,8 @@ return response.data
 
   }
 }
+
+
 const UserSlice = createSlice({
   name: "users",
   initialState,

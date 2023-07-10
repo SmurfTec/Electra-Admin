@@ -42,11 +42,10 @@ export const CustomDropdown = (props: any) => {
       placeholdercolor={props.placeholderColor}
       value={selectedItem}
       onChange={(e:any) => {
-        console.log(e,"EEE")
         setSelectedItem(e.value);
         const selectedOption = Values.find((item: any) => item.value === e.value);
         if (selectedOption) {
-          props.setValue(selectedOption.id);
+          props.setValue(selectedOption.value);
         } else {
           props.setValue(null); // Handle the case when no option is selected
         }}}
