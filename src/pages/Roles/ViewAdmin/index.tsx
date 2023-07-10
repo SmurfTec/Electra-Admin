@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../../../components";
 import IMAGES from "../../../assets/Images";
 import { SVGIcon } from "../../../components/SVG";
@@ -51,6 +51,7 @@ export const ViewAdmin = () => {
   const { pathname } = location;
   const id = pathname.split("/").pop();
   const { user, userLoading } = useGetUserById(id) as DATA;
+  const [view, setView] = useState(false);
   useEffect(() => {
     if (user && !userLoading) {
       console.log(user);
@@ -160,7 +161,9 @@ export const ViewAdmin = () => {
             </div>
             <div className="mt-3">
               <p className="text-[#969696] ml-2">Last Active On</p>
-              <p className="ml-2">{moment(user?.last_login).format("hh:mm A - dddd")}</p>
+              <p className="ml-2">
+                {moment(user?.last_login).format("hh:mm A - dddd")}
+              </p>
             </div>
           </div>
           <div className=" flex justify-center">
@@ -174,61 +177,59 @@ export const ViewAdmin = () => {
           </div>
         </div>
         <div className="border border-[#F7F7F8] h-[454px] w-[400px]">
-          <div className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]">
-            <img className="p-2" src={IMAGES.Loginarrow} />
-            <div>
-              <p>
-                <b>Login</b> to the portal
-              </p>
-              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
+          {
+      view?    user?.user_activities.map((item: UserActivity, index) => {
+            return (
+              <div
+                key={index}
+                className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]"
+              >
+                <img className="p-2" src={IMAGES.Loginarrow} />
+                <div>
+                  <p>{item.message}</p>
+                  <p className="text-[#969696] mt-2 text-[11px]">
+                    {moment(item.created_on).format("hh:mm A - dddd")}
+                  </p>
+                </div>
+              </div>
+            );
+          })
+        :
+        user?.user_activities?.slice(0,6).map((item: UserActivity, index) => {
+          return (
+            <div
+              key={index}
+              className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]"
+            >
+              <img className="p-2" src={IMAGES.Loginarrow} />
+              <div>
+                <p>{item.message}</p>
+                <p className="text-[#969696] mt-2 text-[11px]">
+                  {moment(item.created_on).format("hh:mm A - dddd")}
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="flex gap-3 ml-2 mt-3  pb-2 border-b border-[#FAFAFA]">
-            <img className="p-2" src={IMAGES.personicon} />
-            <div>
-              <p>
-                Change <b> Admin Role</b>
-              </p>
-              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
+          );
+        })
+        
+        }
+
+          {view ? (
+            <div
+            onClick={()=>{
+              setView(!view)
+            }}
+            className="flex justify-center items-center cursor-pointer">
+              <p className="text-center items-center p-1">View less</p>
             </div>
-          </div>{" "}
-          <div className="flex gap-3 ml-2 mt-3  pb-2 border-b border-[#FAFAFA]">
-            <img className="p-2" src={IMAGES.Key} />
-            <div>
-              <p>
-                Change <b>Password</b>
-              </p>
-              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
+          ) : (
+            <div
+            onClick={()=>{
+              setView(!view)
+            }} className="flex justify-center items-center cursor-pointer">
+              <p className="text-center items-center p-1">View More</p>
             </div>
-          </div>{" "}
-          <div className="flex gap-3 ml-2 mt-3  pb-2 border-b border-[#FAFAFA]">
-            <img className="p-2" src={IMAGES.deleteproduct} />
-            <div>
-              <p>
-                Delete <b>Product</b>
-              </p>
-              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
-            </div>
-          </div>{" "}
-          <div className="flex gap-3 ml-2 mt-3  pb-2 border-b border-[#FAFAFA]">
-            <img className="p-2" src={IMAGES.personicon} />
-            <div>
-              <p>
-                Deleted <b>User</b>
-              </p>
-              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
-            </div>
-          </div>{" "}
-          <div className="flex gap-3 ml-2 mt-3  pb-2 border-b border-[#FAFAFA]">
-            <img className="p-2" src={IMAGES.Logoutarrow} />
-            <div>
-              <p>Logged out</p>
-              <p className="text-[#969696] mt-2 text-[11px]">Wed - 10.00pm</p>
-            </div>
-          </div>
-          <div className="flex justify-center items-center">
-            <p className="text-center items-center p-1">View More</p>
-          </div>
+          )}
         </div>
       </div>
     </div>
