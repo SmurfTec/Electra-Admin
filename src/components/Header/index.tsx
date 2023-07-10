@@ -25,7 +25,7 @@ export const Header = (props: headerProps) => {
   const navigate=useNavigate()
   useEffect(()=>{
     const token = JSON.parse(localStorage.getItem("token") as string);
-    const refresh = JSON.parse(localStorage.getItem("refresh") as string);
+   
     const socket = io(BaseURL,{
       transports: ['websocket'],
       auth: {
