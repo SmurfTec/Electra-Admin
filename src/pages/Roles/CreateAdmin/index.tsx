@@ -7,7 +7,7 @@ import {
   InputPassword,
 } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
-import { useCreateAdmin } from "../../../custom-hooks/roles/RolesHooks";
+import { useCreateAdmin } from "../../../custom-hooks/RolesHooks";
 type adminBody = {
   firstname: string;
   lastname: string;

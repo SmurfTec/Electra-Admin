@@ -6,7 +6,7 @@ import { CustomTableComponent } from "../../../atoms";
 import IMAGES from "../../../assets/Images";
 import { SVGIcon } from "../../../components/SVG";
 import { CustomMenu } from "../../../atoms/global.style";
-import { useGetRoles } from "../../../custom-hooks/roles/RolesHooks";
+import { useGetRoles } from "../../../custom-hooks/RolesHooks";
 import moment from "moment";
 type SuperAdminRole = {
   created_at: string;

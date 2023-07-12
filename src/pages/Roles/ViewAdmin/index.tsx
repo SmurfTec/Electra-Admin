@@ -5,8 +5,9 @@ import { SVGIcon } from "../../../components/SVG";
 import { CustomMenu } from "../../../atoms/global.style";
 import { CustomButton } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
-import { useGetUserById } from "../../../custom-hooks/roles/RolesHooks";
+import { useGetUserById } from "../../../custom-hooks/RolesHooks";
 import { useLocation } from "react-router-dom";
+import { BaseURL } from "../../../config";
 import moment from "moment";
 type UserProfile = {
   id: number;
@@ -21,6 +22,7 @@ type UserActivity = {
   message: string;
   type: string;
   created_on: string;
+  image: string;
 };
 
 type User = {
@@ -184,7 +186,7 @@ export const ViewAdmin = () => {
                     key={index}
                     className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]"
                   >
-                    <img className="p-2" src={IMAGES.Loginarrow} />
+                    <img className="p-2" src={BaseURL + item.image} />
                     <div>
                       <p>{item.message}</p>
                       <p className="text-[#969696] mt-2 text-[11px]">
@@ -202,7 +204,12 @@ export const ViewAdmin = () => {
                       key={index}
                       className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]"
                     >
-                      <img className="p-2" src={IMAGES.Loginarrow} />
+                      <img
+                        className="p-2"
+                        src={
+                          item.image ? BaseURL + item.image : IMAGES.Loginarrow
+                        }
+                      />
                       <div>
                         <p>{item.message}</p>
                         <p className="text-[#969696] mt-2 text-[11px]">

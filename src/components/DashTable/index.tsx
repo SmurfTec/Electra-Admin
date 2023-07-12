@@ -11,9 +11,9 @@ const CustomTable = styled(DataTable)<any>`
   .p-datatable-tbody > tr {
     background-color: #fcfcfc !important;
   }
- .p-paginator-bottom{
-  background: #FCFCFC;
- }
+  .p-paginator-bottom {
+    background: #fcfcfc;
+  }
   .p-paginator-bottom {
     display: flex;
     justify-content: flex-end;
@@ -116,12 +116,16 @@ export const DashTable = (props: any) => {
   return (
     <div className={`mt-4 px-4 rounded-3xl  ${props.classess}`}>
       <CustomTable
+        dataKey="id"
         value={props.data}
         header={tableHeader}
         paginator={props.pagination ? true : false}
+        paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks
+        NextPageLink LastPageLink"
         rows={5}
         tableStyle={{ minWidth: "20rem" }}
         tablebgcolor={props.tableHeaderColor}
+        onSelectionChange={(e:any) => console.log(e.value)}
       >
         {props.imginData && (
           <Column

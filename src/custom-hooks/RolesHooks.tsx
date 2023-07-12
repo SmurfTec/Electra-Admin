@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { getRoles } from "../../store/Slices/RoleSlice";
-import { getAllUsers, addAdmin } from "../../store/Slices/UserSlice";
-import { getPermission } from "../../store/Slices/RoleSlice";
+import { getRoles } from "../store/Slices/RoleSlice";
+import { getAllUsers, addAdmin } from "../store/Slices/UserSlice";
+import { getPermission } from "../store/Slices/RoleSlice";
 import { useNavigate } from "react-router-dom";
-import { getRolesByName,getUserByID } from "../../store/Slices/RoleSlice";
-import { DeleteSingleUser } from "../../store/Slices/UserSlice";
+import { getRolesByName,getUserByID } from "../store/Slices/RoleSlice";
+import { DeleteSingleUser } from "../store/Slices/UserSlice";
 interface RoleStats {
   role: string;
   users: number;

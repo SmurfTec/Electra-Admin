@@ -14,7 +14,7 @@ import { TabPanel } from "primereact/tabview";
 import {
   useGetRoles,
   useDeleteRole,
-} from "../../../custom-hooks/roles/RolesHooks";
+} from "../../../custom-hooks/RolesHooks";
 import moment from "moment";
 interface RoleStats {
   role: string;
@@ -51,7 +51,7 @@ export const Roles = () => {
     useState<PartialAccount>({});
   const [MenuLabel, setMenuLabel] = useState("");
   const [Body, setBody] = useState({
-    ids: [],
+    ids: [""],
   });
   const { userLoading }: any = useDeleteRole(Body, setFetch, fetch);
 
