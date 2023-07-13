@@ -1,6 +1,7 @@
 import React from 'react'
 
-export const OrderStatus = () => {
+export const OrderStatus = (props:any) => {
+    console.log(props,"PROPSS")
   return (
     <div className='flex justify-between mt-5'>
         <div className='flex gap-3'>
@@ -9,16 +10,16 @@ export const OrderStatus = () => {
 
       <div className='flex flex-col gap-1'>
             <p className='font-bold text-[18px]'>
-                Iphone 14 Pro Max
+                {props.name}
             </p>
             <p className='text-[#A4A4A4] text-[13px]'>
-            20,aug,2022 - 15.00 PM
+           {props.time}
             </p>
         </div>
         </div>
         <div className='flex flex-col gap-1'>
             <p className='text-[#04CE00] text-[13px] text-center'>
-                Completed
+                {props.status}
             </p>
             <p className='text-[#A4A4A4] text-[13px]'>
                 TID: 1424325252

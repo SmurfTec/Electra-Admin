@@ -18,15 +18,17 @@ import { useGetAllUsers } from "../../custom-hooks/UserHooks";
 import { useGetProducts } from "../../custom-hooks";
 import { BaseURL } from "../../config";
 import moment from "moment";
+import { useGetOrderAll } from "../../custom-hooks/OrderHooks";
 export const Dashboard = () => {
   const [visible, setvisible] = useState(false);
   const [months, setMonth] = useState("year");
+  const { orderData, orderLoading }: any = useGetOrderAll();
   const { users, userLoading }: any = useGetAllUsers();
   const { bestSelling, bestLoading }: any = useGetBestSelling();
   const { productsAdded, prodLoading }: any = useGetProducts();
   React.useEffect(() => {
-    if (!userLoading) {
-      console.log(users);
+    if (!orderLoading) {
+      console.log(orderData);
     }
     console.log(bestSelling, "PRODUCTSS");
   }, [prodLoading]);
@@ -46,7 +48,7 @@ export const Dashboard = () => {
       setNewData(convertedArray);
     }
   }, [dashStats, loading]);
-  let latestArr = users?.users?.slice(0,10).map((item: any) => {
+  let latestArr = users?.users?.slice(0, 10).map((item: any) => {
     let newObj = {
       id: item.id,
       name: item?.profile?.firstname + item?.profile?.lastname || "",
@@ -58,7 +60,7 @@ export const Dashboard = () => {
     return newObj;
   });
   latestArr?.sort((a: any, b: any) => a.id - b.id);
-  const data = latestArr
+  const data = latestArr;
   const data2 =
     !prodLoading &&
     productsAdded?.products &&
@@ -149,7 +151,7 @@ export const Dashboard = () => {
             listing={dashStats?.listingStats?.total_listings_for_last_month}
             Products={dashStats?.productStats?.total_products_sold_last_month}
           />
-          <PlatformEarning />
+          {!orderLoading && <PlatformEarning data={orderData.orders} />}
         </div>
 
         <div className="overflow-hidden">
@@ -160,6 +162,7 @@ export const Dashboard = () => {
             data={data}
             header={true}
             classess={"!px-[3px] !mt-4 !rounded !overflow-x-auto "}
+            route={"/Users"}
           />
         </div>
       </div>
@@ -173,6 +176,7 @@ export const Dashboard = () => {
               selling={true}
               customHeader="Best Selling Product"
               pagination={true}
+              route={"/Products"}
             />
           )}
         </div>
@@ -185,6 +189,7 @@ export const Dashboard = () => {
               selling={true}
               customHeader="Recently Added Product"
               pagination={true}
+              route={"/Products"}
             />
           )}
         </div>

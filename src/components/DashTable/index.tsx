@@ -71,7 +71,7 @@ export const DashTable = (props: any) => {
       <p style={{ fontWeight: "900", marginRight: "10px", color: "black" }}>
         {props.customHeader}
       </p>
-      <ViewAll />
+      <ViewAll route={props?.route}/>
     </div>
   );
   const CustomBody = (rowData: any) => {
