@@ -31,14 +31,14 @@ export const Dashboard = () => {
   let convertedArray = dashStats?.revenueStats?.year?.data ?? {};
   React.useEffect(() => {
     if (!loading) {
-      convertedArray = convertedArray
-        ? Object.entries(dashStats?.revenueStats?.year?.data).map(
+      convertedArray = Object.entries(dashStats?.revenueStats?.year?.data)?.map(
             ([date, { sales }]: any) => ({
               x: date.split("-")[0],
               y: sales,
             })
           )
-        : [];
+        console.log(convertedArray)
+
       setNewData(convertedArray);
     }
   }, [dashStats, loading]);
@@ -74,7 +74,7 @@ export const Dashboard = () => {
     bestSelling?.products.length > 0 &&
     bestSelling?.products?.map((item: any, index: any) => {
       return {
-        // img: BaseURL+item.images[0].filename,
+        img: BaseURL+item.image.filename,
         id: item.title,
         name: { number: item.sold, status: "sold" },
         email: { number: item.listings, status: "sold" },
@@ -149,7 +149,7 @@ export const Dashboard = () => {
         </div>
 
         <div className="overflow-hidden">
-          {newData && <RevenueChart statData={newData} />}
+          {!loading && newData && <RevenueChart statData={newData} />}
           {!userLoading && (
             <DashTable
               customHeader="User Registrations"

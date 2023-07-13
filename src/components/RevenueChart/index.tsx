@@ -6,6 +6,7 @@ type PropType = {
   statData: any;
 };
 export const RevenueChart = (props: PropType) => {
+  console.log(props.statData)
   const [series, setSeries] = React.useState({
     name: "Series 1",
     data: [],
