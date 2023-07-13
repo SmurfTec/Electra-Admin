@@ -12,7 +12,9 @@ export const EmailVerificationModel = ({classes,visible,setVisible,title="Email 
     const renderer = ({  minutes, seconds, completed }:any) => {
         if (completed) {
           setResetKey((prevKey) => prevKey + 1);
-          SendEmail();
+          if(SendEmail){
+            SendEmail()
+          }
         } else { 
           return (
             <p className='text-[#656565] text-[16px] underline'>
@@ -21,7 +23,7 @@ export const EmailVerificationModel = ({classes,visible,setVisible,title="Email 
           );
         } 
       };
-   
+  
   return (
    <>
     <CustomDialog className={`${classes} bg-[#FFFFFF] w-[543px] h-[358px] flex  justify-center align-middle items-center `} visible={visible} >

@@ -260,6 +260,7 @@ export const Users = () => {
           MultipleSelect={true}
           LoadMore={LoadMore}
           setLoadMore={setLoadMore}
+          pagination={true}
         />
       </div>
       <Confirmationmodal

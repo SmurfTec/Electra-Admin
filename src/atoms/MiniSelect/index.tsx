@@ -12,7 +12,7 @@ const CustomChecked = styled(Checkbox)`
   }
 `;
 export const Miniselect = (props: any) => {
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = React.useState(props.checked || false);
   return (
     <div className="flex gap-3">
       {props.radio ? (

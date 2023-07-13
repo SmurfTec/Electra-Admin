@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Header,
   AdminCards,
@@ -11,83 +11,124 @@ import IMAGES from "../../../assets/Images";
 import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 import { TabPanel } from "primereact/tabview";
-import { getRoles } from "../../../store/Slices/RoleSlice";
+import {
+  useGetRoles,
+  useDeleteRole,
+} from "../../../custom-hooks/RolesHooks";
+import moment from "moment";
+interface RoleStats {
+  role: string;
+  users: number;
+}
+
+type Stats = RoleStats[];
+type Account = {
+  id: string;
+  email: string;
+  created_at: string;
+  role: string;
+  profile?: {
+    username: string;
+    mobile_no: string;
+    firstname: string;
+    lastname: string;
+  };
+};
+type User = {
+  id: string;
+  email: string;
+  // Other user properties...
+  role: string;
+};
+type userArray = User[];
+type PartialAccount = Partial<Account>;
 export const Roles = () => {
   const [visible, setVisible] = React.useState(false);
+  const [fetch, setFetch] = React.useState(false);
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
-  const[Roles,setRoles]=useState<any>([])
-  const filterData = [
-    {
-      Account: "Huzayfah",
-      "Email Address": "Huzayfah",
-      "Phone No": "0342525252525",
-      "Assigned On": "Huz@gmail.com",
-      Role: "Super Admin",
-    },
-    {
-      Account: "Huzayfah",
-      "Email Address": "Huzayfah",
-      "Phone No": "0342525252525",
-      "Assigned On": "Huz@gmail.com",
-      Role: "Super Admin",
-    },
-    {
-      Account: "Huzayfah",
-      "Email Address": "Huzayfah",
-      "Phone No": "0342525252525",
-      "Assigned On": "Huz@gmail.com",
-      Role: "Sub Admin",
-    },
-    {
-      Account: "Huzayfah",
-      "Email Address": "Huzayfah",
-      "Phone No": "0342525252525",
-      "Assigned On": "Huz@gmail.com",
-      Role: " Admin",
-    },
-  ];
+  const [CurrSelectedProduct, setCurrSelectedProduct] =
+    useState<PartialAccount>({});
+  const [MenuLabel, setMenuLabel] = useState("");
+  const [Body, setBody] = useState({
+    ids: [""],
+  });
+  const { userLoading }: any = useDeleteRole(Body, setFetch, fetch);
+
+  const {
+    rolesStats,
+    users,
+    roleArray,
+  }: {
+    roles?: any;
+    rolesStats: Stats | any;
+    users: userArray | any;
+    roleArray: any;
+  } = useGetRoles(fetch);
+  const filterData = users?.map((item: PartialAccount, index: number) => {
+    return {
+      id: item.id,
+      Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
+      "Email Address": item.email,
+      "Phone No": item.profile?.mobile_no ?? "-",
+      "Assigned On": moment(item.created_at).format("DD MMM YYYY"),
+      Role: item.role,
+    };
+  });
+  const viewItem = (event: React.MouseEvent, item: any, vaaluue?: any) => {
+    event.stopPropagation();
+    console.log(vaaluue);
+
+    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+  };
+  const deleteItem = (event: React.MouseEvent, item: any, vaaluue?: any) => {
+    event.stopPropagation();
+    setBody({
+      ids: [vaaluue],
+    });
+
+    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+  };
   const items = [
     {
       items: [
         {
-          label: "Ban User",
+          label: "View",
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
+                onClick={(event: any) =>
+                  viewItem(event, item, CurrSelectedProduct)
+                }
                 style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> Ban User
+                <SVGIcon
+                  width="9px"
+                  height="6px"
+                  fillcolor={"#212121"}
+                  src={IMAGES.eye}
+                />
+                View Admin
               </div>
             );
           },
         },
         {
           label: "Delete",
+
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
+                onClick={(event: any) =>
+                  deleteItem(event, item, CurrSelectedProduct)
+                }
                 style={{ background: "rgba(231, 29, 54, 0.05)" }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
               >
                 <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
-              </div>
-            );
-          },
-        },
-        {
-          label: "Select",
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ background: "rgba(46, 102, 194, 0.05)" }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-              >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
               </div>
             );
           },
@@ -104,51 +145,50 @@ export const Roles = () => {
     );
   };
   const MenuBodyTemplate = (rowData: any) => {
+    const handleClick = (event: any) => {
+      event.preventDefault();
+      console.log(rowData);
+      setCurrSelectedProduct(rowData.id);
+      menuLeft.current.toggle(event);
+    };
+    useEffect(() => {
+      console.log(
+        "Menu",
+        MenuLabel,
+        "CurrSelectedProduct",
+        CurrSelectedProduct
+      );
+    }, [MenuLabel, CurrSelectedProduct]);
+
     return (
       <>
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon
-            onClick={(event: any) => {
-              event.preventDefault();
-              menuLeft.current.toggle(event);
-            }}
-            src={IMAGES.Dots}
-          />
+          <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
 
-          <CustomMenu model={items} popup ref={menuLeft} id="popup_menu_left" />
+          <CustomMenu
+            height={"78px"}
+            model={items}
+            popup
+            ref={menuLeft}
+            id="popup_menu_left"
+          />
         </div>
       </>
     );
   };
   const StatusBodyTemplate = (option: any) => {
     let style;
-    if (option.Role === "Super Admin") {
-      style = `px-[14px] py-[4px]
+
+    style = `px-[14px] py-[4px]
           text-center
           h-[33px]
            bg-custom-blue text-[black]
        max-w-[160px]
           
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
-    } else if (option.Role === " Admin") {
-      style = `px-[14px] py-[4px]
-          text-center
-          h-[33px]
-           bg-custom-yellow text-[black]
-        max-w-[160px]
-       
-            flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
-    } else if (option.Role === "Sub Admin") {
-      style = `px-[14px] py-[4px]
-          text-center
-          h-[33px]
-           bg-custom-pink text-[black]
-        max-w-[160px]
-        
-            flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
-    }
+
     return (
       <>
         <div className={style}>
@@ -163,16 +203,19 @@ export const Roles = () => {
     { field: "Email Address", header: "Email Address" },
     { field: "Phone No", header: "Phone No" },
     { field: "Assigned On", header: "Assigned On" },
-    { field: "Role", header: "Role", body: StatusBodyTemplate,className:'role' },
+    {
+      field: "Role",
+      header: "Role",
+      body: StatusBodyTemplate,
+      className: "role",
+    },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
-  const getAllRoles=async()=>{
-    let response=await getRoles();
-    console.log(response)
-  }
-  useEffect(()=>{
-    getAllRoles();
-  },[])
+  useEffect(() => {
+    if (MenuLabel == "View") {
+      navigate(`/Viewadmin/${CurrSelectedProduct}`);
+    }
+  }, [MenuLabel]);
   return (
     <div>
       <ShippingModal visible={visible} setVisible={setVisible} />
@@ -182,10 +225,14 @@ export const Roles = () => {
         chooseFilter={true}
         UserBox={true}
       />
-      <div className="flex gap-2">
-        <AdminCards accounts={"3 ACCOUNTS"} title={"Super Admin"} />
-        <AdminCards accounts={"3 ACCOUNTS"} title={"Admin"} />
-        <AdminCards accounts={"3 ACCOUNTS"} title={"Sub Admin"} />
+      <div className="flex gap-2 flex-wrap">
+        {rolesStats &&
+          rolesStats.length > 0 &&
+          rolesStats?.map((item: RoleStats, index: number) => {
+            return (
+              <AdminCards key={index} accounts={item.users} title={item.role} />
+            );
+          })}
         <DashCard
           onClick={() => navigate("/Newadmin")}
           outerclasses={"!bg-[#212121] !w-[187px] !h-[93px]"}
@@ -195,7 +242,7 @@ export const Roles = () => {
           Addimg={IMAGES.newmembers}
         />
         <DashCard
-          onClick={() => setVisible(true)}
+          onClick={() => navigate("/Searchrole")}
           outerclasses={"!bg-[#3C82D6] !w-[187px] !h-[93px]"}
           Add={true}
           txt={"View Roles"}
@@ -211,16 +258,17 @@ export const Roles = () => {
               Find all of your team accounts
             </span>
           </p>
-           <CustomTabView >
-            <TabPanel 
-            
-            header="All(6)">
+          <CustomTabView>
+            <TabPanel header={`All(${filterData?.length})`}>
               <p className="m-0">
                 <CustomTableComponent
                   columnStyle={{ backgroundColor: "#FCFCFC" }}
-                  headerStyle={{ color: "black",fontWeight:"800",textAlign:"left" }}
+                  headerStyle={{
+                    color: "black",
+                    fontWeight: "800",
+                    textAlign: "left",
+                  }}
                   columnHeaderFirst={"start"}
-                  
                   filterData={filterData}
                   columnData={columnData}
                   rowStyling={"#FCFCFC !important"}
@@ -228,15 +276,38 @@ export const Roles = () => {
                 />
               </p>
             </TabPanel>
-            <TabPanel header="Fail (1)">
-              <p className="m-0"></p>
-            </TabPanel>
-            <TabPanel header="Pass (1)">
-              <p className="m-0"></p>
-            </TabPanel>
-            <TabPanel header="Pending (1)">
-              <p className="m-0"></p>
-            </TabPanel>
+            {roleArray?.map((item: any, index: any) => {
+              const filterData2 = item.users?.map(
+                (item: PartialAccount, index: number) => {
+                  return {
+                    Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
+                    "Email Address": item.email,
+                    "Phone No": item.profile?.mobile_no ?? "-",
+                    "Assigned On": moment(item.created_at).format(
+                      "DD MMM YYYY"
+                    ),
+                    Role: item.role,
+                  };
+                }
+              );
+              return (
+                <TabPanel key={index} header={item.name}>
+                  <CustomTableComponent
+                    columnStyle={{ backgroundColor: "#FCFCFC" }}
+                    headerStyle={{
+                      color: "black",
+                      fontWeight: "800",
+                      textAlign: "left",
+                    }}
+                    columnHeaderFirst={"start"}
+                    filterData={filterData2}
+                    columnData={columnData}
+                    rowStyling={"#FCFCFC !important"}
+                    // columnHeader={"flex-start"}
+                  />
+                </TabPanel>
+              );
+            })}
           </CustomTabView>
         </div>
       </div>

@@ -37,6 +37,8 @@ import {
   Feemodifier,
   Notifications,
   SecurityQuestion,
+  Editrole
+
 } from "./pages/index";
 import { SideBar } from "./components";
 import PrivateRoute from "./routes/Privateroute";
@@ -89,7 +91,7 @@ function App() {
             <Route path="/HelpCenter" element={<HelpCenter />} />
             <Route path="/HelpCenterDetail/:id" element={<HelpCenterDetail />} />
             <Route path="/Newadmin" element={<CreateNewadmin />} />
-            <Route path="/Viewadmin" element={<ViewAdmin />} />
+            <Route path="/Viewadmin/:id" element={<ViewAdmin />} />
             <Route path="/Searchrole" element={<Searchrole />} />
             <Route path="/Verification" element={<Verification />} />
             <Route path="/Verification/Step1/:id" element={<Step1 />} />
@@ -99,6 +101,7 @@ function App() {
             />
             <Route path="/Settings" element={<Settings />} />
             <Route path="/Creationroles" element={<Createrole />} />
+            <Route path="/Editroles/:name" element={<Editrole />} />
             <Route path="/Listings" element={<Listings />} />
             <Route path="/ListingsDetail/:id" element={<Listingdetail />} />
             <Route path="/Orders" element={<Orders />} />
