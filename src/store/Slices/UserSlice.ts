@@ -53,6 +53,22 @@ export const ChangePassword=async(body:any)=>{
     return e;
   }
 }
+export const GetUserAsks=async(userId:any)=>{
+  try{
+    let response = await url.get(`/asks/?user=${userId}`);
+    return response.data;
+  }catch(e){
+    return e;
+  }
+}
+export const GetUserStats=async(userId:any,status="pending")=>{
+  try{
+    let response = await url.get(`/orders/users/${userId}?status=${status}`);
+    return {...response.data};
+  }catch(e){
+    return e;
+  }
+}
 export const getSingleUser = async (id: any) => {
   try {
     let response: any = await url.get(`/users/${id}`);

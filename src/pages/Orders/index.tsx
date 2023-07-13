@@ -6,7 +6,7 @@ import { Header, Receiptmodal } from "../../components";
 import IMAGES from "../../assets/Images";
 import { CustomMenu,CustomTabView } from "../../atoms/global.style";
 import { TabPanel } from "primereact/tabview";
-import { getAllOrders } from "../../store/Slices/OrderSlice";
+import { getAllOrders,DeleteOrders } from "../../store/Slices/OrderSlice";
 import moment from "moment";
 export const Orders = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export const Orders = () => {
           template: (item:any) => {
             return (
               <div
-                // onClick={(event) => deleteItem(event, rowData.id)}
+                onClick={(event) => deleteItem(event, rowData.id)}
                 style={{ background: "rgba(231, 29, 54, 0.05)" }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
               >
@@ -81,6 +81,12 @@ export const Orders = () => {
       </>
     );
   };
+  const deleteItem=async(event:any,id:any)=>{
+
+let r=await DeleteOrders(id)
+console.log(r)
+getOrders();
+  } 
   const StatusBodyTemplate = (option: any) => {
     let style;
     if (option.status === "cancelled") {
