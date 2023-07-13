@@ -26,12 +26,6 @@ export const Dashboard = () => {
   const { users, userLoading }: any = useGetAllUsers();
   const { bestSelling, bestLoading }: any = useGetBestSelling();
   const { productsAdded, prodLoading }: any = useGetProducts();
-  React.useEffect(() => {
-    if (!orderLoading) {
-      console.log(orderData);
-    }
-    console.log(bestSelling, "PRODUCTSS");
-  }, [prodLoading]);
   const [newData, setNewData] = useState<any>();
   const { dashStats, loading }: any = useGetDashStats();
   let convertedArray = dashStats?.revenueStats?.year?.data ?? {};
@@ -156,14 +150,16 @@ export const Dashboard = () => {
 
         <div className="overflow-hidden">
           {newData && <RevenueChart statData={newData} />}
-          <DashTable
-            customHeader="User Registrations"
-            tableHeaderColor="#FCFCFC "
-            data={data}
-            header={true}
-            classess={"!px-[3px] !mt-4 !rounded !overflow-x-auto "}
-            route={"/Users"}
-          />
+          {!userLoading && (
+            <DashTable
+              customHeader="User Registrations"
+              tableHeaderColor="#FCFCFC "
+              data={data}
+              header={true}
+              classess={"!px-[3px] !mt-4 !rounded !overflow-x-auto "}
+              route={"/Users"}
+            />
+          )}
         </div>
       </div>
       <div className="flex justify-start gap-10 mb-6 ">
