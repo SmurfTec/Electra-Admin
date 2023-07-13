@@ -1,7 +1,16 @@
+import {useState,useEffect} from 'react'
 import IMAGES from "../../../assets/Images";
 import { CustomButton } from "../../../atoms";
 import { CustomDialog } from "../../../atoms/global.style";
-export const Receiptmodal = ({ visible, setVisible }: any) => {
+export const Receiptmodal = ({ visible, setVisible,currentItem }: any) => {
+const[item,setItem]=useState<any>({})
+
+useEffect(()=>{
+  if(currentItem){
+    setItem(currentItem[0])
+  }
+
+},[currentItem])
   return (
     <CustomDialog
 
@@ -25,10 +34,17 @@ export const Receiptmodal = ({ visible, setVisible }: any) => {
         </div>
         <div>
           <p className="font-bold text-[20px] text-[#111111]">
-            Iphone 14 Pro Max
+           {item["Item Name"]}
           </p>
           <div className="flex mt-2 gap-5">
-            <p className="border  font-bold border-[#000000] w-[93px] text-[#000000] text-center rounded-[26px]">
+          {item?.receipt?.specs.map((item:any)=>{
+            return(
+              <p className="border  font-bold border-[#000000] w-[93px] text-[#000000] text-center rounded-[26px]">
+              {item}
+            </p>
+            )
+          })}
+            {/* <p className="border  font-bold border-[#000000] w-[93px] text-[#000000] text-center rounded-[26px]">
               128 GB
             </p>
             <p className="border font-bold border-[#000000] w-[93px] text-[#000000] text-center rounded-[26px]">
@@ -36,71 +52,56 @@ export const Receiptmodal = ({ visible, setVisible }: any) => {
             </p>
             <p className="border  font-bold border-[#000000] w-[93px] text-[#000000] text-center rounded-[26px]">
               At&T
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
       <div className="flex  flex-wrap px-8 gap-8">
         <div>
           <p>BUYERS NAME</p>
-          <p className="text-[#000000] pt-3  font-bold">Huzayafah Hanif</p>
+          <p className="text-[#000000] pt-3  font-bold">{item?.receipt?.buyer}</p>
         </div>
         <div>
           <p>PHONE NO</p>
-          <p className="text-[#000000] pt-3  font-bold">2554242542</p>
+          <p className="text-[#000000] pt-3  font-bold"> {item?.receipt?.phone}</p>
         </div>
         <div>
           <p>EMAIL</p>
-          <p className="text-[#000000] pt-3 font-bold">Huz@gmail.com</p>
+          <p className="text-[#000000] pt-3 font-bold">{item?.receipt?.email}</p>
         </div>
         <div>
           <p>SHIPPING ADDRESS</p>
           <p className="text-[#000000]  font-bold pt-3">
-            Mr John Smith. 132, My Street, Kingston, New York 12401. United
-            States Of America
+            {item?.receipt?.address}
           </p>
         </div>
       </div>
       <div className="flex mt-4 px-8 gap-8">
         <div>
           <p>TRACKING ID</p>
-          <p className="text-[#000000] pt-3 font-bold">2554242542</p>
+          <p className="text-[#000000] pt-3 font-bold">{item?.trackingid}</p>
         </div>
         <div>
           <p>ORDER NO</p>
-          <p className="text-[#000000] pt-3  font-bold">3456</p>
+          <p className="text-[#000000] pt-3  font-bold">{item["Order No"]}</p>
         </div>
       </div>
-      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
-        <p className="font-bold text-[#000000] text-[16px]">Item Price</p>
-        <p className="font-bold text-[#000000] text-[20px]">$437</p>
+      {item?.receipt_fees?.length>0 && 
+      item?.receipt_fees?.map((item:any)=>{
+        return(
+          <>
+          <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">{item?.title}</p>
+        <p className="font-bold text-[#000000] text-[20px]">${item?.fees}</p>
       </div>
-      <div className="flex items-center justify-between px-8 mt-3 gap-3 mx-3 ">
-        <p className="font-bold text-[#000000] text-[16px]">Item Price</p>
-        <p className="font-bold text-[#000000] text-[20px]">$437</p>
-      </div>
-      <div className="flex items-center justify-between px-8 mt-3 gap-3  mx-3">
-        <p className="font-bold text-[#000000] text-[16px]">Item Price</p>
-        <p className="font-bold text-[#000000] text-[20px]">$437</p>
-      </div> <div className="flex items-center justify-between px-8 mt-3 gap-3 mx-3 ">
-        <p className="font-bold text-[#000000] text-[16px]">Item Price</p>
-        <p className="font-bold text-[#000000] text-[20px]">$437</p>
-      </div> <div className="flex items-center justify-between px-8 mt-3 gap-3  mx-3">
-        <p className="font-bold text-[#000000] text-[16px]">Item Price</p>
-        <p className="font-bold text-[#000000] text-[20px]">$437</p>
-      </div> <div className="flex items-center justify-between px-8 mt-3 gap-3  mx-3">
-        <p className="font-bold text-[#000000] text-[16px]">Item Price</p>
-        <p className="font-bold text-[#000000] text-[20px]">$437</p>
-      </div> <div className="flex items-center justify-between px-8 mt-3 gap-3  mx-3">
-        <p className="font-bold text-[#000000] text-[16px]">Item Price</p>
-        <p className="font-bold text-[#000000] text-[20px]">$437</p>
-      </div> <div className="flex items-center justify-between px-8 mt-3 gap-3 mx-3  ">
-        <p className="font-bold text-[#000000] text-[16px]">Item Price</p>
-        <p className="font-bold text-[#000000] text-[20px]">$437</p>
-      </div>
+          </>
+        )
+      })
+      }
+      
       <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
         <p className="font-bold text-[#000000] text-[16px]">Purchase Price</p>
-        <p className="font-bold text-[#3C82D6] text-[20px]">$437</p>
+        <p className="font-bold text-[#3C82D6] text-[20px]">${item?.saleprice}</p>
       </div>
       <CustomButton
         iconLeft={<img src={IMAGES.downloadreceipt}/>}

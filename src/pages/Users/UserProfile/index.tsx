@@ -7,7 +7,7 @@ import { InputTxt } from '../../../atoms'
 import { SVGIcon } from '../../../components/SVG'
 import { CustomMenu } from "../../../atoms/global.style"
 import { MenuItem } from 'primereact/menuitem'
-import { getSingleUser,GetAllUserOrder } from '../../../store/Slices/UserSlice'
+import { getSingleUser,GetAllUserOrder,GetUserAsks,GetUserStats } from '../../../store/Slices/UserSlice'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
 type UserInterface={
@@ -30,12 +30,13 @@ export const UserProfile = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const [MenuLabel,setMenuLabel]=useState("")
   const[CurrSelectedProduct,setCurrSelectedProduct]=useState('')
+
   const [ButtonList, setButtonList] = useState([
     { id: 1, txt: 'Active', active: true },
     { id: 2, txt: 'Pending', active: false },
     { id: 3, txt: 'Completed', active: false },
   ])
-  const [Data] = useState([
+  const [Data,setData] = useState([
     { id: 1, txt: 'Active', title: "No of Listings", body: '20' },
     { id: 2, txt: 'Active', title: "Gross Value", body: '$2000' },
     { id: 3, txt: 'Active', title: "Net Value", body: '$1900' },
@@ -167,17 +168,39 @@ const GetUserDetail=async()=>{
     phone:response.profile.mobile_no || "",
     date:moment(response.created_at).format("DD,MM,YYYY")
     })
-    console.log(response)
+  
   
 }
 const getUserOrder=async()=>{
  try{
   let r=await GetAllUserOrder(id);
-  console.log(r,"userOrder")
+  let response=await GetUserAsks(id);
+  let newData=Data.map((item:any)=>{
+    if(item.id==1){
+      return {
+        ...item,
+        body:response.askStats.no_of_listing
+      }
+    }else if(item.id==2){
+      return {
+        ...item,
+        body:response?.askStats?.gross_value || "$0"
+      }
+    }else if(item.id==3){
+      return {
+        ...item,
+        body:response?.askStats?.net_value
+      }
+    }else{
+      return item
+    }
+  })
+  setData(newData)
  }catch(err){
 
  }
 }
+
 useEffect(()=>{
   GetUserDetail()
   getUserOrder()
@@ -210,9 +233,7 @@ useEffect(()=>{
     { field: "", header: '', body: MenuBodyTemplate }
   ])
 
-useEffect(()=>{
-console.log('Menu',MenuLabel,"product",selectedProducts,"CurrSelectedProduct",CurrSelectedProduct)
-},[MenuLabel])
+
 
   return (
     <div className=''>

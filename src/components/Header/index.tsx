@@ -57,15 +57,7 @@ export const Header = (props: headerProps) => {
       socket.disconnect(); // Clean up the socket connection when component unmounts
     };
   }, []);
-  useEffect(() => {
-    // if (socket) {
-    //   socket.on('notifications', (data: any) => {
-    //     console.log('data 2', data);
-    //     setnotification(data);
-    //   });
-    //   console.log(socket, 'socket');
-    // }
-  }, [socket]);
+
   useEffect(() => {
     console.log(notification, 'notification');
   }, [notification]);

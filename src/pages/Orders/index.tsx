@@ -6,15 +6,17 @@ import { Header, Receiptmodal } from "../../components";
 import IMAGES from "../../assets/Images";
 import { CustomMenu,CustomTabView } from "../../atoms/global.style";
 import { TabPanel } from "primereact/tabview";
-import { getAllOrders } from "../../store/Slices/OrderSlice";
+import { getAllOrders,DeleteOrders } from "../../store/Slices/OrderSlice";
 import moment from "moment";
 export const Orders = () => {
   const navigate = useNavigate();
   const [LoadMore, setLoadMore] = useState(true);
   const menuLeft: any = React.useRef(null);
   const [visible,setVisible]=React.useState(false)
- 
+  const [currentItem,setcurrentItem]=useState<any>()
   const [filterData,setfilterData] = useState<any>([])
+
+  
   const MenuBodyTemplate = (rowData: any) => {
     const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
       const items = [
@@ -24,13 +26,13 @@ export const Orders = () => {
           template: (item: any) => {
             return (
               <div
-              // onClick={(event) => deleteItem(event, rowData.id)}
-                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+                style={{ background: "rgba(46, 102, 194, 0.05)" }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+                onClick={(event: any) => viewItem(event, rowData.id)}
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> View Item
+                <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> View Receipt
               </div>
-            );
+            ); 
           },
         },
         {
@@ -38,7 +40,7 @@ export const Orders = () => {
           template: (item:any) => {
             return (
               <div
-                // onClick={(event) => deleteItem(event, rowData.id)}
+                onClick={(event) => deleteItem(event, rowData.id)}
                 style={{ background: "rgba(231, 29, 54, 0.05)" }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
               >
@@ -81,6 +83,18 @@ export const Orders = () => {
       </>
     );
   };
+  const viewItem=async(event:any,id:any)=>{
+    setVisible(true)
+    const item=filterData.filter((item:any)=>item.id==id)
+    console.log(item,"item")
+    setcurrentItem(item)
+  }
+  const deleteItem=async(event:any,id:any)=>{
+
+let r=await DeleteOrders(id)
+console.log(r)
+getOrders();
+  } 
   const StatusBodyTemplate = (option: any) => {
     let style;
     if (option.status === "cancelled") {
@@ -271,6 +285,7 @@ export const Orders = () => {
       <Receiptmodal 
       visible={visible}
       setVisible={setVisible}
+      currentItem={currentItem}
       />
     </div>
   );
