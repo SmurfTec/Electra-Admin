@@ -13,7 +13,7 @@ export const Orders = () => {
   const [LoadMore, setLoadMore] = useState(true);
   const menuLeft: any = React.useRef(null);
   const [visible,setVisible]=React.useState(false)
- 
+  const [currentItem,setcurrentItem]=useState<any>()
   const [filterData,setfilterData] = useState<any>([])
   const MenuBodyTemplate = (rowData: any) => {
     const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
@@ -24,7 +24,7 @@ export const Orders = () => {
           template: (item: any) => {
             return (
               <div
-              // onClick={(event) => deleteItem(event, rowData.id)}
+              onClick={(event) => viewItem(event, rowData.id)}
                 style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
@@ -81,6 +81,12 @@ export const Orders = () => {
       </>
     );
   };
+  const viewItem=async(event:any,id:any)=>{
+    setVisible(true)
+    const item=filterData.filter((item:any)=>item.id==id)
+    console.log(item,"item")
+    setcurrentItem(item)
+  }
   const deleteItem=async(event:any,id:any)=>{
 
 let r=await DeleteOrders(id)
@@ -277,6 +283,7 @@ getOrders();
       <Receiptmodal 
       visible={visible}
       setVisible={setVisible}
+      currentItem={currentItem}
       />
     </div>
   );
