@@ -13,7 +13,7 @@ type adminBody = {
   mobile_no: string;
   role: string;
 };
-export const getAllUsers = async () => {
+export const getAllUsers = async (params?:any) => {
   try {
     let response: any = await url.get("/users/?sort=id");
     return response.data;

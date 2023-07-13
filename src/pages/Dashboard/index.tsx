@@ -14,15 +14,20 @@ import {
   useGetDashStats,
   useGetBestSelling,
 } from "../../custom-hooks/DashHooks";
+import { useGetAllUsers } from "../../custom-hooks/UserHooks";
 import { useGetProducts } from "../../custom-hooks";
 import { BaseURL } from "../../config";
-
+import moment from "moment";
 export const Dashboard = () => {
   const [visible, setvisible] = useState(false);
   const [months, setMonth] = useState("year");
+  const { users, userLoading }: any = useGetAllUsers();
   const { bestSelling, bestLoading }: any = useGetBestSelling();
   const { productsAdded, prodLoading }: any = useGetProducts();
   React.useEffect(() => {
+    if (!userLoading) {
+      console.log(users);
+    }
     console.log(bestSelling, "PRODUCTSS");
   }, [prodLoading]);
   const [newData, setNewData] = useState<any>();
@@ -41,52 +46,45 @@ export const Dashboard = () => {
       setNewData(convertedArray);
     }
   }, [dashStats, loading]);
-  const data = [
-    {
-      id: "#123",
-      name: "John Doe",
-      email: "huzayfah@gmail.com",
-      Date: "20,aug,2022",
-    },
-    {
-      id: "#123",
-      name: "Jane Smith",
-      email: "info@gmail.com",
-      Date: "20,aug,2022",
-    },
-    {
-      id: "#123",
-      name: "Bob Johnson",
-      email: "Gfa@gmail.com",
-      Date: "20,aug,2022",
-    },
-  ];
+  let latestArr = users?.users?.slice(0,10).map((item: any) => {
+    let newObj = {
+      id: item.id,
+      name: item?.profile?.firstname + item?.profile?.lastname || "",
+      phone: item?.profile?.mobile_no || "",
+      email: item?.email || "",
+      Date: moment(item.created_at).format("DD,MM,YYYY"),
+    };
+
+    return newObj;
+  });
+  latestArr?.sort((a: any, b: any) => a.id - b.id);
+  const data = latestArr
   const data2 =
     !prodLoading &&
     productsAdded?.products &&
-    productsAdded?.products.length >0&&
-  productsAdded?.products?.map((item: any, index: any) => {
-    return {
-      img: BaseURL+item.images[0].filename,
-      id: item.title,
-      name: { number: item.product_properties.sold, status: "sold" },
-      email: { number: item.product_properties.listings, status: "sold" },
-      Date: { number: `$ ${item.highest_offer??"0"}`, status: "Profit" },
-    };
-  });
+    productsAdded?.products.length > 0 &&
+    productsAdded?.products?.map((item: any, index: any) => {
+      return {
+        img: BaseURL + item.images[0].filename,
+        id: item.title,
+        name: { number: item.product_properties.sold, status: "sold" },
+        email: { number: item.product_properties.listings, status: "sold" },
+        Date: { number: `$ ${item.highest_offer ?? "0"}`, status: "Profit" },
+      };
+    });
   const data3 =
-  !bestLoading &&
-  bestSelling?.products &&
-  bestSelling?.products.length >0&&
-  bestSelling?.products?.map((item: any, index: any) => {
-  return {
-    // img: BaseURL+item.images[0].filename,
-    id: item.title,
-    name: { number: item.sold, status: "sold" },
-    email: { number: item.listings, status: "sold" },
-    Date: { number: `$ ${item.profit??"0"}`, status: "Profit" },
-  };
-});
+    !bestLoading &&
+    bestSelling?.products &&
+    bestSelling?.products.length > 0 &&
+    bestSelling?.products?.map((item: any, index: any) => {
+      return {
+        // img: BaseURL+item.images[0].filename,
+        id: item.title,
+        name: { number: item.sold, status: "sold" },
+        email: { number: item.listings, status: "sold" },
+        Date: { number: `$ ${item.profit ?? "0"}`, status: "Profit" },
+      };
+    });
   return (
     <div>
       <Header
