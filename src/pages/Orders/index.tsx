@@ -15,6 +15,8 @@ export const Orders = () => {
   const [visible,setVisible]=React.useState(false)
   const [currentItem,setcurrentItem]=useState<any>()
   const [filterData,setfilterData] = useState<any>([])
+
+  
   const MenuBodyTemplate = (rowData: any) => {
     const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
       const items = [
@@ -24,13 +26,13 @@ export const Orders = () => {
           template: (item: any) => {
             return (
               <div
-              onClick={(event) => viewItem(event, rowData.id)}
-                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+                style={{ background: "rgba(46, 102, 194, 0.05)" }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+                onClick={(event: any) => viewItem(event, rowData.id)}
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> View Item
+                <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> View Receipt
               </div>
-            );
+            ); 
           },
         },
         {
