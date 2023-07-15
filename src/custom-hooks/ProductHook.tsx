@@ -4,14 +4,14 @@ import {
   GetAllProducts,
   getAllProductRequest,
 } from "../store/Slices/ProductSlice";
-export const useGetProducts = () => {
+export const useGetProducts = (props?:any) => {
   const [productsAdded, setProductAdded] = useState<any>(null);
   const [prodLoading, setProdLoading] = useState<any>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await GetAllProducts();
+        const response = await GetAllProducts(props);
         setProductAdded(response);
         setProdLoading(false);
       } catch (error) {
@@ -21,7 +21,7 @@ export const useGetProducts = () => {
     };
 
     fetchData();
-  }, []);
+  }, [props]);
 
   return { productsAdded, prodLoading };
 };

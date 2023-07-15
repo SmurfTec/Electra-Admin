@@ -2,6 +2,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ViewAll } from "../../atoms";
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 // Styled Paginator component
 const CustomTable = styled(DataTable)<any>`
   .p-datatable-header {
@@ -66,12 +67,17 @@ const CustomTable = styled(DataTable)<any>`
   }
 `;
 export const DashTable = (props: any) => {
+  let total= props.totalProducts
+  const [PAGE, setPAGE] = useState();
+  useEffect(() => {
+    setPAGE(props.page);
+  }, [props.page]);
   const tableHeader = (
     <div className={`flex justify-between !bg-[#FCFCFC]"`}>
       <p style={{ fontWeight: "900", marginRight: "10px", color: "black" }}>
         {props.customHeader}
       </p>
-      <ViewAll route={props?.route}/>
+      <ViewAll route={props?.route} />
     </div>
   );
   const CustomBody = (rowData: any) => {
@@ -120,12 +126,21 @@ export const DashTable = (props: any) => {
         value={props.data}
         header={tableHeader}
         paginator={props.pagination ? true : false}
+        onPage={(e: any) => {
+          console.log(e);
+          props.setParams((prevState: any) => ({
+            ...prevState,
+            page: e.page + 1, // Update the page number
+          }));
+        }}
+        totalRecords={20}
+        first={props.page-1}
+        // currentPageReportTemplate="Page {first} to {last} of {total} records"
         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks
-        NextPageLink LastPageLink"
+         NextPageLink LastPageLink"
         rows={5}
         tableStyle={{ minWidth: "20rem" }}
         tablebgcolor={props.tableHeaderColor}
-        onSelectionChange={(e:any) => console.log(e.value)}
       >
         {props.imginData && (
           <Column
