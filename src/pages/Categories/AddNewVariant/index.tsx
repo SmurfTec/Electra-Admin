@@ -54,7 +54,7 @@ export const AddNewVariant = () => {
         "datatype": dataTypeValue,
         "values":valuesArr
       }
-     console.log(body)
+     console.log(body,"body")
       let response=await CreateVariantData(body)
       if(response){
         setsuccessVisible(true)

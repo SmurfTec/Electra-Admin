@@ -41,7 +41,7 @@ export const CreateCategory = () => {
     try{
       let body={
         "name":Name,
-        "fees":Number(fee),
+        "fees":String(fee),
         "variants":selectedVariant
       }
       let response=await CreateCategories(body)
