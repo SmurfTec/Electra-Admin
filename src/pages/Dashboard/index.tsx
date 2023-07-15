@@ -22,23 +22,29 @@ import { useGetOrderAll } from "../../custom-hooks/OrderHooks";
 export const Dashboard = () => {
   const [visible, setvisible] = useState(false);
   const [months, setMonth] = useState("year");
+  const [productsParam, setProductParams] = useState({
+    limit: 5,
+    page: 1,
+  });
+  const [bestProductParams, setBestProductParams] = useState({
+    limit: 5,
+    page: 1,
+  });
   const { orderData, orderLoading }: any = useGetOrderAll();
   const { users, userLoading }: any = useGetAllUsers();
-  const { bestSelling, bestLoading }: any = useGetBestSelling();
-  const { productsAdded, prodLoading }: any = useGetProducts();
+  const { bestSelling, bestLoading }: any = useGetBestSelling(bestProductParams);
+  const { productsAdded, prodLoading }: any = useGetProducts(productsParam);
   const [newData, setNewData] = useState<any>();
   const { dashStats, loading }: any = useGetDashStats();
   let convertedArray = dashStats?.revenueStats?.year?.data ?? {};
   React.useEffect(() => {
     if (!loading) {
       convertedArray = Object.entries(dashStats?.revenueStats?.year?.data)?.map(
-            ([date, { sales }]: any) => ({
-              x: date.split("-")[0],
-              y: sales,
-            })
-          )
-        console.log(convertedArray)
-
+        ([date, { sales }]: any) => ({
+          x: date.split("-")[0],
+          y: sales,
+        })
+      );
       setNewData(convertedArray);
     }
   }, [dashStats, loading]);
@@ -74,7 +80,7 @@ export const Dashboard = () => {
     bestSelling?.products.length > 0 &&
     bestSelling?.products?.map((item: any, index: any) => {
       return {
-        img: BaseURL+item.image.filename,
+        img: BaseURL + item.image.filename,
         id: item.title,
         name: { number: item.sold, status: "sold" },
         email: { number: item.listings, status: "sold" },
@@ -173,6 +179,9 @@ export const Dashboard = () => {
               customHeader="Best Selling Product"
               pagination={true}
               route={"/Products"}
+              totalProducts={bestSelling?.stats?.total_products}
+              setParams={setBestProductParams}
+              page={bestProductParams?.page}
             />
           )}
         </div>
@@ -186,6 +195,9 @@ export const Dashboard = () => {
               customHeader="Recently Added Product"
               pagination={true}
               route={"/Products"}
+              totalProducts={productsAdded?.stats?.total_products}
+              setParams={setProductParams}
+              page={productsParam?.page}
             />
           )}
         </div>
