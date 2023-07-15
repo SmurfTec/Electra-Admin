@@ -7,9 +7,11 @@ const initialState: any = {
  * Retrieves all products.
  * @returns {Promise<any>} The response data.
  */
-export const GetAllProducts = async () => {
+export const GetAllProducts = async (params?:any) => {
   try {
-    let response: any = await url.get("/products");
+    let response: any = await url.get(`/products?sort=id&limit=${params?.limit ?params.limit: 80}&page=${
+      params?.page ? params?.page: 1
+    }`);
     console.log(response.data, "RESPONSE");
     return response.data;
   } catch (e) {
@@ -22,11 +24,11 @@ export const GetAllProducts = async () => {
  * @returns {Promise<any>} The response data.
  */
 
-export const deleteProductById = async (id:any) => {
+export const deleteProductById = async (id: any) => {
   try {
     let response: any = await url.delete(`/products/${id}`);
     return response.data;
-  } catch (e:any) {
+  } catch (e: any) {
     throw new Error(e);
   }
 };
@@ -68,7 +70,25 @@ export const getAllProductRequest = async () => {
   try {
     let response: any = await url.get("/productrequests");
     return response.data;
-  } catch (e:any) {
+  } catch (e: any) {
+    throw new Error(e);
+  }
+};
+
+/**
+ * Retrieves all Best-sellling products requests.
+ * @returns {Promise<any>} The response data.
+ * @throws {Error} If an error occurs.
+ */
+export const getAllBestSellingProduct= async (params?: any) => {
+  try {
+    let response: any = await url.get(
+      `/products/best-selling?sort=sold&limit=${params?.limit ?params.limit: 4}&page=${
+        params?.page ? params?.page: 1
+      }`
+    );
+    return response.data;
+  } catch (e: any) {
     throw new Error(e);
   }
 };

@@ -4,7 +4,7 @@ import { InputTxt, CustomButton, CustomSwitch } from "../../../atoms";
 import {
   useGetPermission,
   useGetRoleByName,
-} from "../../../custom-hooks/roles/RolesHooks";
+} from "../../../custom-hooks/RolesHooks";
 import { editRole } from "../../../store/Slices/RoleSlice";
 import { useNavigate, useLocation } from "react-router-dom";
 

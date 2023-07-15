@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Header } from "../../../components";
 import { InputTxt, CustomButton, CustomSwitch } from "../../../atoms";
-import { useGetPermission } from "../../../custom-hooks/roles/RolesHooks";
+import { useGetPermission } from "../../../custom-hooks/RolesHooks";
 import { createRole } from "../../../store/Slices/RoleSlice";
 import { useNavigate } from "react-router-dom";
 type permission = {

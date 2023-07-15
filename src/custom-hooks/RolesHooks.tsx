@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { getRoles } from "../../store/Slices/RoleSlice";
-import { getAllUsers, addAdmin } from "../../store/Slices/UserSlice";
-import { getPermission } from "../../store/Slices/RoleSlice";
+import { getRoles } from "../store/Slices/RoleSlice";
+import { getAllUsers, addAdmin } from "../store/Slices/UserSlice";
+import { getPermission } from "../store/Slices/RoleSlice";
 import { useNavigate } from "react-router-dom";
-import { getRolesByName,getUserByID } from "../../store/Slices/RoleSlice";
+import { getRolesByName,getUserByID } from "../store/Slices/RoleSlice";
+import { DeleteSingleUser } from "../store/Slices/UserSlice";
 interface RoleStats {
   role: string;
   users: number;
@@ -45,7 +46,7 @@ type permission = {
   name: string;
 };
 type permissionData = permission[];
-export const useGetRoles = () => {
+export const useGetRoles = (fetch?:boolean) => {
   const [roles, setRoles] = React.useState();
   const [users, setUsers] = React.useState();
   const [rolesStats, setRolesStats] = React.useState<Stats>([]);
@@ -87,6 +88,9 @@ export const useGetRoles = () => {
   useEffect(() => {
     fetchRoles();
   }, []);
+  useEffect(() => {
+    fetchRoles();
+  }, [fetch]);
   return { roles, rolesStats, users, roleArray, loading };
 };
 export const useCreateAdmin = (): UseCreateAdminReturnType => {
@@ -197,4 +201,26 @@ export const useGetUserById=(id?:string)=>{
   }catch(e){
 
   }
+}
+
+export const useDeleteRole=(body:any,setFetch?:any,fetch?:any)=>{
+try{
+  const [userLoading,setLoading]=React.useState(true);
+  const fetchUser = async () => {
+    try {
+      const response = await DeleteSingleUser(body);
+     console.log(response.data)
+      setLoading(false);
+      setFetch(!fetch)
+    } catch (e) {
+      return e
+    }
+  };
+  useEffect(() => {
+    fetchUser();
+  }, [body]);
+  return{userLoading}
+}catch(e){
+
+}
 }

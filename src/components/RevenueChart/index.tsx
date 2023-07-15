@@ -1,14 +1,30 @@
+import React, { useEffect } from "react";
 import Chart from "react-apexcharts";
-import "./index.css"
+import "./index.css";
 import IMAGES from "../../assets/Images";
-export const RevenueChart = () => {
+type PropType = {
+  statData: any;
+};
+export const RevenueChart = (props: PropType) => {
+  console.log(props.statData)
+  const [series, setSeries] = React.useState({
+    name: "Series 1",
+    data: [],
+  });
+  useEffect(() => {
+    setSeries({
+      name: "Series 1",
+      data: props.statData,
+    });
+  }, [props.statData]);
+
   const options: any = {
     chart: {
       toolbar: {
         show: false,
       },
     },
-    
+
     stroke: {
       show: true,
       colors: ["#000000"],
@@ -42,93 +58,90 @@ export const RevenueChart = () => {
     },
   };
 
-  const series = [
-    {
-      name: "Series 1",
-      data: [
-        {
-          x: "Jan",
-          y: 0,
-        },
-        {
-          x: "Feb",
-          y: 10,
-        },
-        {
-          x: "Mar",
-          y: 20,
-        },
-        {
-          x: "Apr",
-          y: 50,
-        },
-        {
-          x: "May",
-          y: 80,
-        },
-        {
-          x: "Jun",
-          y: 100,
-        },
-        {
-          x: "July",
-          y: 70,
-        },
-        {
-          x: "Aug",
-          y: 95,
-        },
-        {
-          x: "Sep",
-          y: 45,
-        },
-        {
-          x: "Oct",
-          y: 20,
-        },
-        {
-          x: "Nov",
-          y: 90,
-        },
-        {
-          x: "Dec",
-          y: 100,
-        },
-        {
-          x:"jan",
-          y:80
-        }
-      ],
-    },
-  ];
   return (
     <div className=" h-[427px]   bg-[#FCFCFC] rounded  w-[100%] ">
       <div className="">
         <div className="flex justify-between px-2">
           <p className="font-semibold pt-3 pl-3 overflow-hidden ">Revenue</p>
-          <div className={`px-[14px] py-[4px]
+          <div
+            className={`px-[14px] py-[4px]
           text-center
           mt-4
           h-[33px]
             text-[black]
         w-[100px]
          border-2
-            flex justify-center gap-1 items-center rounded-[25px] text-[12px] overflow-hidden`}>
-          <p className="font-bold ">6 months</p>
-          <img src={IMAGES.dropdown} />
-        </div>
+            flex justify-center gap-1 items-center rounded-[25px] text-[12px] overflow-hidden`}
+          >
+            <p className="font-bold ">6 months</p>
+            <img src={IMAGES.dropdown} />
+          </div>
         </div>
         <div className="overflow-x-auto">
-        <Chart
-          options={options}
-          series={series}
-          type="area"
-          height={350}
-          style={{width:"74rem",marginLeft:"14px"}}
-        />
+          <Chart
+            options={options}
+            series={[series]}
+            type="area"
+            height={350}
+            style={{ width: "74rem", marginLeft: "14px" }}
+          />
         </div>
-       
       </div>
     </div>
   );
 };
+
+// [
+//   {
+//     x: "Jan",
+//     y: 0,
+//   },
+//   {
+//     x: "Feb",
+//     y: 10,
+//   },
+//   {
+//     x: "Mar",
+//     y: 20,
+//   },
+//   {
+//     x: "Apr",
+//     y: 50,
+//   },
+//   {
+//     x: "May",
+//     y: 80,
+//   },
+//   {
+//     x: "Jun",
+//     y: 100,
+//   },
+//   {
+//     x: "July",
+//     y: 70,
+//   },
+//   {
+//     x: "Aug",
+//     y: 95,
+//   },
+//   {
+//     x: "Sep",
+//     y: 45,
+//   },
+//   {
+//     x: "Oct",
+//     y: 20,
+//   },
+//   {
+//     x: "Nov",
+//     y: 90,
+//   },
+//   {
+//     x: "Dec",
+//     y: 100,
+//   },
+//   {
+//     x:"jan",
+//     y:80
+//   }
+// ],
