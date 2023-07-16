@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
+import { CustomDropdown2 } from "../../atoms";
 import Chart from "react-apexcharts";
 import "./index.css";
 import IMAGES from "../../assets/Images";
 type PropType = {
   statData: any;
+  setData?: any;
+  monthsData: any;
 };
 export const RevenueChart = (props: PropType) => {
- 
   let series2 = Array.isArray(props.statData) ? [...props.statData] : [];
-  const monthOrder:any = {
+  const monthOrder: any = {
     Jan: 0,
     Feb: 1,
     Mar: 2,
@@ -87,19 +89,26 @@ export const RevenueChart = (props: PropType) => {
       <div className="">
         <div className="flex justify-between px-2">
           <p className="font-semibold pt-3 pl-3 overflow-hidden ">Revenue</p>
-          <div
-            className={`px-[14px] py-[4px]
-          text-center
-          mt-4
-          h-[33px]
+       
+          <CustomDropdown2
+            setValue={(value: any) => {
+              props.setData(value);
+            }}
+            placeholder="Year"
+            options={props.monthsData}
+            mainclasses={`
+            !px-[14px] !py-[4px]
+            !text-center
+            !mt-4
+            !h-[33px]
             text-[black]
-        w-[100px]
-         border-2
-            flex justify-center gap-1 items-center rounded-[25px] text-[12px] overflow-hidden`}
-          >
-            <p className="font-bold ">6 months</p>
-            <img src={IMAGES.dropdown} />
-          </div>
+            !w-[180px]
+            !border-2
+            !border-black
+            !bg-white
+            !flex !justify-center gap-1 !items-center !rounded-[25px] !text-[12px] overflow-hidden
+          `}
+          />
         </div>
         <div className="overflow-x-auto">
           <Chart

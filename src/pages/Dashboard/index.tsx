@@ -21,7 +21,12 @@ import moment from "moment";
 import { useGetOrderAll } from "../../custom-hooks/OrderHooks";
 export const Dashboard = () => {
   const [visible, setvisible] = useState(false);
-  const [months, setMonth] = useState("year");
+  const [months, setMonth] = useState([
+    {value:"year",label:"Year"},
+    {value:"sixMonths",label:"6 months"},
+    {value:"threeMonths",label:"3 months"},
+  ]);
+  const [monthValue,setMonthValue]=useState("year")
   const [productsParam, setProductParams] = useState({
     limit: 5,
     page: 1,
@@ -43,7 +48,15 @@ export const Dashboard = () => {
   let convertedArray = dashStats?.revenueStats?.year?.data ?? {};
   React.useEffect(() => {
     if (!loading) {
-      convertedArray = Object.entries(dashStats?.revenueStats?.year?.data)?.map(
+      let period;
+      if (monthValue === "year") {
+        period = dashStats?.revenueStats?.year?.data;
+      } else if (monthValue === "sixMonths") {
+        period = dashStats?.revenueStats?.sixMonths?.data;
+      } else if (monthValue === "threeMonths") {
+        period = dashStats?.revenueStats?.threeMonths?.data;
+      }
+      convertedArray = Object.entries(period)?.map(
         ([date, { sales }]: any) => ({
           x: date.split("-")[0],
           y: sales,
@@ -51,7 +64,7 @@ export const Dashboard = () => {
       );
       setNewData(convertedArray);
     }
-  }, [dashStats, loading]);
+  }, [dashStats, loading,monthValue]);
   let latestArr = users?.users?.slice(0, 10).map((item: any) => {
     let newObj = {
       id: item.id,
@@ -159,7 +172,7 @@ export const Dashboard = () => {
         </div>
 
         <div className="overflow-hidden">
-          {!loading && newData && <RevenueChart statData={newData} />}
+          {!loading && newData && <RevenueChart statData={newData} monthsData={months} setData={setMonthValue}/>}
           {!userLoading && (
             <DashTable
               customHeader="User Registrations"
