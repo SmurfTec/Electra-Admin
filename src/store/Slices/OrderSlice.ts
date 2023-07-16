@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import url from "../../config/index";
 
-export const getAllOrders=async(params?:any)=>{
+
+export const getAllOrders=async({rowsPerPage=25,currentPage=1,status=""}:any)=>{
+  let params=status.length>0 ? `/orders/?sort=id&limit=${rowsPerPage?rowsPerPage: 25}&page=${currentPage?currentPage: 1}&status=${status}`:`/orders/?sort=id&limit=${rowsPerPage?rowsPerPage: 25}&page=${currentPage?currentPage: 1}`
+
     try{
-      let urlParams = params && params.status ? `status=${params.status}` : '';
-      let response: any = await url.get(`/orders/?sort=id&${urlParams}`);
+      let response:any=await url.get(`${params}`)
       return response.data;
     }catch(e){
-      return e;
+      return e; 
     }
     }
 export const DeleteOrders=async(id:any)=>{

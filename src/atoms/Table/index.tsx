@@ -30,6 +30,7 @@ export const CustomTableComponent = ({
 
   useEffect(() => {
     setrowsize(LoadMore == true ? initialRowSize : filterData?.length);
+    // console.log(filterData,"filterData")
   }, [filterData, LoadMore]);
   return (
     <>
