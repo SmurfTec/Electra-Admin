@@ -13,6 +13,7 @@ export const Paginatior = ({
   initialPageData,
   setInitialPageData,
 }: any) => {
+    console.log(totalRecords)
   const [first, setFirst] = useState<number[]>([0, 0, 0]);
   const onPageChange = (e: PaginatorPageChangeEvent, index: number) => {
     setFirst(first.map((f, i) => (index === i ? e.first : f)));

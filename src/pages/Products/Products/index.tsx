@@ -9,14 +9,21 @@ import { useNavigate } from "react-router-dom";
 import { GetAllProducts } from "../../../store/Slices/ProductSlice.js";
 import moment from "moment";
 import { MenuItem } from "primereact/menuitem";
+import { Paginatior } from "../../../components/index.js";
 export const Products = () => {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState([]);
   const [initial, setInitial] = useState(true);
-
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 10,
+    currentPage: 1,
+  })
+  const[ totalProducts,setTotalProducts]=useState();
   const getProducts = async () => {
     try {
-      const response = await GetAllProducts();
+      const response = await GetAllProducts(initialPageData);
+      setTotalProducts(response.stats.total_products)
+      console.log(totalProducts)
       let latestArray;
       latestArray = response.products.map((item: any, index: number) => {
         let newObj = {
@@ -36,7 +43,7 @@ export const Products = () => {
   };
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [initialPageData]);
   const [MenuLabel, setMenuLabel] = useState("");
   const menuLeft: any = useRef(null);
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
@@ -220,8 +227,9 @@ export const Products = () => {
           MultipleSelect={true}
           LoadMore={LoadMore}
           setLoadMore={setLoadMore}
-          pagination={true}
+          // pagination={true}
         />
+         <Paginatior totalRecords={Number(totalProducts)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
       </div>
     </div>
   );

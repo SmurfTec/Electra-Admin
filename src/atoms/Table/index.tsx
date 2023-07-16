@@ -46,8 +46,8 @@ export const CustomTableComponent = ({
             setSelectedProducts ? setSelectedProducts(e.value) : null
           }
           dataKey="id"
-          rows={20}
-          paginator={pagination ? true : false}
+          // rows={20}
+          // paginator={pagination ? true : false}
           tablebodycolor={rowStyling ?? ""}
           columnheader={props.columnHeader}
           columnHeaderFirst={columnHeaderFirst}
