@@ -65,7 +65,7 @@ export const Dashboard = () => {
       setNewData(convertedArray);
     }
   }, [dashStats, loading,monthValue]);
-  let latestArr = users?.users?.slice(0, 10).map((item: any) => {
+  let latestArr = users?.users?.slice(0, 4).map((item: any) => {
     let newObj = {
       id: item.id,
       name: item?.profile?.firstname + item?.profile?.lastname || "",

@@ -22,7 +22,7 @@ export const OrderStatus = (props:any) => {
                 {props.status}
             </p>
             <p className='text-[#A4A4A4] text-[13px]'>
-                TID: 1424325252
+                TID: {props.id}
             </p>
         </div>
     </div>

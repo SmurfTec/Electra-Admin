@@ -8,6 +8,7 @@ export const useGetOrderAll = (params?:any) => {
       const fetchData = async () => {
         try {
           const response = await getAllOrders(params);
+        
           setOrderData(response);
           setOrderLoading(false)
         } catch (error) {
