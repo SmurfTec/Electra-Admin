@@ -27,7 +27,7 @@ export const RevenueChart = (props: PropType) => {
     return monthOrder[a.x] - monthOrder[b.x];
   });
   // Remove duplicate objects with the same month
-  const uniqueData = sortedData.reduce((acc, curr) => {
+  const uniqueData = series2.reduce((acc, curr) => {
     const found = acc.find((item: any) => item.x === curr.x);
     if (!found) {
       acc.push(curr);

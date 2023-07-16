@@ -11,7 +11,9 @@ export const PlatformEarning = (props: any) => {
         </div>
       </div>
       {props.data?.slice(0, 8)?.map((item: any, index: any) => {
-        console.log(moment(item.updated_on).format("hh:mm A - dddd"), "ITEM");
+      
+        console.log(item==="completed", "ITEM");
+       
         return <OrderStatus
         id={item.id}
         status={item.status}

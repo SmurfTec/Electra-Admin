@@ -30,9 +30,13 @@ export const Dashboard = () => {
     limit: 5,
     page: 1,
   });
-  const { orderData, orderLoading }: any = useGetOrderAll();
+
+  const { orderData, orderLoading }: any = useGetOrderAll({
+    status: "completed",
+  });
   const { users, userLoading }: any = useGetAllUsers();
-  const { bestSelling, bestLoading }: any = useGetBestSelling(bestProductParams);
+  const { bestSelling, bestLoading }: any =
+    useGetBestSelling(bestProductParams);
   const { productsAdded, prodLoading }: any = useGetProducts(productsParam);
   const [newData, setNewData] = useState<any>();
   const { dashStats, loading }: any = useGetDashStats();
