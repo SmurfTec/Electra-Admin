@@ -14,7 +14,7 @@ export const AddNewVariant = () => {
   const[Addvalue,setAddValue]=useState("")
   const[originalEditValue,setOriginalEditValue]=useState("")
   const[EditValue,setEditValue]=useState("")
-  const[dataTypeValue,setdataTypeValue]=useState()
+  const[dataTypeValue,setdataTypeValue]=useState("")
   const[options,setoptions]=useState(["String","Number"])
   const handleFunction=(value:any)=>{
     if(value.length>0){
@@ -54,7 +54,7 @@ export const AddNewVariant = () => {
         "datatype": dataTypeValue,
         "values":valuesArr
       }
-     
+     console.log(body,"body")
       let response=await CreateVariantData(body)
       if(response){
         setsuccessVisible(true)

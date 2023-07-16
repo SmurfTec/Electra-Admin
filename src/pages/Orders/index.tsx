@@ -8,6 +8,7 @@ import { CustomMenu,CustomTabView } from "../../atoms/global.style";
 import { TabPanel } from "primereact/tabview";
 import { getAllOrders,DeleteOrders } from "../../store/Slices/OrderSlice";
 import moment from "moment";
+import { Verification } from "..";
 export const Orders = () => {
   const navigate = useNavigate();
   const [LoadMore, setLoadMore] = useState(true);
@@ -290,3 +291,7 @@ getOrders();
     </div>
   );
 };
+
+
+
+
