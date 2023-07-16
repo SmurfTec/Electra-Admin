@@ -2,6 +2,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ViewAll } from "../../atoms";
 import styled from "styled-components";
+import { Paginatior } from "..";
 import { useState, useEffect } from "react";
 // Styled Paginator component
 const CustomTable = styled(DataTable)<any>`
@@ -69,6 +70,10 @@ const CustomTable = styled(DataTable)<any>`
 export const DashTable = (props: any) => {
   let total= props.totalProducts
   const [PAGE, setPAGE] = useState();
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 4,
+    currentPage: 1,
+  })
   useEffect(() => {
     setPAGE(props.page);
   }, [props.page]);
@@ -125,20 +130,6 @@ export const DashTable = (props: any) => {
         dataKey="id"
         value={props.data}
         header={tableHeader}
-        paginator={props.pagination ? true : false}
-        onPage={(e: any) => {
-          console.log(e);
-          props.setParams((prevState: any) => ({
-            ...prevState,
-            page: e.page + 1, // Update the page number
-          }));
-        }}
-        totalRecords={20}
-        first={props.page-1}
-        // currentPageReportTemplate="Page {first} to {last} of {total} records"
-        paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks
-         NextPageLink LastPageLink"
-        rows={5}
         tableStyle={{ minWidth: "20rem" }}
         tablebgcolor={props.tableHeaderColor}
       >
@@ -194,6 +185,7 @@ export const DashTable = (props: any) => {
           body={props.selling ? CustomDateBody : false}
         ></Column>
       </CustomTable>
+    {props.pagination &&  <Paginatior totalRecords={Number(props.totalProducts)} initialPageData={props.param} setInitialPageData={props.setParams} />}
     </div>
   );
 };

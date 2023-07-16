@@ -21,19 +21,19 @@ import moment from "moment";
 import { useGetOrderAll } from "../../custom-hooks/OrderHooks";
 export const Dashboard = () => {
   const [visible, setvisible] = useState(false);
-  const [months, setMonth] = useState([
-    {value:"year",label:"Year"},
-    {value:"sixMonths",label:"6 months"},
-    {value:"threeMonths",label:"3 months"},
-  ]);
-  const [monthValue,setMonthValue]=useState("year")
+  const months = [
+    { value: "year", label: "Year" },
+    { value: "sixMonths", label: "6 months" },
+    { value: "threeMonths", label: "3 months" },
+  ];
+  const [monthValue, setMonthValue] = useState("year");
   const [productsParam, setProductParams] = useState({
-    limit: 5,
-    page: 1,
+    rowsPerPage: 4,
+    currentPage: 1,
   });
   const [bestProductParams, setBestProductParams] = useState({
-    limit: 5,
-    page: 1,
+    rowsPerPage: 4,
+    currentPage: 1,
   });
 
   const { orderData, orderLoading }: any = useGetOrderAll({
@@ -64,8 +64,8 @@ export const Dashboard = () => {
       );
       setNewData(convertedArray);
     }
-  }, [dashStats, loading,monthValue]);
-  let latestArr = users?.users?.slice(0, 10).map((item: any) => {
+  }, [dashStats, loading, monthValue]);
+  let latestArr = users?.users?.slice(0, 4).map((item: any) => {
     let newObj = {
       id: item.id,
       name: item?.profile?.firstname + item?.profile?.lastname || "",
@@ -172,7 +172,13 @@ export const Dashboard = () => {
         </div>
 
         <div className="overflow-hidden">
-          {!loading && newData && <RevenueChart statData={newData} monthsData={months} setData={setMonthValue}/>}
+          {!loading && newData && (
+            <RevenueChart
+              statData={newData}
+              monthsData={months}
+              setData={setMonthValue}
+            />
+          )}
           {!userLoading && (
             <DashTable
               customHeader="User Registrations"
@@ -198,7 +204,8 @@ export const Dashboard = () => {
               route={"/Products"}
               totalProducts={bestSelling?.stats?.total_products}
               setParams={setBestProductParams}
-              page={bestProductParams?.page}
+              page={bestProductParams?.currentPage}
+              param={bestProductParams}
             />
           )}
         </div>
@@ -214,7 +221,8 @@ export const Dashboard = () => {
               route={"/Products"}
               totalProducts={productsAdded?.stats?.total_products}
               setParams={setProductParams}
-              page={productsParam?.page}
+              page={productsParam?.currentPage}
+              param={productsParam}
             />
           )}
         </div>
