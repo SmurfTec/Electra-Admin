@@ -7,6 +7,8 @@ import IMAGES from "../../assets/Images";
 import { CustomMenu, CustomTabView } from "../../atoms/global.style";
 import { TabPanel } from "primereact/tabview";
 import { getAllOrders, DeleteOrders } from "../../store/Slices/OrderSlice";
+import { Button } from 'primereact/button';
+
 import moment from "moment";
 
 
@@ -20,6 +22,7 @@ export const Orders = () => {
   const [currentItem, setcurrentItem] = useState<any>()
   const [filterData, setfilterData] = useState<any>([])
   const [stats, setstats] = useState<any>()
+  const dt = useRef<any>(null);
   const[activeTab,setactiveTab]=useState(0)
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 50,
@@ -162,18 +165,30 @@ const [RadioData,setRadioData]=useState({
     { field: "status", header: "Status", body: StatusBodyTemplate },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
+
+
+
   const getOrders = async () => {
     let r = await getAllOrders(initialPageData)
     console.log(r, "orders")
     setstats(r?.stats[0])
     let newarr = r.orders.map((item: any) => {
       let updatedObj = {
-        ...item,
+       
+        id:item.id,
         Seller: item?.seller?.firstname + " " + item?.seller?.lastname,
         Buyer: item?.buyer?.firstname + " " + item?.buyer?.lastname,
         "Item Name": item?.product?.title,
+        saleprice:item?.saleprice,
+        trackingid:item?.trackingid,
         "Order No": item?.id,
         "Sold On": moment(item?.created_on).format("DD,MM,YYYY"),
+        ship_in:item?.ship_in,
+       status:item?.status,
+       
+       
+      
+       
 
       }
       return updatedObj
@@ -200,6 +215,7 @@ const [RadioData,setRadioData]=useState({
       setInitialPageData({...initialPageData,status:"shipped",currentPage:1})
     }
   };
+
   return (
     <div>
       <Header
@@ -207,6 +223,7 @@ const [RadioData,setRadioData]=useState({
         typeSearch={true}
         chooseFilter={true}
         UserBox={true}
+       
       />
       <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
         <div>
@@ -218,11 +235,12 @@ const [RadioData,setRadioData]=useState({
               </span>
             </p>
             <CustomButton
-              onClick={() => setVisible(true)}
+              
               iconLeft={<img src={IMAGES.Csvicon} />}
               classes="!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]"
               txt="Export CSV"
             />
+        
           </div>
 
 
@@ -237,7 +255,8 @@ const [RadioData,setRadioData]=useState({
                     columnData={columnData}
                     rowStyling={"#FCFCFC !important"}
                     MultipleSelect={true}
-
+                    ref ={dt }
+                  
                   />
                   <Paginatior totalRecords={Number(stats?.all_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
                 </p>

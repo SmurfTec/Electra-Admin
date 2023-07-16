@@ -77,6 +77,15 @@ export const getSingleUser = async (id: any) => {
     return e;
   }
 };
+export const getSingleUserOrder=async(id:any,status:any)=>{
+  let params=status.length>0 ? `/orders/users/${id}?status=${status}&buyer=${id}`:`/orders/users/${id}?buyer=${id}`
+  try {
+    let response: any = await url.get(`${params}`);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+}
 export const BanUser = async (body: any) => {
   try {
     let response: any = await url.patch(`/users/ban`, body);
