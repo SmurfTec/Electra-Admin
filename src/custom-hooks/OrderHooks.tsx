@@ -7,7 +7,7 @@ export const useGetOrderAll = () => {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await getAllOrders();
+          const response = await getAllOrders({rowsPerPage:25,currentPage:1});
           setOrderData(response);
           setOrderLoading(false)
         } catch (error) {
