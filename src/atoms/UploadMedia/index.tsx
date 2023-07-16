@@ -5,9 +5,11 @@ export function UploadPicture({
   multipleImages = false,
   setImage,
   setImages,
-  images,
+  images, // used for rendering previous images
+  IMAGEE, //shows the useState for sending new images
   fetchImages,
 }: any) {
+  console.log(IMAGEE);
   const fileInputRef: any = useRef(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImages, setSelectedImages] = useState<any>([]);
@@ -16,17 +18,20 @@ export function UploadPicture({
   };
   console.log(images);
   const handleFileChange = (event: any) => {
-  
     const selectedFile = event.target.files[0];
-   console.log(selectedFile)
+    console.log(selectedFile);
     setSelectedImage(URL.createObjectURL(selectedFile));
     if (setImage) {
       setImage(event.target.files[0]);
     }
     if (setImages) {
-      setImages([...images, event.target.files[0]]);
+      if (IMAGEE && IMAGEE?.length > 0) {
+        setImages([...IMAGEE, event.target.files[0]]);
+      } else {
+        setImages([event.target.files[0]]);
+      }
     }
-    console.log(selectedImages)
+    console.log(selectedImages);
     setSelectedImages([...selectedImages, URL.createObjectURL(selectedFile)]);
     // Handle the selected file (e.g., upload or process it)
   };
@@ -65,7 +70,7 @@ export function UploadPicture({
             Upload Picture
           </button>
         </div>
-        {!fetchImages &&selectedImage && !multipleImages && (
+        {!fetchImages && selectedImage && !multipleImages && (
           <div className="border border-lightgray  rounded">
             <img className="w-[120px] h-20 p-3" src={selectedImage} />
           </div>
@@ -93,6 +98,7 @@ export function UploadPicture({
         {fetchImages && multipleImages && selectedImages.length > 0 && (
           <>
             {selectedImages.map((item: any, index: any) => {
+              console.log(item);
               return (
                 <div
                   key={index}

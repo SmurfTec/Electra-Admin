@@ -27,6 +27,8 @@ export const AddProduct = () => {
   };
   const [visible, setVisible] = useState(false);
   const [fetchVariants, setFetchVariants] = useState(false);
+  const [attachments, setAttachment] = useState<any>([]);
+
   const [VariantsArray, setVariantArray] = useState<
     { variant: any; values: any }[]
   >([]);
@@ -211,7 +213,7 @@ export const AddProduct = () => {
   };
   const Addproduct = async () => {
     console.log(productData, "FINALs");
-    console.log(images, "IMAGe DATA");
+    console.log(attachments, "IMAGe DATA");
     let data = new FormData();
     data.append("title", productData.title);
     data.append("is_active", "true");
@@ -231,8 +233,9 @@ export const AddProduct = () => {
         data.append(`technicalSpecificationModel[${index}][title]`, item.title);
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
       });
-
-    data.append("images", images);
+      attachments.forEach((file:any, index:any) => {
+        data.append('attachments', file);
+      });
     const add = await CreateProduct(data);
     console.log(add, "DATA ADDED");
     navigate("/Products");
@@ -257,7 +260,7 @@ export const AddProduct = () => {
           setValue={(value: any) => {
             setProductData({
               ...productData,
-              brand: value,
+              category: value,
             });
           }}
           placeholder="Category"
@@ -268,7 +271,7 @@ export const AddProduct = () => {
           setValue={(value: any) => {
             setProductData({
               ...productData,
-              category: value,
+              brand: value,
             });
           }}
           placeholder="Brands"
@@ -335,9 +338,11 @@ export const AddProduct = () => {
           }
         />
         <UploadPicture
-          setImage={(value: any) => {
-            setImage(value);
+          setImages={(value: any) => {
+            setAttachment(value);
           }}
+          multipleImages={true}
+          IMAGEE={attachments}
         />
         <CustomButton
           txt={"Technical Specifications"}

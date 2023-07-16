@@ -19,24 +19,25 @@ export const ProductView = () => {
   const ProductData = useProductDetail(id);
 
   const [VariantsArray, setVariantArray] = useState([]);
- const [stats,setStats]=useState({
-  tradeRange:"",
-  Avg_sale:"",
-  priceMin:"",
-  noOfSales:""
- })
+  const [stats, setStats] = useState({
+    tradeRange: "",
+    Avg_sale: "",
+    priceMin: "",
+    noOfSales: "",
+  });
   useEffect(() => {
     getProductById(id);
   }, []);
   useEffect(() => {
     if (ProductData) {
       setStats({
-        tradeRange:`${ProductData?.stats?.stats?.trade_range[0].min_saleprice??"0"} - ${ProductData?.stats?.stats?.trade_range[0].max_saleprice??"0"}`,
-        Avg_sale:ProductData?.stats?.stats?.avg_sale_price??"-",
-        priceMin:ProductData?.stats?.stats?.price_premium??"-",
-        noOfSales:ProductData?.stats?.stats?.no_of_sales??"-"
-
-      })
+        tradeRange: `${
+          ProductData?.stats?.stats?.trade_range[0].min_saleprice ?? "0"
+        } - ${ProductData?.stats?.stats?.trade_range[0].max_saleprice ?? "0"}`,
+        Avg_sale: ProductData?.stats?.stats?.avg_sale_price ?? "-",
+        priceMin: ProductData?.stats?.stats?.price_premium ?? "-",
+        noOfSales: ProductData?.stats?.stats?.no_of_sales ?? "-",
+      });
       const mappedData = ProductData?.product?.product_variants
         ? ProductData?.product?.product_variants.map((item: any) => {
             const { variant, values, value, background_color } = item;
@@ -78,18 +79,23 @@ export const ProductView = () => {
             navigate("/AddProduct");
           }}
         >
-          <img
-            className="h-[390px]"
-            src={`${BaseURL}${ProductData?.product?.images[0]?.filename}`}
-          />
+          {ProductData?.product?.images && (
+            <img
+              className="h-[390px]"
+              src={`${BaseURL}${ProductData?.product?.images[0]?.filename}`}
+            />
+          )}
         </div>
         <div>
           <div className="flex gap-2 items-center">
             <p className="text-[36px] font-extrabold">
               {ProductData?.product?.title}
             </p>
-            <RoundedButton icon={IMAGES.Pen} classes={"bg-[#212121]"}
-            onClick={() => navigate(`/EditProduct/${id}`)} />
+            <RoundedButton
+              icon={IMAGES.Pen}
+              classes={"bg-[#212121]"}
+              onClick={() => navigate(`/EditProduct/${id}`)}
+            />
             <RoundedButton
               onClick={() => deleteProduct()}
               icon={IMAGES.Bin}

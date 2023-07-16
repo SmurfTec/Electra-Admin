@@ -37,6 +37,7 @@ export const EditProduct = () => {
     { variant: any; values: any }[]
   >([]);
   const [images, setImage] = useState<any>([]);
+  const [attachments, setAttachment] = useState<any>([]);
   const [varVal, setVariantValue] = useState("");
   const [techType, setTechType] = useState(1);
   const [brands, setBrands] = useState([]);
@@ -81,8 +82,17 @@ export const EditProduct = () => {
   useEffect(() => {
     if (ProductData2) {
       console.log(ProductData2.product, "PRoduct");
+      let newarr = ProductData2.product?.images?.map(
+        (item: any, index: any) => {
+          return item.id;
+        }
+      );
+      console.log(newarr);
+      if (newarr) {
+        setImage(newarr);
+      }
       setProductData({
-        title: ProductData2.product.title,
+        title: ProductData2.product?.title,
         is_active: true,
         category: ProductData2.product.category.id,
         brand: ProductData2.product.brand.id,
@@ -94,7 +104,7 @@ export const EditProduct = () => {
           (ProductData2.product.product_variants?.map(
             (item: any, index: any) => {
               return {
-                variant: item.variant,
+                variant: item.id,
                 value: item.value,
               };
             }
@@ -122,8 +132,8 @@ export const EditProduct = () => {
 
         const options = values.map((value1: any) => {
           const hasMatchingValue =
-            ProductData2.product.product_variants &&
-            ProductData2.product.product_variants.some(
+            ProductData2?.product.product_variants &&
+            ProductData2?.product.product_variants.some(
               (item: any) => item.value === value1
             );
 
@@ -178,7 +188,7 @@ export const EditProduct = () => {
   };
   const updateTechnicalSpecificationModel = (name: any, value: any) => {
     setProductData((prevData) => {
-      const updatedModel = prevData.technicalSpecificationModel.map((item) => {
+      const updatedModel = prevData.technicalSpecificationModel?.map((item) => {
         if (item.title === name) {
           return { ...item, value: value };
         }
@@ -264,6 +274,10 @@ export const EditProduct = () => {
     data.append("title", productData.title);
     data.append("is_active", "true");
     data.append("brand", productData.brand);
+    attachments.forEach((file: any, index: any) => {
+      data.append("attachments", file);
+    });
+
     data.append("category", productData.category);
     data.append(
       "productProperties[description]",
@@ -279,14 +293,17 @@ export const EditProduct = () => {
         data.append(`technicalSpecificationModel[${index}][title]`, item.title);
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
       });
-
-    data.append("images", images);
-    const add = await EditProductAPI(data,id);
+    if (images) {
+      images.forEach((item:any, index:any) => {
+        data.append(`images[${index}]`, item);
+      });
+    }
+    const add = await EditProductAPI(data, id);
     console.log(add, "DATA Updated");
     // navigate("/Products");
   };
   const getTechnicalSpecificationValue = (name: string) => {
-    const item = productData.technicalSpecificationModel.find(
+    const item = productData.technicalSpecificationModel?.find(
       (spec: any) => spec.title === name
     );
 
@@ -394,9 +411,10 @@ export const EditProduct = () => {
         />
         <UploadPicture
           setImages={(value: any) => {
-            setImage(value);
+            setAttachment(value);
           }}
-          images={ProductData2?.product.images}
+          images={ProductData2?.product?.images}
+          IMAGEE={attachments}
           multipleImages={true}
           fetchImages={true}
         />
