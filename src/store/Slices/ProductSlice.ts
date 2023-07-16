@@ -65,6 +65,21 @@ export const CreateProduct = async (data: any) => {
   }
 };
 /**
+ * Edits a  product.
+ * @param {any} data - The data for the new product.
+ * @returns {Promise<any>} The response data.
+ */
+export const EditProductAPI = async (data: any,id?:string) => {
+  try {
+    let response: any = await url.patch(`/products/${id}`, data);
+    return response;
+  } catch (e) {
+    console.log(e);
+
+    return e;
+  }
+};
+/**
  * Retrieves all product requests.
  * @returns {Promise<any>} The response data.
  * @throws {Error} If an error occurs.

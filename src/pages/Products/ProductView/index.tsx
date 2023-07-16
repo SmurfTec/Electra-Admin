@@ -88,7 +88,8 @@ export const ProductView = () => {
             <p className="text-[36px] font-extrabold">
               {ProductData?.product?.title}
             </p>
-            <RoundedButton icon={IMAGES.Pen} classes={"bg-[#212121]"} />
+            <RoundedButton icon={IMAGES.Pen} classes={"bg-[#212121]"}
+            onClick={() => navigate(`/EditProduct/${id}`)} />
             <RoundedButton
               onClick={() => deleteProduct()}
               icon={IMAGES.Bin}

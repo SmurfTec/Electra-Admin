@@ -37,7 +37,8 @@ import {
   Feemodifier,
   Notifications,
   SecurityQuestion,
-  Editrole
+  Editrole,
+  EditProduct
 
 } from "./pages/index";
 import { SideBar } from "./components";
@@ -79,6 +80,7 @@ function App() {
             <Route path="/ProductDetail/:id" element={<ProductView />} />
             <Route path="/UserProfile/:id" element={<UserProfile />} />
             <Route path="/AddProduct" element={<AddProduct />} />
+            <Route path="/EditProduct/:id" element={<EditProduct />} />
             <Route path="/Productrequest" element={<ProductRequests />} />
             <Route path="/Roles" element={<Roles />} />
             <Route path="/Products" element={<Products />} />
