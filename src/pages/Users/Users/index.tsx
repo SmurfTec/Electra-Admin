@@ -21,7 +21,7 @@ export const Users = () => {
   const [filterData, setFilterData] = useState([]);
   const[stats,setstats]=useState<any>()
   const [initialPageData, setInitialPageData] = useState({
-    rowsPerPage: 15,
+    rowsPerPage: 25,
     currentPage: 1,
     
   })
@@ -254,7 +254,7 @@ export const Users = () => {
       <div className="flex flex-wrap gap-6 mt-[28px]">
         <DashCard
           title={"Total Users"}
-          totalNumber={String(stats?.total_users_registered
+          totalNumber={String(stats?.total_users_registered || 0
             )}
           myImg={IMAGES.person}
           imgColor={"bg-custom-grey"}
@@ -265,7 +265,7 @@ export const Users = () => {
         />
         <DashCard
           title={`User Registered In ${getLastMonthName()}`}
-          totalNumber={stats?.total_users_last_month}
+          totalNumber={stats?.total_users_last_month || 0}
           myImg={IMAGES.person}
           imgColor={"bg-custom-grey"}
           textDash={"bg-custom-blue w-[67px] "}
@@ -275,7 +275,7 @@ export const Users = () => {
         />
         <DashCard
           title={"User Registered This Year"}
-          totalNumber={String(stats?.total_user_this_year[0].total_user_this_year)}
+          totalNumber={String(stats?.total_user_this_year[0].total_user_this_year || 0)}
           myImg={IMAGES.person}
           imgColor={"bg-custom-grey"}
           textDash={"bg-custom-blue w-[67px] "}
