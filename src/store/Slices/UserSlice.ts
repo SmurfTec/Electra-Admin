@@ -13,12 +13,12 @@ type adminBody = {
   mobile_no: string;
   role: string;
 };
-export const getAllUsers = async (params?:any) => {
+export const getAllUsers = async ({rowsPerPage=25,currentPage=1}:any) => {
   try {
-    let response: any = await url.get("/users/?sort=id");
+    let response: any = await url.get(`/users/?sort=id&limit=${rowsPerPage?rowsPerPage: 25}&page=${currentPage?currentPage: 1}`);
     return response.data;
   } catch (e) {
-    return e;
+    return e; 
   }
 };
 export const SendEmail = async () => {

@@ -26,7 +26,13 @@ export const Orders = () => {
     currentPage: 1,
     status:"",
   })
-
+const [RadioData,setRadioData]=useState({
+  completed:false,
+  shipped:false,
+  verified:false,
+  underReview:false,
+  Waiting:false,
+})
   const MenuBodyTemplate = (rowData: any) => {
     const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
       const items = [
@@ -303,8 +309,7 @@ export const Orders = () => {
       <div className="mt-3">
         <p className="font-bold">Select Status</p>
         <div className="flex gap-3 mt-2">
-          <Miniselect txt={"Completed"} radio={true} />
-          <Miniselect txt={"Shipped to Seller"} radio={true} />
+          <Miniselect txt={"Completed"} radio={true}  />
           <Miniselect txt={"Verified"} radio={true} />
           <Miniselect txt={"Under Review"} radio={true} />
           <Miniselect txt={"Shipped"} radio={true} />
