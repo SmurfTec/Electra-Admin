@@ -14,50 +14,54 @@ export const CustomTableComponent = ({
   setSelectedProducts,
   columnData,
   MultipleSelect,
-  showlines, 
+  showlines,
   MultipleHeaderStyle,
   columnHeaderFirst,
-  LoadMore=false,
+  LoadMore = false,
   setLoadMore,
-  showLoadMore=true,
-  initialRowSize=10,
-  pagination=false,
+  showLoadMore = true,
+  initialRowSize = 10,
+  pagination = false,
   ...props
 }: any) => {
-  const[rowsize,setrowsize]=useState(LoadMore==true?initialRowSize:filterData?.length)
-  
-  useEffect(()=>{
-    setrowsize(LoadMore==true?initialRowSize:filterData?.length)
-  },[filterData,LoadMore])
+  const [rowsize, setrowsize] = useState(
+    LoadMore == true ? initialRowSize : filterData?.length
+  );
+
+  useEffect(() => {
+    setrowsize(LoadMore == true ? initialRowSize : filterData?.length);
+  }, [filterData, LoadMore]);
   return (
     <>
       <div className="relative">
-        {(LoadMore &&showLoadMore)&& <CustomTableWrapper></CustomTableWrapper>}
+        {LoadMore && showLoadMore && <CustomTableWrapper></CustomTableWrapper>}
         <CustomTable
           {...props}
-          selectionMode={'checkbox'} selection={selectedProducts}
-          value={filterData?.slice(0,rowsize)}
+          selectionMode={"checkbox"}
+          selection={selectedProducts}
+          value={filterData?.slice(0, rowsize)}
           scrollable={false}
-          onSelectionChange={(e:any) => setSelectedProducts(e.value)}
+          onSelectionChange={(e: any) =>
+            setSelectedProducts ? setSelectedProducts(e.value) : null
+          }
           dataKey="id"
           rows={20}
-          paginator={pagination?true:false}
-          tablebodycolor={rowStyling??""}
+          paginator={pagination ? true : false}
+          tablebodycolor={rowStyling ?? ""}
           columnheader={props.columnHeader}
           columnHeaderFirst={columnHeaderFirst}
-          showGridlines ={showlines ?true:false}
+          showGridlines={showlines ? true : false}
           // onPage={(e)=>{console.log("EE",e)}}
-          
         >
           {MultipleSelect && (
             <Column
-            selectionMode="multiple"
-            headerStyle={MultipleHeaderStyle ? MultipleHeaderStyle : { width: "3rem" }}
-           
-          />
+              selectionMode="multiple"
+              headerStyle={
+                MultipleHeaderStyle ? MultipleHeaderStyle : { width: "3rem" }
+              }
+            />
           )}
           {columnData?.map((item: any, index: any) => {
-            
             return (
               <Column
                 key={index}
@@ -65,21 +69,26 @@ export const CustomTableComponent = ({
                 field={item.field}
                 header={item.header}
                 headerStyle={headerStyle}
-                bodyClassName={'!bg-[#F6F6F6]'}
+                bodyClassName={"!bg-[#F6F6F6]"}
                 body={item.body ? item.body : null}
-                className={item.className ? item.className:''}
+                className={item.className ? item.className : ""}
               />
             );
           })}
         </CustomTable>
-    {(LoadMore && showLoadMore) &&
-    <div className='flex justify-center mt-3 w-full '>
-    <CustomButton onClick={()=>{
-      setLoadMore(false)
-      setrowsize(filterData.length)
-    }} editIcon={<img src={IMAGES.arrowDown} />} txt={'View More'}  classes=' !bg-[#FFFFFF] !h-[50px] !font-[700] !text-[16px] !text-[black] '/>
-    </div>
-    }    
+        {LoadMore && showLoadMore && (
+          <div className="flex justify-center mt-3 w-full ">
+            <CustomButton
+              onClick={() => {
+                setLoadMore(false);
+                setrowsize(filterData.length);
+              }}
+              editIcon={<img src={IMAGES.arrowDown} />}
+              txt={"View More"}
+              classes=" !bg-[#FFFFFF] !h-[50px] !font-[700] !text-[16px] !text-[black] "
+            />
+          </div>
+        )}
       </div>
     </>
   );

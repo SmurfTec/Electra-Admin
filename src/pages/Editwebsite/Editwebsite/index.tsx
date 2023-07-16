@@ -53,9 +53,10 @@ export const Webandbanner = () => {
       websiteData?.sections[1]?.id,
       sendingData
     );
+    console.log("bsdk2")
     setWebsiteData(Adding);
   };
-
+ 
   // function to delete a photo
   const deletePicture = async (Did?: any, secID?: any) => {
     try {

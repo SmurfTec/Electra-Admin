@@ -55,9 +55,7 @@ export const Webcarousel = (props: any) => {
     );
   }, [props.images]);
 
-useEffect(()=>{
-console.log("RENDER")
-},[])
+
   // // Function to handle the file upload
   const handleFileUpload = async (event: any) => {
     const file = event.target.files[0];
@@ -70,6 +68,7 @@ console.log("RENDER")
       });
     const Adding = await updateSeciton(props.webId,props.sectionId, sendingData);
     props.setWebsiteData(Adding);
+    console.log("bsdk")
   };
 
   // function to delete a photo

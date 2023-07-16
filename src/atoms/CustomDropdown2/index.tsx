@@ -34,14 +34,21 @@ font-size: 16px;
     padding-left: 18px;
   }
 `;
-export const CustomDropdown = (props: any) => {
-  const [selectedItem, setSelectedItem] = useState([props.value]);
+export const CustomDropdown2 = (props: any) => {
+  const [selectedItem, setSelectedItem] = useState([props.options]);
   let Values = props.options
   return (
     <Drops
       placeholdercolor={props.placeholderColor}
       value={selectedItem}
-      onChange={(e:any) => {setSelectedItem(e.value);props.setvalue(e)}}
+      onChange={(e:any) => {
+        setSelectedItem(e.value);
+        const selectedOption = Values.find((item: any) => item.value === e.value);
+        if (selectedOption) {
+          props.setValue(selectedOption.value);
+        } else {
+          props.setValue(null); // Handle the case when no option is selected
+        }}}
       className={props.mainclasses}
       placeholder={props.placeholder}
       options={props.options}

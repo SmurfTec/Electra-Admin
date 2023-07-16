@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Header, Variants, Confirmationmodal } from "../../../components";
 import {
   InputTxt,
-  CustomDropdown,
+  CustomDropdown2,
   CustomButton,
   UploadPicture,
   FetchButton,
@@ -57,16 +57,16 @@ export const AddProduct = () => {
     let dataCat = await getAllCategories();
     data = data.brands.map((item: any, index: any) => {
       let newObj = {
-        id: item.id,
-        title: item.title,
+        value: item.id,
+        label: item.title,
       };
       return newObj;
     });
     setBrands(data);
     dataCat = dataCat.categories.map((item: any, index: any) => {
       let newObj = {
-        id: item.c_id,
-        title: item.c_name,
+        value: item.id,
+        label: item.name,
       };
       return newObj;
     });
@@ -77,8 +77,8 @@ export const AddProduct = () => {
   }, []);
   useEffect(() => {
     if (VariantsData?.variants) {
-      const mappedData = VariantsData?.variants.map((item: any) => {  
-        const { title, values, value, id,background_color } = item;
+      const mappedData = VariantsData?.variants.map((item: any) => {
+        const { title, values, value, id, background_color } = item;
         const options = values.map((value1: any) => ({
           txt: value1,
           classes:
@@ -91,8 +91,7 @@ export const AddProduct = () => {
           variant: {
             id: id,
             txt: title,
-            classes:
-            `!bg-[${background_color}]  !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5`,
+            classes: `!bg-[${background_color}]  !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5`,
           },
           values: options,
         };
@@ -238,7 +237,7 @@ export const AddProduct = () => {
     console.log(add, "DATA ADDED");
     navigate("/Products");
   };
-  console.log(productData,"YOO")
+  console.log(productData, "YOO");
   return (
     <div>
       <Header
@@ -254,27 +253,26 @@ export const AddProduct = () => {
         name={"title"}
       />
       <div className="flex gap-4">
-        <CustomDropdown
-         setValue={(value:any)=>{
-          setProductData({
-            ...productData,
-            brand: value,
-          });
-        }}
+        <CustomDropdown2
+          setValue={(value: any) => {
+            setProductData({
+              ...productData,
+              brand: value,
+            });
+          }}
           placeholder="Category"
-          options={brands}
+          options={category}
           mainclasses={"mt-10  !w-[35%]"}
         />
-        <CustomDropdown
-        
-        setValue={(value:any)=>{
-          setProductData({
-            ...productData,
-            category: value,
-          });
-        }}
+        <CustomDropdown2
+          setValue={(value: any) => {
+            setProductData({
+              ...productData,
+              category: value,
+            });
+          }}
           placeholder="Brands"
-          options={category}
+          options={brands}
           mainclasses={"mt-10  !w-[35%]"}
         />
       </div>

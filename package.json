@@ -29,6 +29,7 @@
     "react-router-dom": "^6.11.2",
     "react-svg": "^16.1.13",
     "redux-persist": "^6.0.0",
+    "socket.io-client": "^4.7.1",
     "styled-components": "^5.3.10",
     "tough-cookie": "^4.1.3"
   },
