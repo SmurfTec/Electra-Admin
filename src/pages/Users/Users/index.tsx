@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../../../components/index.js";
 import { Confirmationmodal } from "../../../components/index.js";
 import { getAllUsers, BanUser, UnBanUser, DeleteSingleUser } from "../../../store/Slices/UserSlice.js";
+import { Paginatior } from "../../../components/index.js";
 import moment from "moment";
 export const Users = () => {
   const navigate = useNavigate();
@@ -18,8 +19,12 @@ export const Users = () => {
   const [selectedUsers, setselectedUsers] = useState<any>([]);
   const [CurrSelectedUser, setCurrSelectedUser] = useState("");
   const [filterData, setFilterData] = useState([]);
-
-
+  const[stats,setstats]=useState<any>()
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 15,
+    currentPage: 1,
+    
+  })
   const StatusBodyTemplate = (option: any) => {
     return (
       <>
@@ -34,8 +39,10 @@ export const Users = () => {
   };
 
   const getUsers = async () => {
-    let response = await getAllUsers();
+    let response = await getAllUsers(initialPageData);
+    console.log(response,"response")
     setTotalUsers(response.results)
+    setstats(response.stats)
     let totalBan = 0
     let latestArr = response?.users?.map((item: any) => {
       let newObj = {
@@ -130,7 +137,7 @@ export const Users = () => {
   }
   useEffect(() => {
     getUsers()
-  }, [])
+  }, [initialPageData])
 
   const MenuBodyTemplate = (rowData: any) => {
     const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
@@ -215,14 +222,40 @@ export const Users = () => {
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
 
-
+  function getLastMonthName() {
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+  
+    const currentDate = new Date(); // Current date
+    const currentMonth = currentDate.getMonth(); // Current month (0-11)
+    const currentYear = currentDate.getFullYear(); // Current year
+  
+    // Calculate the month and year for the last month
+    let lastMonth, lastYear;
+    if (currentMonth === 0) {
+      // If current month is January, the last month is December of the previous year
+      lastMonth = 11; // December (0-11)
+      lastYear = currentYear - 1;
+    } else {
+      lastMonth = currentMonth - 1;
+      lastYear = currentYear;
+    }
+  
+    // Get the name of the last month
+    const lastMonthName = monthNames[lastMonth];
+  
+    return lastMonthName;
+  }
   return (
     <div className="">
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
       <div className="flex flex-wrap gap-6 mt-[28px]">
         <DashCard
           title={"Total Users"}
-          totalNumber={String(totalUsers)}
+          totalNumber={String(stats?.total_users_registered
+            )}
           myImg={IMAGES.person}
           imgColor={"bg-custom-grey"}
           textDash={"bg-custom-blue w-[67px] "}
@@ -231,8 +264,8 @@ export const Users = () => {
           outerclasses="w-[284px] h-[140px]"
         />
         <DashCard
-          title={"User Registered In March"}
-          totalNumber={"350"}
+          title={`User Registered In ${getLastMonthName()}`}
+          totalNumber={stats?.total_users_last_month}
           myImg={IMAGES.person}
           imgColor={"bg-custom-grey"}
           textDash={"bg-custom-blue w-[67px] "}
@@ -242,7 +275,7 @@ export const Users = () => {
         />
         <DashCard
           title={"User Registered This Year"}
-          totalNumber={"3500"}
+          totalNumber={String(stats?.total_user_this_year[0].total_user_this_year)}
           myImg={IMAGES.person}
           imgColor={"bg-custom-grey"}
           textDash={"bg-custom-blue w-[67px] "}
@@ -260,8 +293,9 @@ export const Users = () => {
           MultipleSelect={true}
           LoadMore={LoadMore}
           setLoadMore={setLoadMore}
-          pagination={true}
+         
         />
+        <Paginatior totalRecords={stats?.total_users_registered} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
       </div>
       <Confirmationmodal
         PopupHeader={"Confirmation"}
