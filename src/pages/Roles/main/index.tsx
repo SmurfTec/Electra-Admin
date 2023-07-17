@@ -65,6 +65,7 @@ export const Roles = () => {
     users: userArray | any;
     roleArray: any;
   } = useGetRoles(fetch);
+  console.log(users)
   const filterData = users?.map((item: PartialAccount, index: number) => {
     return {
       id: item.id,

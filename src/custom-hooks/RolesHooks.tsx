@@ -55,8 +55,9 @@ export const useGetRoles = (fetch?:boolean) => {
 
   const fetchRoles = async () => {
     try {
+      let params={rowsPerPage:25,currentPage:1}
       const ROLES = await getRoles();
-      const USERS = await getAllUsers();
+      const USERS = await getAllUsers(params);
       setUsers(USERS?.users);
       setRolesStats(ROLES?.usersPerRole);
       setRoles(ROLES?.roles);
