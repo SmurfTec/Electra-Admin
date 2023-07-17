@@ -2,14 +2,17 @@ import {useState,useEffect} from "react"
 import {
     getAllListings,getListingById
 } from  "../store/Slices/ListingsSlice";
-
-export const useListingDetail = () => {
+type param={
+  rowsPerPage?:number,
+  currentPage?:number
+}
+export const useListingDetail = (params?:param) => {
     const [data, setData] = useState<any>(null);
   
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await getAllListings();
+          const response = await getAllListings(params);
           setData(response);
         } catch (error) {
           // Handle error
@@ -18,7 +21,7 @@ export const useListingDetail = () => {
       };
   
       fetchData();
-    }, []);
+    }, [params]);
   
     return data;
   };

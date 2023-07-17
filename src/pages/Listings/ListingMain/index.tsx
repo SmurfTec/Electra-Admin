@@ -7,19 +7,25 @@ import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useListingDetail } from "../../../custom-hooks";
 import { TabPanel } from "primereact/tabview";
-
+import { Paginatior } from "../../../components";
 import moment from "moment";
 export const Listings = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
-  const ListingData = useListingDetail();
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 10,
+    currentPage: 1,
+  })
+  const [totalList,setTotalList]=useState()
+  const ListingData = useListingDetail(initialPageData);
   const [listings, setListings] = useState([]);
   const [MenuLabel, setMenuLabel] = useState("");
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
   const [initial, setInitial] = useState(true);
 
   const getListings = async () => {
-    console.log(ListingData);
+    console.log(ListingData.data.stats[0].all_listings);
+    setTotalList(ListingData.data.stats[0].all_listings)
     let latestArray;
     latestArray = ListingData?.data?.listings?.map((item: any, index: any) => {
       console.log(item, "ITEM");
@@ -255,6 +261,8 @@ export const Listings = () => {
           txt="Mark for review"
         />
       </div>
+      <Paginatior totalRecords={Number(totalList)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+
     </div>
   );
 };
