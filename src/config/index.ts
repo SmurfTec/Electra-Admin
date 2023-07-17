@@ -2,6 +2,7 @@ import axios from "axios";
 import { CookieJar } from "tough-cookie";
 import {wrapper} from "axios-cookiejar-support";
 export const BaseURL="http://ec2-3-21-106-215.us-east-2.compute.amazonaws.com:5000/"
+// export const BaseURL="http://ec2-3-21-106-215.us-east-2.compute.amazonaws.com:5000/"
 // export const BaseURL="http://localhost:5000/"
 const jar = new CookieJar();
 const cookies = document.cookie;
@@ -9,7 +10,7 @@ const cookies = document.cookie;
 // wrapper(axios.create({ jar }))
 const instance = axios.create({
  baseURL:BaseURL ,
-  // baseURL: "https://be1b-103-169-64-13.ngrok-free.app",
+  // baseURL: "https://0618-103-169-64-13.ngrok-free.app",
   withCredentials: true,
   });
 export const setAuthToken = (tokeen?: any,Refreshtoken?:any) => {

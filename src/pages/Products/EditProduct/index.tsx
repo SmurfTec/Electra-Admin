@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getProductById } from "../../../store/Slices/ProductSlice";
+import { useParams } from "react-router-dom";
+import moment from "moment";
 import { Header, Variants, Confirmationmodal } from "../../../components";
 import {
   InputTxt,
@@ -8,12 +11,12 @@ import {
   FetchButton,
 } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
-import { useVariantDetail } from "../../../custom-hooks";
+import { useVariantDetail, useProductDetail } from "../../../custom-hooks";
 import url from "../../../config/index";
-import { CreateProduct } from "../../../store/Slices/ProductSlice";
+import { EditProductAPI } from "../../../store/Slices/ProductSlice";
 import { getBrands } from "../../../store/Slices/BrandSlice";
 import { getAllCategories } from "../../../store/Slices/Categories";
-export const AddProduct = () => {
+export const EditProduct = () => {
   type techSpec = {
     title: string;
     value: string;
@@ -25,14 +28,16 @@ export const AddProduct = () => {
   type descriptionProp = {
     description: string;
   };
+  const params = useParams();
+  let { id } = params;
+  const ProductData2 = useProductDetail(id);
   const [visible, setVisible] = useState(false);
   const [fetchVariants, setFetchVariants] = useState(false);
-  const [attachments, setAttachment] = useState<any>([]);
-
   const [VariantsArray, setVariantArray] = useState<
     { variant: any; values: any }[]
   >([]);
-  const [images, setImage] = useState("");
+  const [images, setImage] = useState<any>([]);
+  const [attachments, setAttachment] = useState<any>([]);
   const [varVal, setVariantValue] = useState("");
   const [techType, setTechType] = useState(1);
   const [brands, setBrands] = useState([]);
@@ -75,19 +80,70 @@ export const AddProduct = () => {
     setCategories(dataCat);
   };
   useEffect(() => {
+    if (ProductData2) {
+      console.log(ProductData2.product, "PRoduct");
+      let newarr = ProductData2.product?.images?.map(
+        (item: any, index: any) => {
+          return item.id;
+        }
+      );
+      console.log(newarr);
+      if (newarr) {
+        setImage(newarr);
+      }
+      setProductData({
+        title: ProductData2.product?.title,
+        is_active: true,
+        category: ProductData2.product.category.id,
+        brand: ProductData2.product.brand.id,
+        productProperties: {
+          description: ProductData2.product.product_properties.description,
+        } as descriptionProp,
+        productVariants:
+          ProductData2.product.product_variants &&
+          (ProductData2.product.product_variants?.map(
+            (item: any, index: any) => {
+              return {
+                variant: item.id,
+                value: item.value,
+              };
+            }
+          ) as variantSpec[]),
+        technicalSpecificationModel:
+          ProductData2.product.technical_specifications &&
+          (ProductData2.product.technical_specifications?.map(
+            (item: any, index: any) => {
+              return {
+                title: item.title,
+                value: item.value,
+              };
+            }
+          ) as techSpec[]),
+      });
+    }
+  }, [ProductData2]);
+  useEffect(() => {
     getAllBrands();
   }, []);
   useEffect(() => {
     if (VariantsData?.variants) {
       const mappedData = VariantsData?.variants.map((item: any) => {
         const { title, values, value, id, background_color } = item;
-        const options = values.map((value1: any) => ({
-          txt: value1,
-          classes:
-            value === value1
+
+        const options = values.map((value1: any) => {
+          const hasMatchingValue =
+            ProductData2?.product.product_variants &&
+            ProductData2?.product.product_variants.some(
+              (item: any) => item.value === value1
+            );
+
+          return {
+            txt: value1,
+            classes: hasMatchingValue
               ? "!bg-[#FCFCFC] !w-[148px] ml-2 !border !border-[#3C82D6] !text-[black] !p-4 !rounded-[9px] !mt-5"
-              : "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
-        }));
+              : "!bg-[#FCFCFC] !w-[148px] !text-[black] !p-4 !rounded-[9px] !mt-5",
+          };
+        });
 
         return {
           variant: {
@@ -132,7 +188,7 @@ export const AddProduct = () => {
   };
   const updateTechnicalSpecificationModel = (name: any, value: any) => {
     setProductData((prevData) => {
-      const updatedModel = prevData.technicalSpecificationModel.map((item) => {
+      const updatedModel = prevData.technicalSpecificationModel?.map((item) => {
         if (item.title === name) {
           return { ...item, value: value };
         }
@@ -213,11 +269,15 @@ export const AddProduct = () => {
   };
   const Addproduct = async () => {
     console.log(productData, "FINALs");
-    console.log(attachments, "IMAGe DATA");
+    console.log(images, "IMAGe DATA");
     let data = new FormData();
     data.append("title", productData.title);
     data.append("is_active", "true");
     data.append("brand", productData.brand);
+    attachments.forEach((file: any, index: any) => {
+      data.append("attachments", file);
+    });
+
     data.append("category", productData.category);
     data.append(
       "productProperties[description]",
@@ -233,19 +293,27 @@ export const AddProduct = () => {
         data.append(`technicalSpecificationModel[${index}][title]`, item.title);
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
       });
-      attachments.forEach((file:any, index:any) => {
-        data.append('attachments', file);
+    if (images) {
+      images.forEach((item:any, index:any) => {
+        data.append(`images[${index}]`, item);
       });
-    const add = await CreateProduct(data);
-    console.log(add, "DATA ADDED");
-    navigate("/Products");
+    }
+    const add = await EditProductAPI(data, id);
+    console.log(add, "DATA Updated");
+    // navigate("/Products");
   };
-  console.log(productData, "YOO");
+  const getTechnicalSpecificationValue = (name: string) => {
+    const item = productData.technicalSpecificationModel?.find(
+      (spec: any) => spec.title === name
+    );
+
+    return item ? item.value : "";
+  };
   return (
     <div>
       <Header
         chooseDate={false}
-        title="Add new Product"
+        title="Edit new Product"
         semiTitle="Add new products for availability on website"
         UserBox={true}
       />
@@ -254,19 +322,9 @@ export const AddProduct = () => {
         placeholder="Enter Phone model"
         MainClasses="mt-[40px] !w-[80%]"
         name={"title"}
+        value={productData.title}
       />
       <div className="flex gap-4">
-        <CustomDropdown2
-          setValue={(value: any) => {
-            setProductData({
-              ...productData,
-              category: value,
-            });
-          }}
-          placeholder="Category"
-          options={category}
-          mainclasses={"mt-10  !w-[35%]"}
-        />
         <CustomDropdown2
           setValue={(value: any) => {
             setProductData({
@@ -274,13 +332,27 @@ export const AddProduct = () => {
               brand: value,
             });
           }}
+          placeholder="Category"
+          options={category}
+          mainclasses={"mt-10  !w-[35%]"}
+          value={productData.category}
+        />
+        <CustomDropdown2
+          setValue={(value: any) => {
+            setProductData({
+              ...productData,
+              category: value,
+            });
+          }}
           placeholder="Brands"
           options={brands}
           mainclasses={"mt-10  !w-[35%]"}
+          value={productData.brand}
         />
       </div>
       <textarea
         onChange={(e) => handleChangeDescription(e.target.value)}
+        value={productData.productProperties.description}
         name={"description"}
         className="pt-2 bg-lightgray border border-custom mt-4 rounded-[8px] w-[75%] h-[142px] overflow-hidden pl-[21px] pr-[22px] focus:outline-none"
       />
@@ -341,8 +413,10 @@ export const AddProduct = () => {
           setImages={(value: any) => {
             setAttachment(value);
           }}
-          multipleImages={true}
+          images={ProductData2?.product?.images}
           IMAGEE={attachments}
+          multipleImages={true}
+          fetchImages={true}
         />
         <CustomButton
           txt={"Technical Specifications"}
@@ -381,6 +455,9 @@ export const AddProduct = () => {
                   </p>
                   <InputTxt
                     name="Release Date"
+                    value={moment(
+                      getTechnicalSpecificationValue("Release Date")
+                    ).format("DD MMM YYYY")}
                     onChange={(e: any) =>
                       updateTechnicalSpecificationModel(
                         e.target.name,
@@ -395,6 +472,7 @@ export const AddProduct = () => {
                   <p className="text-[#656565] text-[12px] mt-4">BLUETOOTH</p>
                   <InputTxt
                     name="Bluetooth"
+                    value={getTechnicalSpecificationValue("Bluetooth")}
                     onChange={(e: any) =>
                       updateTechnicalSpecificationModel(
                         e.target.name,
@@ -409,6 +487,7 @@ export const AddProduct = () => {
                   <p className="text-[#656565] text-[12px] mt-4">BATTERY</p>
                   <InputTxt
                     name="Battery"
+                    value={getTechnicalSpecificationValue("Battery")}
                     onChange={(e: any) =>
                       updateTechnicalSpecificationModel(
                         e.target.name,
@@ -423,6 +502,7 @@ export const AddProduct = () => {
                   <p className="text-[#656565] text-[12px] mt-4">STORAGE</p>
                   <InputTxt
                     name="Storage"
+                    value={getTechnicalSpecificationValue("Storage")}
                     onChange={(e: any) =>
                       updateTechnicalSpecificationModel(
                         e.target.name,
@@ -437,6 +517,7 @@ export const AddProduct = () => {
                   <p className="text-[#656565] text-[12px] mt-4">CAMERA</p>
                   <InputTxt
                     name="Camera"
+                    value={getTechnicalSpecificationValue("Camera")}
                     onChange={(e: any) =>
                       updateTechnicalSpecificationModel(
                         e.target.name,
@@ -453,6 +534,7 @@ export const AddProduct = () => {
                   </p>
                   <InputTxt
                     name="Connectivity"
+                    value={getTechnicalSpecificationValue("Connectivity")}
                     onChange={(e: any) =>
                       updateTechnicalSpecificationModel(
                         e.target.name,
@@ -462,13 +544,12 @@ export const AddProduct = () => {
                     placeholder={"eg: bluetooth, wifi"}
                     MainClasses={"!h-[28px] !bg-white"}
                   />
-                  {/* <li className="font-medium"> Wi-Fi 6 (802.11ax) with MIMO</li>
-              <li className="font-medium"> Bluetooth 5.0 </li> */}
                 </div>
                 <div className="ml-5">
                   <p className="text-[#656565] text-[12px] mt-4"> SCREEN </p>
                   <InputTxt
                     name="Screen"
+                    value={getTechnicalSpecificationValue("Screen")}
                     onChange={(e: any) =>
                       updateTechnicalSpecificationModel(
                         e.target.name,

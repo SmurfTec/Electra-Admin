@@ -7,12 +7,15 @@ const initialState: any = {
  * Retrieves all products.
  * @returns {Promise<any>} The response data.
  */
-export const GetAllProducts = async (params?:any) => {
+export const GetAllProducts = async (params?: any) => {
   try {
-    let response: any = await url.get(`/products?sort=id&limit=${params?.limit ?params.limit: 80}&page=${
-      params?.page ? params?.page: 1
-    }`);
-    console.log(response.data, "RESPONSE");
+    let urlParams =
+      params && params.rowsPerPage
+        ? `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
+            params?.currentPage ? params?.currentPage : 1
+          }`
+        : "";
+    let response: any = await url.get(`/products?sort=id&${urlParams}`);
     return response.data;
   } catch (e) {
     return e;
@@ -62,6 +65,21 @@ export const CreateProduct = async (data: any) => {
   }
 };
 /**
+ * Edits a  product.
+ * @param {any} data - The data for the new product.
+ * @returns {Promise<any>} The response data.
+ */
+export const EditProductAPI = async (data: any,id?:string) => {
+  try {
+    let response: any = await url.patch(`/products/${id}`, data);
+    return response;
+  } catch (e) {
+    console.log(e);
+
+    return e;
+  }
+};
+/**
  * Retrieves all product requests.
  * @returns {Promise<any>} The response data.
  * @throws {Error} If an error occurs.
@@ -80,12 +98,16 @@ export const getAllProductRequest = async () => {
  * @returns {Promise<any>} The response data.
  * @throws {Error} If an error occurs.
  */
-export const getAllBestSellingProduct= async (params?: any) => {
+export const getAllBestSellingProduct = async (params?: any) => {
   try {
+    let urlParams =
+      params && params.rowsPerPage
+        ? `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
+            params?.currentPage ? params?.currentPage : 1
+          }`
+        : "";
     let response: any = await url.get(
-      `/products/best-selling?sort=sold&limit=${params?.limit ?params.limit: 4}&page=${
-        params?.page ? params?.page: 1
-      }`
+      `/products/best-selling?sort=sold&${urlParams}`
     );
     return response.data;
   } catch (e: any) {

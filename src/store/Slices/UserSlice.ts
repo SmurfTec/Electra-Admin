@@ -13,12 +13,12 @@ type adminBody = {
   mobile_no: string;
   role: string;
 };
-export const getAllUsers = async (params?:any) => {
+export const getAllUsers = async ({rowsPerPage=25,currentPage=1}:any) => {
   try {
-    let response: any = await url.get("/users/?sort=id");
+    let response: any = await url.get(`/users/?sort=id&limit=${rowsPerPage?rowsPerPage: 25}&page=${currentPage?currentPage: 1}`);
     return response.data;
   } catch (e) {
-    return e;
+    return e; 
   }
 };
 export const SendEmail = async () => {
@@ -77,6 +77,15 @@ export const getSingleUser = async (id: any) => {
     return e;
   }
 };
+export const getSingleUserOrder=async(id:any,status:any)=>{
+  let params=status.length>0 ? `/orders/users/${id}?status=${status}&buyer=${id}`:`/orders/users/${id}?buyer=${id}`
+  try {
+    let response: any = await url.get(`${params}`);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+}
 export const BanUser = async (body: any) => {
   try {
     let response: any = await url.patch(`/users/ban`, body);
