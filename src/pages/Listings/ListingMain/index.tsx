@@ -33,7 +33,6 @@ export const Listings = () => {
     let unsoldItems: any = [];
     let flagged:any = [];
     let All:any = [];
-    console.log(ListingData.data.stats[0].all_listings);
     setTotalList(ListingData.data.stats[0].all_listings);
     ListingData?.data?.listings?.forEach((item: any) => {
       let newObj = {

@@ -46,19 +46,19 @@ type permission = {
   name: string;
 };
 type permissionData = permission[];
-export const useGetRoles = (fetch?:boolean) => {
+export const useGetRoles = (fetch?:boolean,params?:any) => {
   const [roles, setRoles] = React.useState();
   const [users, setUsers] = React.useState();
   const [rolesStats, setRolesStats] = React.useState<Stats>([]);
   const [roleArray, setRoleArray] = React.useState<RoleArray>();
   const [loading, setLoading] = React.useState(true);
-
+  const [totalStats,setTotalStats]=React.useState()
   const fetchRoles = async () => {
     try {
-      let params={rowsPerPage:25,currentPage:1}
       const ROLES = await getRoles();
       const USERS = await getAllUsers(params);
       setUsers(USERS?.users);
+      setTotalStats(USERS?.stats)
       setRolesStats(ROLES?.usersPerRole);
       setRoles(ROLES?.roles);
       let result: any = await createRoleArrays(ROLES?.roles, USERS?.users);
@@ -91,8 +91,8 @@ export const useGetRoles = (fetch?:boolean) => {
   }, []);
   useEffect(() => {
     fetchRoles();
-  }, [fetch]);
-  return { roles, rolesStats, users, roleArray, loading };
+  }, [fetch,params]);
+  return { roles, rolesStats, users,totalStats, roleArray, loading };
 };
 export const useCreateAdmin = (): UseCreateAdminReturnType => {
   const Navigate = useNavigate();

@@ -11,6 +11,7 @@ import IMAGES from "../../../assets/Images";
 import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 import { TabPanel } from "primereact/tabview";
+import { Paginatior } from "../../../components";
 import {
   useGetRoles,
   useDeleteRole,
@@ -54,18 +55,24 @@ export const Roles = () => {
     ids: [""],
   });
   const { userLoading }: any = useDeleteRole(Body, setFetch, fetch);
-
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 10,
+    currentPage: 1,
+  })
   const {
     rolesStats,
     users,
     roleArray,
+    totalStats
   }: {
     roles?: any;
     rolesStats: Stats | any;
     users: userArray | any;
     roleArray: any;
-  } = useGetRoles(fetch);
-  console.log(users)
+    totalStats:any
+    
+  } = useGetRoles(fetch,initialPageData);
+  console.log(totalStats.total_users_registered)
   const filterData = users?.map((item: PartialAccount, index: number) => {
     return {
       id: item.id,
@@ -310,6 +317,7 @@ export const Roles = () => {
               );
             })}
           </CustomTabView>
+          <Paginatior totalRecords={Number(totalStats.total_users_registered)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
         </div>
       </div>
     </div>
