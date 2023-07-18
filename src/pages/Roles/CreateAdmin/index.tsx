@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Header } from "../../../components";
 import {
-  CustomDropdown,
+  CustomDropdown2,
   InputTxt,
   CustomButton,
   InputPassword,
@@ -129,7 +129,7 @@ if(!loading){
           </div>
         </div>
         <div>
-          <CustomDropdown
+          <CustomDropdown2
             placeholderColor={"#A4A4A4"}
             placeholder="Choose Role"
             mainclasses={"mt-4 w-[286px] !h-[59px]"}
