@@ -72,7 +72,6 @@ export const Roles = () => {
     totalStats:any
     
   } = useGetRoles(fetch,initialPageData);
-  console.log(totalStats.total_users_registered)
   const filterData = users?.map((item: PartialAccount, index: number) => {
     return {
       id: item.id,
@@ -317,7 +316,7 @@ export const Roles = () => {
               );
             })}
           </CustomTabView>
-          <Paginatior totalRecords={Number(totalStats.total_users_registered)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+          <Paginatior totalRecords={Number(totalStats?.total_users_registered)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
         </div>
       </div>
     </div>
