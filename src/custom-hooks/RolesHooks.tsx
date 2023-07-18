@@ -57,10 +57,10 @@ export const useGetRoles = (fetch?:boolean,params?:any) => {
     try {
       const ROLES = await getRoles();
       const USERS = await getAllUsers(params);
+      setRoles(ROLES?.roles);
       setUsers(USERS?.users);
       setTotalStats(USERS?.stats)
       setRolesStats(ROLES?.usersPerRole);
-      setRoles(ROLES?.roles);
       let result: any = await createRoleArrays(ROLES?.roles, USERS?.users);
       setRoleArray(result);
     } catch (e) {}
@@ -91,7 +91,8 @@ export const useGetRoles = (fetch?:boolean,params?:any) => {
   }, []);
   useEffect(() => {
     fetchRoles();
-  }, [fetch,params]);
+  }, [fetch,params]
+  );
   return { roles, rolesStats, users,totalStats, roleArray, loading };
 };
 export const useCreateAdmin = (): UseCreateAdminReturnType => {
