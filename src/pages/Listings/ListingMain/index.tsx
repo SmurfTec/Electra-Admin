@@ -15,25 +15,32 @@ export const Listings = () => {
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 10,
     currentPage: 1,
-  })
-  const [totalList,setTotalList]=useState()
+  });
+  const [totalList, setTotalList] = useState();
   const ListingData = useListingDetail(initialPageData);
-  const [listings, setListings] = useState([]);
+  const [listings, setListings] = useState<any>([
+    {
+      name: "",
+      data: [],
+    },
+  ]);
   const [MenuLabel, setMenuLabel] = useState("");
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
   const [initial, setInitial] = useState(true);
 
   const getListings = async () => {
+    let soldItems: any = [];
+    let unsoldItems: any = [];
+    let flagged:any = [];
+    let All:any = [];
     console.log(ListingData.data.stats[0].all_listings);
-    setTotalList(ListingData.data.stats[0].all_listings)
-    let latestArray;
-    latestArray = ListingData?.data?.listings?.map((item: any, index: any) => {
-      console.log(item, "ITEM");
+    setTotalList(ListingData.data.stats[0].all_listings);
+    ListingData?.data?.listings?.forEach((item: any) => {
       let newObj = {
         ...item,
         id: item.id,
-        Account: item?.Account,
-        ItemName: item.product.title,
+        Account: item?.user.firstname + item?.user.lastname,
+        ItemName: item.product_data.title,
         Ask: item.ask,
         "Lwst Offer": item.lowest_offer ?? "-",
         "Hgst Offer": item.highest_offer ?? "-",
@@ -41,10 +48,22 @@ export const Listings = () => {
         "Listed On": moment(item?.created_on).format("DD MMM, YYYY"),
         Role: item.is_active ? "Unsold" : "Sold",
       };
-      return newObj;
+      All.push(newObj);
+      if (item.is_flagged) {
+        flagged.push(newObj);
+      }
+      if (item.is_active) {
+        unsoldItems.push(newObj);
+      } else if (!item.is_active) {
+        soldItems.push(newObj);
+      }
     });
-
-    setListings(latestArray);
+    setListings([
+      { name: "All", data: All },
+      { name: "sold", data: soldItems },
+      { name: "not sold", data: unsoldItems },
+      { name: "flagged", data: flagged },
+    ]);
   };
   useEffect(() => {
     getListings();
@@ -65,8 +84,9 @@ export const Listings = () => {
           template: (item: any, options: any) => {
             return (
               <div
-            onClick={(event: any) => viewItem(event, item, CurrSelectedProduct)}
-
+                onClick={(event: any) =>
+                  viewItem(event, item, CurrSelectedProduct)
+                }
                 style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
@@ -126,13 +146,7 @@ export const Listings = () => {
       if (initial) {
         setInitial(false);
       } else {
-        console.log(
-          "Menu",
-          MenuLabel,
-          
-          "CurrSelectedProduct",
-          CurrSelectedProduct
-        );
+       
       }
     }, [MenuLabel, CurrSelectedProduct]);
     return (
@@ -140,10 +154,7 @@ export const Listings = () => {
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon
-           onClick={handleClick}
-            src={IMAGES.Dots}
-          />
+          <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
 
           <CustomMenu model={items} popup ref={menuLeft} id="popup_menu_left" />
         </div>
@@ -224,22 +235,25 @@ export const Listings = () => {
           </p>
           <div className="flex gap-8 px-4 border-b border-custom "></div>
           <CustomTabView className="!bg-[#FCFCFC]">
-            <TabPanel header="All(6)">
-              <CustomTableComponent
-                colume={{ backgroundColor: "#FCFCFC !important" }}
-                headerStyle={{
-                  color: "black",
-                  fontWeight: "800",
-                  backgroundColor: "#FCFCFC",
-                }}
-                filterData={listings}
-                columnData={columnData}
-                rowStyling={"#FCFCFC !important"}
-                MultipleSelect={true}
-              />
-            </TabPanel>
+            {listings.map((item: any, index: number) => {
+              return(
+              <TabPanel key={index} header={item.name}>
+                <CustomTableComponent
+                  colume={{ backgroundColor: "#FCFCFC !important" }}
+                  headerStyle={{
+                    color: "black",
+                    fontWeight: "800",
+                    backgroundColor: "#FCFCFC",
+                  }}
+                  filterData={item.data}
+                  columnData={columnData}
+                  rowStyling={"#FCFCFC !important"}
+                  MultipleSelect={true}
+                />
+              </TabPanel>)
+            })}
 
-            <TabPanel className="!bg-[#FCFCFC]" header="Fail (1)">
+            {/* <TabPanel className="!bg-[#FCFCFC]" header="Fail (1)">
               <p className="m-0"></p>
             </TabPanel>
             <TabPanel header="Pass (1)">
@@ -247,7 +261,7 @@ export const Listings = () => {
             </TabPanel>
             <TabPanel header="Pending (1)">
               <p className="m-0"></p>
-            </TabPanel>
+            </TabPanel> */}
           </CustomTabView>
         </div>
       </div>
@@ -261,8 +275,11 @@ export const Listings = () => {
           txt="Mark for review"
         />
       </div>
-      <Paginatior totalRecords={Number(totalList)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
-
+      <Paginatior
+        totalRecords={Number(totalList)}
+        initialPageData={initialPageData}
+        setInitialPageData={setInitialPageData}
+      />
     </div>
   );
 };

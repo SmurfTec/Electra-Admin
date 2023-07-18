@@ -19,11 +19,12 @@ export const Products = () => {
     currentPage: 1,
   })
   const[ totalProducts,setTotalProducts]=useState();
+  const [stats,setStats]=useState<any>()
   const getProducts = async () => {
     try {
       const response = await GetAllProducts(initialPageData);
       setTotalProducts(response.stats.total_products)
-      console.log(totalProducts)
+      setStats(response.stats)
       let latestArray;
       latestArray = response.products.map((item: any, index: number) => {
         let newObj = {
@@ -87,35 +88,7 @@ export const Products = () => {
           </div>
         );
       },
-    },
-    {
-      label: "Delete",
-      template: (item: any, options: any) => {
-        return (
-          <div
-            onClick={(event: any) => viewItem(event, item)}
-            style={{ background: "rgba(231, 29, 54, 0.05)" }}
-            className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-          >
-            <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
-          </div>
-        );
-      },
-    },
-    {
-      label: "Select",
-      template: (item: any, options: any) => {
-        return (
-          <div
-            // onClick={(event: any) => ViewItem(event, item)}
-            style={{ background: "rgba(46, 102, 194, 0.05)" }}
-            className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-          >
-            <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
-          </div>
-        );
-      },
-    },
+    }
   ];
   const MenuBodyTemplate = (rowData: any) => {
     const handleClick = (event: any) => {
@@ -181,7 +154,7 @@ export const Products = () => {
       <div className="flex flex-wrap gap-6 mt-[28px]">
         <DashCard
           title={"Total Products"}
-          totalNumber={"4500"}
+          totalNumber={stats?.total_products}
           myImg={IMAGES.ProductBox}
           imgColor={"bg-yellow-dash"}
           textDash={" !w-full "}
@@ -191,7 +164,7 @@ export const Products = () => {
         />
         <DashCard
           title={"Product Sold in march"}
-          totalNumber={"350"}
+          totalNumber={stats?.total_products_sold_last_month}
           myImg={IMAGES.ProductBox}
           imgColor={"bg-yellow-dash"}
           textDash={"bg-custom-blue !w-[63px] "}
@@ -201,7 +174,7 @@ export const Products = () => {
         />
         <DashCard
           title={"Product Sold In 6 Months"}
-          totalNumber={"3500"}
+          totalNumber={stats?.total_products_sold_last_Six_months}
           myImg={IMAGES.ProductBox}
           imgColor={"bg-yellow-dash"}
           textDash={"bg-custom-blue !w-[63px] "}
