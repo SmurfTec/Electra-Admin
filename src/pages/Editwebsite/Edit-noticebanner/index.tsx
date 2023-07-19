@@ -219,7 +219,7 @@ export const Editnewbanner = () => {
           />
           <CustomButton
             onClick={editBanner}
-            txt={"Add"}
+            txt={"Edit"}
             classes={" !w-[179px] !rounded-[10px] !h-[50px]"}
           />
         </div>

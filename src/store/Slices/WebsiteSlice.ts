@@ -89,3 +89,14 @@ export const editNoticeBanner = async (id: any, data: noticeBanner) => {
     return e;
   }
 };
+export const deleteNoticeBanner = async (id: any) => {
+  try {
+    let response = await url.delete(`/notice_banners/${id}`);
+    if (response) {
+      return response.data;
+    }
+  } catch (e) {
+    return e;
+  }
+};
+
