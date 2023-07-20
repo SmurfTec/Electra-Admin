@@ -132,6 +132,7 @@ export const Webandbanner = () => {
             <img src={IMAGES.Editpen} />
           </div>
         </div>
+     
         {websiteData?.sections && websiteData?.sections.length !== 0 && (
           <div className="flex flex-wrap gap-9 justify-around mt-10 ">
             {websiteData?.sections?.length > 0 &&
@@ -181,6 +182,7 @@ export const Webandbanner = () => {
             )}
           </div>
         )}
+      
         <div className="flex gap-3 mt-3">
           <CustomButton
             txt={"Cancel"}
