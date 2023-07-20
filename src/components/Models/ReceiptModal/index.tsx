@@ -4,7 +4,7 @@ import { CustomButton } from "../../../atoms";
 import { CustomDialog } from "../../../atoms/global.style";
 export const Receiptmodal = ({ visible, setVisible,currentItem }: any) => {
 const[item,setItem]=useState<any>({})
-
+console.log(currentItem,"currentItem")
 useEffect(()=>{
   if(currentItem){
     setItem(currentItem[0])
@@ -59,20 +59,20 @@ useEffect(()=>{
       <div className="flex  flex-wrap px-8 gap-8">
         <div>
           <p>BUYERS NAME</p>
-          <p className="text-[#000000] pt-3  font-bold">{item?.receipt?.buyer}</p>
+          <p className="text-[#000000] pt-3  font-bold">{item?.Buyer}</p>
         </div>
         <div>
           <p>PHONE NO</p>
-          <p className="text-[#000000] pt-3  font-bold"> {item?.receipt?.phone}</p>
+          <p className="text-[#000000] pt-3  font-bold"> {item?.phone}</p>
         </div>
         <div>
           <p>EMAIL</p>
-          <p className="text-[#000000] pt-3 font-bold">{item?.receipt?.email}</p>
+          <p className="text-[#000000] pt-3 font-bold">{item?.email}</p>
         </div>
         <div>
           <p>SHIPPING ADDRESS</p>
           <p className="text-[#000000]  font-bold pt-3">
-            {item?.receipt?.address}
+            {item?.address}
           </p>
         </div>
       </div>

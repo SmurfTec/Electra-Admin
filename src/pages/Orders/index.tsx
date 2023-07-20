@@ -8,20 +8,18 @@ import { CustomMenu, CustomTabView } from "../../atoms/global.style";
 import { TabPanel } from "primereact/tabview";
 import { getAllOrders, DeleteOrders } from "../../store/Slices/OrderSlice";
 import { Button } from 'primereact/button';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 import moment from "moment";
-
-
 import { Paginatior } from "../../components";
-import { classNames } from 'primereact/utils';
+
+import { useFetchOrders } from "../../custom-hooks/useFetchOrders";
 export const Orders = () => {
   const navigate = useNavigate();
-  const [LoadMore, setLoadMore] = useState(true);
-  const menuLeft: any = React.useRef(null);
+
   const [visible, setVisible] = React.useState(false)
   const [currentItem, setcurrentItem] = useState<any>()
   const [filterData, setfilterData] = useState<any>([])
-  const [stats, setstats] = useState<any>()
   const dt = useRef<any>(null);
   const[activeTab,setactiveTab]=useState(0)
   const [initialPageData, setInitialPageData] = useState({
@@ -29,6 +27,7 @@ export const Orders = () => {
     currentPage: 1,
     status:"",
   })
+  const {orderData,orderLoading,stats}=useFetchOrders(initialPageData)
 const [RadioData,setRadioData]=useState({
   completed:false,
   shipped:false,
@@ -104,19 +103,23 @@ const [RadioData,setRadioData]=useState({
   };
   const viewItem = async (event: any, id: any) => {
     setVisible(true)
-    const item = filterData.filter((item: any) => item.id == id)
-    console.log(item, "item")
+    const item = filterData?.filter((item: any) => item.id == id)
+  
     setcurrentItem(item)
   }
   const deleteItem = async (event: any, id: any) => {
 
     let r = await DeleteOrders(id)
-    console.log(r)
-    getOrders();
+    
+    setInitialPageData({
+      rowsPerPage: 50,
+      currentPage: 1,
+      status:"",
+    })
   }
   const StatusBodyTemplate = (option: any) => {
     let style;
-    if (option.status === "cancelled") {
+    if (option.status === "rejected") {
       style = `px-[14px] py-[4px]
             text-center
             h-[33px]
@@ -168,11 +171,10 @@ const [RadioData,setRadioData]=useState({
 
 
 
-  const getOrders = async () => {
-    let r = await getAllOrders(initialPageData)
-    console.log(r, "orders")
-    setstats(r?.stats[0])
-    let newarr = r.orders.map((item: any) => {
+ 
+
+  useEffect(() => {
+    let newarr = orderData?.map((item: any) => {
       let updatedObj = {
        
         id:item.id,
@@ -193,26 +195,25 @@ const [RadioData,setRadioData]=useState({
       }
       return updatedObj
     })
-    setLoadMore(true)
     setfilterData(newarr)
-  }
-
-  useEffect(() => {
-    getOrders();
-  }, [initialPageData])
+  }, [orderData])
   const handleTabChange = (event:any) => {
-    console.log(event,"event")
+
     setactiveTab(event?.index);
     if(event?.index==0){
       setInitialPageData({...initialPageData,status:"",currentPage:1})
     }else if(event?.index==1){
-      setInitialPageData({...initialPageData,status:"cancelled",currentPage:1})
+      setInitialPageData({...initialPageData,status:"rejected",currentPage:1})
     }else if(event?.index==2){
       setInitialPageData({...initialPageData,status:"completed",currentPage:1})
     }else if(event?.index==3){
       setInitialPageData({...initialPageData,status:"waiting-for-seller",currentPage:1})
     }else if(event?.index==4){
       setInitialPageData({...initialPageData,status:"shipped",currentPage:1})
+    }else if(event?.index==5){
+      setInitialPageData({...initialPageData,status:"verified",currentPage:1})
+    }else if(event?.index==6){
+      setInitialPageData({...initialPageData,status:"under-review",currentPage:1})
     }
   };
 
@@ -243,89 +244,125 @@ const [RadioData,setRadioData]=useState({
         
           </div>
 
+    { !orderLoading ? 
+    <div>
+    <CustomTabView activeIndex={activeTab} onTabChange={handleTabChange} >
+      <TabPanel header={`All(${stats?.all_orders})`}>
+        <p className="m-0">
+          <CustomTableComponent
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
+            filterData={filterData}
+            columnData={columnData}
+            rowStyling={"#FCFCFC !important"}
+            MultipleSelect={true}
+            ref ={dt }
+          
+          />
+          <Paginatior totalRecords={Number(stats?.all_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+        </p>
+      </TabPanel>
+      <TabPanel header={`Cancelled(${stats?.cancelled_orders})`}>
+        <p className="m-0">
+          <CustomTableComponent
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
+            filterData={filterData?.filter((item: any) => item.status == "rejected")}
+            columnData={columnData}
+            rowStyling={"#FCFCFC !important"}
+            MultipleSelect={true}
 
-          <div>
-            <CustomTabView activeIndex={activeTab} onTabChange={handleTabChange} >
-              <TabPanel header={`All(${stats?.all_orders})`}>
-                <p className="m-0">
-                  <CustomTableComponent
-                    columnStyle={{ backgroundColor: "#FCFCFC" }}
-                    headerStyle={{ color: "black", fontWeight: "800" }}
-                    filterData={filterData}
-                    columnData={columnData}
-                    rowStyling={"#FCFCFC !important"}
-                    MultipleSelect={true}
-                    ref ={dt }
-                  
-                  />
-                  <Paginatior totalRecords={Number(stats?.all_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
-                </p>
-              </TabPanel>
-              <TabPanel header={`Cancelled(${stats?.cancelled_orders})`}>
-                <p className="m-0">
-                  <CustomTableComponent
-                    columnStyle={{ backgroundColor: "#FCFCFC" }}
-                    headerStyle={{ color: "black", fontWeight: "800" }}
-                    filterData={filterData.filter((item: any) => item.status == "cancelled")}
-                    columnData={columnData}
-                    rowStyling={"#FCFCFC !important"}
-                    MultipleSelect={true}
+          />
+           <Paginatior totalRecords={Number(stats?.cancelled_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+        </p>
+      </TabPanel>
+      <TabPanel header={`Completed(${stats?.completed_orders})`}>
+        <p className="m-0">
+          <CustomTableComponent
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
+            filterData={filterData?.filter((item: any) => item.status == "completed")}
+            columnData={columnData}
+            rowStyling={"#FCFCFC !important"}
+            MultipleSelect={true}
 
-                  />
-                   <Paginatior totalRecords={Number(stats?.cancelled_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
-                </p>
-              </TabPanel>
-              <TabPanel header={`Completed(${stats?.completed_orders})`}>
-                <p className="m-0">
-                  <CustomTableComponent
-                    columnStyle={{ backgroundColor: "#FCFCFC" }}
-                    headerStyle={{ color: "black", fontWeight: "800" }}
-                    filterData={filterData.filter((item: any) => item.status == "completed")}
-                    columnData={columnData}
-                    rowStyling={"#FCFCFC !important"}
-                    MultipleSelect={true}
+            
+          />
+           <Paginatior totalRecords={Number(stats?.completed_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+        </p>
+      </TabPanel>
+      <TabPanel header={`Shipping inprogress(${stats?.waiting_for_seller_orders})`}>
+        <p className="m-0">
+          <CustomTableComponent
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
+            filterData={filterData?.filter((item: any) => item.status == "waiting-for-seller")}
+            columnData={columnData}
+            rowStyling={"#FCFCFC !important"}
+            MultipleSelect={true}
 
-                    
-                  />
-                   <Paginatior totalRecords={Number(stats?.completed_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
-                </p>
-              </TabPanel>
-              <TabPanel header={`Shipping inprogress(${stats?.waiting_for_seller_orders})`}>
-                <p className="m-0">
-                  <CustomTableComponent
-                    columnStyle={{ backgroundColor: "#FCFCFC" }}
-                    headerStyle={{ color: "black", fontWeight: "800" }}
-                    filterData={filterData.filter((item: any) => item.status == "waiting-for-seller")}
-                    columnData={columnData}
-                    rowStyling={"#FCFCFC !important"}
-                    MultipleSelect={true}
+           
+          />
+           <Paginatior totalRecords={Number(stats?.waiting_for_seller_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+        </p>
+      </TabPanel>
+      <TabPanel header={`Shipped(${stats?.shipped_orders})`}>
+        <p className="m-0">
+          <CustomTableComponent
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
+            filterData={filterData?.filter((item: any) => item.status == "shipped")}
+            columnData={columnData}
+            rowStyling={"#FCFCFC !important"}
+            MultipleSelect={true}
 
-                   
-                  />
-                   <Paginatior totalRecords={Number(stats?.waiting_for_seller_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
-                </p>
-              </TabPanel>
-              <TabPanel header={`Shipped(${stats?.shipped_orders})`}>
-                <p className="m-0">
-                  <CustomTableComponent
-                    columnStyle={{ backgroundColor: "#FCFCFC" }}
-                    headerStyle={{ color: "black", fontWeight: "800" }}
-                    filterData={filterData.filter((item: any) => item.status == "shipped")}
-                    columnData={columnData}
-                    rowStyling={"#FCFCFC !important"}
-                    MultipleSelect={true}
+            
+          />
+           <Paginatior totalRecords={Number(stats?.shipped_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+        </p>
+      </TabPanel>
+      <TabPanel header={`Verified(${stats?.verified_orders})`}>
+        <p className="m-0">
+          <CustomTableComponent
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
+            filterData={filterData?.filter((item: any) => item.status == "verified")}
+            columnData={columnData}
+            rowStyling={"#FCFCFC !important"}
+            MultipleSelect={true}
 
-                    
-                  />
-                   <Paginatior totalRecords={Number(stats?.shipped_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
-                </p>
-              </TabPanel>
-            </CustomTabView>
-          </div>
+            
+          />
+           <Paginatior totalRecords={Number(stats?.verified_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+        </p>
+      </TabPanel>
+      <TabPanel header={`Under Review(${stats?.under_review_orders})`}>
+        <p className="m-0">
+          <CustomTableComponent
+            columnStyle={{ backgroundColor: "#FCFCFC" }}
+            headerStyle={{ color: "black", fontWeight: "800" }}
+            filterData={filterData?.filter((item: any) => item.status == "under-review")}
+            columnData={columnData}
+            rowStyling={"#FCFCFC !important"}
+            MultipleSelect={true}
+
+            
+          />
+           <Paginatior totalRecords={Number(stats?.shipped_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+        </p>
+      </TabPanel>
+    </CustomTabView>
+  </div>
+  :
+     <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+<ProgressSpinner  style={{overflow:"hidden"}} />
+</div>
+  }
+     
 
         </div>
       </div>
-      <div className="mt-3">
+      {/* <div className="mt-3">
         <p className="font-bold">Select Status</p>
         <div className="flex gap-3 mt-2">
           <Miniselect txt={"Completed"} radio={true}  />
@@ -334,7 +371,7 @@ const [RadioData,setRadioData]=useState({
           <Miniselect txt={"Shipped"} radio={true} />
           <Miniselect txt={"Waiting for seller to ship"} radio={true} />
         </div>
-      </div>
+      </div> */}
       <Receiptmodal
         visible={visible}
         setVisible={setVisible}
