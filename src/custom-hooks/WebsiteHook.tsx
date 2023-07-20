@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { getWebsite, getWebsiteById } from "../store/Slices/WebsiteSlice";
-import { getNoticeBanner } from "../store/Slices/WebsiteSlice";
+import {
+  getNoticeBanner,
+  deleteNoticeBanner,
+} from "../store/Slices/WebsiteSlice";
 export const useGetWebsite = () => {
   const [data, setData] = useState<any>(null);
   useEffect(() => {
@@ -42,16 +45,26 @@ export const useGetNoticBanner = () => {
       const fetchData = async () => {
         try {
           const response = await getNoticeBanner();
-          console.log(response)
           setData(response);
-          setBannerLoading(false)
+          setBannerLoading(false);
         } catch (error) {
           // Handle error
           console.error(error);
         }
       };
       fetchData();
-    }, []);
-    return {data,bannerLoading}
+    }, [bannerLoading]);
+    const deleteBanner = async (id: any) => {
+      try {
+        setBannerLoading(true)
+        const response = await deleteNoticeBanner(id);
+        if(response){
+          setBannerLoading(false)
+        }
+      } catch (e) {
+        return e
+      }
+    };
+    return { data, bannerLoading,deleteBanner };
   } catch (e) {}
 };
