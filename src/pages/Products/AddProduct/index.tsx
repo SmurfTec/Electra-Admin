@@ -233,14 +233,15 @@ export const AddProduct = () => {
         data.append(`technicalSpecificationModel[${index}][title]`, item.title);
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
       });
-      attachments.forEach((file:any, index:any) => {
-        data.append('attachments', file);
-      });
+    attachments.forEach((file: any, index: any) => {
+      data.append("attachments", file);
+    });
     const add = await CreateProduct(data);
     console.log(add, "DATA ADDED");
-    navigate("/Products");
+    if (add) {
+      navigate("/Products");
+    }
   };
-  console.log(productData, "YOO");
   return (
     <div>
       <Header

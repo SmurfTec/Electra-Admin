@@ -16,10 +16,8 @@ export function UploadPicture({
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
-  console.log(images);
   const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
-    console.log(selectedFile);
     setSelectedImage(URL.createObjectURL(selectedFile));
     if (setImage) {
       setImage(event.target.files[0]);
@@ -43,10 +41,11 @@ export function UploadPicture({
   };
   useEffect(() => {
     if (images) {
+      let files:any=[]
       images.map((item: any, index: any) => {
-        console.log(item, "ITEM");
-        setSelectedImages([...selectedImages, item.filename]);
+        files.push(item.filename)
       });
+      setSelectedImages(files)
     }
   }, [images]);
   return (
