@@ -174,9 +174,10 @@ const [RadioData,setRadioData]=useState({
  
 
   useEffect(() => {
+    
     let newarr = orderData?.map((item: any) => {
       let updatedObj = {
-       
+       ...item,
         id:item.id,
         Seller: item?.seller?.firstname + " " + item?.seller?.lastname,
         Buyer: item?.buyer?.firstname + " " + item?.buyer?.lastname,

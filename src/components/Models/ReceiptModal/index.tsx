@@ -4,13 +4,16 @@ import { CustomButton } from "../../../atoms";
 import { CustomDialog } from "../../../atoms/global.style";
 export const Receiptmodal = ({ visible, setVisible,currentItem }: any) => {
 const[item,setItem]=useState<any>({})
-console.log(currentItem,"currentItem")
+
 useEffect(()=>{
   if(currentItem){
     setItem(currentItem[0])
   }
 
 },[currentItem])
+useEffect(()=>{
+console.log(item)
+},[item])
   return (
     <CustomDialog
 
@@ -63,16 +66,16 @@ useEffect(()=>{
         </div>
         <div>
           <p>PHONE NO</p>
-          <p className="text-[#000000] pt-3  font-bold"> {item?.phone}</p>
+          <p className="text-[#000000] pt-3  font-bold"> {item?.receipt?.phone}</p>
         </div>
         <div>
           <p>EMAIL</p>
-          <p className="text-[#000000] pt-3 font-bold">{item?.email}</p>
+          <p className="text-[#000000] pt-3 font-bold">{item?.buyer?.email}</p>
         </div>
         <div>
           <p>SHIPPING ADDRESS</p>
           <p className="text-[#000000]  font-bold pt-3">
-            {item?.address}
+            {item?.receipt?.address}
           </p>
         </div>
       </div>
@@ -86,7 +89,7 @@ useEffect(()=>{
           <p className="text-[#000000] pt-3  font-bold">{item["Order No"]}</p>
         </div>
       </div>
-      {item?.receipt_fees?.length>0 && 
+      {item?.receipt_fees?.length>0 ?
       item?.receipt_fees?.map((item:any)=>{
         return(
           <>
@@ -96,7 +99,33 @@ useEffect(()=>{
       </div>
           </>
         )
-      })
+      }):
+<>
+<div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Shipping Fee</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Market Place Fee</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Processing Fee</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Sales Tax</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Protection Plan</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Discount</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+</>
       }
       
       <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
