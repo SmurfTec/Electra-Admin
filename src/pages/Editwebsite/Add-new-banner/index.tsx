@@ -12,6 +12,7 @@ export const Addnewbanner = () => {
     title: "",
     color: "",
     background: "",
+    is_active:true
   });
   const [error, setError] = useState("");
   const [color, setColor] = useState(false);

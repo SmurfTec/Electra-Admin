@@ -100,3 +100,13 @@ export const deleteNoticeBanner = async (id: any) => {
   }
 };
 
+export const hideAllNoticebanner = async (body: any) => {
+  try {
+    let response = await url.patch(`/notice_banners/manage-status/`,body);
+    if (response) {
+      return response.data;
+    }
+  } catch (e) {
+    return e;
+  }
+};

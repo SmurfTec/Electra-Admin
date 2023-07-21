@@ -17,6 +17,7 @@ export const Editnewbanner = () => {
     title: "",
     color: "",
     background: "",
+    is_active:true
   });
   const [error, setError] = useState("");
   const [color, setColor] = useState(false);
@@ -35,6 +36,7 @@ export const Editnewbanner = () => {
           title: response.data.title,
           color: response.data.color,
           background: response.data.background,
+          is_active:response.data.is_active
         });
       } catch (error) {
         // Handle error
@@ -210,8 +212,22 @@ export const Editnewbanner = () => {
             {data.title ? data.title : ""}
           </p>
         </div>
+        <div className="mt-6 ml-3 flex gap-2">
+          <label >Hide banner</label>
+          <input
+          onClick={(e:any)=>{
+            setData({
+              ...data,
+              is_active:e.target.checked
+            })
+          }}
+          checked={data.is_active?true:false} className="border" placeholder="padspsdo" type="checkbox" />
+        </div>
         <div className="flex gap-3 mt-7 ml-3">
           <CustomButton
+          onClick={()=>{
+          navigate("/Noticebanner")
+          }}
             txt={"Cancel"}
             classes={
               "!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[10px]"
