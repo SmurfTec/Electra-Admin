@@ -1,10 +1,11 @@
-import {useState,useEffect} from 'react'
+import {useState,useEffect,useRef} from 'react'
 import IMAGES from "../../../assets/Images";
 import { CustomButton } from "../../../atoms";
 import { CustomDialog } from "../../../atoms/global.style";
+import ReactToPrint from 'react-to-print';
 export const Receiptmodal = ({ visible, setVisible,currentItem }: any) => {
 const[item,setItem]=useState<any>({})
-
+const Receiptref=useRef<any>()
 useEffect(()=>{
   if(currentItem){
     setItem(currentItem[0])
@@ -21,7 +22,7 @@ console.log(item)
       visible={visible}
       rounded={`0px`}
     >
-      <div     style={{height:"890px !important"}}>
+      <div ref={Receiptref}      style={{height:"890px !important"}}>
 
       <div className="flex items-center justify-between px-8 py-5 border-b border-custom overflow-hidden">
         <p className="ali">Receipt For Order</p>
@@ -132,12 +133,17 @@ console.log(item)
         <p className="font-bold text-[#000000] text-[16px]">Purchase Price</p>
         <p className="font-bold text-[#3C82D6] text-[20px]">${item?.saleprice}</p>
       </div>
-      <CustomButton
-        iconLeft={<img src={IMAGES.downloadreceipt}/>}
-        classes='!w-auto !max-w-[220px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px] mx-8 mt-3'
-        txt="Download Receipt"
-        />
+      
         </div>
+        <ReactToPrint
+        trigger={() => <CustomButton
+          iconLeft={<img src={IMAGES.downloadreceipt}/>}
+          classes='!w-auto !max-w-[220px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px] mx-8 mt-3'
+          txt="Download Receipt"
+          />}
+        content={() => Receiptref.current}
+        />
+        
     </CustomDialog>
   );
 };
