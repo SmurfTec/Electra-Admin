@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import url from "../../config/index";
 
-export const getAllVerfications=async()=>{
+export const getAllVerfications=async({rowsPerPage=25,currentPage=1,status=""}:any)=>{
+  let params=status.length>0 ? `/verifications/?sort=id&limit=${rowsPerPage?rowsPerPage: 25}&page=${currentPage?currentPage: 1}&status=${status}`:`/verifications/?sort=id&limit=${rowsPerPage?rowsPerPage: 25}&page=${currentPage?currentPage: 1}`
     try{
-      let response:any=await url.get('/verifications/?sort=id')
+      let response:any=await url.get(`${params}`)
       return response.data;
-    }catch(e){
+    }catch(e){ 
       return e;
     }
     }
