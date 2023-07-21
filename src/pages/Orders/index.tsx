@@ -9,7 +9,7 @@ import { TabPanel } from "primereact/tabview";
 import { getAllOrders, DeleteOrders } from "../../store/Slices/OrderSlice";
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
-
+import { CSVLink } from "react-csv";
 import moment from "moment";
 import { Paginatior } from "../../components";
 
@@ -27,7 +27,7 @@ export const Orders = () => {
     currentPage: 1,
     status:"",
   })
-  const {orderData,orderLoading,stats}=useFetchOrders(initialPageData)
+  const {orderData,orderLoading,stats,allorderData}=useFetchOrders(initialPageData)
 const [RadioData,setRadioData]=useState({
   completed:false,
   shipped:false,
@@ -186,6 +186,7 @@ const [RadioData,setRadioData]=useState({
         trackingid:item?.trackingid,
         "Order No": item?.id,
         "Sold On": moment(item?.created_on).format("DD,MM,YYYY"),
+        soldon:moment(item?.created_on).format("DD,MM,YYYY"),
         ship_in:item?.ship_in,
        status:item?.status,
        
@@ -196,6 +197,7 @@ const [RadioData,setRadioData]=useState({
       }
       return updatedObj
     })
+    console.log(newarr)
     setfilterData(newarr)
   }, [orderData])
   const handleTabChange = (event:any) => {
@@ -217,7 +219,18 @@ const [RadioData,setRadioData]=useState({
       setInitialPageData({...initialPageData,status:"under-review",currentPage:1})
     }
   };
-
+const headers = [
+  { label: 'ID', key: 'id' },
+  { label: 'Seller', key: 'Seller' },
+  { label: 'Buyer', key: 'Buyer' },
+  { label: 'Item Name', key: 'product.title' },
+  { label: 'Sale Price', key: 'saleprice' },
+  { label: 'Tracking ID', key: 'trackingid' },
+  { label: 'Order No', key: 'Order No' },
+  { label: 'Sold On', key: 'soldon' },
+  { label: 'Shipping In', key: 'ship_in' },
+  { label: 'Status', key: 'status' },
+];
   return (
     <div>
       <Header
@@ -236,12 +249,15 @@ const [RadioData,setRadioData]=useState({
                 Check Orders
               </span>
             </p>
+            <CSVLink data={allorderData || []} headers={headers} filename={"orders.csv"}>
             <CustomButton
               
               iconLeft={<img src={IMAGES.Csvicon} />}
               classes="!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]"
               txt="Export CSV"
             />
+</CSVLink>
+            
         
           </div>
 
