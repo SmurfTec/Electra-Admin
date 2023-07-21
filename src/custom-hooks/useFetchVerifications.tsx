@@ -5,6 +5,7 @@ interface VerificationParams {
     rowsPerPage?: number,
     currentPage?: number,
     status?: string,
+    order?:number,
 }
 export const useFetchVerifications = (params: VerificationParams) => {
     const [VerificationData, setVerificationData] = useState<any>(null);

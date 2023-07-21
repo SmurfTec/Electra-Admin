@@ -18,6 +18,7 @@ export const Verification = () => {
     rowsPerPage: 25,
     currentPage: 1,
     status:"",
+    order:0,
   })
   const {VerificationData, VerificationLoading, stats, allVerificationData}=useFetchVerifications(initialPageData)
   const[OrderTrack,setOrderTrack]=useState('')
@@ -168,6 +169,17 @@ export const Verification = () => {
     { label: 'Status', key: 'status' },
   ];
 //GetVerifications();
+const checkSearchValue=()=>{
+  let isnum = /^\d+$/.test(OrderTrack);
+  console.log(isnum,OrderTrack)
+if(isnum){
+  setInitialPageData({...initialPageData,order:Number(OrderTrack)})
+}else{
+  if(OrderTrack.length==0){
+    setInitialPageData({...initialPageData,order:0})
+  }
+}
+}
 useEffect(()=>{
   let latestArr=VerificationData?.map((item:any)=>{
     let newObj={
@@ -199,11 +211,12 @@ useEffect(()=>{
         placeholder="Enter Order/Tracking Number"
         MainClasses="!bg-[#FCFCFC] pointer  !rounded-[8px] border !border-inputBorder !w-[300px] !h-[59px] "
         iconLeft={true}
-     
+
         value={OrderTrack}
         onChange={(e: any) => setOrderTrack(e.target.value)}
       />
       <CustomButton
+      onClick={checkSearchValue}
       classes='!w-[63px] !h-[59px] !rounded-[8px]'
       icon={true}
       />
