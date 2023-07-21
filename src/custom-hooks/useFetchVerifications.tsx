@@ -17,8 +17,6 @@ export const useFetchVerifications = (params: VerificationParams) => {
             try {
                 setVerificationLoading(true)
                 const response = await getAllVerfications(params);
-
-                console.log(response, "response")
                 if (response.verifications) {
                     setVerificationData(response.verifications);
                     setVerificationLoading(false)

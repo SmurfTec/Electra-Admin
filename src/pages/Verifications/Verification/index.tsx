@@ -171,7 +171,7 @@ export const Verification = () => {
 //GetVerifications();
 const checkSearchValue=()=>{
   let isnum = /^\d+$/.test(OrderTrack);
-  console.log(isnum,OrderTrack)
+
 if(isnum){
   setInitialPageData({...initialPageData,order:Number(OrderTrack)})
 }else{

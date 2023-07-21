@@ -6,8 +6,7 @@ import { Header, Receiptmodal } from "../../components";
 import IMAGES from "../../assets/Images";
 import { CustomMenu, CustomTabView } from "../../atoms/global.style";
 import { TabPanel } from "primereact/tabview";
-import { getAllOrders, DeleteOrders } from "../../store/Slices/OrderSlice";
-import { Button } from 'primereact/button';
+import { DeleteOrders } from "../../store/Slices/OrderSlice";
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { CSVLink } from "react-csv";
 import moment from "moment";
@@ -33,7 +32,7 @@ const [RadioData,setRadioData]=useState({
   shipped:false,
   verified:false,
   underReview:false,
-  Waiting:false,
+  Waiting:false, 
 })
   const MenuBodyTemplate = (rowData: any) => {
     const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
