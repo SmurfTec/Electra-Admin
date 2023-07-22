@@ -28,3 +28,13 @@ export const getListingById = async (id: any) => {
     return e;
   }
 };
+
+export const deleteListingById = async (id: any) => {
+  try {
+    let response: any = await url.delete(`/listings/${id}`);
+    console.log(response);
+    return response;
+  } catch (e) {
+    return e;
+  }
+};
