@@ -118,7 +118,7 @@ export const Products = () => {
         >
           <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
 
-          <CustomMenu model={items} popup ref={menuLeft} id="popup_menu_left" />
+          <CustomMenu model={items} height={'auto'} popup ref={menuLeft} id="popup_menu_left" />
         </div>
       </>
     );

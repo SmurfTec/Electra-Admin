@@ -382,8 +382,9 @@ export const CustomTable = styled(DataTable)<tableprops>`
           .p-selection-column {
             padding-left: 16px;
             .p-checkbox {
+              background: rgba(164, 164, 164, 0.28) !important;
+              
               .p-checkbox-box {
-                /* background: rgba(164, 164, 164, 0.28); */
                 border: 1px solid #a4a4a4;
                 border-radius: 2px;
                 /* width: 16px;
