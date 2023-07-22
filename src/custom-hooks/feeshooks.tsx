@@ -1,6 +1,6 @@
 import {useState,useEffect} from "react"
 import { getAllFees } from "../store/Slices/FeesSlice";
-export const useFeesAll = () => {
+export const useFeesAll = (body:any) => {
     const [data, setData] = useState<any>(null);
   
     useEffect(() => {
@@ -15,7 +15,7 @@ export const useFeesAll = () => {
       };
   
       fetchData();
-    }, []);
+    }, [body]);
   
     return data;
   };

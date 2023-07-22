@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef} from "react";
 import {
   PaginatorPageChangeEvent,
   PaginatorNextPageLinkOptions,
@@ -13,13 +13,14 @@ export const Paginatior = ({
   initialPageData,
   setInitialPageData,
 }: any) => {
-    console.log(totalRecords)
+   
+    const paginatorRef = useRef<any>(null);
   const [first, setFirst] = useState<number[]>([0, 0, 0]);
   const onPageChange = (e: PaginatorPageChangeEvent, index: number) => {
     setFirst(first.map((f, i) => (index === i ? e.first : f)));
     setInitialPageData({
       ...initialPageData,
-      currentPage: initialPageData.currentPage + 1,
+      currentPage: e.page + 1,
     });
   };
 
@@ -98,15 +99,21 @@ export const Paginatior = ({
       );
     },
   };
-
+useEffect(()=>{
+ 
+  setFirst([((initialPageData.currentPage-1)*initialPageData.rowsPerPage),0,0])
+  
+},[initialPageData])
   return (
     <div className="card">
       <CustomPaginator
+      ref={paginatorRef}
         template={template1}
         first={first[0]}
         rows={initialPageData?.rowsPerPage}
         totalRecords={totalRecords}
         onPageChange={(e) => onPageChange(e, 0)}
+        
       />
     </div>
   );

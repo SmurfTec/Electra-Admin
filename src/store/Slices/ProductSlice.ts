@@ -15,7 +15,7 @@ export const GetAllProducts = async (params?: any) => {
             params?.currentPage ? params?.currentPage : 1
           }`
         : "";
-    let response: any = await url.get(`/products?sort=id&${urlParams}`);
+    let response: any = await url.get(`/products?sort=-id&${urlParams}`);
     return response.data;
   } catch (e) {
     return e;

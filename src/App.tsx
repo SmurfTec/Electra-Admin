@@ -38,8 +38,8 @@ import {
   Notifications,
   SecurityQuestion,
   Editrole,
-  EditProduct
-
+  EditProduct,
+  Editnewbanner
 } from "./pages/index";
 import { SideBar } from "./components";
 import PrivateRoute from "./routes/Privateroute";
@@ -111,6 +111,7 @@ function App() {
             <Route path="/Webandbanner/:id" element={<Webandbanner />} />
             <Route path="/Noticebanner" element={<Noticebanner />} />
             <Route path="/Addbanner" element={<Addnewbanner />} />
+            <Route path="/EditNewBanner/:id" element={<Editnewbanner />} />
             <Route path="/Feemodifier" element={<Feemodifier />} />
             <Route path="*" element={<Signin />} />
           </Routes>

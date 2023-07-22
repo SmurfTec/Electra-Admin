@@ -294,13 +294,15 @@ export const EditProduct = () => {
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
       });
     if (images) {
-      images.forEach((item:any, index:any) => {
+      images.forEach((item: any, index: any) => {
         data.append(`images[${index}]`, item);
       });
     }
     const add = await EditProductAPI(data, id);
     console.log(add, "DATA Updated");
-    // navigate("/Products");
+    if (add) {
+      navigate("/Products");
+    }
   };
   const getTechnicalSpecificationValue = (name: string) => {
     const item = productData.technicalSpecificationModel?.find(
@@ -453,20 +455,36 @@ export const EditProduct = () => {
                   <p className="text-[#656565] text-[12px] mt-4">
                     RELEASE DATE
                   </p>
-                  <InputTxt
-                    name="Release Date"
-                    value={moment(
-                      getTechnicalSpecificationValue("Release Date")
-                    ).format("DD MMM YYYY")}
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value
-                      )
-                    }
-                    placeholder={"eg: 20 aug 2022"}
-                    MainClasses={"!h-[28px] !bg-white"}
-                  />
+                  {moment(
+                    getTechnicalSpecificationValue("Release Date")
+                  ).format("DD MMM YYYY") === "Invalid date" ? (
+                    <InputTxt
+                      name="Release Date"
+                      onChange={(e: any) =>
+                        updateTechnicalSpecificationModel(
+                          e.target.name,
+                          e.target.value
+                        )
+                      }
+                      placeholder={"eg: 20 aug 2022"}
+                      MainClasses={"!h-[28px] !bg-white"}
+                    />
+                  ) : (
+                    <InputTxt
+                      name="Release Date"
+                      value={moment(
+                        getTechnicalSpecificationValue("Release Date")
+                      ).format("DD MMM YYYY")}
+                      onChange={(e: any) =>
+                        updateTechnicalSpecificationModel(
+                          e.target.name,
+                          e.target.value
+                        )
+                      }
+                      placeholder={"eg: 20 aug 2022"}
+                      MainClasses={"!h-[28px] !bg-white"}
+                    />
+                  )}
                 </div>
                 <div className="ml-5">
                   <p className="text-[#656565] text-[12px] mt-4">BLUETOOTH</p>
@@ -574,7 +592,7 @@ export const EditProduct = () => {
           />
           <CustomButton
             onClick={() => Addproduct()}
-            txt={"Add Product"}
+            txt={"Edit Product"}
             classes={" !w-[179px] !rounded-[12px] !h-[50px]"}
           />
         </div>

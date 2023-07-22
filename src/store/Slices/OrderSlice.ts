@@ -7,6 +7,7 @@ export const getAllOrders=async({rowsPerPage=25,currentPage=1,status=""}:any)=>{
 
     try{
       let response:any=await url.get(`${params}`)
+      
       return response.data;
     }catch(e){
       return e; 

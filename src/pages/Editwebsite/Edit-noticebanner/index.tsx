@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "../../../components";
 import { InputTxt, CustomButton } from "../../../atoms";
 import IMAGES from "../../../assets/Images";
 import { HexColorPicker } from "react-colorful";
-import { createNoticeBanner } from "../../../store/Slices/WebsiteSlice";
-import { useNavigate } from "react-router-dom";
-export const Addnewbanner = () => {
+import {
+  editNoticeBanner,
+  getNoticeBannerById,
+} from "../../../store/Slices/WebsiteSlice";
+import { useNavigate, useParams } from "react-router-dom";
+export const Editnewbanner = () => {
   const navigate = useNavigate();
-
+  const Params = useParams();
+  const { id } = Params;
+  console.log(id);
   const [data, setData] = useState({
     title: "",
     color: "",
@@ -23,13 +28,29 @@ export const Addnewbanner = () => {
       [name]: value,
     });
   };
-  const addNoticeBanner = async () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getNoticeBannerById(id);
+        setData({
+          title: response.data.title,
+          color: response.data.color,
+          background: response.data.background,
+          is_active:response.data.is_active
+        });
+      } catch (error) {
+        // Handle error
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+  const editBanner = async () => {
     try {
       if (data.title === "" || data.color === "" || data.background === "") {
         setError("Fill title,color and background");
       } else {
-        const add = await createNoticeBanner(data);
-        console.log(add, "ADDD");
+        const add = await editNoticeBanner(id, data);
         if (add) {
           navigate("/Noticebanner");
         }
@@ -41,11 +62,12 @@ export const Addnewbanner = () => {
     <div>
       <Header typeSearch={true} placeholder="Search" UserBox={true} />
       <div>
-        <p className="font-bold text-[20px] ml-3">Adding New Notice Banner</p>
+        <p className="font-bold text-[20px] ml-3">EditNotice Banner</p>
         {/* <div className="">
           Due to maintenance website will be down for 1 day
         </div> */}
         <InputTxt
+          value={data.title}
           onChange={(e: any) => handleChange("title", e.target.value)}
           placeholder={"Enter Title"}
           MainClasses={
@@ -176,29 +198,44 @@ export const Addnewbanner = () => {
         </div>
         <p className="mt-3 ml-3">Preview</p>
         <div
-        style={{
-          backgroundColor:data.background?data.background:"white"
-        }}
-        className=" h-[43px] w-[40%] flex items-center justify-between px-3 cursor-pointer mt-3 ml-3">
-          <p 
           style={{
-            color:data.color?data.color:"black",
-           
+            backgroundColor: data.background ? data.background : "white",
           }}
-          className="text-[white] w-full text-center">
-          {data.title?data.title:""}
+          className=" h-[43px] w-[40%] flex items-center justify-between px-3 cursor-pointer mt-3 ml-3"
+        >
+          <p
+            style={{
+              color: data.color ? data.color : "black",
+            }}
+            className="text-[white] w-full text-center"
+          >
+            {data.title ? data.title : ""}
           </p>
+        </div>
+        <div className="mt-6 ml-3 flex gap-2">
+          <label >Hide banner</label>
+          <input
+          onClick={(e:any)=>{
+            setData({
+              ...data,
+              is_active:e.target.checked
+            })
+          }}
+          checked={data.is_active?true:false} className="border" placeholder="padspsdo" type="checkbox" />
         </div>
         <div className="flex gap-3 mt-7 ml-3">
           <CustomButton
+          onClick={()=>{
+          navigate("/Noticebanner")
+          }}
             txt={"Cancel"}
             classes={
               "!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[10px]"
             }
           />
           <CustomButton
-            onClick={addNoticeBanner}
-            txt={"Add"}
+            onClick={editBanner}
+            txt={"Edit"}
             classes={" !w-[179px] !rounded-[10px] !h-[50px]"}
           />
         </div>
