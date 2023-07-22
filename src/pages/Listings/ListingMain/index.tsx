@@ -94,34 +94,7 @@ export const Listings = () => {
             );
           },
         },
-        {
-          label: "Delete",
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ background: "rgba(231, 29, 54, 0.05)" }}
-                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-              >
-                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
-              </div>
-            );
-          },
-        },
-        {
-          label: "Select",
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ background: "rgba(46, 102, 194, 0.05)" }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-              >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
-              </div>
-            );
-          },
-        },
+      
       ],
     },
   ];

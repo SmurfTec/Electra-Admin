@@ -3,16 +3,28 @@ import IMAGES from "../../../assets/Images";
 import { Header, StatusCard, Productdetailcard } from "../../../components";
 import { Confirmationmodal } from "../../../components";
 import { useAllProductRequests } from "../../../custom-hooks";
+import { deleteProductById } from "../../../store/Slices/ProductSlice";
 export const ProductRequests = () => {
   type Stats = {
     status: string;
     count: string;
   };
+  const [loading,setLoading]=useState(false)
+
   const [visible, setVisible] = useState(false);
-  const data = useAllProductRequests();
+  const data = useAllProductRequests(loading);
   const [productRequest, setProductRequest] = useState([]);
   const [productRequestStats, setProductRequestStats] = useState([{} as Stats]);
+const deleteProduct=async(id:any)=>{
+  try{
+const deletProdReq=await deleteProductById(id)
+if(deletProdReq){
+  setLoading(!loading)
+}
+  }catch(e){
 
+  }
+}
   useEffect(() => {
     if (data) {
       setProductRequest(data.productRequests);
@@ -62,6 +74,8 @@ export const ProductRequests = () => {
                   created={item.created_on}
                   title={item.title}
                   text={item.description}
+                  id={item.id}
+                  deleteProduct={deleteProduct}
                 />
               </div>
             );

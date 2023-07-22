@@ -46,7 +46,7 @@ export const useProductDetail = (id: any) => {
   return data;
 };
 
-export const useAllProductRequests = () => {
+export const useAllProductRequests = (load?:any) => {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export const useAllProductRequests = () => {
     };
 
     fetchData();
-  }, []);
+  }, [load]);
 
   return data;
 };
