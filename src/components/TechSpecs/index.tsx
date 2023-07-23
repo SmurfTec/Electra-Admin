@@ -4,7 +4,7 @@ export const Techspec = () => {
   return (
     <div className='flex gap-2'>
 
-        <InputTxt />
+        <InputTxt placeholder=""/>
     </div>
   )
 }

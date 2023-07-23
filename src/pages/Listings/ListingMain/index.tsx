@@ -8,6 +8,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useListingDetail } from "../../../custom-hooks";
 import { TabPanel } from "primereact/tabview";
 import { Paginatior } from "../../../components";
+import { ProgressSpinner } from "primereact/progressspinner";
 import moment from "moment";
 export const Listings = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export const Listings = () => {
     currentPage: 1,
   });
   const [totalList, setTotalList] = useState();
-  const ListingData = useListingDetail(initialPageData);
+  const {data ,listLoad}= useListingDetail(initialPageData);
   const [listings, setListings] = useState<any>([
     {
       name: "",
@@ -33,8 +34,8 @@ export const Listings = () => {
     let unsoldItems: any = [];
     let flagged:any = [];
     let All:any = [];
-    setTotalList(ListingData.data.stats[0].all_listings);
-    ListingData?.data?.listings?.forEach((item: any) => {
+    setTotalList(data.data.stats[0].all_listings);
+    data?.data?.listings?.forEach((item: any) => {
       let newObj = {
         ...item,
         id: item.id,
@@ -66,7 +67,7 @@ export const Listings = () => {
   };
   useEffect(() => {
     getListings();
-  }, [ListingData]);
+  }, [data]);
   const viewItem = (event: React.MouseEvent, item: any, vaaluue?: any) => {
     event.stopPropagation();
     console.log(vaaluue);
@@ -197,7 +198,8 @@ export const Listings = () => {
         chooseFilter={true}
         UserBox={true}
       />
-      <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
+   
+     <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
         <div>
           <p className="font-bold p-4 text-[19px]">
             Listings <br />
@@ -205,8 +207,9 @@ export const Listings = () => {
               Check All the Listings
             </span>
           </p>
-          <div className="flex gap-8 px-4 border-b border-custom "></div>
-          <CustomTabView className="!bg-[#FCFCFC]">
+          {!listLoad?<> 
+            <div className="flex gap-8 px-4 border-b border-custom "></div>
+               <CustomTabView className="!bg-[#FCFCFC]">
             {listings.map((item: any, index: number) => {
               return(
               <TabPanel key={index} header={item.name}>
@@ -224,18 +227,15 @@ export const Listings = () => {
                 />
               </TabPanel>)
             })}
-
-            {/* <TabPanel className="!bg-[#FCFCFC]" header="Fail (1)">
-              <p className="m-0"></p>
-            </TabPanel>
-            <TabPanel header="Pass (1)">
-              <p className="m-0"></p>
-            </TabPanel>
-            <TabPanel header="Pending (1)">
-              <p className="m-0"></p>
-            </TabPanel> */}
           </CustomTabView>
+          </>
+          :
+          <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+          <ProgressSpinner style={{ overflow: "hidden" }} />
         </div>
+         }
+        </div>
+
       </div>
       <div>
         <CustomButton
@@ -252,6 +252,7 @@ export const Listings = () => {
         initialPageData={initialPageData}
         setInitialPageData={setInitialPageData}
       />
+     
     </div>
   );
 };
