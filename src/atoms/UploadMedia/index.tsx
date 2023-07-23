@@ -9,7 +9,6 @@ export function UploadPicture({
   IMAGEE, //shows the useState for sending new images
   fetchImages,
 }: any) {
-  console.log(IMAGEE);
   const fileInputRef: any = useRef(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImages, setSelectedImages] = useState<any>([]);
@@ -34,6 +33,8 @@ export function UploadPicture({
     // Handle the selected file (e.g., upload or process it)
   };
   const deleteImg = (Itemindex: any) => {
+    console.log(Itemindex)
+    console.log(selectedImages)
     let filterImg = selectedImages.filter(
       (item: any, index: any) => index !== Itemindex
     );
@@ -41,11 +42,11 @@ export function UploadPicture({
   };
   useEffect(() => {
     if (images) {
-      let files:any=[]
+      let files: any = [];
       images.map((item: any, index: any) => {
-        files.push(item.filename)
+        files.push(item.filename);
       });
-      setSelectedImages(files)
+      setSelectedImages(files);
     }
   }, [images]);
   return (
@@ -70,7 +71,13 @@ export function UploadPicture({
           </button>
         </div>
         {!fetchImages && selectedImage && !multipleImages && (
-          <div className="border border-lightgray  rounded">
+          <div className="border border-lightgray ml-10 rounded relative">
+            <div
+              onClick={() => setSelectedImage("")}
+              className="cursor-pointer w-[15px] h-[15px] text-[10px] flex justify-center items-center rounded-[50%] bg-black text-white absolute right-0 top-0"
+            >
+              x
+            </div>
             <img className="w-[120px] h-20 p-3" src={selectedImage} />
           </div>
         )}
