@@ -6,7 +6,6 @@ import {
   CustomButton,
   CustomTableComponent,
   InputTxt,
-
 } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -15,6 +14,7 @@ import styled from "styled-components";
 import "./index.css";
 import { useListingById } from "../../../custom-hooks";
 import { BaseURL } from "../../../config";
+import { deleteListingById } from "../../../store/Slices/ListingsSlice";
 const CustomSidebar = styled(Sidebar)`
   .p-sidebar-header {
     display: none;
@@ -26,6 +26,7 @@ const CustomSidebar = styled(Sidebar)`
 export const Listingdetail = () => {
   const [select, setSelect] = React.useState(0);
   const params = useParams();
+  const navigate=useNavigate()
   let { id } = params;
   const Listings = useListingById(id);
   const [listingg, setListing] = useState<any>();
@@ -34,13 +35,13 @@ export const Listingdetail = () => {
 
   useEffect(() => {
     if (Listings) {
-      console.log(Listings.listing)
+      console.log(Listings.listing);
       setListing(Listings);
       setImages(Listings.listing.images);
       const variaantts = Listings?.listing?.listing_variants?.map(
         (item: any, index: any) => {
           const { variant, values, value, background_color } = item;
-          console.log(values,"ITEM")
+          console.log(values, "ITEM");
           const options = values?.map((value1: any) => ({
             txt: value1,
             classes:
@@ -53,14 +54,22 @@ export const Listingdetail = () => {
               txt: variant,
               classes: `!bg-[${background_color}]  !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5`,
             },
-            values: options??[],
+            values: options ?? [],
           };
         }
       );
-      console.log(variaantts)
+      console.log(variaantts);
       setVariantArray(variaantts);
     }
   }, [Listings]);
+  const deleteListing = async () => {
+    try {
+      const deleteListing = await deleteListingById(id);
+      if(deleteListing){
+        navigate("/Listings")
+      }
+    } catch (e) {}
+  };
 
   const data = [
     {
@@ -94,7 +103,7 @@ export const Listingdetail = () => {
         </h2>
         <div className="border border-custom"></div>
         <InputTxt placeholder="Filter details" MainClasses="mt-[40px] ml-4" />
-       
+
         <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
           Has your item ever been repaired before?
         </p>
@@ -166,7 +175,9 @@ export const Listingdetail = () => {
                   {listingg?.listing.product.title}
                 </p>
 
-                <RoundedButton icon={IMAGES.Bin} classes={"bg-[#FF0000]"} />
+                <RoundedButton icon={IMAGES.Bin}
+                onClick={deleteListing}
+                classes={"bg-[#FF0000]"} />
               </div>
               <div className="flex mt-3">
                 <p

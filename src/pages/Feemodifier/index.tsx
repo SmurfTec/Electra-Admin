@@ -12,8 +12,9 @@ export const Feemodifier = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
   const [visible, setVisible] = React.useState(false);
-  const feeData = useFeesAll();
-  const [feesModif, setFeesModif] = useState();
+  const [feesModif, setFeesModif] = useState<any>();
+
+  const feeData = useFeesAll(feesModif);
   const [currSelected, setCurrSelectedProduct] = useState<any>();
   const [feeValue, setFeeValue] = useState(0);
   useEffect(() => {
@@ -150,6 +151,7 @@ export const Feemodifier = () => {
         fees: Number(feeValue),
       };
       let addFees= await CreateFees(currSelected.ID,newData);
+      setFeesModif("")
       setVisible(!visible)
     } catch (e) {
       console.log(e)
@@ -185,7 +187,7 @@ export const Feemodifier = () => {
         />
       </div>
       <Confirmationmodal
-        classes={"!h-[330px] "}
+        classes={"!h-[339px] "}
         PopupHeader={"EDIT MARKETPLACE FEE"}
         visible={visible}
         setVisible={setVisible}

@@ -15,7 +15,7 @@ export const GetAllProducts = async (params?: any) => {
             params?.currentPage ? params?.currentPage : 1
           }`
         : "";
-    let response: any = await url.get(`/products?sort=id&${urlParams}`);
+    let response: any = await url.get(`/products?sort=-id&${urlParams}`);
     return response.data;
   } catch (e) {
     return e;
@@ -92,6 +92,16 @@ export const getAllProductRequest = async () => {
     throw new Error(e);
   }
 };
+
+
+export const deleteProductRequestByid=async(id:any)=>{
+  try {
+    let response: any = await url.delete(`/productrequests/${id}`);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e);
+  }
+}
 
 /**
  * Retrieves all Best-sellling products requests.

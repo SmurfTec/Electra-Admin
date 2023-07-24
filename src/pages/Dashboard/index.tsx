@@ -19,6 +19,8 @@ import { useGetProducts } from "../../custom-hooks";
 import { BaseURL } from "../../config";
 import moment from "moment";
 import { useGetOrderAll } from "../../custom-hooks/OrderHooks";
+import { ProgressSpinner } from 'primereact/progressspinner';
+
 export const Dashboard = () => {
   const [visible, setvisible] = useState(false);
   const months = [
@@ -112,7 +114,10 @@ export const Dashboard = () => {
         typeSearch={true}
         chooseDate={true}
       />
-      <div className="flex flex-wrap justify-start gap-2">
+     { 
+     !loading &&!prodLoading&& !bestLoading && !userLoading?
+     <>
+     <div className="flex flex-wrap justify-start gap-2">
         {!loading && (
           <>
             {" "}
@@ -227,6 +232,12 @@ export const Dashboard = () => {
           )}
         </div>
       </div>
+      </>
+      :
+        <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+      <ProgressSpinner  style={{overflow:"hidden"}} />
+      </div>
+      }
       <DashboardModal
         PopupHeader="Filter Dashboard"
         visible={visible}
