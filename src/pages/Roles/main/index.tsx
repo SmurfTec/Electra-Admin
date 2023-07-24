@@ -12,10 +12,9 @@ import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
 import { useNavigate } from "react-router-dom";
 import { TabPanel } from "primereact/tabview";
 import { Paginatior } from "../../../components";
-import {
-  useGetRoles,
-  useDeleteRole,
-} from "../../../custom-hooks/RolesHooks";
+import { ProgressSpinner } from "primereact/progressspinner";
+
+import { useGetRoles, useDeleteRole } from "../../../custom-hooks/RolesHooks";
 import moment from "moment";
 interface RoleStats {
   role: string;
@@ -58,20 +57,21 @@ export const Roles = () => {
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 10,
     currentPage: 1,
-  })
+  });
   const {
     rolesStats,
     users,
     roleArray,
-    totalStats
+    totalStats,
+    loading,
   }: {
     roles?: any;
     rolesStats: Stats | any;
     users: userArray | any;
     roleArray: any;
-    totalStats:any
-    
-  } = useGetRoles(fetch,initialPageData);
+    totalStats: any;
+    loading: boolean;
+  } = useGetRoles(fetch, initialPageData);
   const filterData = users?.map((item: PartialAccount, index: number) => {
     return {
       id: item.id,
@@ -265,58 +265,71 @@ export const Roles = () => {
               Find all of your team accounts
             </span>
           </p>
-          <CustomTabView>
-            <TabPanel header={`All(${filterData?.length})`}>
-              <p className="m-0">
-                <CustomTableComponent
-                  columnStyle={{ backgroundColor: "#FCFCFC" }}
-                  headerStyle={{
-                    color: "black",
-                    fontWeight: "800",
-                    textAlign: "left",
-                  }}
-                  columnHeaderFirst={"start"}
-                  filterData={filterData}
-                  columnData={columnData}
-                  rowStyling={"#FCFCFC !important"}
-                  // columnHeader={"flex-start"}
-                />
-              </p>
-            </TabPanel>
-            {roleArray?.map((item: any, index: any) => {
-              const filterData2 = item.users?.map(
-                (item: PartialAccount, index: number) => {
-                  return {
-                    Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
-                    "Email Address": item.email,
-                    "Phone No": item.profile?.mobile_no ?? "-",
-                    "Assigned On": moment(item.created_at).format(
-                      "DD MMM YYYY"
-                    ),
-                    Role: item.role,
-                  };
-                }
-              );
-              return (
-                <TabPanel key={index} header={item.name}>
-                  <CustomTableComponent
-                    columnStyle={{ backgroundColor: "#FCFCFC" }}
-                    headerStyle={{
-                      color: "black",
-                      fontWeight: "800",
-                      textAlign: "left",
-                    }}
-                    columnHeaderFirst={"start"}
-                    filterData={filterData2}
-                    columnData={columnData}
-                    rowStyling={"#FCFCFC !important"}
-                    // columnHeader={"flex-start"}
-                  />
+          {!loading ? (
+            <>
+              {" "}
+              <CustomTabView>
+                <TabPanel header={`All(${filterData?.length})`}>
+                  <p className="m-0">
+                    <CustomTableComponent
+                      columnStyle={{ backgroundColor: "#FCFCFC" }}
+                      headerStyle={{
+                        color: "black",
+                        fontWeight: "800",
+                        textAlign: "left",
+                      }}
+                      columnHeaderFirst={"start"}
+                      filterData={filterData}
+                      columnData={columnData}
+                      rowStyling={"#FCFCFC !important"}
+                      // columnHeader={"flex-start"}
+                    />
+                  </p>
                 </TabPanel>
-              );
-            })}
-          </CustomTabView>
-          <Paginatior totalRecords={Number(totalStats?.total_users_registered)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+                {roleArray?.map((item: any, index: any) => {
+                  const filterData2 = item.users?.map(
+                    (item: PartialAccount, index: number) => {
+                      return {
+                        Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
+                        "Email Address": item.email,
+                        "Phone No": item.profile?.mobile_no ?? "-",
+                        "Assigned On": moment(item.created_at).format(
+                          "DD MMM YYYY"
+                        ),
+                        Role: item.role,
+                      };
+                    }
+                  );
+                  return (
+                    <TabPanel key={index} header={item.name}>
+                      <CustomTableComponent
+                        columnStyle={{ backgroundColor: "#FCFCFC" }}
+                        headerStyle={{
+                          color: "black",
+                          fontWeight: "800",
+                          textAlign: "left",
+                        }}
+                        columnHeaderFirst={"start"}
+                        filterData={filterData2}
+                        columnData={columnData}
+                        rowStyling={"#FCFCFC !important"}
+                        // columnHeader={"flex-start"}
+                      />
+                    </TabPanel>
+                  );
+                })}
+              </CustomTabView>
+            </>
+          ) : (
+            <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+              <ProgressSpinner style={{ overflow: "hidden" }} />
+            </div>
+          )}
+          <Paginatior
+            totalRecords={Number(totalStats?.total_users_registered)}
+            initialPageData={initialPageData}
+            setInitialPageData={setInitialPageData}
+          />
         </div>
       </div>
     </div>
