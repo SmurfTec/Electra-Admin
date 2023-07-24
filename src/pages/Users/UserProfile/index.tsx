@@ -13,6 +13,8 @@ import { Paginatior } from '../../../components'
 import { useNavigate } from 'react-router-dom'
 import { DeleteOrders } from '../../../store/Slices/OrderSlice'
 import moment from 'moment'
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { useFetchUserOrder } from '../../../custom-hooks/useFetchUserOrder'
 type UserInterface={
   username:String,
   email:String,
@@ -32,9 +34,11 @@ export const UserProfile = () => {
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 25,
     currentPage: 1,
-    
+   
   })
+
   const [activetxt, setactivetxt] = useState('Active')
+  const {orderData,orderLoading,stats}=useFetchUserOrder(id,activetxt=="Active"?"":activetxt.toLowerCase(),initialPageData)
   const [search, setSearch] = useState('')
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const [MenuLabel,setMenuLabel]=useState("")
@@ -269,9 +273,10 @@ export const UserProfile = () => {
   const getUserOrder=async()=>{
    try{
     let active=activetxt=="Active"?"":activetxt.toLowerCase()
-    let r=await getSingleUserOrder(id,active);
-  
-    setuserStats(r.orderStats)
+   
+    let r=await getSingleUserOrder(id,active,initialPageData);
+
+    setuserStats(r.orderStats) 
     let order=r?.orders?.map((item:any)=>{
       let updatedOrders={
         ...item,
@@ -361,7 +366,7 @@ export const UserProfile = () => {
             imgColor={"bg-custom-grey"}
             textDash={"bg-yellow-dash px-2 py-1 w-[6rem] "}
             txt="20 aug,2022"
-            subtxt="Last Sale"
+            subtxt="Last Sale" 
             textColor={"#3C82D6"}
 
             outerclasses="!w-[284px] !h-[140px]"
@@ -372,22 +377,23 @@ export const UserProfile = () => {
             totalNumber={`${userStats?.completed_sales|| 0}`}
             myImg={IMAGES.Sales}
             imgColor={"bg-custom-blue"}
-            textDash={"bg-custom-red w-[67px] "}
-            textColor={"#FF0000"}
-            arrowImg={IMAGES.downarrow}
+            textDash={`${userStats?.completed_sales_percentage>=0?"bg-custom-blue":"bg-custom-red"}  w-[67px] `}
+            textColor={userStats?.completed_sales_percentage>=0?"#3C82D6":"#FF0000"}
+            arrowImg={userStats?.completed_sales_percentage>=0? IMAGES.uparrow:IMAGES.downarrow}
             outerclasses="!w-[284px] !h-[140px]"
-
+            txt={userStats?.completed_sales_percentage?.toFixed(2)||0 }
           />
           <DashCard
             title={"Rejected Sales"}
             totalNumber={`${userStats?.rejected_sales|| 0}`}
             myImg={IMAGES.RegectedSale}
             imgColor={"bg-[#F8B84E]"}
-            textDash={"bg-custom-red w-[67px] "}
-            textColor={"#FF0000 "}
-            arrowImg={IMAGES.downarrow}
+            textDash={`${userStats?.rejected_sales_percentage
+              >=0?"bg-custom-blue":"bg-custom-red"}  w-[67px]`}
+            textColor={userStats?.rejected_sales_percentage>=0?"#3C82D6":"#FF0000"}
+            arrowImg={userStats?.rejected_sales_percentage>=0? IMAGES.uparrow:IMAGES.downarrow}
             outerclasses="!w-[284px] !h-[140px] !pb-[8px]"
-            
+            txt={userStats?.rejected_sales_percentage?.toFixed(2)||0 }
 
           />
         </div>
@@ -446,7 +452,7 @@ export const UserProfile = () => {
           />
 
         </div>
-
+ 
       }
       <div className='mt-[27px] flex gap-4 flex-wrap'>
         <InputTxt
@@ -480,7 +486,7 @@ export const UserProfile = () => {
           MultipleSelect={true}
           pagination={true}
         /> 
-       
+      <Paginatior totalRecords={100} initialPageData={initialPageData} setInitialPageData={setInitialPageData} /> 
       </div>
 
     </div>

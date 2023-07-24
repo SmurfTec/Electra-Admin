@@ -77,10 +77,11 @@ export const getSingleUser = async (id: any) => {
     return e;
   }
 };
-export const getSingleUserOrder=async(id:any,status:any)=>{
-  let params=status.length>0 ? `/orders/users/${id}?status=${status}&buyer=${id}`:`/orders/users/${id}?buyer=${id}`
+export const getSingleUserOrder=async(id:any,status:any,{rowsPerPage=25,currentPage=1})=>{
+  let params=status.length>0 ? `/orders/users/${id}?status=${status}&limit=${rowsPerPage?rowsPerPage: 25}&page=${currentPage?currentPage: 1}`:`/orders/users/${id}?limit=${rowsPerPage?rowsPerPage: 25}&page=${currentPage?currentPage: 1}` //?buyer=${id}
   try {
     let response: any = await url.get(`${params}`);
+    console.log(response,"response")
     return response.data;
   } catch (e) {
     return e;

@@ -19,6 +19,7 @@ export const Verification = () => {
     currentPage: 1,
     status:"",
     order:0,
+    trakingid:""
   })
   const {VerificationData, VerificationLoading, stats, allVerificationData}=useFetchVerifications(initialPageData)
   const[OrderTrack,setOrderTrack]=useState('')
@@ -176,7 +177,9 @@ if(isnum){
   setInitialPageData({...initialPageData,order:Number(OrderTrack)})
 }else{
   if(OrderTrack.length==0){
-    setInitialPageData({...initialPageData,order:0})
+    setInitialPageData({...initialPageData,order:0,trakingid:""})
+  }else{
+    setInitialPageData({...initialPageData,order:0,trakingid:OrderTrack})
   }
 }
 }

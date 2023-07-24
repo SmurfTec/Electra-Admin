@@ -21,6 +21,7 @@ export const Orders = () => {
   const [filterData, setfilterData] = useState<any>([])
   const dt = useRef<any>(null);
   const[activeTab,setactiveTab]=useState(0)
+  const [selectedOrders, setselectedOrders] = useState<any>([]);
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 50,
     currentPage: 1,
@@ -273,7 +274,8 @@ const headers = [
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
             ref ={dt }
-          
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
           />
           <Paginatior totalRecords={Number(stats?.all_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
         </p>
@@ -287,8 +289,9 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
-          />
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
+          /> 
            <Paginatior totalRecords={Number(stats?.cancelled_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
         </p>
       </TabPanel>
@@ -301,7 +304,8 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
             
           />
            <Paginatior totalRecords={Number(stats?.completed_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
@@ -316,7 +320,8 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
            
           />
            <Paginatior totalRecords={Number(stats?.waiting_for_seller_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
@@ -331,7 +336,8 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
             
           />
            <Paginatior totalRecords={Number(stats?.shipped_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
@@ -346,7 +352,8 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
             
           />
            <Paginatior totalRecords={Number(stats?.verified_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
@@ -361,7 +368,8 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
             
           />
            <Paginatior totalRecords={Number(stats?.shipped_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
