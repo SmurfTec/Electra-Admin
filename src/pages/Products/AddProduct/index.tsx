@@ -13,6 +13,7 @@ import url from "../../../config/index";
 import { CreateProduct } from "../../../store/Slices/ProductSlice";
 import { getBrands } from "../../../store/Slices/BrandSlice";
 import { getAllCategories } from "../../../store/Slices/Categories";
+import { Techspec } from "../../../components";
 export const AddProduct = () => {
   type techSpec = {
     title: string;
@@ -28,7 +29,7 @@ export const AddProduct = () => {
   const [visible, setVisible] = useState(false);
   const [fetchVariants, setFetchVariants] = useState(false);
   const [attachments, setAttachment] = useState<any>([]);
-
+  const [enterManual, setManual] = useState("Database");
   const [VariantsArray, setVariantArray] = useState<
     { variant: any; values: any }[]
   >([]);
@@ -352,8 +353,18 @@ export const AddProduct = () => {
           }
         />
         <div className="flex gap-3 mt-5">
-          <FetchButton txt={"Fetch from Database"} />
-          <FetchButton txt={"Enter Manually"} />
+          <FetchButton
+            manual={enterManual}
+            value={"Database"}
+            setManual={setManual}
+            txt={"Fetch from Database"}
+          />
+          <FetchButton
+            manual={enterManual}
+            value={"manual"}
+            setManual={setManual}
+            txt={"Enter Manually"}
+          />
         </div>
         <CustomButton
           txt={"Search Item"}
@@ -362,7 +373,7 @@ export const AddProduct = () => {
           }
           icon={true}
         />
-        {techType === 1 && (
+        {enterManual === "Database" && (
           <>
             <div>
               <p className="bg-lightgray p-4 w-[60%] rounded mt-5 border border-custom">
@@ -484,7 +495,9 @@ export const AddProduct = () => {
             </div>
           </>
         )}
-
+        {enterManual === "manual" && <div>
+          <Techspec />
+          </div>}
         <div className="flex gap-3 mb-3">
           <CustomButton
             txt={"Cancel"}

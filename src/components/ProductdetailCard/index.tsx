@@ -1,63 +1,52 @@
-import { useState ,useRef} from "react";
+import { useState, useRef,useEffect } from "react";
 import IMAGES from "../../assets/Images";
-import {CustomMenu} from "../../atoms/global.style";
+import { CustomMenu } from "../../atoms/global.style";
 import { SVGIcon } from "../SVG/index.js";
 import moment from "moment";
 export const Productdetailcard = (props: any) => {
   const [ViewMore, SetViewMore] = useState(true);
   const menuLeft: any = useRef(null);
+  const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
+  const [initial, setInitial] = useState(true);
+
+
   const items = [
     {
-
       items: [
-        {
-          label: "Ban User",
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
-                <SVGIcon
-                  fillcolor={'#212121'}
-                  src={IMAGES.Ban}
-                /> Ban User
-              </div>
-            )
-          }
-        },
         {
           label: "Delete",
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
-              <div  style={{ background: 'rgba(231, 29, 54, 0.05)' }} className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]">
-                <SVGIcon
-
-                  fillcolor={'#E71D36'}
-                  src={IMAGES.Delete}
-                /> Delete
+              <div
+                style={{ background: "rgba(231, 29, 54, 0.05)" }}
+                onClick={(event: any) =>{
+                  console.log(props.id)
+                  props.deleteProduct(props.id)
+                }
+                }
+                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+              >
+                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
               </div>
-            )
-          }
-        },
-        {
-          label: "Select",
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div  style={{ background: 'rgba(46, 102, 194, 0.05)' }} className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]">
-                <SVGIcon
-                  fillcolor={'#212121'}
-                  src={IMAGES.Select}
-                /> Select
-              </div>
-            )
-          }
+            );
+          },
         },
       ],
     },
-
   ];
-  
+  useEffect(() => {
+    if (initial) {
+      setInitial(false);
+    } else {
+      console.log(
+        // "Menu",
+        // MenuLabel,
+        "product",
+        CurrSelectedProduct
+      );
+    }
+  }, [ CurrSelectedProduct]);
   return (
     <div className="border border-custom w-[363px] h-[auto] rounded-xl overflow-hidden">
       <div className="flex justify-between mt-2 px-4 items-center">
@@ -65,7 +54,9 @@ export const Productdetailcard = (props: any) => {
           <p className="font-bold">{props.title}</p>
           <img src={IMAGES.New} />
         </div>
-        <p className="font-light text-[12px] text-[#656565]">{moment(props.created).format("DD MMM, YYYY")}</p>
+        <p className="font-light text-[12px] text-[#656565]">
+          {moment(props.created).format("DD MMM, YYYY")}
+        </p>
       </div>
       <div className="overflow-hidden h-auto">
         <p
@@ -103,12 +94,11 @@ export const Productdetailcard = (props: any) => {
               event.preventDefault();
               menuLeft.current.toggle(event);
             }}
-
             src={IMAGES.Dots}
           />
-        
-          <CustomMenu   model={items} popup ref={menuLeft} id="popup_menu_left" />
-        </div>  
+
+          <CustomMenu model={items} popup ref={menuLeft} id="popup_menu_left" />
+        </div>
       </div>
     </div>
   );

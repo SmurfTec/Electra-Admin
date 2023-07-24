@@ -46,7 +46,7 @@ export const useProductDetail = (id: any) => {
   return data;
 };
 
-export const useAllProductRequests = () => {
+export const useAllProductRequests = (load?:any,setLoading?:any) => {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
@@ -54,6 +54,7 @@ export const useAllProductRequests = () => {
       try {
         const response = await getAllProductRequest();
         setData(response);
+        setLoading(false)
       } catch (error) {
         // Handle error
         console.error(error);
@@ -61,7 +62,7 @@ export const useAllProductRequests = () => {
     };
 
     fetchData();
-  }, []);
+  }, [load]);
 
   return data;
 };

@@ -93,6 +93,16 @@ export const getAllProductRequest = async () => {
   }
 };
 
+
+export const deleteProductRequestByid=async(id:any)=>{
+  try {
+    let response: any = await url.delete(`/productrequests/${id}`);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e);
+  }
+}
+
 /**
  * Retrieves all Best-sellling products requests.
  * @returns {Promise<any>} The response data.

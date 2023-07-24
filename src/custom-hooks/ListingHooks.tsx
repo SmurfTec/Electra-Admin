@@ -8,12 +8,14 @@ type param={
 }
 export const useListingDetail = (params?:param) => {
     const [data, setData] = useState<any>(null);
+    const [listLoad, setListLoad] = useState<any>(true);
   
     useEffect(() => {
       const fetchData = async () => {
         try {
           const response = await getAllListings(params);
           setData(response);
+          setListLoad(false)
         } catch (error) {
           // Handle error
           console.error(error);
@@ -23,7 +25,7 @@ export const useListingDetail = (params?:param) => {
       fetchData();
     }, [params]);
   
-    return data;
+    return {data,listLoad};
   };
 
 export const useListingById=(id:any)=>{
