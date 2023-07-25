@@ -6,8 +6,7 @@ import { Header, Receiptmodal } from "../../components";
 import IMAGES from "../../assets/Images";
 import { CustomMenu, CustomTabView } from "../../atoms/global.style";
 import { TabPanel } from "primereact/tabview";
-import { getAllOrders, DeleteOrders } from "../../store/Slices/OrderSlice";
-import { Button } from 'primereact/button';
+import { DeleteOrders } from "../../store/Slices/OrderSlice";
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { CSVLink } from "react-csv";
 import moment from "moment";
@@ -22,6 +21,7 @@ export const Orders = () => {
   const [filterData, setfilterData] = useState<any>([])
   const dt = useRef<any>(null);
   const[activeTab,setactiveTab]=useState(0)
+  const [selectedOrders, setselectedOrders] = useState<any>([]);
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 50,
     currentPage: 1,
@@ -33,7 +33,7 @@ const [RadioData,setRadioData]=useState({
   shipped:false,
   verified:false,
   underReview:false,
-  Waiting:false,
+  Waiting:false, 
 })
   const MenuBodyTemplate = (rowData: any) => {
     const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
@@ -274,7 +274,8 @@ const headers = [
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
             ref ={dt }
-          
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
           />
           <Paginatior totalRecords={Number(stats?.all_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
         </p>
@@ -288,8 +289,9 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
-          />
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
+          /> 
            <Paginatior totalRecords={Number(stats?.cancelled_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
         </p>
       </TabPanel>
@@ -302,7 +304,8 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
             
           />
            <Paginatior totalRecords={Number(stats?.completed_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
@@ -317,7 +320,8 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
            
           />
            <Paginatior totalRecords={Number(stats?.waiting_for_seller_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
@@ -332,7 +336,8 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
             
           />
            <Paginatior totalRecords={Number(stats?.shipped_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
@@ -347,7 +352,8 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
             
           />
            <Paginatior totalRecords={Number(stats?.verified_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
@@ -362,7 +368,8 @@ const headers = [
             columnData={columnData}
             rowStyling={"#FCFCFC !important"}
             MultipleSelect={true}
-
+            selectedProducts={selectedOrders}
+            setSelectedProducts={setselectedOrders}
             
           />
            <Paginatior totalRecords={Number(stats?.shipped_orders)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
