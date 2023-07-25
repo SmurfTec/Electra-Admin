@@ -84,9 +84,15 @@ export const EditProductAPI = async (data: any,id?:string) => {
  * @returns {Promise<any>} The response data.
  * @throws {Error} If an error occurs.
  */
-export const getAllProductRequest = async () => {
+export const getAllProductRequest = async (params?:any) => {
   try {
-    let response: any = await url.get("/productrequests");
+    let urlParams =
+    params && params.rowsPerPage
+      ? `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
+          params?.currentPage ? params?.currentPage : 1
+        }`
+      : "";
+    let response: any = await url.get(`/productrequests?${urlParams}`);
     return response.data;
   } catch (e: any) {
     throw new Error(e);

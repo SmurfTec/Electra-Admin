@@ -1,9 +1,15 @@
 
 import url from "../../config/index";
 
-export const getAllFees=async()=>{
+export const getAllFees=async(params?:any)=>{
     try{
-      let response:any=await url.get('/Fees')
+      let urlParams =
+      params && params.rowsPerPage
+        ? `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
+            params?.currentPage ? params?.currentPage : 1
+          }`
+        : "";
+      let response:any=await url.get(`/Fees?sort=-id&${urlParams}`)
       return response.data;
     }catch(e){
       return e;

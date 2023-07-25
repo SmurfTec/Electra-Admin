@@ -5,15 +5,20 @@ import { Confirmationmodal } from "../../../components";
 import { useAllProductRequests } from "../../../custom-hooks";
 import { deleteProductById } from "../../../store/Slices/ProductSlice";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { Paginatior } from "../../../components";
 export const ProductRequests = () => {
   type Stats = {
     status: string;
     count: string;
-  };
+  }; 
+   const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 10,
+    currentPage: 1,
+  });
   const [loading, setLoading] = useState(true);
 
   const [visible, setVisible] = useState(false);
-  const data = useAllProductRequests(loading,setLoading);
+  const data = useAllProductRequests(loading,setLoading,initialPageData);
   const [productRequest, setProductRequest] = useState([]);
   const [productRequestStats, setProductRequestStats] = useState([{} as Stats]);
   const deleteProduct = async (id: any) => {
@@ -30,7 +35,9 @@ export const ProductRequests = () => {
       setProductRequestStats(data.productRequestsStats);
     }
   }, [data]);
-
+  useEffect(()=>{
+    setLoading(true)
+  },[initialPageData])
   return (
     <div>
       <Header
@@ -93,6 +100,11 @@ export const ProductRequests = () => {
               "This will send a notifcation to the user who requested you to list this item"
             }
           />
+              <Paginatior
+              totalRecords={Number(data.count)}
+              initialPageData={initialPageData}
+              setInitialPageData={setInitialPageData}
+            />
         </>
       ) : (
         <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
