@@ -5,16 +5,25 @@ import { SVGIcon } from "../../../components/SVG";
 import { MenuItem } from "primereact/menuitem";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
-import { getAllCoupons,DeleteCoupons } from "../../../store/Slices/Coupons";
+import { DeleteCoupons } from "../../../store/Slices/Coupons";
 import moment from "moment";
+import { Paginatior } from "../../../components";
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { useFetchCoupon } from "../../../custom-hooks/useFetchCoupons";
 export const Coupon = () => {
   const [filterData,setfilterData] = useState([]);
   const[added,setadded]=useState(false)
-  const getCoupons=async()=>{
-    let response=await getAllCoupons();
-    if(response.coupons){
-      setTotalCoupons(response.results)
-      let latestArr=response.coupons.map((item:any)=>{
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 25,
+    currentPage: 1,
+   
+  })
+  const {couponData,couponLoading,stats}=useFetchCoupon(initialPageData)
+  
+  useEffect(()=>{
+    
+    if(couponData){
+      let latestArr=couponData.map((item:any)=>{
         let newObj={
           ...item,
           CouponCode:item.code,
@@ -25,20 +34,12 @@ export const Coupon = () => {
         }
         return newObj
       })
-      console.log(latestArr)
+   
       latestArr.sort((a:any, b:any) => a.id - b.id);
       setfilterData(latestArr)
-   
-      console.log(latestArr)
     }
-    
-   
-  }
-  useEffect(()=>{
-    getCoupons()
-  },[])
+  },[couponData])
   const [modalVisible, setmodalVisible] = useState(false);
-  const[TotalCoupons,setTotalCoupons]=useState(0);
   const [MenuLabel, setMenuLabel] = useState("");
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
   const[successVisible,setsuccessVisible]=useState(false)
@@ -119,7 +120,7 @@ export const Coupon = () => {
  
     setCurrSelectedProduct("");
     setsuccessVisible(true)
-    getCoupons();
+    setInitialPageData({...initialPageData,currentPage:1})
     }catch(err){
       
     }
@@ -128,21 +129,14 @@ export const Coupon = () => {
     if(MenuLabel=="Delete"){
       DeleteCoupon()
     }
-    console.log(
-      "Menu",
-      MenuLabel,
-      "product",
-      selectedProducts,
-      "CurrSelectedProduct",
-      CurrSelectedProduct
-    );
+   
     
   }, [MenuLabel]);
 
  useEffect(()=>{
   if(added){
     setadded(false)
-    getCoupons()
+    setInitialPageData({...initialPageData,currentPage:1})
   }
  },[added])
   return (
@@ -156,12 +150,14 @@ export const Coupon = () => {
       />
        <SuccessModel visible={successVisible} setVisible={setsuccessVisible} txt={"Coupon deleted Successfully"}/>
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
-      <div className="mt-[35px]">
+      {!couponLoading ?
+    <>
+    <div className="mt-[35px]">
         <div className="flex flex-wrap gap-6 mt-[28px]">
           <DashCard
             title={"Total Coupons"}
             titleStyle={`!text-[13px]`}
-            totalNumber={String(TotalCoupons)}
+            totalNumber={String(stats.all_coupons)}
             showDefaultNumber={false}
             Numberstyle={`!text-[28px]`}
           />
@@ -184,7 +180,15 @@ export const Coupon = () => {
           MultipleSelect={true}
          
         />
+      <Paginatior totalRecords={Number(stats.all_coupons)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
       </div>
+    </>  
+    :
+    <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+    <ProgressSpinner  style={{overflow:"hidden"}} />
+    </div>
+    }
+      
     </div>
   );
 };

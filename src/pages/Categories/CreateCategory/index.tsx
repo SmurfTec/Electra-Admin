@@ -6,6 +6,7 @@ import { getAllVariants } from '../../../store/Slices/VariantSlice'
 import { CreateCategories } from '../../../store/Slices/Categories'
 import { useNavigate } from 'react-router-dom'
 import { SuccessModel } from '../../../components'
+import { UploadPicture } from '../../../atoms'
 export const CreateCategory = () => {
   const[successVisible,setsuccessVisible]=useState(false)
   const[Name,setName]=useState('')
@@ -13,6 +14,7 @@ export const CreateCategory = () => {
   const navigate=useNavigate()
   const[Variants,setVariants]=useState([])
   const [selectedVariant,setSelectedVariant]=useState<any>([])
+  const [image,setImages]=useState<any>()
   const getVariant=async()=>{
     let response=await getAllVariants()
     setVariants(response.variants)
@@ -39,12 +41,24 @@ export const CreateCategory = () => {
   const Create=async()=>{
     
     try{
-      let body={
-        "name":Name,
-        "fees":Number(fee),
-        "variants":selectedVariant
-      }
-      let response=await CreateCategories(body)
+      console.log(selectedVariant)
+      console.log(image)
+      const newBody =new FormData()
+      newBody.append("name", Name);
+      newBody.append("fees", String(fee));
+      newBody.append("image",image );
+      selectedVariant.length > 0 &&
+      selectedVariant.map((item:any, index:any) => {
+        newBody.append(`variants[${index}]`, item);
+      });
+      
+
+      // let body={
+      //   "name":Name,
+      //   "fees":String(fee),
+      //   "variants":selectedVariant
+      // }
+      let response=await CreateCategories(newBody)
       if(response){
         setsuccessVisible(true)
         setName("")
@@ -93,6 +107,18 @@ export const CreateCategory = () => {
           })}
      
         <CustomButton onClick={(value:any)=>navigate('/AddNewVariant')} txt="+Add Variant" classes="!w-[140px] !h-[42px] !rounded-[7px] !bg-blue !text-white"  />
+        </div>
+        <div className='border border-[#F7F7F8] h-[auto] w-[30%] mt-3'>
+          <p className='border-b border-[#F7F7F8]  font-semibold text-[20px] p-3'>
+            Upload icon/image
+          </p>
+          <div className='p-3'>
+          <UploadPicture
+          fetchImages={false}
+          multipleImages={false}
+          setImage={setImages}/>
+  
+          </div>
         </div>
         <div className='flex gap-3 flex-wrap mt-[50px]'>
         <CustomButton onClick={(value:any)=>navigate('/Category')} txt="Cancel" classes="!w-[179px] !h-[50px] !rounded-[10px] !bg-custome-button-grey !text-black"  />

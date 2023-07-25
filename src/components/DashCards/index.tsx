@@ -17,6 +17,7 @@ type MyProps = {
   showDefaultNumber?: boolean;
   txtclasses?: string;
   Addimg?: string;
+  percentageTxt?:string;
   onClick?: React.MouseEventHandler;
 };
 import IMAGES from "../../assets/Images";
@@ -66,7 +67,7 @@ export const DashCard = (props: MyProps) => {
                     className={`text-[${props.textColor}] font-bold text-[12px]`}
                   >
                     {" "}
-                    + 4 %
+                    {props.percentageTxt??"-"}
                   </p>
                 )}
               </div>

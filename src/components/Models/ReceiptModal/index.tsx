@@ -1,16 +1,20 @@
-import {useState,useEffect} from 'react'
+import {useState,useEffect,useRef} from 'react'
 import IMAGES from "../../../assets/Images";
 import { CustomButton } from "../../../atoms";
 import { CustomDialog } from "../../../atoms/global.style";
+import ReactToPrint from 'react-to-print';
 export const Receiptmodal = ({ visible, setVisible,currentItem }: any) => {
 const[item,setItem]=useState<any>({})
-
+const Receiptref=useRef<any>()
 useEffect(()=>{
   if(currentItem){
     setItem(currentItem[0])
   }
 
 },[currentItem])
+useEffect(()=>{
+console.log(item)
+},[item])
   return (
     <CustomDialog
 
@@ -18,7 +22,7 @@ useEffect(()=>{
       visible={visible}
       rounded={`0px`}
     >
-      <div     style={{height:"890px !important"}}>
+      <div ref={Receiptref}      style={{height:"890px !important"}}>
 
       <div className="flex items-center justify-between px-8 py-5 border-b border-custom overflow-hidden">
         <p className="ali">Receipt For Order</p>
@@ -59,7 +63,7 @@ useEffect(()=>{
       <div className="flex  flex-wrap px-8 gap-8">
         <div>
           <p>BUYERS NAME</p>
-          <p className="text-[#000000] pt-3  font-bold">{item?.receipt?.buyer}</p>
+          <p className="text-[#000000] pt-3  font-bold">{item?.Buyer}</p>
         </div>
         <div>
           <p>PHONE NO</p>
@@ -67,7 +71,7 @@ useEffect(()=>{
         </div>
         <div>
           <p>EMAIL</p>
-          <p className="text-[#000000] pt-3 font-bold">{item?.receipt?.email}</p>
+          <p className="text-[#000000] pt-3 font-bold">{item?.buyer?.email}</p>
         </div>
         <div>
           <p>SHIPPING ADDRESS</p>
@@ -86,7 +90,7 @@ useEffect(()=>{
           <p className="text-[#000000] pt-3  font-bold">{item["Order No"]}</p>
         </div>
       </div>
-      {item?.receipt_fees?.length>0 && 
+      {item?.receipt_fees?.length>0 ?
       item?.receipt_fees?.map((item:any)=>{
         return(
           <>
@@ -96,19 +100,50 @@ useEffect(()=>{
       </div>
           </>
         )
-      })
+      }):
+<>
+<div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Shipping Fee</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Market Place Fee</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Processing Fee</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Sales Tax</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Protection Plan</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+      <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <p className="font-bold text-[#000000] text-[16px]">Discount</p>
+        <p className="font-bold text-[#000000] text-[20px]">$0</p>
+      </div>
+</>
       }
       
       <div className="flex items-center justify-between px-8 mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
         <p className="font-bold text-[#000000] text-[16px]">Purchase Price</p>
         <p className="font-bold text-[#3C82D6] text-[20px]">${item?.saleprice}</p>
       </div>
-      <CustomButton
-        iconLeft={<img src={IMAGES.downloadreceipt}/>}
-        classes='!w-auto !max-w-[220px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px] mx-8 mt-3'
-        txt="Download Receipt"
-        />
+      
         </div>
+        <ReactToPrint
+        trigger={() => <CustomButton
+          iconLeft={<img src={IMAGES.downloadreceipt}/>}
+          classes='!w-auto !max-w-[220px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px] mx-8 mt-3'
+          txt="Download Receipt"
+          />}
+        content={() => Receiptref.current}
+        />
+        
     </CustomDialog>
   );
 };

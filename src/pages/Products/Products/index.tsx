@@ -9,14 +9,24 @@ import { useNavigate } from "react-router-dom";
 import { GetAllProducts } from "../../../store/Slices/ProductSlice.js";
 import moment from "moment";
 import { MenuItem } from "primereact/menuitem";
+import { Paginatior } from "../../../components/index.js";
+import { ProgressSpinner } from "primereact/progressspinner";
 export const Products = () => {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState([]);
   const [initial, setInitial] = useState(true);
-
+  const [loading, setLoading] = useState(true);
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 10,
+    currentPage: 1,
+  });
+  const [totalProducts, setTotalProducts] = useState();
+  const [stats, setStats] = useState<any>();
   const getProducts = async () => {
     try {
-      const response = await GetAllProducts();
+      const response = await GetAllProducts(initialPageData);
+      setTotalProducts(response.stats.total_products);
+      setStats(response.stats);
       let latestArray;
       latestArray = response.products.map((item: any, index: number) => {
         let newObj = {
@@ -30,13 +40,14 @@ export const Products = () => {
         return newObj;
       });
       setFilterData(latestArray);
+      setLoading(false);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [initialPageData]);
   const [MenuLabel, setMenuLabel] = useState("");
   const menuLeft: any = useRef(null);
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
@@ -81,34 +92,6 @@ export const Products = () => {
         );
       },
     },
-    {
-      label: "Delete",
-      template: (item: any, options: any) => {
-        return (
-          <div
-            onClick={(event: any) => viewItem(event, item)}
-            style={{ background: "rgba(231, 29, 54, 0.05)" }}
-            className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-          >
-            <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
-          </div>
-        );
-      },
-    },
-    {
-      label: "Select",
-      template: (item: any, options: any) => {
-        return (
-          <div
-            // onClick={(event: any) => ViewItem(event, item)}
-            style={{ background: "rgba(46, 102, 194, 0.05)" }}
-            className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-          >
-            <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
-          </div>
-        );
-      },
-    },
   ];
   const MenuBodyTemplate = (rowData: any) => {
     const handleClick = (event: any) => {
@@ -138,7 +121,13 @@ export const Products = () => {
         >
           <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
 
-          <CustomMenu model={items} popup ref={menuLeft} id="popup_menu_left" />
+          <CustomMenu
+            model={items}
+            height={"auto"}
+            popup
+            ref={menuLeft}
+            id="popup_menu_left"
+          />
         </div>
       </>
     );
@@ -171,58 +160,72 @@ export const Products = () => {
   return (
     <div>
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
-      <div className="flex flex-wrap gap-6 mt-[28px]">
-        <DashCard
-          title={"Total Products"}
-          totalNumber={"4500"}
-          myImg={IMAGES.ProductBox}
-          imgColor={"bg-yellow-dash"}
-          textDash={" !w-full "}
-          textColor={"#3C82D6"}
-          txt="Last Updated 24,aug,2020"
-          outerclasses="w-[284px] h-[140px]"
-        />
-        <DashCard
-          title={"Product Sold in march"}
-          totalNumber={"350"}
-          myImg={IMAGES.ProductBox}
-          imgColor={"bg-yellow-dash"}
-          textDash={"bg-custom-blue !w-[63px] "}
-          textColor={"#3C82D6"}
-          arrowImg={IMAGES.uparrow}
-          outerclasses="w-[284px] h-[140px]"
-        />
-        <DashCard
-          title={"Product Sold In 6 Months"}
-          totalNumber={"3500"}
-          myImg={IMAGES.ProductBox}
-          imgColor={"bg-yellow-dash"}
-          textDash={"bg-custom-blue !w-[63px] "}
-          textColor={"#3C82D6"}
-          arrowImg={IMAGES.uparrow}
-          outerclasses="w-[284px] h-[140px]"
-        />
-        <DashCard
-          onClick={() => navigate("/AddProduct")}
-          Add={true}
-          txt="Add New Product"
-          outerclasses="w-[284px] h-[140px]"
-          txtclasses={"text-[#212121]"}
-          Addimg={IMAGES.AddItem}
-        />
-      </div>
-      <div className="mt-[40px] relative">
-        <CustomTableComponent
-          filterData={filterData}
-          selectedProducts={selectedProducts}
-          setSelectedProducts={setSelectedProducts}
-          columnData={columnData}
-          MultipleSelect={true}
-          LoadMore={LoadMore}
-          setLoadMore={setLoadMore}
-          pagination={true}
-        />
-      </div>
+      {!loading ? (
+        <>
+          {" "}
+          <div className="flex flex-wrap gap-6 mt-[28px]">
+            <DashCard
+              title={"Total Products"}
+              totalNumber={stats?.total_products}
+              myImg={IMAGES.ProductBox}
+              imgColor={"bg-yellow-dash"}
+              textDash={" !w-full "}
+              textColor={"#3C82D6"}
+              txt="Last Updated 24,aug,2020"
+              outerclasses="w-[284px] h-[140px]"
+            />
+            <DashCard
+              title={"Product Sold in march"}
+              totalNumber={stats?.total_products_sold_last_month}
+              myImg={IMAGES.ProductBox}
+              imgColor={"bg-yellow-dash"}
+              textDash={"bg-custom-blue !w-[63px] "}
+              textColor={"#3C82D6"}
+              arrowImg={IMAGES.uparrow}
+              outerclasses="w-[284px] h-[140px]"
+            />
+            <DashCard
+              title={"Product Sold In 6 Months"}
+              totalNumber={stats?.total_products_sold_last_Six_months}
+              myImg={IMAGES.ProductBox}
+              imgColor={"bg-yellow-dash"}
+              textDash={"bg-custom-blue !w-[63px] "}
+              textColor={"#3C82D6"}
+              arrowImg={IMAGES.uparrow}
+              outerclasses="w-[284px] h-[140px]"
+            />
+            <DashCard
+              onClick={() => navigate("/AddProduct")}
+              Add={true}
+              txt="Add New Product"
+              outerclasses="w-[284px] h-[140px]"
+              txtclasses={"text-[#212121]"}
+              Addimg={IMAGES.AddItem}
+            />
+          </div>
+          <div className="mt-[40px] relative">
+            <CustomTableComponent
+              filterData={filterData}
+              selectedProducts={selectedProducts}
+              setSelectedProducts={setSelectedProducts}
+              columnData={columnData}
+              MultipleSelect={true}
+              LoadMore={LoadMore}
+              setLoadMore={setLoadMore}
+              // pagination={true}
+            />
+            <Paginatior
+              totalRecords={Number(totalProducts)}
+              initialPageData={initialPageData}
+              setInitialPageData={setInitialPageData}
+            />
+          </div>
+        </>
+      ) : (
+        <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+          <ProgressSpinner style={{ overflow: "hidden" }} />
+        </div>
+      )}
     </div>
   );
 };

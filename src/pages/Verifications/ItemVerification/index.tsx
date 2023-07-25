@@ -48,6 +48,7 @@ export const ItemVerification = () => {
     const[checked,setChecked]=useState(false)
     const[Pass,setPass]=useState(true)
     const [percentage,setpercentage] = useState(100);
+    const[verificationStats,setverificationStats]=useState<any>()
     const[total,setTotal]=useState(0)
     var newFormData = new FormData();
     const styles=buildStyles({
@@ -76,7 +77,7 @@ export const ItemVerification = () => {
         }
         if(state.lightswitch){
             percent+=20
-            t+=12
+            t+=1
         }
         if(state.IMEIswitch){
             percent+=20
@@ -116,8 +117,9 @@ export const ItemVerification = () => {
     }
     const GetVerificationDetail=async()=>{
         let response=await getVerficationById(id);
-       
-        setItemData(response)
+        console.log(response,"response")
+        setItemData(response.verification)
+        setverificationStats(response.verificationStats)
         let initialState={
             crackswitch:false,
             serialswitch:false,
@@ -128,34 +130,34 @@ export const ItemVerification = () => {
         }
         let percent=0
         let t=0;
-        if( response?.order?.order_verification_details[0].is_pass){
+        if( response?.verification?.order?.order_verification_details[0].is_pass){
             percent+=20
             t+=1
             initialState.crackswitch=true
         }
-        if( response?.order?.order_verification_details[1].is_pass){
+        if( response?.verification?.order?.order_verification_details[1].is_pass){
             percent+=20
             t+=1
             initialState.serialswitch=true
         }
-        if( response?.order?.order_verification_details[2].is_pass){
+        if( response?.verification?.order?.order_verification_details[2].is_pass){
             percent+=20
             t+=1
             initialState.batteryswitch=true
         }
-        if( response?.order?.order_verification_details[3].is_pass){
+        if( response?.verification?.order?.order_verification_details[3].is_pass){
             percent+=20
             t+=1
             initialState.lightswitch=true
         }
-        if( response?.order?.order_verification_details[4].is_pass){
+        if( response?.verification?.order?.order_verification_details[4].is_pass){
             percent+=20
             t+=1
             initialState.IMEIswitch=true
         }
         dispatch({type:'SetAll',payload:initialState})
-        console.log(response.order.order_verification_details,"response")
-        setItemData(response.order.order_verification_details)
+        console.log(response?.verification?.order.order_verification_details,"response")
+        setItemData(response?.verification?.order?.order_verification_details)
       }
       useEffect(()=>{
         GetVerificationDetail();
@@ -177,7 +179,7 @@ export const ItemVerification = () => {
             <div className='flex flex-wrap gap-3 mt-[33px]'>
                 <DashCard
                     title={"Completed Sales"}
-                    totalNumber={"350"}
+                    totalNumber={verificationStats?.completed_sales|| 0}
                     myImg={IMAGES.Sales}
                     imgColor={"bg-custom-blue"}
                     showDefaultNumber={false}
@@ -186,7 +188,7 @@ export const ItemVerification = () => {
                 />
                 <DashCard
                     title={"Rejected Sales"}
-                    totalNumber={"35"}
+                    totalNumber={verificationStats?.rejected_sales|| 0}
                     myImg={IMAGES.RegectedSale}
                     imgColor={"bg-[#F8B84E]"}
                     showDefaultNumber={false}
@@ -196,7 +198,7 @@ export const ItemVerification = () => {
                 />
                 <DashCard
                     title={"Total Volume"}
-                    totalNumber={"$ 35600"}
+                    totalNumber={`$${verificationStats?.total_volume || 0}`}
                     myImg={IMAGES.VolumeIcon}
                     imgColor={"bg-[#FCE39C]"}
                     showDefaultNumber={false}

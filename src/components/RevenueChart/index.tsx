@@ -1,21 +1,48 @@
 import React, { useEffect } from "react";
+import { CustomDropdown2 } from "../../atoms";
 import Chart from "react-apexcharts";
 import "./index.css";
 import IMAGES from "../../assets/Images";
 type PropType = {
   statData: any;
+  setData?: any;
+  monthsData: any;
 };
 export const RevenueChart = (props: PropType) => {
-  const [series, setSeries] = React.useState({
-    name: "Series 1",
-    data: [],
+  let series2 = Array.isArray(props.statData) ? [...props.statData] : [];
+  const monthOrder: any = {
+    Jan: 0,
+    Feb: 1,
+    Mar: 2,
+    Apr: 3,
+    May: 4,
+    Jun: 5,
+    Jul: 6,
+    Aug: 7,
+    Sep: 8,
+    Oct: 9,
+    Nov: 10,
+    Dec: 11,
+  };
+
+  const sortedData = series2.sort((a: { x: string }, b: { x: string }) => {
+    return monthOrder[a.x] - monthOrder[b.x];
   });
-  useEffect(() => {
-    setSeries({
+  // Remove duplicate objects with the same month
+  const uniqueData = series2.reduce((acc, curr) => {
+    const found = acc.find((item: any) => item.x === curr.x);
+    if (!found) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
+  let series = [
+    {
       name: "Series 1",
-      data: props.statData,
-    });
-  }, [props.statData]);
+      data: uniqueData,
+    },
+  ];
 
   const options: any = {
     chart: {
@@ -62,24 +89,31 @@ export const RevenueChart = (props: PropType) => {
       <div className="">
         <div className="flex justify-between px-2">
           <p className="font-semibold pt-3 pl-3 overflow-hidden ">Revenue</p>
-          <div
-            className={`px-[14px] py-[4px]
-          text-center
-          mt-4
-          h-[33px]
+       
+          <CustomDropdown2
+            setValue={(value: any) => {
+              props.setData(value);
+            }}
+            placeholder="Year"
+            options={props.monthsData}
+            mainclasses={`
+            !px-[14px] !py-[4px]
+            !text-center
+            !mt-4
+            !h-[33px]
             text-[black]
-        w-[100px]
-         border-2
-            flex justify-center gap-1 items-center rounded-[25px] text-[12px] overflow-hidden`}
-          >
-            <p className="font-bold ">6 months</p>
-            <img src={IMAGES.dropdown} />
-          </div>
+            !w-[180px]
+            !border-2
+            !border-black
+            !bg-white
+            !flex !justify-center gap-1 !items-center !rounded-[25px] !text-[12px] overflow-hidden
+          `}
+          />
         </div>
         <div className="overflow-x-auto">
           <Chart
             options={options}
-            series={[series]}
+            series={series}
             type="area"
             height={350}
             style={{ width: "74rem", marginLeft: "14px" }}
@@ -89,58 +123,3 @@ export const RevenueChart = (props: PropType) => {
     </div>
   );
 };
-
-// [
-//   {
-//     x: "Jan",
-//     y: 0,
-//   },
-//   {
-//     x: "Feb",
-//     y: 10,
-//   },
-//   {
-//     x: "Mar",
-//     y: 20,
-//   },
-//   {
-//     x: "Apr",
-//     y: 50,
-//   },
-//   {
-//     x: "May",
-//     y: 80,
-//   },
-//   {
-//     x: "Jun",
-//     y: 100,
-//   },
-//   {
-//     x: "July",
-//     y: 70,
-//   },
-//   {
-//     x: "Aug",
-//     y: 95,
-//   },
-//   {
-//     x: "Sep",
-//     y: 45,
-//   },
-//   {
-//     x: "Oct",
-//     y: 20,
-//   },
-//   {
-//     x: "Nov",
-//     y: 90,
-//   },
-//   {
-//     x: "Dec",
-//     y: 100,
-//   },
-//   {
-//     x:"jan",
-//     y:80
-//   }
-// ],

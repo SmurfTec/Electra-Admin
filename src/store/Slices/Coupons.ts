@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import url from "../../config/index";
 
-export const getAllCoupons=async()=>{
+export const getAllCoupons=async(params:any)=>{
     try{
       let response:any=await url.get('/coupons')
       return response.data;

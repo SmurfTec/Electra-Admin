@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Header, Variants, Confirmationmodal } from "../../../components";
 import {
   InputTxt,
-  CustomDropdown,
+  CustomDropdown2,
   CustomButton,
   UploadPicture,
   FetchButton,
@@ -13,6 +13,7 @@ import url from "../../../config/index";
 import { CreateProduct } from "../../../store/Slices/ProductSlice";
 import { getBrands } from "../../../store/Slices/BrandSlice";
 import { getAllCategories } from "../../../store/Slices/Categories";
+import { Techspec } from "../../../components";
 export const AddProduct = () => {
   type techSpec = {
     title: string;
@@ -27,6 +28,8 @@ export const AddProduct = () => {
   };
   const [visible, setVisible] = useState(false);
   const [fetchVariants, setFetchVariants] = useState(false);
+  const [attachments, setAttachment] = useState<any>([]);
+  const [enterManual, setManual] = useState("Database");
   const [VariantsArray, setVariantArray] = useState<
     { variant: any; values: any }[]
   >([]);
@@ -77,8 +80,8 @@ export const AddProduct = () => {
   }, []);
   useEffect(() => {
     if (VariantsData?.variants) {
-      const mappedData = VariantsData?.variants.map((item: any) => {  
-        const { title, values, value, id,background_color } = item;
+      const mappedData = VariantsData?.variants.map((item: any) => {
+        const { title, values, value, id, background_color } = item;
         const options = values.map((value1: any) => ({
           txt: value1,
           classes:
@@ -91,8 +94,7 @@ export const AddProduct = () => {
           variant: {
             id: id,
             txt: title,
-            classes:
-            `!bg-[${background_color}]  !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5`,
+            classes: `!bg-[${background_color}]  !w-[148px]  !text-[white] !p-4 !rounded-[9px] !mt-5`,
           },
           values: options,
         };
@@ -212,7 +214,7 @@ export const AddProduct = () => {
   };
   const Addproduct = async () => {
     console.log(productData, "FINALs");
-    console.log(images, "IMAGe DATA");
+    console.log(attachments, "IMAGe DATA");
     let data = new FormData();
     data.append("title", productData.title);
     data.append("is_active", "true");
@@ -232,13 +234,15 @@ export const AddProduct = () => {
         data.append(`technicalSpecificationModel[${index}][title]`, item.title);
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
       });
-
-    data.append("images", images);
+    attachments.forEach((file: any, index: any) => {
+      data.append("attachments", file);
+    });
     const add = await CreateProduct(data);
     console.log(add, "DATA ADDED");
-    navigate("/Products");
+    if (add) {
+      navigate("/Products");
+    }
   };
-  console.log(productData,"YOO")
   return (
     <div>
       <Header
@@ -254,25 +258,24 @@ export const AddProduct = () => {
         name={"title"}
       />
       <div className="flex gap-4">
-        <CustomDropdown
-         setValue={(value:any)=>{
-          setProductData({
-            ...productData,
-            brand: value,
-          });
-        }}
+        <CustomDropdown2
+          setValue={(value: any) => {
+            setProductData({
+              ...productData,
+              category: value,
+            });
+          }}
           placeholder="Category"
           options={category}
           mainclasses={"mt-10  !w-[35%]"}
         />
-        <CustomDropdown
-        
-        setValue={(value:any)=>{
-          setProductData({
-            ...productData,
-            category: value,
-          });
-        }}
+        <CustomDropdown2
+          setValue={(value: any) => {
+            setProductData({
+              ...productData,
+              brand: value,
+            });
+          }}
           placeholder="Brands"
           options={brands}
           mainclasses={"mt-10  !w-[35%]"}
@@ -337,9 +340,11 @@ export const AddProduct = () => {
           }
         />
         <UploadPicture
-          setImage={(value: any) => {
-            setImage(value);
+          setImages={(value: any) => {
+            setAttachment(value);
           }}
+          multipleImages={true}
+          IMAGEE={attachments}
         />
         <CustomButton
           txt={"Technical Specifications"}
@@ -348,8 +353,18 @@ export const AddProduct = () => {
           }
         />
         <div className="flex gap-3 mt-5">
-          <FetchButton txt={"Fetch from Database"} />
-          <FetchButton txt={"Enter Manually"} />
+          <FetchButton
+            manual={enterManual}
+            value={"Database"}
+            setManual={setManual}
+            txt={"Fetch from Database"}
+          />
+          <FetchButton
+            manual={enterManual}
+            value={"manual"}
+            setManual={setManual}
+            txt={"Enter Manually"}
+          />
         </div>
         <CustomButton
           txt={"Search Item"}
@@ -358,7 +373,7 @@ export const AddProduct = () => {
           }
           icon={true}
         />
-        {techType === 1 && (
+        {enterManual === "Database" && (
           <>
             <div>
               <p className="bg-lightgray p-4 w-[60%] rounded mt-5 border border-custom">
@@ -480,7 +495,9 @@ export const AddProduct = () => {
             </div>
           </>
         )}
-
+        {enterManual === "manual" && <div>
+          <Techspec />
+          </div>}
         <div className="flex gap-3 mb-3">
           <CustomButton
             txt={"Cancel"}

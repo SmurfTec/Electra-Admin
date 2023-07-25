@@ -7,6 +7,8 @@ import IMAGES from "../../../assets/Images";
 import { SVGIcon } from "../../../components/SVG";
 import { CustomMenu } from "../../../atoms/global.style";
 import { useGetRoles } from "../../../custom-hooks/RolesHooks";
+import { ProgressSpinner } from "primereact/progressspinner";
+
 import moment from "moment";
 type SuperAdminRole = {
   created_at: string;
@@ -15,21 +17,30 @@ type SuperAdminRole = {
   name: string;
   parent_role: string | null;
 };
-type ROLE={
-  roles:SuperAdminRole[] |any ;
-  loading:boolean
-}
+type ROLE = {
+  roles: SuperAdminRole[] | any;
+  loading: boolean;
+};
 export const Searchrole = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
-  const { roles, loading }:Partial<ROLE> = useGetRoles();
+  const [initialPageData, setInitialPageData] = React.useState({
+    rowsPerPage: 10,
+    currentPage: 1,
+  });
+  const [fetch, setFetch] = React.useState(false);
+  const { roles, rolesStats, users, roleArray, totalStats, loading }: any =
+    useGetRoles(fetch, initialPageData);
+  console.log(roles);
+
   if (!loading) {
     console.log(roles);
   }
   const filterData = roles?.map((item: SuperAdminRole, index: number) => {
+    console.log(item, "ITEEM");
     return {
       Role: item.name,
-      "User Count": item.description ??"-",
+      "User Count": item.description ?? "-",
       "Created On": moment(item.created_at).format("DD MMM YYYY"),
       Edit: item.name,
     };
@@ -113,9 +124,9 @@ export const Searchrole = () => {
     return (
       <>
         <div
-        onClick={()=>{
-          navigate(`/Editroles/${option.Edit}`)
-        }}
+          onClick={() => {
+            navigate(`/Editroles/${option.Edit}`);
+          }}
           className="bg-[#212121] w-[83px] h-[29px]
         mx-auto
         rounded
@@ -171,14 +182,20 @@ export const Searchrole = () => {
                 All (3)
               </p>
             </div>
-            <CustomTableComponent
-              columnStyle={{ backgroundColor: "#FCFCFC" }}
-              headerStyle={{ color: "black", fontWeight: "800" }}
-              //   columnHeader={"flex-start"}
-              filterData={filterData}
-              columnData={columnData}
-              rowStyling={"#FCFCFC !important"}
-            />
+            {!loading ? (
+              <CustomTableComponent
+                columnStyle={{ backgroundColor: "#FCFCFC" }}
+                headerStyle={{ color: "black", fontWeight: "800" }}
+                //   columnHeader={"flex-start"}
+                filterData={filterData}
+                columnData={columnData}
+                rowStyling={"#FCFCFC !important"}
+              />
+            ) : (
+              <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+                <ProgressSpinner style={{ overflow: "hidden" }} />
+              </div>
+            )}
           </div>
         </div>
         <div></div>

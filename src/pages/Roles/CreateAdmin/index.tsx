@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Header } from "../../../components";
 import {
-  CustomDropdown,
+  CustomDropdown2,
   InputTxt,
   CustomButton,
   InputPassword,
@@ -29,21 +29,23 @@ type UseCreateAdminReturnType = {
 };
 export const CreateNewadmin = () => {
   const Navigate = useNavigate();
-  const [rolesRender,setRolesRender]=useState()
-  const { roles, setAdmin, loading }:UseCreateAdminReturnType = useCreateAdmin();
-  useEffect(()=>{
-if(!loading){
-  let data;
-  data = roles.map((item: any, index: any) => {
-    let newObj = {
-      value: item.name,
-      label: item.name,
-    };
-    return newObj;
-  });
-  setRolesRender(data)
-}
-  },[loading])
+  const [rolesRender, setRolesRender] = useState();
+  const { roles, setAdmin, loading }: UseCreateAdminReturnType =
+    useCreateAdmin();
+  const [error, setError] = useState("");
+  useEffect(() => {
+    if (!loading) {
+      let data;
+      data = roles.map((item: any, index: any) => {
+        let newObj = {
+          value: item.name,
+          label: item.name,
+        };
+        return newObj;
+      });
+      setRolesRender(data);
+    }
+  }, [loading]);
   const [adminBody, setAdminBody] = useState<adminBody>({
     firstname: "",
     lastname: "",
@@ -62,6 +64,14 @@ if(!loading){
       ...prevObject,
       [name]: value,
     }));
+  }
+  function isAllValuesFilled(adminBody: any) {
+    for (const key in adminBody) {
+      if (adminBody.hasOwnProperty(key) && adminBody[key] === "") {
+        return false;
+      }
+    }
+    return true;
   }
   return (
     <div>
@@ -129,13 +139,13 @@ if(!loading){
           </div>
         </div>
         <div>
-          <CustomDropdown
+          <CustomDropdown2
             placeholderColor={"#A4A4A4"}
             placeholder="Choose Role"
             mainclasses={"mt-4 w-[286px] !h-[59px]"}
             options={rolesRender}
-            setValue={(value:any)=>{
-              console.log(value)
+            setValue={(value: any) => {
+              console.log(value);
               setAdminBody({
                 ...adminBody,
                 role: value,
@@ -143,6 +153,8 @@ if(!loading){
             }}
           />
         </div>
+        {error && <p className="text-red">
+          {error}</p>}
         <div className="flex gap-4 mt-4">
           <CustomButton
             txt={"Cancel"}
@@ -152,7 +164,15 @@ if(!loading){
           />
           <CustomButton
             onClick={() => {
-              setAdmin(adminBody);
+              if (isAllValuesFilled(adminBody)) {
+                // All values are filled, perform your action here
+                console.log("All values are filled.");
+                setError("")
+                setAdmin(adminBody);
+              } else {
+                // Not all values are filled, handle the error or display a message
+                setError("Fill all the fields");
+              }
             }}
             txt={"Create Admin"}
             classes={" !w-[179px] !rounded-[12px] !h-[50px]"}
