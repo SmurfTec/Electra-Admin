@@ -31,7 +31,7 @@ export const Feemodifier = () => {
       };
     });
     setFeesModif(newData);
-  }, [data]);
+  }, [loading]);
   const items = [
     {
       items: [

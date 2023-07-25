@@ -29,12 +29,14 @@ export const useListingDetail = (params?:param) => {
   };
 
 export const useListingById=(id:any)=>{
-  const [data,setData]=useState<any>();
+  const [Listings,setData]=useState<any>();
+  const [loading,setLoading]=useState<any>(true);
   useEffect(()=>{
     const fetchData = async () => {
       try {
         const response = await getListingById(id);
         setData(response.data);
+        setLoading(false)
       } catch (error) {
         // Handle error
         console.error(error);
@@ -43,5 +45,5 @@ export const useListingById=(id:any)=>{
 
     fetchData();
   },[])
-  return data;
+  return {Listings,loading};
 }
