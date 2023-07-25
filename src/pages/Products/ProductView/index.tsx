@@ -10,13 +10,15 @@ import {
 } from "../../../store/Slices/ProductSlice";
 import { useEffect, useState } from "react";
 import { useProductDetail, useVariantDetail } from "../../../custom-hooks";
+import { ProgressSpinner } from "primereact/progressspinner";
+
 import moment from "moment";
 import { BaseURL } from "../../../config";
 export const ProductView = () => {
   const params = useParams();
   let { id } = params;
   const navigate = useNavigate();
-  const ProductData = useProductDetail(id);
+  const {ProductData,loading} = useProductDetail(id);
 
   const [VariantsArray, setVariantArray] = useState([]);
   const [stats, setStats] = useState({
@@ -73,6 +75,7 @@ export const ProductView = () => {
   return (
     <div>
       <Header title={"Product Details"} UserBox={true} />
+   { !loading?  <>
       <div className="flex gap-11">
         <div
           onClick={() => {
@@ -274,6 +277,11 @@ export const ProductView = () => {
           </>
         </div>
       </>
+      </>:
+        <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+        <ProgressSpinner style={{ overflow: "hidden" }} />
+      </div>}
+
     </div>
   );
 };

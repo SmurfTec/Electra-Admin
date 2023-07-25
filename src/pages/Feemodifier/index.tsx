@@ -8,15 +8,18 @@ import { Header, Feemodifcard, Confirmationmodal } from "../../components";
 import { useFeesAll } from "../../custom-hooks/feeshooks";
 import { CreateFees } from "../../store/Slices/FeesSlice";
 import { ProgressSpinner } from "primereact/progressspinner";
-
+import { Paginatior } from "../../components";
 import moment from "moment";
 export const Feemodifier = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
   const [visible, setVisible] = React.useState(false);
   const [feesModif, setFeesModif] = useState<any>();
-
-  const {data,loading,setLoading} = useFeesAll(feesModif);
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 10,
+    currentPage: 1,
+  });
+  const {data,loading,setLoading} = useFeesAll(feesModif,initialPageData);
   const [currSelected, setCurrSelectedProduct] = useState<any>();
   const [feeValue, setFeeValue] = useState(0);
   useEffect(() => {
@@ -31,7 +34,10 @@ export const Feemodifier = () => {
       };
     });
     setFeesModif(newData);
-  }, [data]);
+  }, [loading]);
+  useEffect(()=>{
+    setLoading(true)
+  },[initialPageData])
   const items = [
     {
       items: [
@@ -210,6 +216,11 @@ export const Feemodifier = () => {
         placeholderValue={"Enter Fees"}
         handleFunction={handleFunction}
       />
+        <Paginatior
+              totalRecords={Number(data?.feecount)}
+              initialPageData={initialPageData}
+              setInitialPageData={setInitialPageData}
+            />
     </div>
   );
 };

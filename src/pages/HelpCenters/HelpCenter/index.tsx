@@ -6,22 +6,32 @@ import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
 import { MenuItem } from "primereact/menuitem";
 import { useNavigate } from "react-router-dom";
-import { getAllSupport,DeleteSupport } from "../../../store/Slices/HelpCenterSlice";
+import { DeleteSupport } from "../../../store/Slices/HelpCenterSlice";
 import { SuccessModel } from "../../../components";
 import moment from "moment";
+import { Paginatior } from "../../../components";
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { useFetchHelp } from "../../../custom-hooks/useFetchHelp";
+
 export const HelpCenter = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
-  const[LoadMore,setLoadMore]=useState(true)
+  const[LoadMore,setLoadMore]=useState(false)
   const[visible,setvisible]=useState(false)
   const navigate=useNavigate()
   const [filterData,setFilterData] = useState([
   ]);
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 25,
+    currentPage: 1,
+   
+  })
+  const {helpData,helpLoading,stats}=useFetchHelp(initialPageData)
   const deleteItem = async(event: React.MouseEvent, id: any) => {
     event.stopPropagation();
     try{
       let r=await DeleteSupport(id)
       setvisible(true)
-      getSupport()
+      setInitialPageData({...initialPageData,currentPage:1})
     }catch(err){
 
     }
@@ -125,26 +135,24 @@ export const HelpCenter = () => {
     { field: "status", header: "Status", body: StatusBodyTemplate },
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
-  const getSupport=async()=>{
-    let response = await getAllSupport();
-    
-    let newArr=response?.supports.map((item:any)=>{
+ 
+  useEffect(()=>{
+   
+    let newArr=  helpData?.map((item:any)=>{
       let newObj={
         ...item,
         created_on:moment(item.created_on).format("DD,MM,YYYY")
       }
       return newObj
-    })
-   
+    }) 
     setFilterData(newArr)
-  }
-  useEffect(()=>{
-    getSupport()
-  },[])
+  },[helpData])
   return (
     <div>
        <SuccessModel visible={visible} setVisible={setvisible} txt="Deleted Successfully" />
       <Header chooseFilter={true} typeSearch={true} UserBox={true} />
+      {!helpLoading ?
+      <>
       <div>
         <CustomTableComponent
           showWrapper={false}
@@ -157,6 +165,14 @@ export const HelpCenter = () => {
           setLoadMore={setLoadMore}
         />
       </div>
+      <Paginatior totalRecords={Number(stats)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+      </>
+      :
+      <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+    <ProgressSpinner  style={{overflow:"hidden"}} />
+    </div>
+    }  
+      
     </div>
   );
 };

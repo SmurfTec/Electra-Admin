@@ -15,6 +15,7 @@ import "./index.css";
 import { useListingById } from "../../../custom-hooks";
 import { BaseURL } from "../../../config";
 import { deleteListingById } from "../../../store/Slices/ListingsSlice";
+import { ProgressSpinner } from "primereact/progressspinner";
 const CustomSidebar = styled(Sidebar)`
   .p-sidebar-header {
     display: none;
@@ -28,7 +29,7 @@ export const Listingdetail = () => {
   const params = useParams();
   const navigate=useNavigate()
   let { id } = params;
-  const Listings = useListingById(id);
+  const {Listings,loading} = useListingById(id);
   const [listingg, setListing] = useState<any>();
   const [images, setImages] = useState([]);
   const [VariantsArray, setVariantArray] = useState([]);
@@ -73,7 +74,7 @@ export const Listingdetail = () => {
 
   const data = [
     {
-      "Listed by": listingg?.listing?.user[0]?.firstname,
+      "Listed by": listingg?.listing?.user?.firstname,
       Ask: `$ ${listingg?.listing.ask}`,
       "Lowest Offer": listingg?.listing.lowest_offer ?? "-",
       "Highest Offer": listingg?.listing.highest_offer ?? "-",
@@ -152,7 +153,7 @@ export const Listingdetail = () => {
           }
         )}
       </CustomSidebar>
-      <div>
+   {!loading?   <div>
         <div className="flex">
           <div className="flex gap-5 ">
             {/* <img src={IMAGES.IphoneView} /> */}
@@ -317,7 +318,10 @@ export const Listingdetail = () => {
             columnData={columnData}
           />
         </div>
-      </div>
+      </div>:
+         <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+         <ProgressSpinner style={{ overflow: "hidden" }} />
+       </div>}
     </div>
   );
 };
