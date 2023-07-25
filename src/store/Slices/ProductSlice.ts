@@ -89,9 +89,7 @@ export const getAllProductRequest = async (params?: any) => {
     let urlParams =
       params && params.rowsPerPage
         ? params.status && params.status
-          ? `
-      status=${params?.status ?? "pending"}
-      limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
+          ? `status=${params?.status ?? "pending"}&limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
               params?.currentPage ? params?.currentPage : 1
             }`
           : `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
