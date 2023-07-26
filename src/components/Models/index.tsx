@@ -9,3 +9,4 @@
  export * from "./DashboardModal"
  export * from "./ReceiptModal"
  export * from "./ShippingModal"
+ export * from "./EmailSendModal"
