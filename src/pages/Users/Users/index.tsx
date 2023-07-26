@@ -12,6 +12,7 @@ import { Paginatior } from "../../../components/index.js";
 import { ProgressSpinner } from 'primereact/progressspinner';
 import moment from "moment";
 import { useFetchUsers } from "../../../custom-hooks/useFetchUsers.js";
+
 export const Users = () => {
   const navigate = useNavigate();
   const [totalUsers, setTotalUsers] = useState(0)
@@ -19,7 +20,7 @@ export const Users = () => {
   const [visible, setVisible] = useState(false);
   
   
-  const [LoadMore, setLoadMore] = useState(true)
+  const [LoadMore, setLoadMore] = useState(false)
   const [selectedUsers, setselectedUsers] = useState<any>([]);
   const [CurrSelectedUser, setCurrSelectedUser] = useState("");
   const [filterData, setFilterData] = useState([]);
