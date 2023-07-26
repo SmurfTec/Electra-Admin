@@ -27,32 +27,13 @@ export const useGetProducts = (props?:any) => {
 };
 
 export const useProductDetail = (id: any) => {
-  const [data, setData] = useState<any>(null);
+  const [ProductData, setData] = useState<any>(null);
+  const [loading, setLoading] = useState<any>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getProductById(id);
-        setData(response);
-      } catch (error) {
-        // Handle error
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [id]);
-
-  return data;
-};
-
-export const useAllProductRequests = (load?:any,setLoading?:any) => {
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getAllProductRequest();
         setData(response);
         setLoading(false)
       } catch (error) {
@@ -62,7 +43,28 @@ export const useAllProductRequests = (load?:any,setLoading?:any) => {
     };
 
     fetchData();
-  }, [load]);
+  }, [id]);
+
+  return {ProductData,loading};
+};
+
+export const useAllProductRequests = (load?:any,setLoading?:any,initialPageData?:any) => {
+  const [data, setData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getAllProductRequest(initialPageData);
+        setData(response);
+        setLoading(false)
+      } catch (error) {
+        // Handle error
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [load,initialPageData]);
 
   return data;
 };

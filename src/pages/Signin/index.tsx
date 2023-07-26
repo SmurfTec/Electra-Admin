@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import IMAGES from "../../assets/Images";
 import { InputTxt, InputPassword, CustomButton } from "../../atoms";
 import { Link, useNavigate } from "react-router-dom";
-import { EmailVerificationModel, ChangePasswordModel } from "../../components";
+import { EmailVerificationModel, ChangePasswordModel,EmailSendModal } from "../../components";
 import { useDispatch } from "react-redux";
 import { Login } from "../../store/Slices/AuthSlice";
 import useCookies from "react-cookie/cjs/useCookies";
@@ -11,12 +11,12 @@ type LoginData = {
   password: string;
 };
 export const Signin = () => {
-const [, setCookie] = useCookies(['Authentication','Refresh','AuthCheck'])
 
   const dispatch = useDispatch();
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [EmailErr, setEmailErr] = useState(false);
+  const [EmailSent, setEmailSent] = useState(false);
   const [PasswordErr, setPasswordErr] = useState(false);
   const [EmailModel, setEmailModel] = useState(false);
   const [PassModel, setPassModel] = useState(false);
@@ -51,6 +51,7 @@ const [, setCookie] = useCookies(['Authentication','Refresh','AuthCheck'])
   }, []);
   return (
     <div className="min-h-[100vh] w-[100vw] flex flex-col items-center pt-[90px]">
+      <EmailSendModal visible={EmailSent} setVisible={setEmailSent}setEmailModel={setEmailModel}/>
       <EmailVerificationModel visible={EmailModel} setVisible={setEmailModel} />
       <ChangePasswordModel visible={PassModel} setVisible={setPassModel} />
       <div className="w-[116px] h-[116px] rounded-[50%] bg-lightgray flex justify-center align-middle items-center">
@@ -113,7 +114,7 @@ const [, setCookie] = useCookies(['Authentication','Refresh','AuthCheck'])
           <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">
             Forgot Password?{" "}
             <span
-              onClick={() => setPassModel(true)}
+              onClick={() => setEmailSent(true)}
               className="text-[#06448C] cursor-pointer "
             >
               Click Here
@@ -123,7 +124,10 @@ const [, setCookie] = useCookies(['Authentication','Refresh','AuthCheck'])
         </div>
       )}
       <div className="flex justify-end text-right  mt-[10px] w-[400px]">
-        <p className=" cursor-pointer text-[14px] text-right font-[500] text-midgray">
+        <p 
+              onClick={() => setEmailSent(true)}
+        
+        className=" cursor-pointer text-[14px] text-right font-[500] text-midgray">
           Forgot Password?
         </p>
       </div>
@@ -147,12 +151,12 @@ const [, setCookie] = useCookies(['Authentication','Refresh','AuthCheck'])
           <img src={IMAGES.Apple} />
         </div>
       </div>
-      <p className="text-[22px] mt-[150px] text-center font-[500] text-midgray">
+      {/* <p className="text-[22px] mt-[150px] text-center font-[500] text-midgray">
         Dont have an account?{" "}
         <Link className="text-blue font-[700]" to="/">
           Signup
         </Link>
-      </p>
+      </p> */}
     </div>
   );
 };

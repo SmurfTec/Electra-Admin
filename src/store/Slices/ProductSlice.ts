@@ -69,7 +69,7 @@ export const CreateProduct = async (data: any) => {
  * @param {any} data - The data for the new product.
  * @returns {Promise<any>} The response data.
  */
-export const EditProductAPI = async (data: any,id?:string) => {
+export const EditProductAPI = async (data: any, id?: string) => {
   try {
     let response: any = await url.patch(`/products/${id}`, data);
     return response;
@@ -84,24 +84,33 @@ export const EditProductAPI = async (data: any,id?:string) => {
  * @returns {Promise<any>} The response data.
  * @throws {Error} If an error occurs.
  */
-export const getAllProductRequest = async () => {
+export const getAllProductRequest = async (params?: any) => {
   try {
-    let response: any = await url.get("/productrequests");
+    let urlParams =
+      params && params.rowsPerPage
+        ? params.status && params.status
+          ? `status=${params?.status ?? "pending"}&limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
+              params?.currentPage ? params?.currentPage : 1
+            }`
+          : `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
+              params?.currentPage ? params?.currentPage : 1
+            }`
+        : "";
+    let response: any = await url.get(`/productrequests?${urlParams}`);
     return response.data;
   } catch (e: any) {
     throw new Error(e);
   }
 };
 
-
-export const deleteProductRequestByid=async(id:any)=>{
+export const deleteProductRequestByid = async (id: any) => {
   try {
     let response: any = await url.delete(`/productrequests/${id}`);
     return response.data;
   } catch (e: any) {
     throw new Error(e);
   }
-}
+};
 
 /**
  * Retrieves all Best-sellling products requests.

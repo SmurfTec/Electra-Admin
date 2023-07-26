@@ -7,18 +7,23 @@ import IMAGES from "../../assets/Images";
 import { Header, Feemodifcard, Confirmationmodal } from "../../components";
 import { useFeesAll } from "../../custom-hooks/feeshooks";
 import { CreateFees } from "../../store/Slices/FeesSlice";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { Paginatior } from "../../components";
 import moment from "moment";
 export const Feemodifier = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
   const [visible, setVisible] = React.useState(false);
   const [feesModif, setFeesModif] = useState<any>();
-
-  const feeData = useFeesAll(feesModif);
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 10,
+    currentPage: 1,
+  });
+  const {data,loading,setLoading} = useFeesAll(feesModif,initialPageData);
   const [currSelected, setCurrSelectedProduct] = useState<any>();
   const [feeValue, setFeeValue] = useState(0);
   useEffect(() => {
-    let newData = feeData?.fees.map((item: any, index: any) => {
+    let newData = data?.fees.map((item: any, index: any) => {
       return {
         ID: item.id,
         Category: item.category.name,
@@ -29,7 +34,10 @@ export const Feemodifier = () => {
       };
     });
     setFeesModif(newData);
-  }, [feeData]);
+  }, [loading]);
+  useEffect(()=>{
+    setLoading(true)
+  },[initialPageData])
   const items = [
     {
       items: [
@@ -145,7 +153,7 @@ export const Feemodifier = () => {
   ];
   const handleFunction = async (value?: any) => {
     try {
-      console.log(currSelected);
+     
       let newData = {
         type: currSelected.type,
         fees: Number(feeValue),
@@ -153,6 +161,7 @@ export const Feemodifier = () => {
       let addFees= await CreateFees(currSelected.ID,newData);
       setFeesModif("")
       setVisible(!visible)
+      setLoading(true)
     } catch (e) {
       console.log(e)
     }
@@ -180,11 +189,15 @@ export const Feemodifier = () => {
       </div>
       <div>
         <p className="font-semibold ml-3 text-[20px]">Market Place Fee</p>
-        <CustomTableComponent
+        {!loading?<CustomTableComponent
           headerStyle={{ color: "black" }}
           filterData={feesModif}
           columnData={columnData}
-        />
+        />:
+        <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+          <ProgressSpinner style={{ overflow: "hidden" }} />
+        </div>
+        }
       </div>
       <Confirmationmodal
         classes={"!h-[339px] "}
@@ -203,6 +216,11 @@ export const Feemodifier = () => {
         placeholderValue={"Enter Fees"}
         handleFunction={handleFunction}
       />
+        <Paginatior
+              totalRecords={Number(data?.feecount)}
+              initialPageData={initialPageData}
+              setInitialPageData={setInitialPageData}
+            />
     </div>
   );
 };

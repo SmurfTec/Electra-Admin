@@ -62,7 +62,7 @@ export const Editnewbanner = () => {
     <div>
       <Header typeSearch={true} placeholder="Search" UserBox={true} />
       <div>
-        <p className="font-bold text-[20px] ml-3">EditNotice Banner</p>
+        <p className="font-bold text-[20px] ml-3">Update Notice Banner</p>
         {/* <div className="">
           Due to maintenance website will be down for 1 day
         </div> */}
@@ -235,7 +235,7 @@ export const Editnewbanner = () => {
           />
           <CustomButton
             onClick={editBanner}
-            txt={"Edit"}
+            txt={"Update"}
             classes={" !w-[179px] !rounded-[10px] !h-[50px]"}
           />
         </div>

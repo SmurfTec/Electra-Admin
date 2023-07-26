@@ -7,6 +7,8 @@ import IMAGES from "../../../assets/Images";
 import { SVGIcon } from "../../../components/SVG";
 import { CustomMenu } from "../../../atoms/global.style";
 import { useGetRoles } from "../../../custom-hooks/RolesHooks";
+import { ProgressSpinner } from "primereact/progressspinner";
+
 import moment from "moment";
 type SuperAdminRole = {
   created_at: string;
@@ -25,10 +27,10 @@ export const Searchrole = () => {
   const [initialPageData, setInitialPageData] = React.useState({
     rowsPerPage: 10,
     currentPage: 1,
-  })
+  });
   const [fetch, setFetch] = React.useState(false);
   const { roles, rolesStats, users, roleArray, totalStats, loading }: any =
-    useGetRoles(fetch,initialPageData);
+    useGetRoles(fetch, initialPageData);
   console.log(roles);
 
   if (!loading) {
@@ -180,14 +182,20 @@ export const Searchrole = () => {
                 All (3)
               </p>
             </div>
-            <CustomTableComponent
-              columnStyle={{ backgroundColor: "#FCFCFC" }}
-              headerStyle={{ color: "black", fontWeight: "800" }}
-              //   columnHeader={"flex-start"}
-              filterData={filterData}
-              columnData={columnData}
-              rowStyling={"#FCFCFC !important"}
-            />
+            {!loading ? (
+              <CustomTableComponent
+                columnStyle={{ backgroundColor: "#FCFCFC" }}
+                headerStyle={{ color: "black", fontWeight: "800" }}
+                //   columnHeader={"flex-start"}
+                filterData={filterData}
+                columnData={columnData}
+                rowStyling={"#FCFCFC !important"}
+              />
+            ) : (
+              <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+                <ProgressSpinner style={{ overflow: "hidden" }} />
+              </div>
+            )}
           </div>
         </div>
         <div></div>

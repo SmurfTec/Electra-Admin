@@ -4,21 +4,23 @@ import {
   getNoticeBanner,
   deleteNoticeBanner,
 } from "../store/Slices/WebsiteSlice";
-export const useGetWebsite = () => {
-  const [data, setData] = useState<any>(null);
+export const useGetWebsite = (body:any) => {
+  const [loading,setLoading]=useState(true)
+  const [getWebsitedata, setData] = useState<any>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getWebsite();
         setData(response.data);
+        setLoading(false)
       } catch (error) {
         // Handle error
         console.error(error);
       }
     };
     fetchData();
-  }, []);
-  return data;
+  }, [body]);
+  return {getWebsitedata,loading};
 };
 export const useGetWebsiteId = (id: any) => {
   const [data, setData] = useState<any>(null);
