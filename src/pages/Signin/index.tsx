@@ -35,13 +35,23 @@ export const Signin = () => {
       if (Password.length == 0) {
         setPasswordErr(true);
       }
-    } else {
+    } 
+   
+    else {
 
       const loginCall = await dispatch(Login(data) as any);
      
-      localStorage.setItem("user", JSON.stringify(loginCall.payload.user));
-      console.log(loginCall.payload)
-      if(loginCall.payload.user){
+    
+       if(loginCall.payload?.response?.data?.status===401){
+        console.log("HEREE")
+       
+          setEmailErr(true);
+        
+          setPasswordErr(true);
+        
+      }
+       else if(loginCall?.payload?.user){
+      localStorage.setItem("user", JSON.stringify(loginCall?.payload.user));
         navigate("/Dashboard");
       }
     }
@@ -123,14 +133,14 @@ export const Signin = () => {
           </p>
         </div>
       )}
-      <div className="flex justify-end text-right  mt-[10px] w-[400px]">
+  {!PasswordErr || EmailErr &&   <div className="flex justify-end text-right  mt-[10px] w-[400px]">
         <p 
               onClick={() => setEmailSent(true)}
         
         className=" cursor-pointer text-[14px] text-right font-[500] text-midgray">
           Forgot Password?
         </p>
-      </div>
+      </div>}
       <CustomButton txt="Login" classes="mt-[41px]" onClick={Login1} />
 
       <div className="flex mt-[10px] items-center gap-5 text-gray">
