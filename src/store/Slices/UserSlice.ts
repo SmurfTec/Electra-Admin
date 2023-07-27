@@ -87,7 +87,7 @@ export const getSingleUser = async (id: any) => {
 export const getSingleUserOrder = async (
   id: any,
   status: any,
-  { rowsPerPage = 25, currentPage = 1,orderid=0,name="" }
+  { rowsPerPage = 25, currentPage = 1,orderid=0,name="",date="" }
 ) => {
   let params:any =
     status.length > 0
@@ -99,6 +99,10 @@ export const getSingleUserOrder = async (
         }`; //?buyer=${id}
       params=orderid>0 ?params+`&id=${orderid}`:params
       params=name.length>0 ?params+`&title=${name}`:params
+      if(date){
+        params=params+`&created_on=${new Date(date).toDateString()}`
+      }
+      
   try {
     let response: any = await url.get(`${params}`);
     console.log(response, "response");

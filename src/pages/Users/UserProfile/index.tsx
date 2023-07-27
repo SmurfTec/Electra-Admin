@@ -15,11 +15,19 @@ import { DeleteOrders } from '../../../store/Slices/OrderSlice'
 import moment from 'moment'
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useFetchUserOrder } from '../../../custom-hooks/useFetchUserOrder'
+import { CustomCalendar } from '../../../atoms'
 type UserInterface={
   username:String,
   email:String,
   phone:String,
   date:String,
+}
+type InitialPageData={
+  rowsPerPage: Number,
+  currentPage: Number,
+  name:String,
+  orderid:Number,
+  date:String | Date | null,
 }
 export const UserProfile = () => {
   const params = useParams();
@@ -36,13 +44,14 @@ export const UserProfile = () => {
     currentPage: 1,
     name:"",
     orderid:0,
+    date:"",
   })
 
   const [activetxt, setactivetxt] = useState('Active')
   const {orderData,orderLoading,stats}=useFetchUserOrder(id,activetxt=="Active"?"":activetxt.toLowerCase(),initialPageData)
   const [search, setSearch] = useState('')
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
-
+  const[SearchDate,setSearchDate]=useState<any>("")
   const[userOrders,setuserOrders]=useState<any>()
 
   const [ButtonList, setButtonList] = useState([
@@ -313,6 +322,7 @@ if(isnum){
   }
 }
 },[search])
+
   return (
     <div className=''>
       
@@ -449,7 +459,8 @@ if(isnum){
           onChange={(e: any) => setSearch(e.target.value)}
           placeholdertxtColor="#656565"
         />
-        <InputTxt
+         <CustomCalendar  img={IMAGES.FilterDate} inputbackground="#F1F1F1" value={initialPageData.date} setDate={(e: any) => setInitialPageData({...initialPageData,date:e.value})} classes='!w-[10.5rem] !h-[72px] !pl-[5px] !pr-[10px]  !rounded-[8px] !bg-[#F1F1F1]' placeholder="Filter Date" MainClasses='!bg-[#F1F1F1] !text-[#656565] !w-[10.5rem] ' />
+        {/* <InputTxt
           placeholder="Filter Date"
           MainClasses={`!bg-[#F1F1F1] !text-[#656565] !w-[10.5rem]`}
           img={IMAGES.FilterDate}
@@ -458,7 +469,7 @@ if(isnum){
 
 
           iconRight={true}
-        />
+        /> */}
       </div>
       {!orderLoading ? 
       <div className='mt-[38px]'>

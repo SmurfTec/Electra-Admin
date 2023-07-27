@@ -4,7 +4,8 @@ interface OrderParams{
     rowsPerPage?: number,
     currentPage?: number,
     name?:string,
-    orderid?:number
+    orderid?:number,
+    date?:any,
 }
 export const useFetchUserOrder = (id:any,active:any,initialPageData:OrderParams) => {
     const [orderData, setOrderData] = useState<any>(null);
