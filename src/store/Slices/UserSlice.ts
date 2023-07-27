@@ -98,6 +98,7 @@ export const getSingleUserOrder = async (
           currentPage ? currentPage : 1
         }`; //?buyer=${id}
       params=orderid>0 ?params+`&id=${orderid}`:params
+      params=name.length>0 ?params+`&title=${name}`:params
   try {
     let response: any = await url.get(`${params}`);
     console.log(response, "response");

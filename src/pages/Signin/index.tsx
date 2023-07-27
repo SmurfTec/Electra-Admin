@@ -3,6 +3,7 @@ import IMAGES from "../../assets/Images";
 import { InputTxt, InputPassword, CustomButton } from "../../atoms";
 import { Link, useNavigate } from "react-router-dom";
 import { EmailVerificationModel, ChangePasswordModel,EmailSendModal } from "../../components";
+import { VerifyUserCode } from "../../store/Slices/UserSlice";
 import { useDispatch } from "react-redux";
 import { Login } from "../../store/Slices/AuthSlice";
 import useCookies from "react-cookie/cjs/useCookies";
@@ -48,11 +49,15 @@ export const Signin = () => {
   };
   useEffect(() => {
     localStorage.removeItem("user");
-  }, []);
+  }, []); 
+  const VerifyCode = async (code: any, txt: any) => {
+    let r = await VerifyUserCode(code)
+    console.log(r,"r")
+  }
   return (
     <div className="min-h-[100vh] w-[100vw] flex flex-col items-center pt-[90px]">
       <EmailSendModal visible={EmailSent} setVisible={setEmailSent}setEmailModel={setEmailModel}/>
-      <EmailVerificationModel visible={EmailModel} setVisible={setEmailModel} />
+      <EmailVerificationModel visible={EmailModel} setVisible={setEmailModel} onClick={(code: any, verify: any) => VerifyCode(code, verify)} />
       <ChangePasswordModel visible={PassModel} setVisible={setPassModel} />
       <div className="w-[116px] h-[116px] rounded-[50%] bg-lightgray flex justify-center align-middle items-center">
         <img src={IMAGES.Hand} alt="hand-img" className="w-[53px] h-[53px]" />

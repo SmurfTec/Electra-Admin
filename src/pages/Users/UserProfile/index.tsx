@@ -301,7 +301,18 @@ export const UserProfile = () => {
     getUserOrder()
     
   },[activetxt])
-
+useEffect(()=>{
+  let isnum = /^\d+$/.test(search);
+if(isnum){
+  setInitialPageData({...initialPageData,orderid:Number(search)})
+}else{
+  if(search.length==0){
+    setInitialPageData({...initialPageData,orderid:0,name:""})
+  }else{
+    setInitialPageData({...initialPageData,orderid:0,name:search})
+  }
+}
+},[search])
   return (
     <div className=''>
       
