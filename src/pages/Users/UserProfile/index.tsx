@@ -15,11 +15,19 @@ import { DeleteOrders } from '../../../store/Slices/OrderSlice'
 import moment from 'moment'
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useFetchUserOrder } from '../../../custom-hooks/useFetchUserOrder'
+import { CustomCalendar } from '../../../atoms'
 type UserInterface={
   username:String,
   email:String,
   phone:String,
   date:String,
+}
+type InitialPageData={
+  rowsPerPage: Number,
+  currentPage: Number,
+  name:String,
+  orderid:Number,
+  date:String | Date | null,
 }
 export const UserProfile = () => {
   const params = useParams();
@@ -36,13 +44,14 @@ export const UserProfile = () => {
     currentPage: 1,
     name:"",
     orderid:0,
+    date:"",
   })
 
   const [activetxt, setactivetxt] = useState('Active')
   const {orderData,orderLoading,stats}=useFetchUserOrder(id,activetxt=="Active"?"":activetxt.toLowerCase(),initialPageData)
   const [search, setSearch] = useState('')
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
-
+  const[SearchDate,setSearchDate]=useState<any>("")
   const[userOrders,setuserOrders]=useState<any>()
 
   const [ButtonList, setButtonList] = useState([
@@ -196,11 +205,15 @@ export const UserProfile = () => {
   const OrderNoTemplate = (option: any) => {
     return <p className="text-[#3C82D6]">{option["id"]}</p>;
   };
+  const HighestOfferTemplate=(option:any)=>{
+    
+    return <p className="text-[#3C82D6]">{option["highestOffer"]>0 && `$${option["highestOffer"]}`}</p>;
+  }
   const [columnData] = useState([
     { field: "id", header: 'ID' },
     { field: "itemname", header: 'Item Name' },
     { field: "askprice", header: 'Ask Price' },
-    { field: "highestOffer", header: 'Highest Offer' },
+    { field: "highestOffer", header: 'Highest Offer',body:HighestOfferTemplate },
     { field: "listedon", header: 'Listed On' },
     { field: "", header: '', body: MenuBodyTemplate }
   ])
@@ -301,6 +314,18 @@ export const UserProfile = () => {
     getUserOrder()
     
   },[activetxt])
+useEffect(()=>{
+  let isnum = /^\d+$/.test(search);
+if(isnum){
+  setInitialPageData({...initialPageData,orderid:Number(search)})
+}else{
+  if(search.length==0){
+    setInitialPageData({...initialPageData,orderid:0,name:""})
+  }else{
+    setInitialPageData({...initialPageData,orderid:0,name:search})
+  }
+}
+},[search])
 
   return (
     <div className=''>
@@ -438,7 +463,8 @@ export const UserProfile = () => {
           onChange={(e: any) => setSearch(e.target.value)}
           placeholdertxtColor="#656565"
         />
-        <InputTxt
+         <CustomCalendar  img={IMAGES.FilterDate} inputbackground="#F1F1F1" value={initialPageData.date} setDate={(e: any) => setInitialPageData({...initialPageData,date:e.value})} classes='!w-[10.5rem] !h-[72px] !pl-[5px] !pr-[10px]  !rounded-[8px] !bg-[#F1F1F1]' placeholder="Filter Date" MainClasses='!bg-[#F1F1F1] !text-[#656565] !w-[10.5rem] ' />
+        {/* <InputTxt
           placeholder="Filter Date"
           MainClasses={`!bg-[#F1F1F1] !text-[#656565] !w-[10.5rem]`}
           img={IMAGES.FilterDate}
@@ -447,7 +473,7 @@ export const UserProfile = () => {
 
 
           iconRight={true}
-        />
+        /> */}
       </div>
       {!orderLoading ? 
       <div className='mt-[38px]'>
