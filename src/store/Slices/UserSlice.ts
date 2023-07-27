@@ -87,9 +87,9 @@ export const getSingleUser = async (id: any) => {
 export const getSingleUserOrder = async (
   id: any,
   status: any,
-  { rowsPerPage = 25, currentPage = 1 }
+  { rowsPerPage = 25, currentPage = 1,orderid=0,name="" }
 ) => {
-  let params =
+  let params:any =
     status.length > 0
       ? `/orders/users/${id}?status=${status}&limit=${
           rowsPerPage ? rowsPerPage : 25
@@ -97,6 +97,7 @@ export const getSingleUserOrder = async (
       : `/orders/users/${id}?limit=${rowsPerPage ? rowsPerPage : 25}&page=${
           currentPage ? currentPage : 1
         }`; //?buyer=${id}
+      params=orderid>0 ?params+`&id=${orderid}`:params
   try {
     let response: any = await url.get(`${params}`);
     console.log(response, "response");
@@ -156,7 +157,7 @@ export const getNotifications = async () => {
 export const forgotPassword = async (email: string) => {
   try {
     let body = { email: email };
-    let response: any = await url.post("/forgot-password", body);
+    let response: any = await url.post("/auth/forgot-password", body);
     return response.data;
   } catch (e: any) {
     throw new Error(e);
