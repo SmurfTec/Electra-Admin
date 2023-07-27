@@ -205,11 +205,15 @@ export const UserProfile = () => {
   const OrderNoTemplate = (option: any) => {
     return <p className="text-[#3C82D6]">{option["id"]}</p>;
   };
+  const HighestOfferTemplate=(option:any)=>{
+    
+    return <p className="text-[#3C82D6]">{option["highestOffer"]>0 && `$${option["highestOffer"]}`}</p>;
+  }
   const [columnData] = useState([
     { field: "id", header: 'ID' },
     { field: "itemname", header: 'Item Name' },
     { field: "askprice", header: 'Ask Price' },
-    { field: "highestOffer", header: 'Highest Offer' },
+    { field: "highestOffer", header: 'Highest Offer',body:HighestOfferTemplate },
     { field: "listedon", header: 'Listed On' },
     { field: "", header: '', body: MenuBodyTemplate }
   ])
