@@ -18,8 +18,8 @@ export const ChangePasswordModel2 = ({
   const [err,setErr]=useState("")
   const ChangeUserPassword=async()=>{
     let body={
-      "currentPassword" :currentPass,
-      "newPassword" :newPass
+      "password" :currentPass,
+      "confirmPassword" :newPass
     }
     console.log(Code,"CODE")
     
