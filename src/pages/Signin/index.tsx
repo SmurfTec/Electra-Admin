@@ -53,6 +53,7 @@ export const Signin = () => {
         
       }
        else if(loginCall?.payload?.user){
+        localStorage.setItem("Route", "/Dashboard");
       localStorage.setItem("user", JSON.stringify(loginCall?.payload.user));
         navigate("/Dashboard");
       }

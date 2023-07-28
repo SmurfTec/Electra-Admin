@@ -28,7 +28,7 @@ export const createRole = async (body: RoleBody) => {
 };
 export const deleteRole = async (name: string) => {
   try {
-    let response: any = await url.delete(`/authorization/role/${name}`);
+    let response: any = await url.delete(`/authorization/roles/${name}`);
     return response.data;
   } catch (e) {
     return e;
