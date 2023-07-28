@@ -1,6 +1,6 @@
 import {useState,useEffect}from "react"
 
-import { getBrands } from "../store/Slices/BrandSlice";
+import { getAllBrands } from "../store/Slices/BrandSlice";
 interface BrandParams{
     rowsPerPage?: number,
     currentPage?: number,
@@ -13,7 +13,7 @@ export const useFetchBrands = (params:BrandParams) => {
       const fetchData = async () => {
         try {
             setBrandLoading(true)
-          const response = await getBrands(params);
+          const response = await getAllBrands(params);
           console.log(response)
         if(response.brands){
             setBrandData(response.brands);
