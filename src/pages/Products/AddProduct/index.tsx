@@ -359,12 +359,12 @@ export const AddProduct = () => {
             setManual={setManual}
             txt={"Fetch from Database"}
           />
-          <FetchButton
+          {/* <FetchButton
             manual={enterManual}
             value={"manual"}
             setManual={setManual}
             txt={"Enter Manually"}
-          />
+          /> */}
         </div>
         <CustomButton
           txt={"Search Item"}
