@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import IMAGES from "../../assets/Images";
 import { InputTxt, InputPassword, CustomButton } from "../../atoms";
 import { Link, useNavigate } from "react-router-dom";
-import { EmailVerificationModel, ChangePasswordModel,EmailSendModal } from "../../components";
+import { EmailVerificationModel, ChangePasswordModel2,EmailSendModal } from "../../components";
 import { VerifyUserCode } from "../../store/Slices/UserSlice";
 import { useDispatch } from "react-redux";
 import { Login } from "../../store/Slices/AuthSlice";
@@ -21,6 +21,7 @@ export const Signin = () => {
   const [PasswordErr, setPasswordErr] = useState(false);
   const [EmailModel, setEmailModel] = useState(false);
   const [PassModel, setPassModel] = useState(false);
+  const[Code,setCode]=useState("")
 
   const navigate = useNavigate();
   const Login1 =async (event: any) => {
@@ -36,13 +37,23 @@ export const Signin = () => {
       if (Password.length == 0) {
         setPasswordErr(true);
       }
-    } else {
+    } 
+   
+    else {
 
       const loginCall = await dispatch(Login(data) as any);
      
-      localStorage.setItem("user", JSON.stringify(loginCall.payload.user));
-      console.log(loginCall.payload)
-      if(loginCall.payload.user){
+    
+       if(loginCall.payload?.response?.data?.status===401){
+        console.log("HEREE")
+       
+          setEmailErr(true);
+        
+          setPasswordErr(true);
+        
+      }
+       else if(loginCall?.payload?.user){
+      localStorage.setItem("user", JSON.stringify(loginCall?.payload.user));
         navigate("/Dashboard");
       }
     }
@@ -57,8 +68,8 @@ export const Signin = () => {
   return (
     <div className="min-h-[100vh] w-[100vw] flex flex-col items-center pt-[90px]">
       <EmailSendModal visible={EmailSent} setVisible={setEmailSent}setEmailModel={setEmailModel}/>
-      <EmailVerificationModel visible={EmailModel} setVisible={setEmailModel} onClick={(code: any, verify: any) => VerifyCode(code, verify)} />
-      <ChangePasswordModel visible={PassModel} setVisible={setPassModel} />
+      <EmailVerificationModel Code={Code}setCode={setCode} visible={EmailModel} setVisible={setEmailModel} setVisible2={setPassModel} />
+      <ChangePasswordModel2 Code={Code} visible={PassModel} setVisible={setPassModel} />
       <div className="w-[116px] h-[116px] rounded-[50%] bg-lightgray flex justify-center align-middle items-center">
         <img src={IMAGES.Hand} alt="hand-img" className="w-[53px] h-[53px]" />
       </div>
@@ -77,7 +88,7 @@ export const Signin = () => {
         value={Email}
         onChange={(e: any) => setEmail(e.target.value)}
       />
-      {EmailErr && (
+      {/* {EmailErr && (
         <div className="flex flex-col justify-start  w-full max-w-[390px] mt-[10px]">
           <div className="flex gap-2 justify-start text-left items-center">
             <div className="w-[15px] h-[15px] text-white bg-red rounded-[50%] flex justify-center items-center text-[10px]">
@@ -98,7 +109,7 @@ export const Signin = () => {
             to reset it.
           </p>
         </div>
-      )}
+      )} */}
       <InputPassword
         placeholder="Enter Password"
         MainClasses="mt-[15px]"
@@ -128,14 +139,14 @@ export const Signin = () => {
           </p>
         </div>
       )}
-      <div className="flex justify-end text-right  mt-[10px] w-[400px]">
+  {!PasswordErr || EmailErr &&   <div className="flex justify-end text-right  mt-[10px] w-[400px]">
         <p 
               onClick={() => setEmailSent(true)}
         
         className=" cursor-pointer text-[14px] text-right font-[500] text-midgray">
           Forgot Password?
         </p>
-      </div>
+      </div>}
       <CustomButton txt="Login" classes="mt-[41px]" onClick={Login1} />
 
       <div className="flex mt-[10px] items-center gap-5 text-gray">

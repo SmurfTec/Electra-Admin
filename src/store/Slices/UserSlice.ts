@@ -60,6 +60,14 @@ export const ChangePassword = async (body: any) => {
     return e;
   }
 };
+export const ResetPassword = async (body: any,code:any) => {
+  try {
+    let response = await url.patch(`/auth/reset-password/${code}`, body);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+};
 export const GetUserAsks = async (userId: any) => {
   try {
     let response = await url.get(`/asks/?user=${userId}`);

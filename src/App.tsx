@@ -50,7 +50,7 @@ import { token } from "./store/Slices/AuthSlice";
 function App() {
   const [show, setShow] = useState(false);
   const location = useLocation();
-  const user = JSON.parse(localStorage.getItem("user") as string);
+  const user =localStorage?.getItem("user") 
   useEffect(() => {
     if (!user || location.pathname === "/") {
       setShow(false);
