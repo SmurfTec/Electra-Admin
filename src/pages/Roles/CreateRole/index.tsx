@@ -102,6 +102,9 @@ export const Createrole = () => {
       </div>
       <div className="flex  mt-2 gap-4">
         <CustomButton
+               onClick={() => {
+                navigate("/Searchrole");
+              }}
           txt={"Cancel"}
           classes={
             "!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]"

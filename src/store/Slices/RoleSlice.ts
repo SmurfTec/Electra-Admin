@@ -26,6 +26,14 @@ export const createRole = async (body: RoleBody) => {
     return e;
   }
 };
+export const deleteRole = async (name: string) => {
+  try {
+    let response: any = await url.delete(`/authorization/roles/${name}`);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+};
 export const editRole = async (body: RoleBody,name?:string,) => {
   try {
     let response: any = await url.patch(`/authorization/role-permissions/${name}`, body);
@@ -53,6 +61,7 @@ export const getRolesByName = async (name?: String) => {
     return e;
   }
 };
+
 
 // Get admin role
 export const getUserByID = async (id?: String) => {

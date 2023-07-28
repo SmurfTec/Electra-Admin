@@ -10,4 +10,5 @@
  export * from "./ReceiptModal"
  export * from "./ShippingModal"
  export * from "./EmailSendModal"
+ export * from "./ConfirmationModel2"
  export * from "./ChangePasswordModel2"

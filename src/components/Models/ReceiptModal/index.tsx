@@ -48,11 +48,10 @@ console.log(item)
       rounded={`0px`}
     >
       {/* ref={Receiptref} */}
-      <div ref={Receiptref}   className='receipt px-8'    style={{height:"890px !important",overflow: "hidden"}}>
+      <div ref={Receiptref}   className='receipt px-8'    style={{height:"auto",overflow: "hidden"}}>
 
       <div  className="flex items-center  justify-between  py-5 border-b border-custom overflow-hidden">
         <p className="ali">Receipt For Order</p>
-
         <i
           className="pi pi-times absolute right-4 top-6 cursor-pointer"
           onClick={() => setVisible(false)}
