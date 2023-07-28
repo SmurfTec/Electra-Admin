@@ -33,7 +33,7 @@ export const CreateCouponModel = ({ visible, setVisible, classes, setadded,heade
     
     useEffect(() => {
         //&&(values.UsageLimit.length>0)
-        if ((values.Title.length > 0) && (values.Title.length > 0) && (values.couponCode.length > 0) && (values.percentage.length > 0) &&(values.UsageLimit>-1)) {
+        if ((values.Title.length > 0) && (values.date) && (values.couponCode.length > 0) && (values.percentage.length > 0) &&(values.UsageLimit>-1)) {
             setbuttonDisable(false)
             
         } else {
