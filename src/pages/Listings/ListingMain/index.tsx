@@ -237,7 +237,7 @@ export const Listings = () => {
         </div>
 
       </div>
-      <div>
+      {/* <div>
         <CustomButton
           onClick={() => {
             navigate("/ListingsDetail");
@@ -246,7 +246,7 @@ export const Listings = () => {
           classes="!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]"
           txt="Mark for review"
         />
-      </div>
+      </div> */}
       <Paginatior
         totalRecords={Number(totalList)}
         initialPageData={initialPageData}

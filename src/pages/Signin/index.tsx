@@ -53,6 +53,7 @@ export const Signin = () => {
         
       }
        else if(loginCall?.payload?.user){
+        localStorage.setItem("Route", "/Dashboard");
       localStorage.setItem("user", JSON.stringify(loginCall?.payload.user));
         navigate("/Dashboard");
       }
@@ -148,12 +149,12 @@ export const Signin = () => {
         </p>
       </div>}
       <CustomButton txt="Login" classes="mt-[41px]" onClick={Login1} />
-
+{/* 
       <div className="flex mt-[10px] items-center gap-5 text-gray">
         <hr className="w-[159px] border-[#A4A4A4]" /> or{" "}
         <hr className="w-[159px] border-[#A4A4A4]" />
-      </div>
-      <div className="flex gap-6 mt-[35px]">
+      </div> */}
+      {/* <div className="flex gap-6 mt-[35px]">
         <div className="w-[81px] h-[81px] rounded-[10px] bg-lightgray flex justify-center items-center">
           <img src={IMAGES.Google} />
         </div>
@@ -166,7 +167,7 @@ export const Signin = () => {
         <div className="w-[81px] h-[81px] rounded-[10px] bg-lightgray flex justify-center items-center">
           <img src={IMAGES.Apple} />
         </div>
-      </div>
+      </div> */}
       {/* <p className="text-[22px] mt-[150px] text-center font-[500] text-midgray">
         Dont have an account?{" "}
         <Link className="text-blue font-[700]" to="/">

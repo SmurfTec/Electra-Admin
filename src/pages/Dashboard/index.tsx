@@ -221,7 +221,7 @@ export const Dashboard = () => {
                       : IMAGES.uparrow
                   }
                   percentageTxt={`$ ${dashStats?.listingStats?.total_listings_percentage?.toFixed(
-                    2
+                    1
                   )??"-"}`}
                 />
               </>
