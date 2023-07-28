@@ -1,8 +1,8 @@
 import url from "../../config/index"
-export const getAllVariants= async ()=>{
+export const getAllVariants= async ({rowsPerPage=25,currentPage=1})=>{
     try {
-        let response: any = await url.get("/variants");
-        console.log(response.data,"RESPONSEE")
+        let response: any = await url.get(`/variants/?limit=${rowsPerPage ? rowsPerPage : 25}&page=${currentPage ? currentPage : 1}`);
+        
         
         return response.data;
       } catch (e) {
