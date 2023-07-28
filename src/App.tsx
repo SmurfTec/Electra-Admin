@@ -39,7 +39,9 @@ import {
   SecurityQuestion,
   Editrole,
   EditProduct,
-  Editnewbanner
+  Editnewbanner,
+  Brands,
+  CreateBrand
 } from "./pages/index";
 import { SideBar } from "./components";
 import PrivateRoute from "./routes/Privateroute";
@@ -87,6 +89,8 @@ function App() {
             <Route path="/Wallet" element={<Wallet />} />
             <Route path="/Coupon" element={<Coupon />} />
             <Route path="/CreateCoupon" element={<CreateCoupon />} />
+            <Route path="/CreateBrand" element={<CreateBrand />} />
+            <Route path="/Brand" element={<Brands />} />
             <Route path="/Category" element={<Category />} />
             <Route path="/CreateCategory" element={<CreateCategory />} />
             <Route path="/AddNewVariant" element={<AddNewVariant />} />
