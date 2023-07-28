@@ -34,6 +34,7 @@ export const CreateCategory = () => {
       setSelectedVariant(selectedVariant)
     }
    },[active])
+   
     return(
       <CustomButton onClick={(value:any)=>setActive(!active)} txt={item.title} classes={`!w-auto !px-[30px] !py-[12px] !inline-block !h-auto !rounded-[7px] ${active==false?'!bg-custome-button-grey !text-black':'' } `}  />
     )
@@ -42,24 +43,21 @@ export const CreateCategory = () => {
     
     try{
       console.log(selectedVariant)
-      console.log(image)
+      
       const newBody =new FormData()
       newBody.append("name", Name);
       newBody.append("fees", String(fee));
       newBody.append("image",image );
+      console.log(selectedVariant)
       selectedVariant.length > 0 &&
       selectedVariant.map((item:any, index:any) => {
         newBody.append(`variants[${index}]`, item);
       });
       
 
-      // let body={
-      //   "name":Name,
-      //   "fees":String(fee),
-      //   "variants":selectedVariant
-      // }
+      
       let response=await CreateCategories(newBody)
-      if(response){
+      if(response?.category){
         setsuccessVisible(true)
         setName("")
         setfee('')
