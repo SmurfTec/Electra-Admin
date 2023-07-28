@@ -12,7 +12,7 @@ import { useVariantDetail } from "../../../custom-hooks";
 import url from "../../../config/index";
 import { CreateProduct } from "../../../store/Slices/ProductSlice";
 import { getBrands } from "../../../store/Slices/BrandSlice";
-import { getAllCategories } from "../../../store/Slices/Categories";
+import { getCategories } from "../../../store/Slices/Categories";
 import { Techspec } from "../../../components";
 export const AddProduct = () => {
   type techSpec = {
@@ -57,7 +57,7 @@ export const AddProduct = () => {
   const VariantsData = useVariantDetail(fetchVariants);
   const getAllBrands = async () => {
     let data = await getBrands();
-    let dataCat = await getAllCategories();
+    let dataCat = await getCategories();
     data = data.brands.map((item: any, index: any) => {
       let newObj = {
         value: item.id,

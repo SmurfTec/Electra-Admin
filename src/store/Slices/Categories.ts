@@ -1,14 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 import url from "../../config/index";
 
-export const getAllCategories=async({rowsPerPage=25,currentPage=1}:any)=>{
+export const getCategories=async()=>{
     try{
-      let response:any=await url.get(`/genericcategories/?limit=${rowsPerPage ? rowsPerPage : 25}&page=${currentPage ? currentPage : 1}`)
+      let response:any=await url.get(`/genericcategories`)
       return response.data;
     }catch(e){
       return e;
     } 
     }
+    export const getAllCategories=async({rowsPerPage=25,currentPage=1}:any)=>{
+      try{
+        let response:any=await url.get(`/genericcategories/?limit=${rowsPerPage ? rowsPerPage : 25}&page=${currentPage ? currentPage : 1}`)
+        return response.data;
+      }catch(e){
+        return e;
+      } 
+      }
     export const CreateCategories=async(body:any)=>{
       try{
         let response:any=await url.post('/genericcategories',body)
