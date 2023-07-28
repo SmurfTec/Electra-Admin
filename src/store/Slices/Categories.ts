@@ -22,7 +22,7 @@ export const getAllCategories=async()=>{
           let response: any = await url.delete(`/genericcategories/${id}`);
           return response.data;
         } catch (e) {
-          return e;
+         
         }
     }
 

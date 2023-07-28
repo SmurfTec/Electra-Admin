@@ -28,8 +28,12 @@ export const Category = () => {
         event.stopPropagation();
         try {
             let r = await DeleteSingleCategory(id)
-            setCategoryvisible(true)
-            GetCategories()
+           
+            if(r){
+                setCategoryvisible(true)
+                GetCategories()
+            }
+          
         } catch (err) {
 
         }
@@ -39,8 +43,11 @@ export const Category = () => {
         event.stopPropagation();
         try {
             let r = await DeleteSingleVariant(id);
-            setVariantvisible(true)
-            GetVariants();
+            if(r){
+                setVariantvisible(true)
+                GetVariants();
+            }
+            
         } catch (err) {
 
         }
