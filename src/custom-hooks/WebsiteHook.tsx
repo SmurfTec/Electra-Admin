@@ -22,7 +22,7 @@ export const useGetWebsite = (body:any) => {
   }, [body]);
   return {getWebsitedata,loading};
 };
-export const useGetWebsiteId = (id: any) => {
+export const useGetWebsiteId = (id: any,load?:any) => {
   const [data, setData] = useState<any>(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +35,7 @@ export const useGetWebsiteId = (id: any) => {
       }
     };
     fetchData();
-  }, []);
+  }, [load]);
   return data;
 };
 

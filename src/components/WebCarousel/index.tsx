@@ -55,36 +55,50 @@ export const Webcarousel = (props: any) => {
     );
   }, [props.images]);
 
-
   // // Function to handle the file upload
   const handleFileUpload = async (event: any) => {
+    props.setLoading(true);
+
     const file = event.target.files[0];
     let sendingData = new FormData();
     sendingData.append("images", file);
 
     props.images &&
       props.images.forEach((item: any) => {
-        sendingData.append("attachments", item.id);
+        sendingData.append("attachments[]", item.id);
       });
-    const Adding = await updateSeciton(props.webId,props.sectionId, sendingData);
+    const Adding = await updateSeciton(
+      props.webId,
+      props.sectionId,
+      sendingData
+    );
     props.setWebsiteData(Adding);
-    console.log("bsdk")
+    props.setLoading(false);
+    console.log("bsdk");
   };
 
   // function to delete a photo
   const deletePicture = async () => {
     try {
-      const attachments =props.images
-      .filter((item: any) => item.id !== selectedId)
-      .map((item: any) => item.id);
+    props.setLoading(true);
+
+      const attachments = props.images
+        .filter((item: any) => item.id !== selectedId)
+        .map((item: any) => item.id);
       if (attachments.length === 0) {
         attachments.push(""); // Push an empty string to create an empty attachment array
       }
       let sendingData = new FormData();
-      attachments.forEach((attachment:any) => {
+      attachments.forEach((attachment: any) => {
         sendingData.append("attachments[]", attachment);
       });
-      const Adding = await updateSeciton(props.webId,props.sectionId, sendingData);
+      const Adding = await updateSeciton(
+        props.webId,
+        props.sectionId,
+        sendingData
+      );
+    props.setLoading(false);
+
       props.setWebsiteData(Adding);
     } catch (e) {}
   };
@@ -123,7 +137,7 @@ export const Webcarousel = (props: any) => {
         ></img>
         <div className=" absolute top-[40%] left-[40%]">
           <Threebuttons
-          class={"Carousell"}
+            class={"Carousell"}
             handleFileUpload={handleFileUpload}
             deletePicture={deletePicture}
           />
