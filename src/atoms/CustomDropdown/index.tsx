@@ -1,5 +1,5 @@
 import { Dropdown } from "primereact/dropdown";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import styled from "styled-components";
 interface DropsProps {
   placeholdercolor: string;
@@ -35,8 +35,9 @@ font-size: 16px;
   }
 `;
 export const CustomDropdown = (props: any) => {
-  const [selectedItem, setSelectedItem] = useState([props.value]);
+  const [selectedItem, setSelectedItem] = useState(props.value);
   let Values = props.options
+ 
   return (
     <Drops
       placeholdercolor={props.placeholderColor}

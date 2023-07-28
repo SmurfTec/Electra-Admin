@@ -19,10 +19,14 @@ justify-content: flex-end !important;
   }
 }
 `
-export const CustomInputCalendar=styled(Calendar)`
+export const CustomInputCalendar=styled(Calendar)<any>`
 overflow: hidden !important;
 .p-inputtext{
   border: black !important;
+  background: ${({inputbackground}:any)=>inputbackground &&  inputbackground};
+  outline: none !important;
+  box-shadow: none !important;
+  /* background: orange !important; */
 }
 .p-button{
   background-color: transparent !important;

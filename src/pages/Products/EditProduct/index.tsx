@@ -30,7 +30,7 @@ export const EditProduct = () => {
   };
   const params = useParams();
   let { id } = params;
-  const ProductData2 = useProductDetail(id);
+  const ProductData2:any = useProductDetail(id);
   const [visible, setVisible] = useState(false);
   const [fetchVariants, setFetchVariants] = useState(false);
   const [VariantsArray, setVariantArray] = useState<

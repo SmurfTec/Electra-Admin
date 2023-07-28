@@ -1,39 +1,41 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Header, DashCard, CreateCouponModel,SuccessModel,Confirmationmodal } from "../../../components";
+
 import { CustomTableComponent } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import { MenuItem } from "primereact/menuitem";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu } from "../../../atoms/global.style";
-import { DeleteCoupons } from "../../../store/Slices/Coupons";
+import { DeleteBrand } from "../../../store/Slices/BrandSlice";
 import moment from "moment";
 import { Paginatior } from "../../../components";
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { useFetchCoupon } from "../../../custom-hooks/useFetchCoupons";
-export const Coupon = () => {
+import { useFetchBrands } from "../../../custom-hooks/useFetchBrands";
+import { BaseURL } from "../../../config";
+import { useNavigate } from "react-router-dom";
+export const Brands = () => {
   const [filterData,setfilterData] = useState([]);
+  const navigate=useNavigate()
   const[added,setadded]=useState(false)
-  const[Title,setTitle]=useState("Create Coupon")
+  
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 25,
     currentPage: 1,
    
   })
   const [visible,setvisible]=useState(false)
-  const {couponData,couponLoading,stats}=useFetchCoupon(initialPageData)
-  const[currentItem,setcurrentItem]=useState()
-  const[currentId,setcurrentId]=useState()
+  const {BrandData,BrandLoading,stats}=useFetchBrands(initialPageData)
+
+  const[currentId,setcurrentId]=useState() 
   useEffect(()=>{
     
-    if(couponData){
-      let latestArr=couponData.map((item:any)=>{
+    if(BrandData){
+      let latestArr=BrandData.map((item:any)=>{
         let newObj={
           ...item,
-          CouponCode:item.code,
-          OffPercentage:item.discount,
+          brandimage:BaseURL+item?.image.filename,
           CreatedOn:moment(item.created_on).format("DD,MMM,YYYY"),
-          Expiry:moment(item.expiry).format("DD,MMM,YYYY"),
-          UsedTime:item.maxUse
+          
         }
         return newObj
       })
@@ -41,8 +43,8 @@ export const Coupon = () => {
       latestArr.sort((a:any, b:any) => a.id - b.id);
       setfilterData(latestArr)
     }
-  },[couponData])
-  const [modalVisible, setmodalVisible] = useState(false);
+  },[BrandData])
+
   const[successVisible,setsuccessVisible]=useState(false)
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
 
@@ -56,7 +58,7 @@ export const Coupon = () => {
   };
   const setOkButton=async()=>{
     try{
-      let response=await DeleteCoupons(currentId)
+      let response=await DeleteBrand(currentId)
  
     
     setsuccessVisible(true)
@@ -69,9 +71,7 @@ export const Coupon = () => {
   const EditItem=(event:React.MouseEvent,item:any)=>{
     event.stopPropagation();
    
-    setcurrentItem(item)
-    setTitle("Edit Coupon")
-    setmodalVisible(true)
+  
   }
   const MenuBodyTemplate = (rowData: any) => {
     const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
@@ -128,24 +128,21 @@ export const Coupon = () => {
       </>
     );
   };
-  const PercentageTxtTemplate = (options: any) => {
-    return <p className="text-blue">{options.OffPercentage}</p>;
-  };
-  const CouponCodeTxtTemplate = (options: any) => {
-    return <p className="text-blue">{options.CouponCode}</p>;
-  };
+ 
+  const TitleBody=(option: any)=>{
+   
+    return <p className="flex gap-2 justify-start items-center">
+        <img className="w-[28px] h-[28px] rounded-[6px]" src={option["brandimage"]}/>
+        <span className="">{option["title"]}</span>
+        </p>;
+  }
   const [columnData] = useState([
     { field: "id", header: "ID" },
-    { field: "title", header: "Title" },
-    { field: "CouponCode", header: "Coupon Code", body: CouponCodeTxtTemplate },
-    {
-      field: "OffPercentage",
-      header: "Off Percentage",
-      body: PercentageTxtTemplate,
-    },
+    { field: "title", header: "Title",body:TitleBody,className:"!w-[8rem]"},
+    { field: "products_count", header: "Products" },
+   
     { field: "CreatedOn", header: "Created On" },
-    { field: "Expiry", header: "Expiry" },
-    { field: "UsedTime", header: "Used (times)" },
+  
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
   
@@ -159,15 +156,7 @@ export const Coupon = () => {
  },[added])
   return (
     <div>
-      <CreateCouponModel
-        classes={"!w-[496px] !h-[502px]"}
-        visible={modalVisible}
-        setVisible={setmodalVisible}
-        added={added}
-        setadded={setadded}
-        headerTitle={Title}
-        currentItem={currentItem}
-      />
+      
       <Confirmationmodal
         PopupHeader={"Confirmation"}
         visible={visible}
@@ -176,35 +165,37 @@ export const Coupon = () => {
         cnfrmbtnStyle={'bg-red'}
         cnclebtnText={"Cancel"}
         text={
-          "Are you sure you want to Delete this user"
+          "Are you sure you want to Delete this brand"
         }
         setOkButton={setOkButton}
         setCancelButton={()=>{setvisible(true)}}
       />
-       <SuccessModel visible={successVisible} setVisible={setsuccessVisible} txt={"Coupon deleted Successfully"}/>
+       <SuccessModel visible={successVisible} setVisible={setsuccessVisible} txt={"Brand deleted Successfully"}/>
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
-      {!couponLoading ?
+      {!BrandLoading ?
     <>
     <div className="mt-[35px]">
         <div className="flex flex-wrap gap-6 mt-[28px]">
           <DashCard
-            title={"Total Coupons"}
+            title={"Total Brands"}
             titleStyle={`!text-[13px]`}
-            totalNumber={String(stats.all_coupons)}
+            totalNumber={String(stats)}
             showDefaultNumber={false}
             Numberstyle={`!text-[28px]`}
           />
           <DashCard
             Add={true}
-            txt="Add New Coupon"
+            txt="Add New Brand"
             outerclasses="w-[284px] h-[140px]"
             Addimg={IMAGES.AddItem}
-            onClick={() => {setTitle("Create Coupon");setmodalVisible(true)}}
-          />
+            onClick={() => {navigate('/CreateBrand')}}
+          /> 
         </div>
       </div>
-      <div className="mt-[20px]">
+      <div className="mt-[20px] w-[98%]">
         <CustomTableComponent
+         theadStyles={{ background: '#FCFCFC' }}
+        width="98%"
           showWrapper={false}
           filterData={filterData}
           selectedProducts={selectedProducts}
@@ -213,7 +204,7 @@ export const Coupon = () => {
           MultipleSelect={true}
          
         />
-      <Paginatior totalRecords={Number(stats.all_coupons)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+      <Paginatior totalRecords={Number(stats)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
       </div>
     </>  
     :
