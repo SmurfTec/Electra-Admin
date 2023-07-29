@@ -1,7 +1,7 @@
 import {useState,useEffect}from "react"
 
 
-import { getAllVariants } from "../store/Slices/VariantSlice";
+import { getVariants } from "../store/Slices/VariantSlice";
 interface VariantParams{
     rowsPerPage?: number,
     currentPage?: number,
@@ -14,7 +14,7 @@ export const useFetchVariants = (params:VariantParams) => {
       const fetchData = async () => {
         try {
             setVariantLoading(true)
-          const response = await getAllVariants(params);
+          const response = await getVariants(params);
         if(response?.variants){
             setVariantData(response.variants);
             setVariantLoading(false)
