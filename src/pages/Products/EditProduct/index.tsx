@@ -17,6 +17,7 @@ import { EditProductAPI } from "../../../store/Slices/ProductSlice";
 import { getBrands } from "../../../store/Slices/BrandSlice";
 import { getCategories } from "../../../store/Slices/Categories";
 import { Techspec } from "../../../components";
+import { CustomCalendar } from "../../../atoms";
 
 export const EditProduct = () => {
   type techSpec = {
@@ -32,7 +33,7 @@ export const EditProduct = () => {
   };
   const params = useParams();
   let { id } = params;
-  const {ProductData}:any= useProductDetail(id);
+  const { ProductData }: any = useProductDetail(id);
   const [visible, setVisible] = useState(false);
   const [fetchVariants, setFetchVariants] = useState(false);
   const [VariantsArray, setVariantArray] = useState<
@@ -74,6 +75,7 @@ export const EditProduct = () => {
       return newObj;
     });
     setBrands(data);
+    console.log(data,"BRANDSS")
     dataCat = dataCat.categories.map((item: any, index: any) => {
       let newObj = {
         value: item.id,
@@ -86,11 +88,9 @@ export const EditProduct = () => {
   useEffect(() => {
     if (ProductData) {
       console.log(ProductData, "PRoduct");
-      let newarr = ProductData.product?.images?.map(
-        (item: any, index: any) => {
-          return item.id;
-        }
-      );
+      let newarr = ProductData.product?.images?.map((item: any, index: any) => {
+        return item.id;
+      });
       console.log(newarr);
       if (newarr) {
         setImage(newarr);
@@ -191,6 +191,7 @@ export const EditProduct = () => {
     });
   };
   const updateTechnicalSpecificationModel = (name: any, value: any) => {
+    console.log(value,"VALUUEE")
     setProductData((prevData) => {
       const updatedModel = prevData.technicalSpecificationModel?.map((item) => {
         if (item.title === name) {
@@ -304,8 +305,11 @@ export const EditProduct = () => {
     }
     const add = await EditProductAPI(data, id);
     console.log(add, "DATA Updated");
-    if (add) {
+    if (add?.response?.status===404) {
+      console.log("ISSUE")
+    }else{
       navigate("/Products");
+
     }
   };
   const getTechnicalSpecificationValue = (name: string) => {
@@ -335,7 +339,7 @@ export const EditProduct = () => {
           setValue={(value: any) => {
             setProductData({
               ...productData,
-              brand: value,
+              category: value,
             });
           }}
           placeholder="Category"
@@ -347,7 +351,7 @@ export const EditProduct = () => {
           setValue={(value: any) => {
             setProductData({
               ...productData,
-              category: value,
+              brand: value,
             });
           }}
           placeholder="Brands"
@@ -431,7 +435,7 @@ export const EditProduct = () => {
           }
         />
         <div className="flex gap-3 mt-5">
-         <FetchButton
+          <FetchButton
             manual={enterManual}
             value={"Database"}
             setManual={setManual}
@@ -465,117 +469,52 @@ export const EditProduct = () => {
               </p>
 
               <div className="border border-custom  w-[60%] pb-4">
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">
-                    RELEASE DATE
-                  </p>
-                  <InputTxt
-                    name="Release Date"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value
-                      )
-                    }
-                    placeholder={"eg: 20 aug 2022"}
-                    MainClasses={"!h-[28px] !bg-white"}
-                  />
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">BLUETOOTH</p>
-                  <InputTxt
-                    name="Bluetooth"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value
-                      )
-                    }
-                    placeholder={"5.0"}
-                    MainClasses={"!h-[28px] !bg-white"}
-                  />
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">BATTERY</p>
-                  <InputTxt
-                    name="Battery"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value
-                      )
-                    }
-                    placeholder={"eg: Battery info"}
-                    MainClasses={"!h-[28px] !bg-white"}
-                  />
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">STORAGE</p>
-                  <InputTxt
-                    name="Storage"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value
-                      )
-                    }
-                    placeholder={"eg: 512 GB"}
-                    MainClasses={"!h-[28px] !bg-white"}
-                  />
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">CAMERA</p>
-                  <InputTxt
-                    name="Camera"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value
-                      )
-                    }
-                    placeholder={"eg: Camera Specs"}
-                    MainClasses={"!h-[28px] !bg-white"}
-                  />
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">
-                    CONNECTIVITY
-                  </p>
-                  <InputTxt
-                    name="Connectivity"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value
-                      )
-                    }
-                    placeholder={"eg: bluetooth, wifi"}
-                    MainClasses={"!h-[28px] !bg-white"}
-                  />
-                  {/* <li className="font-medium"> Wi-Fi 6 (802.11ax) with MIMO</li>
-              <li className="font-medium"> Bluetooth 5.0 </li> */}
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4"> SCREEN </p>
-                  <InputTxt
-                    name="Screen"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value
-                      )
-                    }
-                    placeholder={"eg: 1080px"}
-                    MainClasses={"!h-[28px] !bg-white"}
-                  />
-                </div>
+                {productData&&productData.technicalSpecificationModel?.map(
+                  (item: any, index: any) => {
+                    return (
+                      <div key={index} className="ml-5">
+                        <p className="text-[#656565] text-[12px] mt-4">
+                          {item.title}
+                        </p>
+                        {item.title !== "Release Date" ? (
+                          <InputTxt
+                            name={item.title}
+                            onChange={(e: any) =>
+                              updateTechnicalSpecificationModel(
+                                e.target.name,
+                                e.target.value
+                              )
+                            }
+                            value={item.value
+                            }
+                            placeholder={"eg: 20 aug 2022"}
+                            MainClasses={"!h-[28px] !bg-white"}
+                          />
+                        ) : (
+                          <CustomCalendar
+                            date={new Date(item?.value)}
+                            setDate={(e: any) =>
+                          {    console.log(e,"EVENT")
+                              updateTechnicalSpecificationModel(
+                                e.target.name,
+                                e.target.value
+                              )}
+                            }
+                          />
+                        )}
+                      </div>
+                    );
+                  }
+                )}
               </div>
             </div>
           </>
         )}
-{enterManual === "manual" && <div>
-          <Techspec />
-          </div>}
+        {enterManual === "manual" && (
+          <div>
+            <Techspec />
+          </div>
+        )}
         <div className="flex gap-3 mb-3">
           <CustomButton
             txt={"Cancel"}
