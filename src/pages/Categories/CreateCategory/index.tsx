@@ -7,6 +7,15 @@ import { CreateCategories } from '../../../store/Slices/Categories'
 import { useNavigate } from 'react-router-dom'
 import { SuccessModel } from '../../../components'
 import { UploadPicture } from '../../../atoms'
+
+const CustomVariatBox=({item,selectedVariant,setSelectedVariant,onClick}:any)=>{
+   
+  
+  
+   return(
+     <CustomButton onClick={onClick} txt={item.title} classes={`!w-auto !px-[30px] !py-[12px] !inline-block !h-auto !rounded-[7px] ${(!selectedVariant.includes(item.id))?'!bg-custome-button-grey !text-black':'' } `}  />
+   )
+ }
 export const CreateCategory = () => {
   const[successVisible,setsuccessVisible]=useState(false)
   const[Name,setName]=useState('')
@@ -18,27 +27,21 @@ export const CreateCategory = () => {
   const getVariant=async()=>{
     let response=await getAllVariants()
     setVariants(response.variants)
+    
+    let newArr=response?.variants?.map((item:any)=>{
+      let newObj={
+        ...item,
+        active:false
+      }
+      return newObj
+    })
+    setVariants(newArr)
+    console.log(newArr)
   }
   useEffect(()=>{
     getVariant()
   },[])
-  const CustomVariatBox=({item}:any)=>{
-    const[active,setActive]=useState(false)
-   useEffect(()=>{
-    if(active){
-      selectedVariant.push(item.id)
-        setSelectedVariant(selectedVariant)
-     
-    }else{
-      selectedVariant.pop(item.id)
-      setSelectedVariant(selectedVariant)
-    }
-   },[active])
-   
-    return(
-      <CustomButton onClick={(value:any)=>setActive(!active)} txt={item.title} classes={`!w-auto !px-[30px] !py-[12px] !inline-block !h-auto !rounded-[7px] ${active==false?'!bg-custome-button-grey !text-black':'' } `}  />
-    )
-  }
+  
   const Create=async()=>{
     
     try{
@@ -48,7 +51,7 @@ export const CreateCategory = () => {
       newBody.append("name", Name);
       newBody.append("fees", String(fee));
       newBody.append("image",image );
-      console.log(selectedVariant)
+     
       selectedVariant.length > 0 &&
       selectedVariant.map((item:any, index:any) => {
         newBody.append(`variants[${index}]`, item);
@@ -62,11 +65,15 @@ export const CreateCategory = () => {
         setName("")
         setfee('')
         getVariant()
+        setImages([])
       }
     }catch(err){
 
     }
   }
+  useEffect(()=>{
+   console.log(selectedVariant,"selected")
+  },[selectedVariant])
   return (
     <div>
       <SuccessModel visible={successVisible} setVisible={setsuccessVisible} txt="Category Created Successfully" />
@@ -100,9 +107,57 @@ export const CreateCategory = () => {
         <div className='mt-[32px] flex gap-3 flex-wrap w-[32.6rem]'>
           {Variants.map((item:any,index:any)=>{
             return(
-              <CustomVariatBox key={index} item={item}/>
-            )
-          })}
+            //   <CustomVariatBox onClick={()=>{
+            //     if(!selectedVariant.includes(item.id)){
+            //       console.log("HELLOO")
+            //       selectedVariant.push(item.id)
+                  
+            //       setSelectedVariant(selectedVariant)
+            //     }else{
+                  
+            //       selectedVariant.pop(item.id)
+            //       setSelectedVariant(selectedVariant)
+            //     }
+            //     console.log("hey")
+            //   }} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} key={index} item={item}/>
+            // )
+            <CustomButton
+            onClick={()=>{
+              if(!selectedVariant.includes(item.id)){
+                selectedVariant.push(item.id)
+                  
+                      setSelectedVariant(selectedVariant)
+                      let newarr:any=Variants?.map((item2:any)=>{
+                        if(item2.id==item.id){
+                          return{
+                            ...item2,
+                            active:true
+                          }
+                        }else{
+                          return item2
+                        }
+                      })
+                      console.log(newarr)
+                      setVariants(newarr)
+              }else{
+                selectedVariant.pop(item.id)
+                  setSelectedVariant(selectedVariant)
+                  let newarr:any=Variants.map((item2:any)=>{
+                    if(item2.id==item.id){
+                      return{
+                        ...item2,
+                        active:false
+                      }
+                    }else{
+                      return item2
+                    }
+                  })
+                  setVariants(newarr)
+              }
+            }}
+            txt={item.title} key={index} classes={`!w-auto !px-[30px] !py-[12px] !inline-block !h-auto !rounded-[7px] ${(!item.active)?'!bg-custome-button-grey !text-black':'' } `}  />
+          
+          )})}
      
         <CustomButton onClick={(value:any)=>navigate('/AddNewVariant')} txt="+Add Variant" classes="!w-[140px] !h-[42px] !rounded-[7px] !bg-blue !text-white"  />
         </div>

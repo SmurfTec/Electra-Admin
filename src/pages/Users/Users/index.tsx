@@ -130,7 +130,7 @@ export const Users = () => {
         setselectedUsers([])
         setInitialPageData({...initialPageData,currentPage:1})
        
-      }
+      } 
     } catch (err) {
 
     }
