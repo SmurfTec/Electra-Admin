@@ -106,7 +106,9 @@ export const Users = () => {
         "ids": newarr
       }
       let response = await DeleteSingleUser(body)
+      setselectedUsers([])
       setInitialPageData({...initialPageData,currentPage:1})
+      
     } catch (err) {
 
     }
@@ -125,8 +127,9 @@ export const Users = () => {
       let response = await BanUser(body)
       if (response) {
         setVisible(false)
+        setselectedUsers([])
         setInitialPageData({...initialPageData,currentPage:1})
-
+       
       }
     } catch (err) {
 
