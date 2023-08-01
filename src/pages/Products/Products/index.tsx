@@ -239,7 +239,7 @@ export const Products = () => {
               selectedProducts={selectedProducts}
               setSelectedProducts={setSelectedProducts}
               columnData={columnData}
-              MultipleSelect={true}
+              // MultipleSelect={true}
               LoadMore={LoadMore}
               setLoadMore={setLoadMore}
               // pagination={true}
