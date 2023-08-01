@@ -14,6 +14,7 @@ import { CreateProduct } from "../../../store/Slices/ProductSlice";
 import { getBrands } from "../../../store/Slices/BrandSlice";
 import { getCategories } from "../../../store/Slices/Categories";
 import { Techspec } from "../../../components";
+import { CustomCalendar } from "../../../atoms";
 export const AddProduct = () => {
   type techSpec = {
     title: string;
@@ -391,7 +392,7 @@ export const AddProduct = () => {
                   <p className="text-[#656565] text-[12px] mt-4">
                     RELEASE DATE
                   </p>
-                  <InputTxt
+                  {/* <InputTxt
                     name="Release Date"
                     onChange={(e: any) =>
                       updateTechnicalSpecificationModel(
@@ -399,8 +400,18 @@ export const AddProduct = () => {
                         e.target.value
                       )
                     }
-                    placeholder={"eg: 20 aug 2022"}
                     MainClasses={"!h-[28px] !bg-white"}
+                  /> */}
+                  <CustomCalendar
+                    placeholder={"eg: 08/10/2022"}
+                    // date={new Date(item?.value)}
+                    setDate={(e: any) => {
+                      console.log(e, "EVENT");
+                      updateTechnicalSpecificationModel(
+                        e.target.name,
+                        e.target.value
+                      );
+                    }}
                   />
                 </div>
                 <div className="ml-5">
@@ -495,9 +506,11 @@ export const AddProduct = () => {
             </div>
           </>
         )}
-        {enterManual === "manual" && <div>
-          <Techspec />
-          </div>}
+        {enterManual === "manual" && (
+          <div>
+            <Techspec />
+          </div>
+        )}
         <div className="flex gap-3 mb-3">
           <CustomButton
             txt={"Cancel"}

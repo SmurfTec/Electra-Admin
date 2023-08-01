@@ -27,7 +27,7 @@ export const Feemodifier = () => {
       return {
         ID: item.id,
         Category: item.category.name,
-        "Marketplace Fee": item.fees,
+        "Marketplace Fee": item.fees+"%",
         "Last Changed On": moment(item.updated_on).format("DD MMM, YYYY"),
         Action: "Edit",
         type: item.type,

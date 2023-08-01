@@ -223,7 +223,7 @@ export const Listings = () => {
                   filterData={item.data}
                   columnData={columnData}
                   rowStyling={"#FCFCFC !important"}
-                  MultipleSelect={true}
+                  // MultipleSelect={true}
                 />
               </TabPanel>)
             })}

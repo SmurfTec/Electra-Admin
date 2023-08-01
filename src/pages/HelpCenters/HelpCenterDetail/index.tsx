@@ -103,6 +103,7 @@ export const HelpCenterDetail = () => {
   const getDetail=async()=>{
     try{
       let response = await getSupportById(id)
+      console.log(response,"response")
       setDetail(response.support)
      
     }catch(err){
