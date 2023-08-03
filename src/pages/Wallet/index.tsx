@@ -5,6 +5,7 @@ import { SVGIcon } from '../../components/SVG'
 import { MenuItem } from 'primereact/menuitem'
 import IMAGES from '../../assets/Images'
 import { CustomMenu } from "../../atoms/global.style"
+import { getBalance,getWalletStats,getPayouts,getTransfers,getPayments } from '../../store/Slices/WalletSlice'
 export const Wallet = () => {
 
     const [MenuLabel, setMenuLabel] = useState("")
@@ -163,6 +164,21 @@ export const Wallet = () => {
     useEffect(() => {
         console.log('Menu', MenuLabel, "product", selectedProducts, "CurrSelectedProduct", CurrSelectedProduct)
     }, [MenuLabel])
+    const Balance=async()=>{
+        let r=await getBalance()
+        let r2=await getWalletStats()
+        let r3=await getPayouts()
+        let r4=await getPayments()
+        let r5=await getTransfers()
+        console.log(r)
+        console.log(r2)
+        console.log(r3)
+        console.log(r4,"r4",r5,"r5")
+    }
+    useEffect(()=>{
+Balance()
+
+    },[])
     return (
         <div>
             <Header
