@@ -2,7 +2,7 @@ import url from "../../config";
 export const getBalance = async () => {
   try {
     let response: any = await url.get("/wallets/balance");
-    return response;
+    return response.data;
   } catch (e) {
     return e;
   }
@@ -10,7 +10,7 @@ export const getBalance = async () => {
 export const getWalletStats = async () => {
     try {
       let response: any = await url.get("/wallets/wallet-stats");
-      return response;
+      return response.data;
     } catch (e) {
       return e;
     }

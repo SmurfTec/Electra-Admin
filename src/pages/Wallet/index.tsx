@@ -12,6 +12,8 @@ export const Wallet = () => {
     const [CurrSelectedProduct, setCurrSelectedProduct] = useState('')
     const [selectedProducts, setSelectedProducts] = useState<any>([]);
     const[LoadMore,setLoadMore]=useState(true)
+    const[AccountBalance,setAccountBalance]=useState<any>()
+    const[WalletStats,setWalletStats]=useState<any>()
     const menuLeft: any = useRef(null);
     const [filterData] = useState([
         {
@@ -165,14 +167,16 @@ export const Wallet = () => {
         console.log('Menu', MenuLabel, "product", selectedProducts, "CurrSelectedProduct", CurrSelectedProduct)
     }, [MenuLabel])
     const Balance=async()=>{
-        let r=await getBalance()
-        let r2=await getWalletStats()
+        let balance=await getBalance()
+        setAccountBalance(balance)
+        let walletstats=await getWalletStats()
+        setWalletStats(walletstats)
         let r3=await getPayouts()
         let r4=await getPayments()
         let r5=await getTransfers()
-        console.log(r)
-        console.log(r2)
-        console.log(r3)
+       
+        // console.log(r2,"r2")
+        console.log(r3,"r3")
         console.log(r4,"r4",r5,"r5")
     }
     useEffect(()=>{
@@ -191,7 +195,7 @@ Balance()
                     <div className='flex justify-between'>
                         <div className='flex flex-col '>
                             <p className='text-[16px] font-[600] text-white'>Balance</p>
-                            <p className='text-[40px] font-[600] text-white'>$500,000</p>
+                            <p className='text-[35px] font-[600] text-white'>${AccountBalance?.available[0].amount}</p>
                             <div className='flex flex-col mt-[80px]'>
                                 <p className='text-[13px] font-[600] text-white'>Last Updated</p>
                                 <p className='text-[16px] font-[600] text-white'>20,aug,2022</p>
@@ -237,24 +241,25 @@ Balance()
 
                     <DashCard
                         title={"Net Revenue"}
-                        totalNumber={"$450,000"}
-                        myImg={IMAGES.coin}
+                        totalNumber={`$4${WalletStats?.grossRevenue}`}
+                        myImg={IMAGES.coin} 
                         imgColor={"bg-blue-dash"}
-                        textDash={"bg-custom-blue !w-[63px] "}
-                        textColor={"#3C82D6"}
-                        arrowImg={IMAGES.uparrow}
+                        textDash={`${WalletStats?.grossRevenuePercentage>=0?"bg-custom-blue":"bg-custom-red"} !w-[63px] `}
+                        textColor={WalletStats?.grossRevenuePercentage>=0?"#3C82D6":"#FF0000"}
+                        arrowImg={WalletStats?.grossRevenuePercentage>=0? IMAGES.uparrow:IMAGES.downarrow}
                         outerclasses="w-[284px] h-[140px]"
-
+                        txt={WalletStats?.grossRevenuePercentage||0 }
                     />
                     <DashCard
-                        title={"Net Revenue"}
-                        totalNumber={"$35000"}
+                        title={"Platform Profit"}
+                        totalNumber={`$4${WalletStats?.grossProfit}`}
                         myImg={IMAGES.DollorHouse}
                         imgColor={"bg-yellow-dash"}
-                        textDash={"bg-custom-blue !w-[63px] "}
-                        textColor={"#3C82D6"}
-                        arrowImg={IMAGES.uparrow}
+                        textDash={`${WalletStats?.grossProfitPercentage>=0?"bg-custom-blue":"bg-custom-red"} !w-[63px] `}
+                        textColor={WalletStats?.grossProfitPercentage>=0?"#3C82D6":"#FF0000"}
+                        arrowImg={WalletStats?.grossProfitPercentage>=0? IMAGES.uparrow:IMAGES.downarrow}
                         outerclasses="w-[284px] h-[140px]"
+                        txt={WalletStats?.grossProfitPercentage||0 }
 
                     />
                     <DashCard
