@@ -7,10 +7,12 @@ import IMAGES from '../../assets/Images'
 import { CustomMenu } from "../../atoms/global.style"
 import { useFetchWallet } from '../../custom-hooks/useFetchWallet'
 import { getBalance,getWalletStats,getPayouts,getTransfers,getPayments } from '../../store/Slices/WalletSlice'
+import { ProgressSpinner } from 'primereact/progressspinner'
+import moment from 'moment'
 export const Wallet = () => {
     const[initialData,setinitialData]=useState({
         limit:10,
-    activetab:"transfer",
+    activetab:"payment",
     starting_after:"",
     })
    const{Walletdata, WalletLoading}=useFetchWallet(initialData)
@@ -21,79 +23,54 @@ export const Wallet = () => {
     const[AccountBalance,setAccountBalance]=useState<any>()
     const[WalletStats,setWalletStats]=useState<any>()
     const menuLeft: any = useRef(null);
-    const [filterData] = useState([
-        {
-            id: 142425251,
-            from: "Iphone 14",
-            value: "$900",
-            Source: "Stockx",
-            Date: "20,aug,2022"
-        },
-        {
-            id: 142425252,
-            from: "Iphone 14",
-            value: "$900",
-            Source: "Stockx",
-            Date: "20,aug,2022"
-        },
-        {
-            id: 142425253,
-            from: "Iphone 14",
-            value: "$900",
-            Source: "Stockx",
-            Date: "20,aug,2022"
-        },
-        {
-            id: 142425254,
-            from: "Iphone 14",
-            value: "$900",
-            Source: "Stockx",
-            Date: "20,aug,2022"
-        },
-        {
-            id: 142425255,
-            from: "Iphone 14",
-            value: "$900",
-            Source: "Stockx",
-            Date: "20,aug,2022"
-        },
-        {
-            id: 142425256,
-            from: "Iphone 14",
-            value: "$900",
-            Source: "Stockx",
-            Date: "20,aug,2022"
-        },
-        {
-            id: 142425257,
-            from: "Iphone 14",
-            value: "$900",
-            Source: "Stockx",
-            Date: "20,aug,2022"
-        },
-        {
-            id: 142425258,
-            from: "Iphone 14",
-            value: "$900",
-            Source: "Stockx",
-            Date: "20,aug,2022"
-        },
-        {
-            id: 142425259,
-            from: "Iphone 14",
-            value: "$900",
-            Source: "Stockx",
-            Date: "20,aug,2022"
-        },
-        {
-            id: 142425260,
-            from: "Iphone 14",
-            value: "$900",
-            Source: "Stockx",
-            Date: "20,aug,2022"
-        },
+    const [filterData,setfilterData]=useState<any>();
 
-    ]);
+    useEffect(()=>{
+console.log(Walletdata,"WALLET")
+if(initialData.activetab=="transfer"){
+    const newfilterData =Walletdata?.map((item:any,index:any)=>{
+        return {
+            
+                id: item.id,
+                from: "",
+                value: "$"+item.amount,
+                Source: item.source_type,
+                Date: moment(item.created).format("DD/MM/YYYY")
+            
+        }
+      })
+      setfilterData(newfilterData)
+
+}else if(initialData.activetab=="payouts"){
+    const newfilterData =Walletdata?.map((item:any,index:any)=>{
+        return {
+            
+            id: item.id,
+            from: "",
+            value: "$"+item.amount,
+            Source: item.source_type,
+            Date: moment(item.created).format("DD/MM/YYYY")
+            
+        }
+      })
+      setfilterData(newfilterData)
+}else{
+    const newfilterData =Walletdata?.map((item:any,index:any)=>{
+        let newDate=moment(item.created).format("DD MMM YYYY")
+        return {
+            
+            id: item.id,
+            from: "-",
+            value: "$"+item.amount,
+            Source: item.source ?? "-",
+            Date:newDate
+            
+        }
+      })
+      setfilterData(newfilterData)
+}
+ 
+    },[Walletdata])
     const items = [
         {
             label: "View Item",
@@ -167,7 +144,7 @@ export const Wallet = () => {
         { field: "value", header: 'Value' },
         { field: "Source", header: 'Source' },
         { field: "Date", header: 'Date' },
-        { field: "", header: '', body: MenuBodyTemplate }
+        // { field: "", header: '', body: MenuBodyTemplate }
     ])
     useEffect(() => {
         console.log('Menu', MenuLabel, "product", selectedProducts, "CurrSelectedProduct", CurrSelectedProduct)
@@ -177,13 +154,13 @@ export const Wallet = () => {
         setAccountBalance(balance)
         let walletstats=await getWalletStats()
         setWalletStats(walletstats)
-        // let r3=await getPayouts()
+       // let r3=await getPayouts()
         // let r4=await getPayments()
         // let r5=await getTransfers()
        
         // // console.log(r2,"r2")
         // console.log(r3,"r3")
-        // console.log(r4,"r4",r5,"r5")
+        // console.log(r4,"r4",r5,"r5") 
     }
     useEffect(()=>{
 Balance()
@@ -196,7 +173,10 @@ Balance()
                 chooseFilter={true}
                 UserBox={true}
             />
-            <div className='flex flex-wrap gap-5 mt-[20px]'>
+           {
+           !WalletLoading ?
+           <>
+           <div className='flex flex-wrap gap-5 mt-[20px]'>
                 <div className='p-3 w-[419px] h-auto bg-[#212121] rounded-[10px] overflow-hidden' style={{ background: `url(${IMAGES.AtmBackground})` }}>
                     <div className='flex justify-between'>
                         <div className='flex flex-col '>
@@ -303,11 +283,16 @@ Balance()
                     selectedProducts={selectedProducts}
                     setSelectedProducts={setSelectedProducts}
                     columnData={columnData}
-                    MultipleSelect={true}
+                    // MultipleSelect={true}
                     LoadMore={LoadMore} 
                     setLoadMore={setLoadMore}
                 />
             </div>
+            </>
+            :
+            <div className="w-full mt-[100px] h-full flex justify-start items-center overflow-y-hidden">
+<ProgressSpinner  style={{overflow:"hidden"}} />
+</div>}
         </div>
     )
 }
