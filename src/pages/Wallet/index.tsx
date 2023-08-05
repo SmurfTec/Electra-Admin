@@ -6,71 +6,74 @@ import { MenuItem } from 'primereact/menuitem'
 import IMAGES from '../../assets/Images'
 import { CustomMenu } from "../../atoms/global.style"
 import { useFetchWallet } from '../../custom-hooks/useFetchWallet'
-import { getBalance,getWalletStats,getPayouts,getTransfers,getPayments } from '../../store/Slices/WalletSlice'
+import { getBalance, getWalletStats, getPayouts, getTransfers, getPayments } from '../../store/Slices/WalletSlice'
 import { ProgressSpinner } from 'primereact/progressspinner'
+import { CustomTabView } from '../../atoms/global.style'
+import { TabPanel } from 'primereact/tabview'
 import moment from 'moment'
 export const Wallet = () => {
-    const[initialData,setinitialData]=useState({
-        limit:10,
-    activetab:"payment",
-    starting_after:"",
+    const [initialData, setinitialData] = useState({
+        limit: 10,
+        activetab: "payment",
+        starting_after: "",
     })
-   const{Walletdata, WalletLoading}=useFetchWallet(initialData)
+    const { Walletdata, WalletLoading } = useFetchWallet(initialData)
     const [MenuLabel, setMenuLabel] = useState("")
     const [CurrSelectedProduct, setCurrSelectedProduct] = useState('')
     const [selectedProducts, setSelectedProducts] = useState<any>([]);
-    const[LoadMore,setLoadMore]=useState(true)
-    const[AccountBalance,setAccountBalance]=useState<any>()
-    const[WalletStats,setWalletStats]=useState<any>()
+    const [LoadMore, setLoadMore] = useState(false)
+    const [AccountBalance, setAccountBalance] = useState<any>()
+    const [WalletStats, setWalletStats] = useState<any>()
     const menuLeft: any = useRef(null);
-    const [filterData,setfilterData]=useState<any>();
+    const [activeTab, setactiveTab] = useState(0)
+    const [filterData, setfilterData] = useState<any>();
 
-    useEffect(()=>{
-console.log(Walletdata,"WALLET")
-if(initialData.activetab=="transfer"){
-    const newfilterData =Walletdata?.map((item:any,index:any)=>{
-        return {
-            
-                id: item.id,
-                from: "",
-                value: "$"+item.amount,
-                Source: item.source_type,
-                Date: moment(item.created).format("DD/MM/YYYY")
-            
-        }
-      })
-      setfilterData(newfilterData)
+    useEffect(() => {
+        console.log(Walletdata, "WALLET")
+        if (initialData.activetab == "transfer") {
+            const newfilterData = Walletdata?.map((item: any, index: any) => {
+                return {
 
-}else if(initialData.activetab=="payouts"){
-    const newfilterData =Walletdata?.map((item:any,index:any)=>{
-        return {
-            
-            id: item.id,
-            from: "",
-            value: "$"+item.amount,
-            Source: item.source_type,
-            Date: moment(item.created).format("DD/MM/YYYY")
-            
+                    id: item.id,
+                    from: "",
+                    value: "$" + item.amount,
+                    Source: item.source_type,
+                    Date: moment(item.created).format("DD/MM/YYYY")
+
+                }
+            })
+            setfilterData(newfilterData)
+
+        } else if (initialData.activetab == "payouts") {
+            const newfilterData = Walletdata?.map((item: any, index: any) => {
+                return {
+
+                    id: item.id,
+                    from: "",
+                    value: "$" + item.amount,
+                    Source: item.source_type,
+                    Date: moment(item.created).format("DD/MM/YYYY")
+
+                }
+            })
+            setfilterData(newfilterData)
+        } else {
+            const newfilterData = Walletdata?.map((item: any, index: any) => {
+                let newDate = moment(item.created).format("DD MMM YYYY")
+                return {
+
+                    id: item.id,
+                    from: "-",
+                    value: "$" + item.amount,
+                    Source: item.source ?? "-",
+                    Date: newDate
+
+                }
+            })
+            setfilterData(newfilterData)
         }
-      })
-      setfilterData(newfilterData)
-}else{
-    const newfilterData =Walletdata?.map((item:any,index:any)=>{
-        let newDate=moment(item.created).format("DD MMM YYYY")
-        return {
-            
-            id: item.id,
-            from: "-",
-            value: "$"+item.amount,
-            Source: item.source ?? "-",
-            Date:newDate
-            
-        }
-      })
-      setfilterData(newfilterData)
-}
- 
-    },[Walletdata])
+
+    }, [Walletdata])
     const items = [
         {
             label: "View Item",
@@ -149,23 +152,34 @@ if(initialData.activetab=="transfer"){
     useEffect(() => {
         console.log('Menu', MenuLabel, "product", selectedProducts, "CurrSelectedProduct", CurrSelectedProduct)
     }, [MenuLabel])
-    const Balance=async()=>{
-        let balance=await getBalance()
+    const Balance = async () => {
+        let balance = await getBalance()
         setAccountBalance(balance)
-        let walletstats=await getWalletStats()
+        let walletstats = await getWalletStats()
         setWalletStats(walletstats)
-       // let r3=await getPayouts()
+        // let r3=await getPayouts()
         // let r4=await getPayments()
         // let r5=await getTransfers()
-       
+
         // // console.log(r2,"r2")
         // console.log(r3,"r3")
         // console.log(r4,"r4",r5,"r5") 
     }
-    useEffect(()=>{
-Balance()
+    useEffect(() => {
+        Balance()
 
-    },[])
+    }, [])
+    const handleTabChange = (event: any) => {
+
+        setactiveTab(event?.index);
+        if (event?.index == 0) {
+            setinitialData({ ...initialData, activetab: "payout", starting_after: "" })
+        } else if (event?.index == 1) {
+            setinitialData({ ...initialData, activetab: "payment", starting_after: "" })
+        } else if (event?.index == 2) {
+            setinitialData({ ...initialData, activetab: "transfer", starting_after: "" })
+        }
+    };
     return (
         <div>
             <Header
@@ -173,126 +187,159 @@ Balance()
                 chooseFilter={true}
                 UserBox={true}
             />
-           {
-           !WalletLoading ?
-           <>
-           <div className='flex flex-wrap gap-5 mt-[20px]'>
-                <div className='p-3 w-[419px] h-auto bg-[#212121] rounded-[10px] overflow-hidden' style={{ background: `url(${IMAGES.AtmBackground})` }}>
-                    <div className='flex justify-between'>
-                        <div className='flex flex-col '>
-                            <p className='text-[16px] font-[600] text-white'>Balance</p>
-                            <p className='text-[35px] font-[600] text-white'>${AccountBalance?.available[0].amount}</p>
-                            <div className='flex flex-col mt-[80px]'>
-                                <p className='text-[13px] font-[600] text-white'>Last Updated</p>
-                                <p className='text-[16px] font-[600] text-white'>20,aug,2022</p>
+            {
+                !WalletLoading ?
+                    <>
+                        <div className='flex flex-wrap gap-5 mt-[20px]'>
+                            <div className='p-3 w-[419px] h-auto bg-[#212121] rounded-[10px] overflow-hidden' style={{ background: `url(${IMAGES.AtmBackground})` }}>
+                                <div className='flex justify-between'>
+                                    <div className='flex flex-col '>
+                                        <p className='text-[16px] font-[600] text-white'>Balance</p>
+                                        <p className='text-[35px] font-[600] text-white'>${AccountBalance?.available[0].amount}</p>
+                                        <div className='flex flex-col mt-[80px]'>
+                                            <p className='text-[13px] font-[600] text-white'>Last Updated</p>
+                                            <p className='text-[16px] font-[600] text-white'>20,aug,2022</p>
+                                        </div>
+                                    </div>
+                                    <div className=' flex justify-center items-center '>
+                                        <img src={IMAGES.Coins} />
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div className='p-3 w-[419px] h-auto bg-[#212121] rounded-[15px]'>
+                                <div className='flex justify-between'>
+                                    <div className='flex flex-col '>
+                                        <p className='text-[12px] font-[600] text-white'>Account holder name</p>
+                                        <p className='text-[20px] font-[600] text-white'>HUZAYFAH HANIF</p>
+                                    </div>
+                                    <div className='w-[33px] h-[33px] flex justify-center items-center rounded-[50px] bg-white'>
+                                        <i className='pi pi-pencil ' ></i>
+                                    </div>
+                                </div>
+                                <div className='mt-[34px] flex flex-col '>
+                                    <p className='text-[12px] font-[600] text-white'>IBAN</p>
+                                    <p className='text-[20px] font-[600] text-white'>KFL35532536353535</p>
+                                </div>
+                                <div className='flex gap-[76px] mt-[34px]'>
+                                    <div className=' flex flex-col '>
+                                        <p className='text-[20px] font-[400] text-white'>US BANK</p>
+                                        <p className='text-[12px] font-[400] text-white'>Bank</p>
+
+                                    </div>
+                                    <div className=' flex flex-col '>
+                                        <p className='text-[20px] font-[400] text-white'>25/7/2022</p>
+                                        <p className='text-[12px] font-[400] text-white'>linked on</p>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className=' flex justify-center items-center '>
-                            <img src={IMAGES.Coins} />
+                        <div className='mt-[35px]'>
+                            <div className='flex flex-wrap gap-6 mt-[28px]'>
+
+                                <DashCard
+                                    title={"Net Revenue"}
+                                    totalNumber={`$4${WalletStats?.grossRevenue}`}
+                                    myImg={IMAGES.coin}
+                                    imgColor={"bg-blue-dash"}
+                                    textDash={`${WalletStats?.grossRevenuePercentage >= 0 ? "bg-custom-blue" : "bg-custom-red"} !w-[63px] `}
+                                    textColor={WalletStats?.grossRevenuePercentage >= 0 ? "#3C82D6" : "#FF0000"}
+                                    arrowImg={WalletStats?.grossRevenuePercentage >= 0 ? IMAGES.uparrow : IMAGES.downarrow}
+                                    outerclasses="w-[284px] h-[140px]"
+                                    txt={WalletStats?.grossRevenuePercentage || 0}
+                                />
+                                <DashCard
+                                    title={"Platform Profit"}
+                                    totalNumber={`$4${WalletStats?.grossProfit}`}
+                                    myImg={IMAGES.DollorHouse}
+                                    imgColor={"bg-yellow-dash"}
+                                    textDash={`${WalletStats?.grossProfitPercentage >= 0 ? "bg-custom-blue" : "bg-custom-red"} !w-[63px] `}
+                                    textColor={WalletStats?.grossProfitPercentage >= 0 ? "#3C82D6" : "#FF0000"}
+                                    arrowImg={WalletStats?.grossProfitPercentage >= 0 ? IMAGES.uparrow : IMAGES.downarrow}
+                                    outerclasses="w-[284px] h-[140px]"
+                                    txt={WalletStats?.grossProfitPercentage || 0}
+
+                                />
+                                <DashCard
+                                    title={"Withdrawn"}
+                                    totalNumber={"$3500"}
+                                    myImg={IMAGES.Volume}
+                                    imgColor={"bg-custom-grey"}
+                                    textDash={"bg-yellow-dash !w-[90px] px-1 "}
+                                    textColor={"#3C82D6"}
+                                    txt='20 aug,2022'
+                                    subtxt="Recent Withdrawal"
+                                    outerclasses="w-[284px] h-[140px]"
+                                    subtxtStyle={`!w-[100px]`}
+                                />
+                                <DashCard
+                                    title={"Available for withdrawal"}
+                                    totalNumber={"$350000"}
+                                    myImg={IMAGES.CashWithdraw}
+                                    imgColor={"bg-custom-dark-red"}
+                                    textDash={" !w-full "}
+                                    textColor={"#3C82D6"}
+                                    txt='Lorem Ipsum'
+                                    outerclasses="w-[284px] h-[140px]"
+
+                                />
+
+                            </div>
                         </div>
-                    </div>
+                        <div className='mt-[20px]'>
+                            <CustomTabView activeIndex={activeTab} onTabChange={handleTabChange}>
+                                <TabPanel header={`Payouts`} >
+                                    <CustomTableComponent
 
 
-                </div>
-                <div className='p-3 w-[419px] h-auto bg-[#212121] rounded-[15px]'>
-                    <div className='flex justify-between'>
-                        <div className='flex flex-col '>
-                            <p className='text-[12px] font-[600] text-white'>Account holder name</p>
-                            <p className='text-[20px] font-[600] text-white'>HUZAYFAH HANIF</p>
+                                        showWrapper={false}
+                                        filterData={filterData}
+                                        selectedProducts={selectedProducts}
+                                        setSelectedProducts={setSelectedProducts}
+                                        columnData={columnData}
+                                        // MultipleSelect={true}
+                                        LoadMore={LoadMore}
+                                        setLoadMore={setLoadMore}
+                                    />
+                                </TabPanel>
+                                <TabPanel header={`Payments`} >
+                                    <CustomTableComponent
+
+
+                                        showWrapper={false}
+                                        filterData={filterData}
+                                        selectedProducts={selectedProducts}
+                                        setSelectedProducts={setSelectedProducts}
+                                        columnData={columnData}
+                                        // MultipleSelect={true}
+                                        LoadMore={LoadMore}
+                                        setLoadMore={setLoadMore}
+                                    />
+                                </TabPanel>
+                                <TabPanel header={`Transfer`} >
+                                    <CustomTableComponent
+
+
+                                        showWrapper={false}
+                                        filterData={filterData}
+                                        selectedProducts={selectedProducts}
+                                        setSelectedProducts={setSelectedProducts}
+                                        columnData={columnData}
+                                        // MultipleSelect={true}
+                                        LoadMore={LoadMore}
+                                        setLoadMore={setLoadMore}
+                                    />
+                                </TabPanel>
+                            </CustomTabView>
+
                         </div>
-                        <div className='w-[33px] h-[33px] flex justify-center items-center rounded-[50px] bg-white'>
-                            <i className='pi pi-pencil ' ></i>
-                        </div>
-                    </div>
-                    <div className='mt-[34px] flex flex-col '>
-                        <p className='text-[12px] font-[600] text-white'>IBAN</p>
-                        <p className='text-[20px] font-[600] text-white'>KFL35532536353535</p>
-                    </div>
-                    <div className='flex gap-[76px] mt-[34px]'>
-                        <div className=' flex flex-col '>
-                            <p className='text-[20px] font-[400] text-white'>US BANK</p>
-                            <p className='text-[12px] font-[400] text-white'>Bank</p>
-
-                        </div>
-                        <div className=' flex flex-col '>
-                            <p className='text-[20px] font-[400] text-white'>25/7/2022</p>
-                            <p className='text-[12px] font-[400] text-white'>linked on</p>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className='mt-[35px]'>
-                <div className='flex flex-wrap gap-6 mt-[28px]'>
-
-                    <DashCard
-                        title={"Net Revenue"}
-                        totalNumber={`$4${WalletStats?.grossRevenue}`}
-                        myImg={IMAGES.coin} 
-                        imgColor={"bg-blue-dash"}
-                        textDash={`${WalletStats?.grossRevenuePercentage>=0?"bg-custom-blue":"bg-custom-red"} !w-[63px] `}
-                        textColor={WalletStats?.grossRevenuePercentage>=0?"#3C82D6":"#FF0000"}
-                        arrowImg={WalletStats?.grossRevenuePercentage>=0? IMAGES.uparrow:IMAGES.downarrow}
-                        outerclasses="w-[284px] h-[140px]"
-                        txt={WalletStats?.grossRevenuePercentage||0 }
-                    />
-                    <DashCard
-                        title={"Platform Profit"}
-                        totalNumber={`$4${WalletStats?.grossProfit}`}
-                        myImg={IMAGES.DollorHouse}
-                        imgColor={"bg-yellow-dash"}
-                        textDash={`${WalletStats?.grossProfitPercentage>=0?"bg-custom-blue":"bg-custom-red"} !w-[63px] `}
-                        textColor={WalletStats?.grossProfitPercentage>=0?"#3C82D6":"#FF0000"}
-                        arrowImg={WalletStats?.grossProfitPercentage>=0? IMAGES.uparrow:IMAGES.downarrow}
-                        outerclasses="w-[284px] h-[140px]"
-                        txt={WalletStats?.grossProfitPercentage||0 }
-
-                    />
-                    <DashCard
-                        title={"Withdrawn"}
-                        totalNumber={"$3500"}
-                        myImg={IMAGES.Volume}
-                        imgColor={"bg-custom-grey"}
-                        textDash={"bg-yellow-dash !w-[90px] px-1 "}
-                        textColor={"#3C82D6"}
-                        txt='20 aug,2022'
-                        subtxt="Recent Withdrawal"
-                        outerclasses="w-[284px] h-[140px]"
-                        subtxtStyle={`!w-[100px]`}
-                    />
-                    <DashCard
-                        title={"Available for withdrawal"}
-                        totalNumber={"$350000"}
-                        myImg={IMAGES.CashWithdraw}
-                        imgColor={"bg-custom-dark-red"}
-                        textDash={" !w-full "}
-                        textColor={"#3C82D6"}
-                        txt='Lorem Ipsum'
-                        outerclasses="w-[284px] h-[140px]"
-
-                    />
-
-                </div>
-            </div>
-            <div className='mt-[20px]'>
-                <CustomTableComponent
-
-
-                    showWrapper={false}
-                    filterData={filterData}
-                    selectedProducts={selectedProducts}
-                    setSelectedProducts={setSelectedProducts}
-                    columnData={columnData}
-                    // MultipleSelect={true}
-                    LoadMore={LoadMore} 
-                    setLoadMore={setLoadMore}
-                />
-            </div>
-            </>
-            :
-            <div className="w-full mt-[100px] h-full flex justify-start items-center overflow-y-hidden">
-<ProgressSpinner  style={{overflow:"hidden"}} />
-</div>}
+                    </>
+                    :
+                    <div className="w-full mt-[100px] h-full flex justify-start items-center overflow-y-hidden">
+                        <ProgressSpinner style={{ overflow: "hidden" }} />
+                    </div>}
         </div>
     )
 }

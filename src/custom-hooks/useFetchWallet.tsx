@@ -62,7 +62,7 @@ export const useFetchWallet = (props: WalletProps) => {
     };
 
     fetchData();
-  }, []);
+  }, [props]);
 
   return { Walletdata, WalletLoading };
 };
