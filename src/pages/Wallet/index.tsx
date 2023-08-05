@@ -18,6 +18,7 @@ export const Wallet = () => {
         starting_after: "",
     })
     const { Walletdata, WalletLoading } = useFetchWallet(initialData)
+    const[bankloader,setbankloader]=useState(false)
     const [MenuLabel, setMenuLabel] = useState("")
     const [CurrSelectedProduct, setCurrSelectedProduct] = useState('')
     const [selectedProducts, setSelectedProducts] = useState<any>([]);
@@ -153,9 +154,13 @@ export const Wallet = () => {
         console.log('Menu', MenuLabel, "product", selectedProducts, "CurrSelectedProduct", CurrSelectedProduct)
     }, [MenuLabel])
     const Balance = async () => {
+        setbankloader(true)
         let balance = await getBalance()
         setAccountBalance(balance)
         let walletstats = await getWalletStats()
+        if(walletstats){
+            setbankloader(false)
+        }
         setWalletStats(walletstats)
         // let r3=await getPayouts()
         // let r4=await getPayments()
@@ -188,7 +193,7 @@ export const Wallet = () => {
                 UserBox={true}
             />
             {
-                !WalletLoading ?
+                (!WalletLoading && !bankloader) ?
                     <>
                         <div className='flex flex-wrap gap-5 mt-[20px]'>
                             <div className='p-3 w-[419px] h-auto bg-[#212121] rounded-[10px] overflow-hidden' style={{ background: `url(${IMAGES.AtmBackground})` }}>
