@@ -14,7 +14,7 @@ import moment from 'moment'
 export const Wallet = () => {
     const [initialData, setinitialData] = useState({
         limit: 10,
-        activetab: "payment",
+        activetab: "payout",
         starting_after: "",
     })
     const { Walletdata, WalletLoading } = useFetchWallet(initialData)
