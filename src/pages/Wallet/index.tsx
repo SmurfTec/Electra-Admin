@@ -5,9 +5,15 @@ import { SVGIcon } from '../../components/SVG'
 import { MenuItem } from 'primereact/menuitem'
 import IMAGES from '../../assets/Images'
 import { CustomMenu } from "../../atoms/global.style"
+import { useFetchWallet } from '../../custom-hooks/useFetchWallet'
 import { getBalance,getWalletStats,getPayouts,getTransfers,getPayments } from '../../store/Slices/WalletSlice'
 export const Wallet = () => {
-
+    const[initialData,setinitialData]=useState({
+        limit:10,
+    activetab:"transfer",
+    starting_after:"",
+    })
+   const{Walletdata, WalletLoading}=useFetchWallet(initialData)
     const [MenuLabel, setMenuLabel] = useState("")
     const [CurrSelectedProduct, setCurrSelectedProduct] = useState('')
     const [selectedProducts, setSelectedProducts] = useState<any>([]);
@@ -171,13 +177,13 @@ export const Wallet = () => {
         setAccountBalance(balance)
         let walletstats=await getWalletStats()
         setWalletStats(walletstats)
-        let r3=await getPayouts()
-        let r4=await getPayments()
-        let r5=await getTransfers()
+        // let r3=await getPayouts()
+        // let r4=await getPayments()
+        // let r5=await getTransfers()
        
-        // console.log(r2,"r2")
-        console.log(r3,"r3")
-        console.log(r4,"r4",r5,"r5")
+        // // console.log(r2,"r2")
+        // console.log(r3,"r3")
+        // console.log(r4,"r4",r5,"r5")
     }
     useEffect(()=>{
 Balance()

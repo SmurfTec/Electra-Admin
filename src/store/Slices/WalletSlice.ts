@@ -15,25 +15,28 @@ export const getWalletStats = async () => {
       return e;
     }
   };
-export const getPayouts=async()=>{
+export const getPayouts=async({limit=5,starting_after=""}:any)=>{
+  let params= starting_after?.length>0?`/wallets/payouts/?limit=${limit}&starting_after=${starting_after}`:`/wallets/payouts/?limit=${limit}`
     try{
-        let response: any = await url.get("/wallets/payouts");
+        let response: any = await url.get(params);
         return response.data;
     }catch(e){
 
     }
 }
-export const getPayments=async()=>{
+export const getPayments=async({limit=5,starting_after=""}:any)=>{
+  let params= starting_after?.length>0?`/wallets/payments/?limit=${limit}&starting_after=${starting_after}`:`/wallets/payments/?limit=${limit}`
     try{
-        let response: any = await url.get("/wallets/payments");
+        let response: any = await url.get(params);
         return response.data;
     }catch(e){
 
     }
 }
-export const getTransfers=async()=>{
+export const getTransfers=async({limit=5,starting_after=""}:any)=>{
+  let params= starting_after?.length>0?`/wallets/transfers/?limit=${limit}&starting_after=${starting_after}`:`/wallets/transfers/?limit=${limit}`
     try{
-        let response: any = await url.get("/wallets/transfers/?limit=5&starting_after=tr_1NZYILEPDzqfAEED4voGwLo1");
+        let response: any = await url.get(`${params}`);
         return response.data;
     }catch(e){
 
