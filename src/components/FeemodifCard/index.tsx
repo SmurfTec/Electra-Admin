@@ -11,7 +11,7 @@ export const Feemodifcard = (props:any) => {
         <p className="text-[#212121] font-bold">
             $ {props.number}
         </p>
-        <SVGIcon className="h-[15px] overflow-hidden" filled={true} fillcolor={"black"}  src={IMAGES.Editpen}/>
+        {/* <SVGIcon className="h-[15px] overflow-hidden" filled={true} fillcolor={"black"}  src={IMAGES.Editpen}/> */}
     </div>
   </div>;
 };

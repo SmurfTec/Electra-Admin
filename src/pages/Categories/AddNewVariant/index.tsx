@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Header, Confirmationmodal,SuccessModel } from "../../../components";
+import { Header, Confirmationmodal,SuccessModel, Confirmationmodal2} from "../../../components";
 import { InputTxt, CustomButton, CustomDropdown } from "../../../atoms";
 import IMAGES from "../../../assets/Images";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ export const AddNewVariant = () => {
   const[Addvalue,setAddValue]=useState("")
   const[originalEditValue,setOriginalEditValue]=useState("")
   const[EditValue,setEditValue]=useState("")
-  const[dataTypeValue,setdataTypeValue]=useState()
+  const[dataTypeValue,setdataTypeValue]=useState("")
   const[options,setoptions]=useState(["String","Number"])
   const handleFunction=(value:any)=>{
     if(value.length>0){
@@ -54,9 +54,9 @@ export const AddNewVariant = () => {
         "datatype": dataTypeValue,
         "values":valuesArr
       }
-     
+     console.log(body,"body")
       let response=await CreateVariantData(body)
-      if(response){
+      if(response?.id){
         setsuccessVisible(true)
         setvaluesArr([])
         setVariant("")
@@ -128,7 +128,7 @@ export const AddNewVariant = () => {
           />
         </div>
       </div>
-      <Confirmationmodal
+      <Confirmationmodal2
         addValue={true}
         Value={EditValue}
         setValue={setEditValue}
@@ -140,7 +140,7 @@ export const AddNewVariant = () => {
         text={"Are you sure you want to ban this user"}
         handleFunction={(value:any)=>handleEditFunction(value)}
       />
-      <Confirmationmodal
+      <Confirmationmodal2
         addValue={true}
         Value={Addvalue}
         setValue={setAddValue}
@@ -150,7 +150,7 @@ export const AddNewVariant = () => {
         setVisible={setAddVisible}
         cnfrmbtnText={"Add value"}
         cnclebtnText={"Cancel"}
-        text={"Are you sure you want to ban this user"}
+        text={"Are you sure you want to delete this variant"}
       />
     </div>
   );

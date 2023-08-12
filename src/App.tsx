@@ -37,6 +37,11 @@ import {
   Feemodifier,
   Notifications,
   SecurityQuestion,
+  Editrole,
+  EditProduct,
+  Editnewbanner,
+  Brands,
+  CreateBrand
 } from "./pages/index";
 import { SideBar } from "./components";
 import PrivateRoute from "./routes/Privateroute";
@@ -45,7 +50,7 @@ import { token } from "./store/Slices/AuthSlice";
 function App() {
   const [show, setShow] = useState(false);
   const location = useLocation();
-  const user = JSON.parse(localStorage.getItem("user") as string);
+  const user =localStorage?.getItem("user") 
   useEffect(() => {
     if (!user || location.pathname === "/") {
       setShow(false);
@@ -68,28 +73,31 @@ function App() {
             <Route
               path="/Dashboard"
               element={
-                // <PrivateRoute>
+                <PrivateRoute>
                   <Dashboard />
-              //  </PrivateRoute>
+                </PrivateRoute>
               }
             />
             <Route path="/Users" element={<Users />} />
             <Route path="/ProductDetail/:id" element={<ProductView />} />
             <Route path="/UserProfile/:id" element={<UserProfile />} />
             <Route path="/AddProduct" element={<AddProduct />} />
+            <Route path="/EditProduct/:id" element={<EditProduct />} />
             <Route path="/Productrequest" element={<ProductRequests />} />
             <Route path="/Roles" element={<Roles />} />
             <Route path="/Products" element={<Products />} />
             <Route path="/Wallet" element={<Wallet />} />
             <Route path="/Coupon" element={<Coupon />} />
             <Route path="/CreateCoupon" element={<CreateCoupon />} />
+            <Route path="/CreateBrand" element={<CreateBrand />} />
+            <Route path="/Brand" element={<Brands />} />
             <Route path="/Category" element={<Category />} />
             <Route path="/CreateCategory" element={<CreateCategory />} />
             <Route path="/AddNewVariant" element={<AddNewVariant />} />
             <Route path="/HelpCenter" element={<HelpCenter />} />
             <Route path="/HelpCenterDetail/:id" element={<HelpCenterDetail />} />
             <Route path="/Newadmin" element={<CreateNewadmin />} />
-            <Route path="/Viewadmin" element={<ViewAdmin />} />
+            <Route path="/Viewadmin/:id" element={<ViewAdmin />} />
             <Route path="/Searchrole" element={<Searchrole />} />
             <Route path="/Verification" element={<Verification />} />
             <Route path="/Verification/Step1/:id" element={<Step1 />} />
@@ -99,6 +107,7 @@ function App() {
             />
             <Route path="/Settings" element={<Settings />} />
             <Route path="/Creationroles" element={<Createrole />} />
+            <Route path="/Editroles/:name" element={<Editrole />} />
             <Route path="/Listings" element={<Listings />} />
             <Route path="/ListingsDetail/:id" element={<Listingdetail />} />
             <Route path="/Orders" element={<Orders />} />
@@ -106,6 +115,7 @@ function App() {
             <Route path="/Webandbanner/:id" element={<Webandbanner />} />
             <Route path="/Noticebanner" element={<Noticebanner />} />
             <Route path="/Addbanner" element={<Addnewbanner />} />
+            <Route path="/EditNewBanner/:id" element={<Editnewbanner />} />
             <Route path="/Feemodifier" element={<Feemodifier />} />
             <Route path="*" element={<Signin />} />
           </Routes>

@@ -6,35 +6,75 @@ import { CustomTableComponent } from "../../../atoms";
 import IMAGES from "../../../assets/Images";
 import { SVGIcon } from "../../../components/SVG";
 import { CustomMenu } from "../../../atoms/global.style";
+import { useGetRoles } from "../../../custom-hooks/RolesHooks";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { deleteRole } from "../../../store/Slices/RoleSlice";
+import moment from "moment";
+type SuperAdminRole = {
+  created_at: string;
+  created_by: string;
+  description: string;
+  name: string;
+  parent_role: string | null;
+};
+type ROLE = {
+  roles: SuperAdminRole[] | any;
+  loading: boolean;
+};
 export const Searchrole = () => {
-  const navigate= useNavigate()
+  const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
-  const filterData = [
-    {
-      Role: "Role",
-      "User Count": "0342525252525",
-      "Created On": "Huz@gmail.com",
-      Edit: "Edit",
-    },
-    {
-      Role: "Admin",
-      "User Count": "0342525252525",
-      "Created On": "Huz@gmail.com",
-      Edit: "Edit",
-    },
-    {
-      Role: "Admin",
-      "User Count": "0342525252525",
-      "Created On": "Huz@gmail.com",
-      Edit: "Edit",
-    },
-    {
-      Role: "Admin",
-      "User Count": "0342525252525",
-      "Created On": "Huz@gmail.com",
-      Edit: "Edit",
-    },
-  ];
+  const [initialPageData, setInitialPageData] = React.useState({
+    rowsPerPage: 10,
+    currentPage: 1,
+  });
+  const [MenuLabel, setMenuLabel] = React.useState("");
+  const [CurrSelectedProduct, setCurrSelectedProduct] = React.useState({});
+  const [initial, setInitial] = React.useState(true);
+
+  const [fetch, setFetch] = React.useState(false);
+  const { roles, rolesStats, users, roleArray, totalStats, loading }: any =
+    useGetRoles(fetch, initialPageData);
+  console.log(roles);
+
+  if (!loading) {
+    console.log(roles);
+  }
+  const filterData = roles?.map((item: SuperAdminRole, index: number) => {
+    console.log(item, "ITEEM");
+    return {
+      Role: item.name,
+      "User Count": item.description ?? "-",
+      "Created On": moment(item.created_at).format("DD MMM YYYY"),
+      Edit: item.name,
+    };
+  });
+  const viewItem = async (
+    event: React.MouseEvent,
+    item: any,
+    vaaluue?: any
+  ) => {
+    event.stopPropagation();
+    console.log(vaaluue);
+    setFetch(true)
+    const deleteTheRole = await deleteRole(vaaluue.Role);
+    setFetch(false)
+    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+  };
+  //  useEffect(() => {
+  //   if (MenuLabel == "View") {
+  //     navigate(`/ProductDetail/${CurrSelectedProduct}`);
+  //   } else {
+  //     console.log(
+  //       "Menu",
+  //       MenuLabel,
+  //       "product",
+  //       selectedProducts,
+  //       "CurrSelectedProduct",
+  //       CurrSelectedProduct
+  //     );
+  //   }
+  // }, [MenuLabel]);
   const items = [
     {
       items: [
@@ -44,38 +84,13 @@ export const Searchrole = () => {
           template: (item: any, options: any) => {
             return (
               <div
-                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
-              >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> Ban User
-              </div>
-            );
-          },
-        },
-        {
-          label: "Delete",
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
+                onClick={(event: any) =>
+                  viewItem(event, item, CurrSelectedProduct)
+                }
                 style={{ background: "rgba(231, 29, 54, 0.05)" }}
-                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-              >
-                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
-              </div>
-            );
-          },
-        },
-        {
-          label: "Select",
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ background: "rgba(46, 102, 194, 0.05)" }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
+                <SVGIcon fillcolor={"#E71D36"}  src={IMAGES.Delete} /> Delete role
               </div>
             );
           },
@@ -83,7 +98,7 @@ export const Searchrole = () => {
       ],
     },
   ];
-  const AccountBodyTemplate = (option:any) => {
+  const AccountBodyTemplate = (option: any) => {
     return (
       <div className="flex gap-2 items-center justify-center">
         <p className="font-bold">{option.Role}</p>
@@ -91,20 +106,26 @@ export const Searchrole = () => {
     );
   };
   const MenuBodyTemplate = (rowData: any) => {
+    const handleClick = (event: any) => {
+      event.preventDefault();
+      console.log(rowData);
+      setCurrSelectedProduct(rowData);
+      menuLeft.current.toggle(event);
+    };
+    React.useEffect(() => {
+      if (initial) {
+        setInitial(false);
+      } else {
+      }
+    }, [MenuLabel, CurrSelectedProduct]);
     return (
       <>
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon
-            onClick={(event: any) => {
-              event.preventDefault();
-              menuLeft.current.toggle(event);
-            }}
-            src={IMAGES.Dots}
-          />
+          <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
 
-          <CustomMenu model={items} popup ref={menuLeft} id="popup_menu_left" />
+          <CustomMenu height={"50px"} model={items} popup ref={menuLeft} id="popup_menu_left" />
         </div>
       </>
     );
@@ -113,6 +134,9 @@ export const Searchrole = () => {
     return (
       <>
         <div
+          onClick={() => {
+            navigate(`/Editroles/${option.Edit}`);
+          }}
           className="bg-[#212121] w-[83px] h-[29px]
         mx-auto
         rounded
@@ -125,7 +149,7 @@ export const Searchrole = () => {
         "
         >
           <img src={IMAGES.Editpen} />
-          <p className="font-bold text-[white] ">{option.Edit}</p>
+          <p className="font-bold text-[white] ">Edit</p>
           <img src={IMAGES.dropdown} />
         </div>
       </>
@@ -138,6 +162,20 @@ export const Searchrole = () => {
     { field: "Edit", header: "Edit", body: StatusBodyTemplate },
     { field: "", header: "", body: MenuBodyTemplate },
   ];
+  React.useEffect(() => {
+    if (MenuLabel == "View") {
+      // navigate(`/ListingsDetail/${CurrSelectedProduct}`);
+    } else {
+      console.log(
+        "Menu",
+        MenuLabel,
+        "product",
+        // selectedProducts,
+        "CurrSelectedProduct",
+        CurrSelectedProduct
+      );
+    }
+  }, [MenuLabel]);
   return (
     <div>
       <Header
@@ -148,7 +186,7 @@ export const Searchrole = () => {
       />
       <div>
         <DashCard
-        onClick={()=>navigate("/Creationroles")}
+          onClick={() => navigate("/Creationroles")}
           outerclasses={"!bg-[#212121] !w-[187px] !h-[93px] !mt-10"}
           Add={true}
           txt={"Add New Member"}
@@ -168,14 +206,20 @@ export const Searchrole = () => {
                 All (3)
               </p>
             </div>
-            <CustomTableComponent
-              columnStyle={{ backgroundColor: "#FCFCFC" }}
-              headerStyle={{ color: "black",fontWeight:"800" }}
-              //   columnHeader={"flex-start"}
-              filterData={filterData}
-              columnData={columnData}
-              rowStyling={"#FCFCFC !important"}
-            />
+            {!loading &&!fetch   ? (
+              <CustomTableComponent
+                columnStyle={{ backgroundColor: "#FCFCFC" }}
+                headerStyle={{ color: "black", fontWeight: "800" }}
+                //   columnHeader={"flex-start"}
+                filterData={filterData}
+                columnData={columnData}
+                rowStyling={"#FCFCFC !important"}
+              />
+            ) : (
+              <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+                <ProgressSpinner style={{ overflow: "hidden" }} />
+              </div>
+            )}
           </div>
         </div>
         <div></div>

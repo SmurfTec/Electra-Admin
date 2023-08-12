@@ -6,6 +6,7 @@ import { setAuthToken } from "../../config/index";
 type LoginData = {
   email: string;
   password: string;
+  is_social_login?:boolean
 };
 type passwordData = {
   email: string;
@@ -24,6 +25,7 @@ export const Login = createAsyncThunk<
   { rejectValue: any }
 >("auth/login", async (data: LoginData) => {
   try {
+    data.is_social_login=false;
     let response: any = await url.post("/auth/login", data);
     console.log(response.data,"RESPONSEE")
     const accesstoken=response.data.authentication

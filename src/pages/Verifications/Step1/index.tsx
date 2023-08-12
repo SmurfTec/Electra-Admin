@@ -65,7 +65,7 @@ export const Step1 = () => {
   ];
   const GetVerificationDetail=async()=>{
     let response=await getVerficationById(id);
-    let ImagesArr=response.product.images.map((item:any,index:any)=>{
+    let ImagesArr=response?.verification.product?.images.map((item:any,index:any)=>{
       let newObj={
         itemImageSrc: `${BaseURL}${item.filename}`,
         thumbnailImageSrc:`${BaseURL}${item.filename}`,
@@ -74,7 +74,7 @@ export const Step1 = () => {
       }
       return newObj
     })
-    setItemData(response)
+    setItemData(response.verification)
     setImages(ImagesArr)
     console.log(response,"response",ImagesArr)
   }
@@ -140,9 +140,7 @@ export const Step1 = () => {
           Tell us more about your item?
         </p>
         <p className="text-[#656565] px-4">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac
-          tincidunt elit. Nunc euismod odio sit amet lorem lobortis, vel lacinia
-          libero tristique. Nunc porttitor arcu accumsan,
+          {ItemData?.product.description}
         </p>
       </CustomSidebar>
       <CustomSidebar
@@ -159,7 +157,22 @@ export const Step1 = () => {
           placeholder="Filter Specification"
           MainClasses="mt-[40px] ml-4"
         />
-        <p className="font-bold text-[20px] text-[#000000] mt-6 px-4 ">MPN</p>
+        {ItemData?.product?.technical_specs ? 
+      <>
+      {ItemData?.product?.technical_specs?.map((item:any)=>{
+        return(
+          <>
+          <p className="font-bold text-[20px] text-[#000000] mt-6 px-4 ">{item.title}</p>
+        <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6 px-4">
+          {item.title.toLowerCase().includes("date")?moment(item.value).format("DD,MM,YYYY") :item.value}
+        </p>
+          </>
+        )
+      })}
+      </>
+      :
+      <>
+      <p className="font-bold text-[20px] text-[#000000] mt-6 px-4 ">MPN</p>
         <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6 px-4">
           535MWRL4355
         </p>
@@ -187,6 +200,9 @@ export const Step1 = () => {
         <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6 px-4">
           8GB
         </p>
+      </>  
+      }
+        
       </CustomSidebar>
       <div>
         <div className="flex">
@@ -350,7 +366,7 @@ export const Step1 = () => {
                 <div className="border-t  border-custom">
                   <div className=" p-3 gap-3">
                     <p className="font-semibold">NAME</p>
-                    <p className="font-semibold">{ItemData?.seller?.firstname+" "+ItemData?.seller?.lasttname}</p>
+                    <p className="font-semibold">{ItemData?.seller?.firstname+" "+ItemData?.seller?.lastname}</p>
                   </div>
                   <div className=" p-3 gap-3">
                     <p className="font-semibold">EMAIL</p>
@@ -367,7 +383,7 @@ export const Step1 = () => {
                 <div className="border-t  border-custom">
                   <div className=" p-3 gap-3">
                     <p className="font-semibold">NAME</p>
-                    <p className="font-semibold">{ItemData?.buyer?.firstname+" "+ItemData?.buyer?.lasttname}</p>
+                    <p className="font-semibold">{ItemData?.buyer?.firstname+" "+ItemData?.buyer?.lastname}</p>
                   </div>
                   <div className=" p-3 gap-3">
                     <p className="font-semibold">EMAIL</p>
@@ -391,27 +407,44 @@ export const Step1 = () => {
                 <p className="font-semibold text-[12px]">Item Price</p>
                 <p className="font-semibold text-[20px]">${ItemData?.receipt?.item_price}</p>
               </div>
-              <div className="flex items-center mt-5 justify-between gap-3 ">
+              {ItemData?.receipt_fees?.length?
+              <>
+              {ItemData?.receipt_fees?.map((item:any)=>{
+                return(
+                  <>
+                <div className="flex items-center mt-5 justify-between gap-3 ">
+                <p className="font-semibold text-[12px]">
+                 {item?.title}
+                </p>
+                <p className="font-semibold text-[20px]">$ {item?.fees}</p>
+              </div>
+                  </>
+                )
+              })}
+              </>
+              :
+              <>
+               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">
                   MarketPlace Fee (7.5%)
                 </p>
-                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[0]?.fees}</p>
+                <p className="font-semibold text-[20px]">$0</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">SALES TAX (8.025%)</p>
-                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[2]?.fees}</p>
+                <p className="font-semibold text-[20px]">$0</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">SHIPPING FEE</p>
-                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[1]?.fees}</p>
+                <p className="font-semibold text-[20px]">$0</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">PLATFORM FEE</p>
-                <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[3]?.fees}</p>
+                <p className="font-semibold text-[20px]">$0</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">DISCOUNT</p>
-                <p className="font-semibold text-[20px]">%{ItemData?.receipt_fees[5]?.fees}</p>
+                <p className="font-semibold text-[20px]">%0</p>
               </div>
               <div className="flex items-center mt-5 justify-between gap-3 pb-3 border-b border-dotted ">
                 <p className="font-semibold text-[12px]">
@@ -419,6 +452,9 @@ export const Step1 = () => {
                 </p>
                 <p className="font-semibold text-[20px]">${ItemData?.receipt_fees[4]?.fees}</p>
               </div>
+              </>
+              }
+             
               <div className="flex items-center mt-5 justify-between gap-3 ">
                 <p className="font-semibold text-[12px]">PURCHASE PRICE</p>
                 <p className="font-semibold text-[20px] text-[#3C82D6]">${ItemData?.receipt?.purchase_price}</p>

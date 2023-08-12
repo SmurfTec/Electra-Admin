@@ -8,11 +8,25 @@ import { Checkbox } from "primereact/checkbox";
 import { Dialog } from 'primereact/dialog';
 import { Calendar } from 'primereact/calendar';
 import { Column } from "primereact/column";
+import { Paginator } from "primereact/paginator";
 
-export const CustomInputCalendar=styled(Calendar)`
+export const CustomPaginator=styled(Paginator)`
+justify-content: flex-end !important;
+.p-paginator-pages{
+  .p-highlight{
+    background-color: black !important;
+    color: white !important;
+  }
+}
+`
+export const CustomInputCalendar=styled(Calendar)<any>`
 overflow: hidden !important;
 .p-inputtext{
   border: black !important;
+  background: ${({inputbackground}:any)=>inputbackground &&  inputbackground};
+  outline: none !important;
+  box-shadow: none !important;
+  /* background: orange !important; */
 }
 .p-button{
   background-color: transparent !important;
@@ -372,8 +386,9 @@ export const CustomTable = styled(DataTable)<tableprops>`
           .p-selection-column {
             padding-left: 16px;
             .p-checkbox {
+              background: rgba(164, 164, 164, 0.28) !important;
+              
               .p-checkbox-box {
-                /* background: rgba(164, 164, 164, 0.28); */
                 border: 1px solid #a4a4a4;
                 border-radius: 2px;
                 /* width: 16px;

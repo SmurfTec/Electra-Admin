@@ -7,17 +7,26 @@ import { TabPanel } from 'primereact/tabview';
 import { CustomTabView,CustomMenu } from '../../../atoms/global.style'
 import { SVGIcon } from '../../../components/SVG'
 import { useNavigate } from 'react-router-dom'
-import { getAllVerfications } from '../../../store/Slices/VerificationSlice'
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Paginatior } from '../../../components'
+import { CSVLink } from 'react-csv'
+import { useFetchVerifications } from '../../../custom-hooks/useFetchVerifications'
 import moment from 'moment'
 export const Verification = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 25,
+    currentPage: 1,
+    status:"",
+    order:0,
+    trakingid:"",
+    date:"",
+  })
+  const {VerificationData, VerificationLoading, stats, allVerificationData}=useFetchVerifications(initialPageData)
   const[OrderTrack,setOrderTrack]=useState('')
   const navigate=useNavigate()
   const [filterData,setFilterData] = useState([]);
-  const[failData,setFailData]=useState([])
-  const[PassData,setPassData]=useState([])
-
-  const[PendingData,setPendingData]=useState([])
+  const[activeTab,setactiveTab]=useState(0)
   const deleteItem = (event: React.MouseEvent, id: any) => {
     event.stopPropagation();
     
@@ -137,9 +146,46 @@ export const Verification = () => {
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
 
-const GetVerifications=async()=>{
-  let response=await getAllVerfications();
-  let latestArr=response?.verifications?.map((item:any)=>{
+  const handleTabChange = (event:any) => {
+
+    setactiveTab(event?.index);
+    if(event?.index==0){
+      setInitialPageData({...initialPageData,status:"",currentPage:1})
+    }else if(event?.index==1){
+      setInitialPageData({...initialPageData,status:"rejected",currentPage:1})
+    }else if(event?.index==2){
+      setInitialPageData({...initialPageData,status:"verified",currentPage:1})
+    }else if(event?.index==3){
+      setInitialPageData({...initialPageData,status:"pending",currentPage:1})
+    }
+  };
+  const headers = [
+    { label: 'ID', key: 'id' },
+    { label: 'Seller', key: 'Seller' },
+    { label: 'Buyer', key: 'Buyer' },
+    { label: 'Item Name', key: 'product.title' },
+    { label: 'Sale Price', key: 'saleprice' },
+    { label: 'Tracking ID', key: 'trackingid' },
+    { label: 'Order No', key: 'order.id' },
+    { label: 'Action On', key: 'ActionOn' },
+    { label: 'Status', key: 'status' },
+  ];
+//GetVerifications();
+const checkSearchValue=()=>{
+  let isnum = /^\d+$/.test(OrderTrack);
+
+if(isnum){
+  setInitialPageData({...initialPageData,order:Number(OrderTrack)})
+}else{
+  if(OrderTrack.length==0){
+    setInitialPageData({...initialPageData,order:0,trakingid:""})
+  }else{
+    setInitialPageData({...initialPageData,order:0,trakingid:OrderTrack})
+  }
+}
+}
+useEffect(()=>{
+  let latestArr=VerificationData?.map((item:any)=>{
     let newObj={
       ...item,
       Seller:item.seller.firstname+" "+item.seller.lastname,
@@ -154,18 +200,8 @@ const GetVerifications=async()=>{
     return newObj
   })
   latestArr?.sort((a:any,b:any)=>a.id - b.id)
-  let pendingArr=latestArr.filter((item:any)=>item.Status.toLowerCase()=="pending")
-  let passArr=latestArr.filter((item:any)=>item.Status.toLowerCase()=="verified")
-  let failarr=latestArr.filter((item:any)=>item.Status.toLowerCase()=="rejected")
-  setPendingData(pendingArr)
-  setPassData(passArr)
-  setFailData(failarr)
   setFilterData(latestArr)
-  console.log(response)
-}
-useEffect(()=>{
-  GetVerifications();
-},[])
+},[VerificationData])
 
   return (
     <div>
@@ -179,11 +215,12 @@ useEffect(()=>{
         placeholder="Enter Order/Tracking Number"
         MainClasses="!bg-[#FCFCFC] pointer  !rounded-[8px] border !border-inputBorder !w-[300px] !h-[59px] "
         iconLeft={true}
-     
+
         value={OrderTrack}
         onChange={(e: any) => setOrderTrack(e.target.value)}
       />
       <CustomButton
+      onClick={checkSearchValue}
       classes='!w-[63px] !h-[59px] !rounded-[8px]'
       icon={true}
       />
@@ -202,15 +239,20 @@ useEffect(()=>{
           <p className='text-[20px] text-black font-[600]'>Verification</p>
           <p className='text-[14px] text-[#A4A4A4] font-[400]'>Verify items for proceeding further</p>
         </div>
+        <CSVLink data={allVerificationData || []} headers={headers} filename={"verification.csv"}>
         <CustomButton
         iconLeft={<img src={IMAGES.Csvicon}/>}
         classes='!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]'
         txt="Export CSV"
         />
+        </CSVLink>
+        
       </div>
-      <div className='mt-[39px]'>
-      <CustomTabView>
-      <TabPanel header={`All(${filterData.length})`} >
+      {!VerificationLoading?
+    <>
+    <div className='mt-[39px]'>
+      <CustomTabView activeIndex={activeTab} onTabChange={handleTabChange}>
+      <TabPanel header={`All(${stats?.all || 0})`} >
                     <p className="m-0">
                        <CustomTableComponent
                       theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
@@ -222,48 +264,52 @@ useEffect(()=>{
                       MultipleSelect={true}
                       MultipleHeaderStyle={{width:"10px",paddingLeft:'5px',paddingRight:'5px'}}
                        />
+                       <Paginatior totalRecords={Number(stats?.all)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
                     </p>
                 </TabPanel>
-                <TabPanel header={`Fail (${failData.length})`} >
+                <TabPanel header={`Fail (${stats?.fail||0})`} >
                     <p className="m-0">
                     <CustomTableComponent
                       theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
                       showWrapper={false}
-                      filterData={failData}
+                      filterData={filterData?.filter((item:any)=>item.Status.toLowerCase()=="rejected")}
                       selectedProducts={selectedProducts}
                       setSelectedProducts={setSelectedProducts}
                       columnData={columnData}
                       MultipleSelect={true}
                       MultipleHeaderStyle={{width:"10px",paddingLeft:'5px',paddingRight:'5px'}}
                        />
+                       <Paginatior totalRecords={Number(stats?.fail)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
                           </p>
                 </TabPanel>
-                <TabPanel header={`Pass (${PassData.length})`} >
+                <TabPanel header={`Pass (${stats?.pass||0})`} >
                     <p className="m-0">
                     <CustomTableComponent
                       theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
                       showWrapper={false}
-                      filterData={PassData}
+                      filterData={filterData?.filter((item:any)=>item.Status.toLowerCase()=="verified")}
                       selectedProducts={selectedProducts}
                       setSelectedProducts={setSelectedProducts}
                       columnData={columnData}
                       MultipleSelect={true}
                       MultipleHeaderStyle={{width:"10px",paddingLeft:'5px',paddingRight:'5px'}}
                        />
+                       <Paginatior totalRecords={Number(stats?.pass)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
                           </p>
                 </TabPanel>
-                <TabPanel header={`Pending (${PendingData.length})`} >
+                <TabPanel header={`Pending (${stats?.pending||0})`} >
                     <p className="m-0">
                     <CustomTableComponent
                       theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
                       showWrapper={false}
-                      filterData={PendingData}
+                      filterData={filterData?.filter((item:any)=>item.Status.toLowerCase()=="pending")}
                       selectedProducts={selectedProducts}
                       setSelectedProducts={setSelectedProducts}
                       columnData={columnData}
                       MultipleSelect={true}
                       MultipleHeaderStyle={{width:"10px",paddingLeft:'5px',paddingRight:'5px'}}
                        />
+                       <Paginatior totalRecords={Number(stats?.pending)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
                           </p>
                 </TabPanel>
       </CustomTabView>
@@ -275,6 +321,13 @@ useEffect(()=>{
       txt="Delete"
      
       />
+    </>
+    :  
+    <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+    <ProgressSpinner  style={{overflow:"hidden"}} />
+    </div>
+    }
+      
     </div>
   )
 }

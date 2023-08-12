@@ -8,18 +8,29 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../../../components/index.js";
 import { Confirmationmodal } from "../../../components/index.js";
 import { getAllUsers, BanUser, UnBanUser, DeleteSingleUser } from "../../../store/Slices/UserSlice.js";
+import { Paginatior } from "../../../components/index.js";
+import { ProgressSpinner } from 'primereact/progressspinner';
 import moment from "moment";
+import { useFetchUsers } from "../../../custom-hooks/useFetchUsers.js";
+
 export const Users = () => {
   const navigate = useNavigate();
   const [totalUsers, setTotalUsers] = useState(0)
   const [totalBan, setTotalBan] = useState(0)
   const [visible, setVisible] = useState(false);
-  const [LoadMore, setLoadMore] = useState(true)
+  
+  
+  const [LoadMore, setLoadMore] = useState(false)
   const [selectedUsers, setselectedUsers] = useState<any>([]);
   const [CurrSelectedUser, setCurrSelectedUser] = useState("");
   const [filterData, setFilterData] = useState([]);
-
-
+  
+  const [initialPageData, setInitialPageData] = useState({
+    rowsPerPage: 25,
+    currentPage: 1,
+    
+  })
+  const {users, userLoading,stats}=useFetchUsers(initialPageData)
   const StatusBodyTemplate = (option: any) => {
     return (
       <>
@@ -33,29 +44,7 @@ export const Users = () => {
     );
   };
 
-  const getUsers = async () => {
-    let response = await getAllUsers();
-    setTotalUsers(response.results)
-    let totalBan = 0
-    let latestArr = response?.users?.map((item: any) => {
-      let newObj = {
-        ...item,
-        firstname: item?.profile?.firstname || "",
-        lastname: item?.profile?.lastname || "",
-        phone: item?.profile?.mobile_no || "",
-        register: moment(item.created_at).format("DD,MM,YYYY"),
-        registerValue: "Website",
-      }
-      if (item.is_banned) {
-        totalBan++
-      }
-      return newObj
-    })
-    latestArr.sort((a: any, b: any) => a.id - b.id)
-    setTotalBan(totalBan)
-    setFilterData(latestArr)
-
-  }
+ 
   const setCancelButton = (e: any) => {
     e.preventDefault()
     setVisible(false)
@@ -74,7 +63,7 @@ export const Users = () => {
       }
       let response = await UnBanUser(body)
       if (response) {
-        getUsers()
+        setInitialPageData({...initialPageData,currentPage:1})
 
       }
     } catch (err) {
@@ -101,9 +90,47 @@ export const Users = () => {
       let response = await BanUser(body)
       if (response) {
         setVisible(false)
-        getUsers()
+        setInitialPageData({...initialPageData,currentPage:1})
 
       }
+    } catch (err) {
+
+    }
+  }
+  const DeleteSelected=async()=>{
+   let newarr= selectedUsers.map((item:any)=>{
+      return item.id
+    })
+    try {
+      let body: any = {
+        "ids": newarr
+      }
+      let response = await DeleteSingleUser(body)
+      setselectedUsers([])
+      setInitialPageData({...initialPageData,currentPage:1})
+      
+    } catch (err) {
+
+    }
+  }
+  const BanSelected=async()=>{
+    let newarr= selectedUsers.map((item:any)=>{
+      return item.id
+    })
+    try {
+
+      let body: any = {
+        "ids": [
+          newarr
+        ]
+      }
+      let response = await BanUser(body)
+      if (response) {
+        setVisible(false)
+        setselectedUsers([])
+        setInitialPageData({...initialPageData,currentPage:1})
+       
+      } 
     } catch (err) {
 
     }
@@ -118,7 +145,7 @@ export const Users = () => {
         ]
       }
       let response = await DeleteSingleUser(body)
-      getUsers()
+      setInitialPageData({...initialPageData,currentPage:1})
     } catch (err) {
 
     }
@@ -129,8 +156,24 @@ export const Users = () => {
     navigate(`/UserProfile/${id}`)
   }
   useEffect(() => {
-    getUsers()
-  }, [])
+    // getUsers()
+
+    let latestArr = users?.map((item: any) => {
+      let newObj = {
+        ...item,
+        firstname: item?.profile?.firstname || "",
+        lastname: item?.profile?.lastname || "",
+        phone: item?.profile?.mobile_no || "",
+        register: moment(item.created_at).format("DD,MM,YYYY"),
+        registerValue: "Website",
+      }
+     
+      return newObj
+    })
+    latestArr?.sort((a: any, b: any) => a.id - b.id)
+   
+    setFilterData(latestArr)
+  }, [users])
 
   const MenuBodyTemplate = (rowData: any) => {
     const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
@@ -215,42 +258,73 @@ export const Users = () => {
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
 
-
+  function getLastMonthName() {
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+  
+    const currentDate = new Date(); // Current date
+    const currentMonth = currentDate.getMonth(); // Current month (0-11)
+    const currentYear = currentDate.getFullYear(); // Current year
+  
+    // Calculate the month and year for the last month
+    let lastMonth, lastYear;
+    if (currentMonth === 0) {
+      // If current month is January, the last month is December of the previous year
+      lastMonth = 11; // December (0-11)
+      lastYear = currentYear - 1;
+    } else {
+      lastMonth = currentMonth - 1;
+      lastYear = currentYear;
+    }
+  
+    // Get the name of the last month
+    const lastMonthName = monthNames[lastMonth];
+  
+    return lastMonthName;
+  }
   return (
-    <div className="">
+    <div className="pb-[50px]">
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
-      <div className="flex flex-wrap gap-6 mt-[28px]">
+      {!userLoading ?
+    <>
+    <div className="flex flex-wrap gap-6 mt-[28px]">
         <DashCard
           title={"Total Users"}
-          totalNumber={String(totalUsers)}
+          totalNumber={String(stats?.total_users_registered || 0
+            )}
           myImg={IMAGES.person}
           imgColor={"bg-custom-grey"}
-          textDash={"bg-custom-blue w-[67px] "}
-          textColor={"#3C82D6"}
-          arrowImg={IMAGES.uparrow}
+          textDash={`${stats?.total_users_percentage>=0?"bg-custom-blue":"bg-custom-red"}  w-[67px]`}
+          textColor={stats?.total_users_percentage>=0?"#3C82D6":"#FF0000"}
+          arrowImg={stats?.total_users_percentage>=0? IMAGES.uparrow:IMAGES.downarrow}
           outerclasses="w-[284px] h-[140px]"
+          txt={stats?.total_users_percentage?.toFixed(2)||0}
         />
         <DashCard
-          title={"User Registered In March"}
-          totalNumber={"350"}
+          title={`User Registered In ${getLastMonthName()}`}
+          totalNumber={stats?.total_users_last_month || 0}
           myImg={IMAGES.person}
           imgColor={"bg-custom-grey"}
-          textDash={"bg-custom-blue w-[67px] "}
-          textColor={"#3C82D6"}
-          arrowImg={IMAGES.uparrow}
+          textDash={`${stats?.users_percentage>=0?"bg-custom-blue":"bg-custom-red"}  w-[67px]`}
+          textColor={stats?.users_percentage>=0?"#3C82D6":"#FF0000"}
+          arrowImg={stats?.users_percentage>=0? IMAGES.uparrow:IMAGES.downarrow}
           outerclasses="w-[284px] h-[140px]"
+          txt={stats?.users_percentage?.toFixed(2)||0 }
         />
         <DashCard
           title={"User Registered This Year"}
-          totalNumber={"3500"}
+          totalNumber={String(stats?.total_user_this_year || 0)}
           myImg={IMAGES.person}
           imgColor={"bg-custom-grey"}
-          textDash={"bg-custom-blue w-[67px] "}
-          textColor={"#3C82D6"}
-          arrowImg={IMAGES.uparrow}
+          textDash={`${stats?.users_years_percentage>=0?"bg-custom-blue":"bg-custom-red"}  w-[67px]`}
+          textColor={stats?.users_years_percentage>=0?"#3C82D6":"#FF0000"}
+          arrowImg={stats?.users_years_percentage>=0? IMAGES.uparrow:IMAGES.downarrow}
           outerclasses="w-[284px] h-[140px]"
+          txt={stats?.users_years_percentage?.toFixed(2)||0 }
         />
-      </div>
+      </div> 
       <div className="mt-[40px] relative">
         <CustomTableComponent 
           filterData={filterData}
@@ -260,7 +334,9 @@ export const Users = () => {
           MultipleSelect={true}
           LoadMore={LoadMore}
           setLoadMore={setLoadMore}
+         
         />
+        <Paginatior totalRecords={stats?.total_users_registered} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
       </div>
       <Confirmationmodal
         PopupHeader={"Confirmation"}
@@ -277,10 +353,16 @@ export const Users = () => {
       {!LoadMore
         &&
         <div className="flex gap-2 items-center mt-[20px]">
-          <CustomButton iconLeft={<SVGIcon fillcolor={"white"} src={IMAGES.DeleteIcon} />} classes={'!w-[194px] !h-[46px] !rounded-[8px] !bg-[#BA0000]'} txt={`Delete Users(${totalUsers})`} />
-          <CustomButton iconLeft={<SVGIcon width={"14px"} height={"14px"} fillcolor={"#212121"} src={IMAGES.Ban} />} classes={'!w-[173px] !h-[46px] !text-black !rounded-[8px] !bg-[#FBBB00]'} txt={`Ban Users(${totalBan})`} />
+          <CustomButton onClick={DeleteSelected} iconLeft={<SVGIcon fillcolor={"white"} src={IMAGES.DeleteIcon} />} classes={'!w-[194px] !h-[46px] !rounded-[8px] !bg-[#BA0000]'} txt={`Delete Users(${selectedUsers.length})`} />
+          <CustomButton onClick={BanSelected} iconLeft={<SVGIcon width={"14px"} height={"14px"} fillcolor={"#212121"} src={IMAGES.Ban} />} classes={'!w-[173px] !h-[46px] !text-black !rounded-[8px] !bg-[#FBBB00]'} txt={`Ban Users(${selectedUsers.length})`} />
         </div>
       }
+    </> 
+    :  
+    <div className="w-full mt-[100px] h-full flex justify-start items-center overflow-y-hidden">
+<ProgressSpinner  style={{overflow:"hidden"}} />
+</div>
+    }
 
     </div>
   );
