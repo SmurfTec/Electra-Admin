@@ -4,11 +4,13 @@ import { CustomTableComponent, CustomButton } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import IMAGES from "../../../assets/Images";
 import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useListingDetail } from "../../../custom-hooks";
 import { TabPanel } from "primereact/tabview";
 import { Paginatior } from "../../../components";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { Confirmationmodal } from "../../../components";
+import { flagListing } from "../../../store/Slices/ListingsSlice";
 import moment from "moment";
 export const Listings = () => {
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ export const Listings = () => {
   });
   const [totalList, setTotalList] = useState();
   const {data ,listLoad}= useListingDetail(initialPageData);
+  const [visible,setVisible]=useState(false)
   const [listings, setListings] = useState<any>([
     {
       name: "",
@@ -28,7 +31,7 @@ export const Listings = () => {
   const [MenuLabel, setMenuLabel] = useState("");
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
   const [initial, setInitial] = useState(true);
-
+   const [selectedListing,setSelectedListing]=useState<any>([])
   const getListings = async () => {
     let soldItems: any = [];
     let unsoldItems: any = [];
@@ -74,7 +77,23 @@ export const Listings = () => {
 
     setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
   };
-
+const flagListings = async () => {
+  try {
+    console.log(selectedListing, "LISTIJNGSS");
+    let newarr = selectedListing.map((item: any) => {
+      return item.id;
+    });
+    let body = {
+      is_flagged: true,
+      ids: newarr,
+    };
+    let flag = await flagListing(body);
+    console.log(flag,"FLAGGED")
+    if(flag){
+      setVisible(true)
+    }
+  } catch (e) {}
+};
   const items = [
     {
       items: [
@@ -220,10 +239,12 @@ export const Listings = () => {
                     fontWeight: "800",
                     backgroundColor: "#FCFCFC",
                   }}
+                  selectedProducts={selectedListing}
+                  setSelectedProducts={setSelectedListing}
                   filterData={item.data}
                   columnData={columnData}
                   rowStyling={"#FCFCFC !important"}
-                  // MultipleSelect={true}
+                  MultipleSelect={true}
                 />
               </TabPanel>)
             })}
@@ -237,22 +258,37 @@ export const Listings = () => {
         </div>
 
       </div>
-      {/* <div>
+      <div>
         <CustomButton
           onClick={() => {
-            navigate("/ListingsDetail");
+          flagListings()
           }}
           iconLeft={<img src={IMAGES.Flag} />}
           classes="!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]"
           txt="Mark for review"
         />
-      </div> */}
+      </div>
       <Paginatior
         totalRecords={Number(totalList)}
         initialPageData={initialPageData}
         setInitialPageData={setInitialPageData}
       />
-     
+     <Confirmationmodal
+        PopupHeader={"Confirmation"}
+        visible={visible}
+        setVisible={setVisible}
+        cnfrmbtnText={"ok"}
+        cnclebtnText={"Cancel"}
+        text={
+          "Listings flagged"
+        }
+        setOkButton={()=>{
+          setVisible(false)
+        }}
+        setCancelButton={()=>{
+          setVisible(false)
+        }}
+      />
     </div>
   );
 };
