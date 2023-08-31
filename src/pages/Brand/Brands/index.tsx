@@ -33,7 +33,7 @@ export const Brands = () => {
       let latestArr=BrandData.map((item:any)=>{
         let newObj={
           ...item,
-          brandimage:BaseURL+item?.image.filename,
+          brandimage:BaseURL+item?.image?.filename,
           CreatedOn:moment(item.created_on).format("DD,MMM,YYYY"),
           
         }
