@@ -3,6 +3,9 @@ import { getSingleUserOrder } from "../store/Slices/UserSlice";
 interface OrderParams{
     rowsPerPage?: number,
     currentPage?: number,
+    name?:string,
+    orderid?:number,
+    date?:any,
 }
 export const useFetchUserOrder = (id:any,active:any,initialPageData:OrderParams) => {
     const [orderData, setOrderData] = useState<any>(null);
@@ -17,7 +20,7 @@ export const useFetchUserOrder = (id:any,active:any,initialPageData:OrderParams)
         if(response.orders){
             setOrderData(response.orders);
             setOrderLoading(false)
-            setstats(response.stats[0])
+            setstats({...response.orderStats,total:50})
         
         }
           

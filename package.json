@@ -16,6 +16,8 @@
     "apexcharts": "^3.40.0",
     "axios": "^1.4.0",
     "axios-cookiejar-support": "^4.0.6",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "moment": "^2.29.4",
     "primeicons": "^6.0.1",
     "primereact": "^9.5.0",

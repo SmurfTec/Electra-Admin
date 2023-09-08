@@ -179,9 +179,24 @@ export const Products = () => {
               totalNumber={stats?.total_products_sold_last_month}
               myImg={IMAGES.ProductBox}
               imgColor={"bg-yellow-dash"}
-              textDash={"bg-custom-blue !w-[63px] "}
-              textColor={"#3C82D6"}
-              arrowImg={IMAGES.uparrow}
+              textDash={
+                stats?.products_percentage < 0
+                  ? "bg-custom-red !w-[63px]"
+                  : "bg-custom-blue !w-[63px]"
+              }
+              textColor={
+                stats?.products_percentage < 0
+                  ? "#FF0000"
+                  : "#3C82D6"
+              }
+              arrowImg={
+                stats?.products_percentage < 0
+                  ? IMAGES.downarrow
+                  : IMAGES.uparrow
+              }
+              percentageTxt={`% ${ stats?.products_percentage?.toFixed(
+                1
+              )}`}
               outerclasses="w-[284px] h-[140px]"
             />
             <DashCard
@@ -189,9 +204,24 @@ export const Products = () => {
               totalNumber={stats?.total_products_sold_last_Six_months}
               myImg={IMAGES.ProductBox}
               imgColor={"bg-yellow-dash"}
-              textDash={"bg-custom-blue !w-[63px] "}
-              textColor={"#3C82D6"}
-              arrowImg={IMAGES.uparrow}
+              textDash={
+                stats?.products_percentage < 0
+                  ? "bg-custom-red !w-[66px]"
+                  : "bg-custom-blue !w-[66px]"
+              }
+              textColor={
+                stats?.products_percentage < 0
+                  ? "#FF0000"
+                  : "#3C82D6"
+              }
+              arrowImg={
+                stats?.products_percentage < 0
+                  ? IMAGES.downarrow
+                  : IMAGES.uparrow
+              }
+              percentageTxt={`% ${ stats?.products_percentage?.toFixed(
+                1
+              )}`}
               outerclasses="w-[284px] h-[140px]"
             />
             <DashCard
@@ -209,7 +239,7 @@ export const Products = () => {
               selectedProducts={selectedProducts}
               setSelectedProducts={setSelectedProducts}
               columnData={columnData}
-              MultipleSelect={true}
+              // MultipleSelect={true}
               LoadMore={LoadMore}
               setLoadMore={setLoadMore}
               // pagination={true}

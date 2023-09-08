@@ -106,20 +106,27 @@ export const SideBar = () => {
     },
     {
       id: 12,
+      name: "Brands",
+      url: "/Brand",
+      icon: IMAGES.Brand,
+      active: false,
+    },
+    {
+      id: 13,
       name: "Edit Website",
       icon: IMAGES.EditWebsite,
       active: false,
       url: "/Editwebsite",
     },
     {
-      id: 13,
+      id: 14,
       name: "Help center",
       url: "/HelpCenter",
       icon: IMAGES.HelpCenter,
       active: false,
     },
     {
-      id: 14,
+      id: 15,
       name: "Settings",
       icon: IMAGES.Settings,
       active: false,
@@ -209,7 +216,7 @@ export const SideBar = () => {
   }, [checkRoute]);
   return (
     <>
-      <div className="w-[17rem] h-[1034px] bg-[#FCFCFC]">
+      <div className="w-[17rem] h-[1044px] bg-[#FCFCFC]">
         <img
           className="ml-[39px] mt-[17px] w-[75px] h-[33px] mb-[45px]"
           src={IMAGES.Logo}

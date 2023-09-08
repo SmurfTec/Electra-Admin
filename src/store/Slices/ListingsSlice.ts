@@ -38,3 +38,15 @@ export const deleteListingById = async (id: any) => {
     return e;
   }
 };
+
+// Review api for listing
+
+export const flagListing = async (body:any) => {
+  try {
+    let response: any = await url.patch(`/listings/flaggged`,body);
+    console.log(response);
+    return response;
+  } catch (e) {
+    return e;
+  }
+};

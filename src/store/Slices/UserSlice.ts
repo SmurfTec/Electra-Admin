@@ -13,12 +13,19 @@ type adminBody = {
   mobile_no: string;
   role: string;
 };
-export const getAllUsers = async ({rowsPerPage=25,currentPage=1}:any) => {
+export const getAllUsers = async ({
+  rowsPerPage = 25,
+  currentPage = 1,
+}: any) => {
   try {
-    let response: any = await url.get(`/users/?sort=id&limit=${rowsPerPage?rowsPerPage: 25}&page=${currentPage?currentPage: 1}`);
+    let response: any = await url.get(
+      `/users/?sort=id&limit=${rowsPerPage ? rowsPerPage : 25}&page=${
+        currentPage ? currentPage : 1
+      }`
+    );
     return response.data;
   } catch (e) {
-    return e; 
+    return e;
   }
 };
 export const SendEmail = async () => {
@@ -45,30 +52,38 @@ export const UpdateUser = async (body: any) => {
     return e;
   }
 };
-export const ChangePassword=async(body:any)=>{
-  try{
+export const ChangePassword = async (body: any) => {
+  try {
     let response = await url.patch(`/auth/update-password`, body);
     return response.data;
-  }catch(e){
+  } catch (e) {
     return e;
   }
-}
-export const GetUserAsks=async(userId:any)=>{
-  try{
+};
+export const ResetPassword = async (body: any,code:any) => {
+  try {
+    let response = await url.patch(`/auth/reset-password/${code}`, body);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+};
+export const GetUserAsks = async (userId: any) => {
+  try {
     let response = await url.get(`/asks/?user=${userId}`);
     return response.data;
-  }catch(e){
+  } catch (e) {
     return e;
   }
-}
-export const GetUserStats=async(userId:any,status="pending")=>{
-  try{
+};
+export const GetUserStats = async (userId: any, status = "pending") => {
+  try {
     let response = await url.get(`/orders/users/${userId}?status=${status}`);
-    return {...response.data};
-  }catch(e){
+    return { ...response.data };
+  } catch (e) {
     return e;
   }
-}
+};
 export const getSingleUser = async (id: any) => {
   try {
     let response: any = await url.get(`/users/${id}`);
@@ -77,16 +92,33 @@ export const getSingleUser = async (id: any) => {
     return e;
   }
 };
-export const getSingleUserOrder=async(id:any,status:any,{rowsPerPage=25,currentPage=1})=>{
-  let params=status.length>0 ? `/orders/users/${id}?status=${status}&limit=${rowsPerPage?rowsPerPage: 25}&page=${currentPage?currentPage: 1}`:`/orders/users/${id}?limit=${rowsPerPage?rowsPerPage: 25}&page=${currentPage?currentPage: 1}` //?buyer=${id}
+export const getSingleUserOrder = async (
+  id: any,
+  status: any,
+  { rowsPerPage = 25, currentPage = 1,orderid=0,name="",date="" }
+) => {
+  let params:any =
+    status.length > 0
+      ? `/orders/users/${id}?status=${status}&limit=${
+          rowsPerPage ? rowsPerPage : 25
+        }&page=${currentPage ? currentPage : 1}`
+      : `/orders/users/${id}?limit=${rowsPerPage ? rowsPerPage : 25}&page=${
+          currentPage ? currentPage : 1
+        }`; //?buyer=${id}
+      params=orderid>0 ?params+`&id=${orderid}`:params
+      params=name.length>0 ?params+`&title=${name}`:params
+      if(date){
+        params=params+`&created_on=${new Date(date).toDateString()}`
+      }
+      
   try {
     let response: any = await url.get(`${params}`);
-    console.log(response,"response")
+    console.log(response, "response");
     return response.data;
   } catch (e) {
     return e;
   }
-}
+};
 export const BanUser = async (body: any) => {
   try {
     let response: any = await url.patch(`/users/ban`, body);
@@ -127,15 +159,23 @@ export const addAdmin = async (body: adminBody) => {
     return e;
   }
 };
-export const getNotifications=async()=>{
-  try{
-let response:any =await url.get('/notifications/own/all');
-return response.data
-  }catch(e){
-
+export const getNotifications = async () => {
+  try {
+    let response: any = await url.get("/notifications/own/all");
+    return response.data;
+  } catch (e:any) {
+    throw new Error(e);
   }
-}
-
+};
+export const forgotPassword = async (email: string) => {
+  try {
+    let body = { email: email };
+    let response: any = await url.post("/auth/forgot-password", body);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e);
+  }
+};
 
 const UserSlice = createSlice({
   name: "users",

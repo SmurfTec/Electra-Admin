@@ -48,7 +48,7 @@ export const DashCard = (props: MyProps) => {
             </h1>
             <div className="flex  items-center gap-2">
               <div
-                className={` ${props.textDash}  w-[67px] flex justify-start rounded mt-[16px] p-1 `}
+                className={` ${props.textDash}  w-auto flex justify-start rounded mt-[16px] p-1 `}
               >
                 {props.arrowImg && (
                   <img className="mr-1" src={props.arrowImg} />

@@ -18,6 +18,14 @@ export const getAllCoupons=async(params:any)=>{
         return e;
       }
       }
+      export const UpdateCoupon=async(id:any,body:any)=>{
+        try{
+          let response:any=await url.put(`/coupons/${id}`,body)
+          return response.data;
+        }catch(e){
+          return e;
+        }
+        }
       export const DeleteCoupons=async(id:any)=>{
         try{
           let response:any=await url.delete(`/coupons/${id}`)

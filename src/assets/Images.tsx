@@ -121,6 +121,7 @@ const IMAGES: any = {
   //
   //
   //
+  Brand:new URL("../assets/icons/Brand.svg",import.meta.url).href,
   DropDown2: new URL("../assets/icons/dropdown2.svg", import.meta.url).href,
   DeleteIcon: new URL("../assets/icons/deleteIcon.svg", import.meta.url).href,
   arrowDown: new URL("../assets/icons/arrowDown.svg", import.meta.url).href,
@@ -144,6 +145,7 @@ const IMAGES: any = {
   Percentage: new URL("../assets/icons/Percentage.svg", import.meta.url).href,
   Cross: new URL("../assets/icons/cross.svg", import.meta.url).href,
   Edit: new URL("../assets/icons/Edit.svg", import.meta.url).href,
+  Pencil: new URL("../assets/icons/Pencil.svg", import.meta.url).href,
   Password: new URL("../assets/icons/Password.svg", import.meta.url).href,
   Phone: new URL("../assets/icons/Phone.svg", import.meta.url).href,
   Bank: new URL("../assets/icons/Bank.svg", import.meta.url).href,

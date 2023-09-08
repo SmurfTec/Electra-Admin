@@ -8,6 +8,7 @@ export const Confirmationmodal = ({
   visible,
   text,
   cnfrmbtnText,
+  cnfrmbtnStyle,
   cnclebtnText,
   addValue,
   Feemodif,
@@ -110,7 +111,7 @@ export const Confirmationmodal = ({
               }
             }}
             txt={cnfrmbtnText}
-            classes={`!w-[179px] !h-[50px] bg-[#212121] !rounded-[10px] !text-white !text-[16px]`}
+            classes={`!w-[179px] !h-[50px] bg-[#212121] !rounded-[10px] !text-white !text-[16px] ${cnfrmbtnStyle}`}
           />
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Header, DashCard, CreateCouponModel,SuccessModel } from "../../../components";
+import { Header, DashCard, CreateCouponModel,SuccessModel,Confirmationmodal } from "../../../components";
 import { CustomTableComponent } from "../../../atoms";
 import { SVGIcon } from "../../../components/SVG";
 import { MenuItem } from "primereact/menuitem";
@@ -13,13 +13,16 @@ import { useFetchCoupon } from "../../../custom-hooks/useFetchCoupons";
 export const Coupon = () => {
   const [filterData,setfilterData] = useState([]);
   const[added,setadded]=useState(false)
+  const[Title,setTitle]=useState("Create Coupon")
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 25,
     currentPage: 1,
    
   })
+  const [visible,setvisible]=useState(false)
   const {couponData,couponLoading,stats}=useFetchCoupon(initialPageData)
-  
+  const[currentItem,setcurrentItem]=useState()
+  const[currentId,setcurrentId]=useState()
   useEffect(()=>{
     
     if(couponData){
@@ -40,40 +43,78 @@ export const Coupon = () => {
     }
   },[couponData])
   const [modalVisible, setmodalVisible] = useState(false);
-  const [MenuLabel, setMenuLabel] = useState("");
-  const [CurrSelectedProduct, setCurrSelectedProduct] = useState("");
   const[successVisible,setsuccessVisible]=useState(false)
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
-  const menuLeft: any = useRef(null);
 
-  const items = [
   
-    {
-      label: "Delete",
-      template: (item: MenuItem) => {
-        return (
-          <div
-            onClick={(event) => deleteItem(event, item)}
-            style={{ background: "rgba(231, 29, 54, 0.05)" }}
-            className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-          >
-            <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
-          </div>
-        );
-      },
-    },
-  ];
 
-  const deleteItem = (event: React.MouseEvent, item: any) => {
+  const deleteItem = async(event: React.MouseEvent, id: any) => {
     event.stopPropagation();
-    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+    setcurrentId(id)
+    setvisible(true)
+    
   };
+  const setOkButton=async()=>{
+    try{
+      let response=await DeleteCoupons(currentId)
+ 
+    
+    setsuccessVisible(true)
+    setvisible(false)
+    setInitialPageData({...initialPageData,currentPage:1})
+    }catch(err){
+      
+    }
+  }
+  const EditItem=(event:React.MouseEvent,item:any)=>{
+    event.stopPropagation();
+   
+    setcurrentItem(item)
+    setTitle("Edit Coupon")
+    setmodalVisible(true)
+  }
   const MenuBodyTemplate = (rowData: any) => {
+    const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
+      let [items] = useState([
+        {
+          label: "Edit Item",
+    
+          template: (item: any) => {
+            return (
+              <div
+                onClick={(event)=>EditItem(event,rowData)}
+                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+              >
+                <SVGIcon fillcolor={"#212121"} src={IMAGES.Pencil} /> Edit Item
+              </div>
+            );
+          },
+        },
+        {
+          label: "Delete",
+          template: (item: MenuItem) => {
+            return (
+              <div
+                onClick={(event) => deleteItem(event, rowData.id)}
+                style={{ background: "rgba(231, 29, 54, 0.05)" }}
+                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+              >
+                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
+              </div>
+            );
+          },
+        },
+      ]);
+
+      return (
+        <CustomMenu model={items} popup  height={"80px"} ref={menuRef} id="popup_menu_left" />
+      );
+    };
+    const menuLeftRef = useRef<any>(null);
     const handleClick = (event: any) => {
       event.preventDefault();
-      setCurrSelectedProduct(rowData.id);
-     
-      menuLeft.current.toggle(event);
+      menuLeftRef.current?.toggle(event);
     };
     return (
       <>
@@ -81,15 +122,8 @@ export const Coupon = () => {
           className={` px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
           <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
-
-          <CustomMenu
-            popupAlignment="left"
-            height={"80px"}
-            model={items}
-            popup
-            ref={menuLeft}
-            id="popup_menu_left"
-          />
+          <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
+         
         </div>
       </>
     );
@@ -114,24 +148,8 @@ export const Coupon = () => {
     { field: "UsedTime", header: "Used (times)" },
     { field: "", header: "", body: MenuBodyTemplate },
   ]);
-  const DeleteCoupon=async()=>{
-    try{
-      let response=await DeleteCoupons(CurrSelectedProduct)
- 
-    setCurrSelectedProduct("");
-    setsuccessVisible(true)
-    setInitialPageData({...initialPageData,currentPage:1})
-    }catch(err){
-      
-    }
-  }
-  useEffect(() => {
-    if(MenuLabel=="Delete"){
-      DeleteCoupon()
-    }
-   
-    
-  }, [MenuLabel]);
+  
+  
 
  useEffect(()=>{
   if(added){
@@ -147,6 +165,21 @@ export const Coupon = () => {
         setVisible={setmodalVisible}
         added={added}
         setadded={setadded}
+        headerTitle={Title}
+        currentItem={currentItem}
+      />
+      <Confirmationmodal
+        PopupHeader={"Confirmation"}
+        visible={visible}
+        setVisible={setvisible}
+        cnfrmbtnText={"Delete"}
+        cnfrmbtnStyle={'bg-red'}
+        cnclebtnText={"Cancel"}
+        text={
+          "Are you sure you want to Delete this user"
+        }
+        setOkButton={setOkButton}
+        setCancelButton={()=>{setvisible(true)}}
       />
        <SuccessModel visible={successVisible} setVisible={setsuccessVisible} txt={"Coupon deleted Successfully"}/>
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
@@ -166,7 +199,7 @@ export const Coupon = () => {
             txt="Add New Coupon"
             outerclasses="w-[284px] h-[140px]"
             Addimg={IMAGES.AddItem}
-            onClick={() => setmodalVisible(true)}
+            onClick={() => {setTitle("Create Coupon");setmodalVisible(true)}}
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   PaginatorPageChangeEvent,
   PaginatorNextPageLinkOptions,
@@ -13,8 +13,7 @@ export const Paginatior = ({
   initialPageData,
   setInitialPageData,
 }: any) => {
-   
-    const paginatorRef = useRef<any>(null);
+  const paginatorRef = useRef<any>(null);
   const [first, setFirst] = useState<number[]>([0, 0, 0]);
   const onPageChange = (e: PaginatorPageChangeEvent, index: number) => {
     setFirst(first.map((f, i) => (index === i ? e.first : f)));
@@ -40,6 +39,9 @@ export const Paginatior = ({
           }}
           disabled={options.disabled}
         >
+          <p>
+            Showing {initialPageData.rowsPerPage} out of {totalRecords}
+          </p>
           <span className="p-3">
             <i className="pi pi-arrow-left"></i>
           </span>
@@ -99,21 +101,22 @@ export const Paginatior = ({
       );
     },
   };
-useEffect(()=>{
- 
-  setFirst([((initialPageData.currentPage-1)*initialPageData.rowsPerPage),0,0])
-  
-},[initialPageData])
+  useEffect(() => {
+    setFirst([
+      (initialPageData.currentPage - 1) * initialPageData.rowsPerPage,
+      0,
+      0,
+    ]);
+  }, [initialPageData]);
   return (
     <div className="card">
       <CustomPaginator
-      ref={paginatorRef}
+        ref={paginatorRef}
         template={template1}
         first={first[0]}
         rows={initialPageData?.rowsPerPage}
         totalRecords={totalRecords}
         onPageChange={(e) => onPageChange(e, 0)}
-        
       />
     </div>
   );

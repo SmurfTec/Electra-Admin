@@ -39,7 +39,9 @@ import {
   SecurityQuestion,
   Editrole,
   EditProduct,
-  Editnewbanner
+  Editnewbanner,
+  Brands,
+  CreateBrand
 } from "./pages/index";
 import { SideBar } from "./components";
 import PrivateRoute from "./routes/Privateroute";
@@ -48,7 +50,7 @@ import { token } from "./store/Slices/AuthSlice";
 function App() {
   const [show, setShow] = useState(false);
   const location = useLocation();
-  const user = JSON.parse(localStorage.getItem("user") as string);
+  const user =localStorage?.getItem("user") 
   useEffect(() => {
     if (!user || location.pathname === "/") {
       setShow(false);
@@ -71,9 +73,9 @@ function App() {
             <Route
               path="/Dashboard"
               element={
-                // <PrivateRoute>
+                <PrivateRoute>
                   <Dashboard />
-              //  </PrivateRoute>
+                </PrivateRoute>
               }
             />
             <Route path="/Users" element={<Users />} />
@@ -87,6 +89,8 @@ function App() {
             <Route path="/Wallet" element={<Wallet />} />
             <Route path="/Coupon" element={<Coupon />} />
             <Route path="/CreateCoupon" element={<CreateCoupon />} />
+            <Route path="/CreateBrand" element={<CreateBrand />} />
+            <Route path="/Brand" element={<Brands />} />
             <Route path="/Category" element={<Category />} />
             <Route path="/CreateCategory" element={<CreateCategory />} />
             <Route path="/AddNewVariant" element={<AddNewVariant />} />

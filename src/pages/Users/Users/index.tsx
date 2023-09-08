@@ -12,6 +12,7 @@ import { Paginatior } from "../../../components/index.js";
 import { ProgressSpinner } from 'primereact/progressspinner';
 import moment from "moment";
 import { useFetchUsers } from "../../../custom-hooks/useFetchUsers.js";
+
 export const Users = () => {
   const navigate = useNavigate();
   const [totalUsers, setTotalUsers] = useState(0)
@@ -19,7 +20,7 @@ export const Users = () => {
   const [visible, setVisible] = useState(false);
   
   
-  const [LoadMore, setLoadMore] = useState(true)
+  const [LoadMore, setLoadMore] = useState(false)
   const [selectedUsers, setselectedUsers] = useState<any>([]);
   const [CurrSelectedUser, setCurrSelectedUser] = useState("");
   const [filterData, setFilterData] = useState([]);
@@ -92,6 +93,44 @@ export const Users = () => {
         setInitialPageData({...initialPageData,currentPage:1})
 
       }
+    } catch (err) {
+
+    }
+  }
+  const DeleteSelected=async()=>{
+   let newarr= selectedUsers.map((item:any)=>{
+      return item.id
+    })
+    try {
+      let body: any = {
+        "ids": newarr
+      }
+      let response = await DeleteSingleUser(body)
+      setselectedUsers([])
+      setInitialPageData({...initialPageData,currentPage:1})
+      
+    } catch (err) {
+
+    }
+  }
+  const BanSelected=async()=>{
+    let newarr= selectedUsers.map((item:any)=>{
+      return item.id
+    })
+    try {
+
+      let body: any = {
+        "ids": [
+          newarr
+        ]
+      }
+      let response = await BanUser(body)
+      if (response) {
+        setVisible(false)
+        setselectedUsers([])
+        setInitialPageData({...initialPageData,currentPage:1})
+       
+      } 
     } catch (err) {
 
     }
@@ -246,7 +285,7 @@ export const Users = () => {
     return lastMonthName;
   }
   return (
-    <div className="">
+    <div className="pb-[50px]">
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
       {!userLoading ?
     <>
@@ -314,11 +353,11 @@ export const Users = () => {
       {!LoadMore
         &&
         <div className="flex gap-2 items-center mt-[20px]">
-          <CustomButton iconLeft={<SVGIcon fillcolor={"white"} src={IMAGES.DeleteIcon} />} classes={'!w-[194px] !h-[46px] !rounded-[8px] !bg-[#BA0000]'} txt={`Delete Users(${totalUsers})`} />
-          <CustomButton iconLeft={<SVGIcon width={"14px"} height={"14px"} fillcolor={"#212121"} src={IMAGES.Ban} />} classes={'!w-[173px] !h-[46px] !text-black !rounded-[8px] !bg-[#FBBB00]'} txt={`Ban Users(${totalBan})`} />
+          <CustomButton onClick={DeleteSelected} iconLeft={<SVGIcon fillcolor={"white"} src={IMAGES.DeleteIcon} />} classes={'!w-[194px] !h-[46px] !rounded-[8px] !bg-[#BA0000]'} txt={`Delete Users(${selectedUsers.length})`} />
+          <CustomButton onClick={BanSelected} iconLeft={<SVGIcon width={"14px"} height={"14px"} fillcolor={"#212121"} src={IMAGES.Ban} />} classes={'!w-[173px] !h-[46px] !text-black !rounded-[8px] !bg-[#FBBB00]'} txt={`Ban Users(${selectedUsers.length})`} />
         </div>
       }
-    </>
+    </> 
     :  
     <div className="w-full mt-[100px] h-full flex justify-start items-center overflow-y-hidden">
 <ProgressSpinner  style={{overflow:"hidden"}} />

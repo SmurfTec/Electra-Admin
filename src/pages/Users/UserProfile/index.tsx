@@ -15,11 +15,19 @@ import { DeleteOrders } from '../../../store/Slices/OrderSlice'
 import moment from 'moment'
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useFetchUserOrder } from '../../../custom-hooks/useFetchUserOrder'
+import { CustomCalendar } from '../../../atoms'
 type UserInterface={
   username:String,
   email:String,
   phone:String,
   date:String,
+}
+type InitialPageData={
+  rowsPerPage: Number,
+  currentPage: Number,
+  name:String,
+  orderid:Number,
+  date:String | Date | null,
 }
 export const UserProfile = () => {
   const params = useParams();
@@ -34,17 +42,18 @@ export const UserProfile = () => {
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 25,
     currentPage: 1,
-   
+    name:"",
+    orderid:0,
+    date:"",
   })
 
   const [activetxt, setactivetxt] = useState('Active')
   const {orderData,orderLoading,stats}=useFetchUserOrder(id,activetxt=="Active"?"":activetxt.toLowerCase(),initialPageData)
   const [search, setSearch] = useState('')
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
-  const [MenuLabel,setMenuLabel]=useState("")
-  const[CurrSelectedProduct,setCurrSelectedProduct]=useState('')
+  const[SearchDate,setSearchDate]=useState<any>("")
   const[userOrders,setuserOrders]=useState<any>()
-  const[userStats,setuserStats]=useState<any>()
+
   const [ButtonList, setButtonList] = useState([
     { id: 1, txt: 'Active', active: true },
     { id: 2, txt: 'Pending', active: false }, 
@@ -62,44 +71,7 @@ export const UserProfile = () => {
     { id: 9, txt: 'Completed', title: "Net Value", body: '17' },
     { id: 10, txt: 'Completed', title: "Total Points Earned", body: '1500' },
   ])
-  const [filterData] = useState([
-    {
-      id: 1,
-      itemname: "Iphone 14",
-      askprice: "$900",
-      highestOffer: "$900",
-      listedon: "22 aug,2022"
-    },
-    {
-      id: 2,
-      itemname: "Iphone 14",
-      askprice: "$900",
-      highestOffer: "$900",
-      listedon: "22 aug,2022"
-    },
-    {
-      id: 3,
-      itemname: "Iphone 14",
-      askprice: "$900",
-      highestOffer: "$900",
-      listedon: "22 aug,2022"
-    },
-    {
-      id: 4,
-      itemname: "Iphone 14",
-      askprice: "$900",
-      highestOffer: "$900",
-      listedon: "22 aug,2022"
-    },
-    {
-      id: 5,
-      itemname: "Iphone 14",
-      askprice: "$900",
-      highestOffer: "$900",
-      listedon: "22 aug,2022"
-    },
-
-  ]);
+ 
  
  
   const handleButton = (id: any) => {
@@ -233,11 +205,15 @@ export const UserProfile = () => {
   const OrderNoTemplate = (option: any) => {
     return <p className="text-[#3C82D6]">{option["id"]}</p>;
   };
+  const HighestOfferTemplate=(option:any)=>{
+    
+    return <p className="text-[#3C82D6]">{option["highestOffer"]>0 && `$${option["highestOffer"]}`}</p>;
+  }
   const [columnData] = useState([
     { field: "id", header: 'ID' },
     { field: "itemname", header: 'Item Name' },
     { field: "askprice", header: 'Ask Price' },
-    { field: "highestOffer", header: 'Highest Offer' },
+    { field: "highestOffer", header: 'Highest Offer',body:HighestOfferTemplate },
     { field: "listedon", header: 'Listed On' },
     { field: "", header: '', body: MenuBodyTemplate }
   ])
@@ -272,22 +248,22 @@ export const UserProfile = () => {
   }
   const getUserOrder=async()=>{
    try{
-    let active=activetxt=="Active"?"":activetxt.toLowerCase()
+    // let active=activetxt=="Active"?"":activetxt.toLowerCase()
    
-    let r=await getSingleUserOrder(id,active,initialPageData);
+    // let r=await getSingleUserOrder(id,active,initialPageData);
 
-    setuserStats(r.orderStats) 
-    let order=r?.orders?.map((item:any)=>{
-      let updatedOrders={
-        ...item,
-        itemname:item?.product?.title,
-        askprice:item?.ask_price        ,
-        highestOffer:item?.highest_offer,
-        listedon:moment(item?.created_on).format("DD,MM,YYYY")      ,
-      }
-      return updatedOrders
-    })
-    setuserOrders(order)
+    // setuserStats(r.orderStats) 
+    // let order=r?.orders?.map((item:any)=>{
+    //   let updatedOrders={
+    //     ...item,
+    //     itemname:item?.product?.title,
+    //     askprice:item?.ask_price        ,
+    //     highestOffer:item?.highest_offer,
+    //     listedon:moment(item?.created_on).format("DD,MM,YYYY")      ,
+    //   }
+    //   return updatedOrders
+    // })
+    // setuserOrders(order)
     let response=await GetUserAsks(id);
     let newData=Data.map((item:any)=>{
       if(item.id==1){
@@ -308,7 +284,7 @@ export const UserProfile = () => {
       }else if(item.id==10){
         return{
           ...item,
-          body:r?.orderStats[0]?.points_earned_buyer || 0
+          body:stats[0]?.points_earned_buyer || 0
         }
       }
       else{
@@ -320,12 +296,36 @@ export const UserProfile = () => {
   
    }
   }
-  
+  useEffect(()=>{
+    let order=orderData?.map((item:any)=>{
+      let updatedOrders={
+        ...item,
+        itemname:item?.product?.title,
+        askprice:item?.ask_price        ,
+        highestOffer:item?.highest_offer,
+        listedon:moment(item?.created_on).format("DD,MM,YYYY")      ,
+      }
+      return updatedOrders
+    })
+    setuserOrders(order)
+  },[orderData])
   useEffect(()=>{
     GetUserDetail()
     getUserOrder()
     
   },[activetxt])
+useEffect(()=>{
+  let isnum = /^\d+$/.test(search);
+if(isnum){
+  setInitialPageData({...initialPageData,orderid:Number(search)})
+}else{
+  if(search.length==0){
+    setInitialPageData({...initialPageData,orderid:0,name:""})
+  }else{
+    setInitialPageData({...initialPageData,orderid:0,name:search})
+  }
+}
+},[search])
 
   return (
     <div className=''>
@@ -361,7 +361,7 @@ export const UserProfile = () => {
         <div className='flex flex-wrap gap-6'>
           <DashCard
             title={"Total Volume"}
-            totalNumber={`${userStats?.total_volume || 0}`}
+            totalNumber={`${stats?.total_volume || 0}`}
             myImg={IMAGES.Volume}
             imgColor={"bg-custom-grey"}
             textDash={"bg-yellow-dash px-2 py-1 w-[6rem] "}
@@ -374,26 +374,26 @@ export const UserProfile = () => {
           />
           <DashCard
             title={"Completed Sales"}
-            totalNumber={`${userStats?.completed_sales|| 0}`}
+            totalNumber={`${stats?.completed_sales|| 0}`}
             myImg={IMAGES.Sales}
             imgColor={"bg-custom-blue"}
-            textDash={`${userStats?.completed_sales_percentage>=0?"bg-custom-blue":"bg-custom-red"}  w-[67px] `}
-            textColor={userStats?.completed_sales_percentage>=0?"#3C82D6":"#FF0000"}
-            arrowImg={userStats?.completed_sales_percentage>=0? IMAGES.uparrow:IMAGES.downarrow}
+            textDash={`${stats?.completed_sales_percentage>=0?"bg-custom-blue":"bg-custom-red"}  w-[67px] `}
+            textColor={stats?.completed_sales_percentage>=0?"#3C82D6":"#FF0000"}
+            arrowImg={stats?.completed_sales_percentage>=0? IMAGES.uparrow:IMAGES.downarrow}
             outerclasses="!w-[284px] !h-[140px]"
-            txt={userStats?.completed_sales_percentage?.toFixed(2)||0 }
+            txt={stats?.completed_sales_percentage?.toFixed(2)||0 }
           />
           <DashCard
             title={"Rejected Sales"}
-            totalNumber={`${userStats?.rejected_sales|| 0}`}
+            totalNumber={`${stats?.rejected_sales|| 0}`}
             myImg={IMAGES.RegectedSale}
             imgColor={"bg-[#F8B84E]"}
-            textDash={`${userStats?.rejected_sales_percentage
+            textDash={`${stats?.rejected_sales_percentage
               >=0?"bg-custom-blue":"bg-custom-red"}  w-[67px]`}
-            textColor={userStats?.rejected_sales_percentage>=0?"#3C82D6":"#FF0000"}
-            arrowImg={userStats?.rejected_sales_percentage>=0? IMAGES.uparrow:IMAGES.downarrow}
+            textColor={stats?.rejected_sales_percentage>=0?"#3C82D6":"#FF0000"}
+            arrowImg={stats?.rejected_sales_percentage>=0? IMAGES.uparrow:IMAGES.downarrow}
             outerclasses="!w-[284px] !h-[140px] !pb-[8px]"
-            txt={userStats?.rejected_sales_percentage?.toFixed(2)||0 }
+            txt={stats?.rejected_sales_percentage?.toFixed(2)||0 }
 
           />
         </div>
@@ -463,7 +463,8 @@ export const UserProfile = () => {
           onChange={(e: any) => setSearch(e.target.value)}
           placeholdertxtColor="#656565"
         />
-        <InputTxt
+         <CustomCalendar  img={IMAGES.FilterDate} inputbackground="#F1F1F1" value={initialPageData.date} setDate={(e: any) => setInitialPageData({...initialPageData,date:e.value})} classes='!w-[10.5rem] !h-[72px] !pl-[5px] !pr-[10px]  !rounded-[8px] !bg-[#F1F1F1]' placeholder="Filter Date" MainClasses='!bg-[#F1F1F1] !text-[#656565] !w-[10.5rem] ' />
+        {/* <InputTxt
           placeholder="Filter Date"
           MainClasses={`!bg-[#F1F1F1] !text-[#656565] !w-[10.5rem]`}
           img={IMAGES.FilterDate}
@@ -472,22 +473,30 @@ export const UserProfile = () => {
 
 
           iconRight={true}
-        />
+        /> */}
       </div>
+      {!orderLoading ? 
       <div className='mt-[38px]'>
-        <CustomTableComponent
-          width={'60%'} //634px
-          theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
-          showWrapper={false}
-          filterData={userOrders}
-          selectedProducts={selectedProducts}
-          setSelectedProducts={setSelectedProducts}
-          columnData={activetxt=="Active"?columnData:activetxt=="Completed"?CompletedcolumnData:PendingcolumnData}
-          MultipleSelect={true}
-          pagination={true}
-        /> 
-      <Paginatior totalRecords={100} initialPageData={initialPageData} setInitialPageData={setInitialPageData} /> 
-      </div>
+      <CustomTableComponent
+        width={'60%'} //634px
+        theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
+        showWrapper={false}
+        filterData={userOrders}
+        selectedProducts={selectedProducts}
+        setSelectedProducts={setSelectedProducts}
+        columnData={activetxt=="Active"?columnData:activetxt=="Completed"?CompletedcolumnData:PendingcolumnData}
+        MultipleSelect={true}
+        pagination={true}
+      /> 
+    <Paginatior totalRecords={stats?.total} initialPageData={initialPageData} setInitialPageData={setInitialPageData} /> 
+    </div>:
+    <>
+     <div className="w-full mt-[100px] h-full flex justify-start items-center overflow-y-hidden">
+<ProgressSpinner  style={{overflow:"hidden"}} />
+</div>
+    </>
+    }
+      
 
     </div>
   )

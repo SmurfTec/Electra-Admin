@@ -34,6 +34,7 @@ export const useProductDetail = (id: any) => {
     const fetchData = async () => {
       try {
         const response = await getProductById(id);
+        console.log(response)
         setData(response);
         setLoading(false)
       } catch (error) {
