@@ -104,6 +104,7 @@ export const AddProduct = () => {
     }
   }, [VariantsData]);
   const handleFunction = async (value: any) => {
+    console.log(value,"ADASD")
     let prevArray = variant.values;
     let Newpush = [...prevArray, value];
     let sendingData = {
