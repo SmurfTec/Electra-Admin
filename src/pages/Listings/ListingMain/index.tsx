@@ -279,7 +279,7 @@ const flagListings = async () => {
         totalRecords={Number(totalList)}
         initialPageData={initialPageData}
         setInitialPageData={setInitialPageData}
-        recordShowing={listings&& actIndex>0?listings[actIndex].data.length:listings[0]?.length}
+        recordShowing={listings&& actIndex>0?listings[actIndex].data?.length:listings[0]?.length}
       />
      <Confirmationmodal
         PopupHeader={"Confirmation"}

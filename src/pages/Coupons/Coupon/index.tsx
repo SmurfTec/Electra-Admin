@@ -214,7 +214,7 @@ export const Coupon = () => {
          
         />
       <Paginatior totalRecords={Number(stats.all_coupons)}
-      recordShowing={filterData.length}
+      recordShowing={filterData?.length}
       initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
       </div>
     </>  
