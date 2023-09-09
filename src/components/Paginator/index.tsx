@@ -12,7 +12,9 @@ export const Paginatior = ({
   totalRecords,
   initialPageData,
   setInitialPageData,
+  recordShowing
 }: any) => {
+  console.log(recordShowing)
   const paginatorRef = useRef<any>(null);
   const [first, setFirst] = useState<number[]>([0, 0, 0]);
   const onPageChange = (e: PaginatorPageChangeEvent, index: number) => {
@@ -40,7 +42,7 @@ export const Paginatior = ({
           disabled={options.disabled}
         >
           <p>
-            Showing {initialPageData.rowsPerPage} out of {totalRecords}
+            Showing {recordShowing??initialPageData.rowsPerPage} out of {totalRecords}
           </p>
           <span className="p-3">
             <i className="pi pi-arrow-left"></i>
