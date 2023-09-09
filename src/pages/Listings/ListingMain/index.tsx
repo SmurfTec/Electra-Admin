@@ -19,6 +19,7 @@ export const Listings = () => {
     rowsPerPage: 10,
     currentPage: 1,
   });
+  const [actIndex,setActIndex]=useState(0)
   const [totalList, setTotalList] = useState();
   const {data ,listLoad}= useListingDetail(initialPageData);
   const [visible,setVisible]=useState(false)
@@ -228,7 +229,13 @@ const flagListings = async () => {
           </p>
           {!listLoad?<> 
             <div className="flex gap-8 px-4 border-b border-custom "></div>
-               <CustomTabView className="!bg-[#FCFCFC]">
+               <CustomTabView
+               activeIndex={actIndex} onTabChange={(e)=>{
+                console.log(e.index)
+                console.log(listings[e.index])
+
+                setActIndex(e.index)
+              }}  className="!bg-[#FCFCFC]">
             {listings.map((item: any, index: number) => {
               return(
               <TabPanel key={index} header={item.name}>
@@ -272,6 +279,7 @@ const flagListings = async () => {
         totalRecords={Number(totalList)}
         initialPageData={initialPageData}
         setInitialPageData={setInitialPageData}
+        recordShowing={listings&& actIndex>0?listings[actIndex].data.length:listings[0]?.length}
       />
      <Confirmationmodal
         PopupHeader={"Confirmation"}

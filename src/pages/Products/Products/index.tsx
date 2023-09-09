@@ -248,6 +248,7 @@ export const Products = () => {
               totalRecords={Number(totalProducts)}
               initialPageData={initialPageData}
               setInitialPageData={setInitialPageData}
+              recordShowing={filterData?.length}
             />
           </div>
         </>

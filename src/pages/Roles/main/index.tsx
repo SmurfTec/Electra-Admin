@@ -53,6 +53,7 @@ export const Roles = () => {
   const [Body, setBody] = useState({
     ids: [""],
   });
+  const [actIndex,setActIndex]=useState(0)
   const { userLoading }: any = useDeleteRole(Body, setFetch, fetch);
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 10,
@@ -223,6 +224,7 @@ export const Roles = () => {
       navigate(`/Viewadmin/${CurrSelectedProduct}`);
     }
   }, [MenuLabel]);
+  console.log(roleArray)
   return (
     <div>
       <ShippingModal visible={visible} setVisible={setVisible} />
@@ -268,8 +270,11 @@ export const Roles = () => {
           {!loading ? (
             <>
               {" "}
-              <CustomTabView>
-                <TabPanel header={`All(${filterData?.length})`}>
+              <CustomTabView activeIndex={actIndex} onTabChange={(e)=>{
+                console.log(e.index)
+                setActIndex(e.index)
+              }} >
+                <TabPanel key={0} header={`All(${filterData?.length})`}>
                   <p className="m-0">
                     <CustomTableComponent
                       columnStyle={{ backgroundColor: "#FCFCFC" }}
@@ -301,7 +306,8 @@ export const Roles = () => {
                     }
                   );
                   return (
-                    <TabPanel key={index} header={item.name}>
+                    <TabPanel key={index} 
+                    header={item.name}>
                       <CustomTableComponent
                         columnStyle={{ backgroundColor: "#FCFCFC" }}
                         headerStyle={{
@@ -329,6 +335,7 @@ export const Roles = () => {
             totalRecords={Number(totalStats?.total_users_registered)}
             initialPageData={initialPageData}
             setInitialPageData={setInitialPageData}
+            recordShowing={roleArray && actIndex>0?roleArray[actIndex-1]?.users?.length:filterData?.length}
           />
         </div>
       </div>

@@ -50,7 +50,9 @@ export const Confirmationmodal = ({
               <input
                 placeholder="Enter color"
                 value={Value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) =>{
+                  console.log(e.target.value)
+                  setValue(e.target.value)}}
                 className="px-2 focus:outline-none"
               />
               <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
@@ -101,7 +103,12 @@ export const Confirmationmodal = ({
                 if (!value) {
                   console.log("eeewfjbj");
                   setError("Enter a value for fee modifier");
-                } else {
+                }
+                 if(Value){
+                  setError("");
+                  handleFunction(Value);
+                }
+                else {
                   setError("");
                   handleFunction(value);
                 }
