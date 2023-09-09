@@ -220,7 +220,7 @@ export const Feemodifier = () => {
               totalRecords={Number(data?.feecount)}
               initialPageData={initialPageData}
               setInitialPageData={setInitialPageData}
-              recordShowing={feesModif.length}
+              recordShowing={feesModif?.length}
             />
     </div>
   );
