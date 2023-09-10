@@ -181,8 +181,8 @@ export const Products = () => {
               imgColor={"bg-yellow-dash"}
               textDash={
                 stats?.products_percentage < 0
-                  ? "bg-custom-red !w-[63px]"
-                  : "bg-custom-blue !w-[63px]"
+                  ? "bg-custom-red !w-[80px]"
+                  : "bg-custom-blue !w-[80px]"
               }
               textColor={
                 stats?.products_percentage < 0
@@ -206,8 +206,8 @@ export const Products = () => {
               imgColor={"bg-yellow-dash"}
               textDash={
                 stats?.products_percentage < 0
-                  ? "bg-custom-red !w-[66px]"
-                  : "bg-custom-blue !w-[66px]"
+                  ? "bg-custom-red !w-[80px]"
+                  : "bg-custom-blue !w-[80px]"
               }
               textColor={
                 stats?.products_percentage < 0
@@ -248,6 +248,7 @@ export const Products = () => {
               totalRecords={Number(totalProducts)}
               initialPageData={initialPageData}
               setInitialPageData={setInitialPageData}
+              recordShowing={filterData?.length}
             />
           </div>
         </>

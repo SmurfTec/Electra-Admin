@@ -213,7 +213,9 @@ export const Coupon = () => {
           MultipleSelect={true}
          
         />
-      <Paginatior totalRecords={Number(stats.all_coupons)} initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
+      <Paginatior totalRecords={Number(stats.all_coupons)}
+      recordShowing={filterData?.length}
+      initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
       </div>
     </>  
     :
