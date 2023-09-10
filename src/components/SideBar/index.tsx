@@ -216,13 +216,13 @@ export const SideBar = () => {
   }, [checkRoute]);
   return (
     <>
-      <div className="w-[17rem] h-[1049px] bg-[#FCFCFC]">
+      <div className="w-[17rem] h-[1049px] bg-[#FCFCFC] overflow-y-hidden">
         <img
           className="ml-[39px] mt-[17px] w-[75px] h-[33px] mb-[45px]"
           src={IMAGES.Logo}
           alt="Logo"
         />
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3  overflow-y-hidden">
           <div className="md:w-[11rem] lg:w-[11.75rem] h-[35px] flex items-center justify-between md:ml-[12px] lg:ml-[22px] rounded-[8px] pl-[17px] pr-[19px]">
             <p className="text-gray font-[600]">ADMIN</p>
           </div>
@@ -311,11 +311,11 @@ export const SideBar = () => {
               )}
             </Link>
           ))}
-          <div className="flex items-center justify-center  mt-[111px]">
+          <div className="flex items-center justify-center  mt-[90px]">
             <hr className="w-[80%] justify-center align-middle border border-custom-border border-[#F7F7F8]" />
           </div>
           <div
-            className="ml-[39px] mt-[21px] gap-3 flex items-center cursor-pointer"
+            className="ml-[39px] mt-[0px] gap-3 flex items-center cursor-pointer"
             onClick={Logout}
           >
             <SVGIcon fillcolor={"#000000"} src={IMAGES.LogoutIcon} />
