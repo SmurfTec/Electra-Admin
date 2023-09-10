@@ -23,7 +23,7 @@ export const Orders = () => {
   const[activeTab,setactiveTab]=useState(0)
   const [selectedOrders, setselectedOrders] = useState<any>([]);
   const [initialPageData, setInitialPageData] = useState({
-    rowsPerPage: 50,
+    rowsPerPage: 15,
     currentPage: 1,
     status:"",
   })

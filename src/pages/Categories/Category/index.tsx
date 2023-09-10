@@ -280,7 +280,7 @@ const [initialPageData1, setInitialPageData1] = useState({
                 <div className='flex flex-col gap-4 border border-lightgray rounded-[10px] pt-[21px] '>
                     <div className='flex justify-between pl-[14px] pr-[10px]'>
                         <p className='text-[13px] font-[600]'>Categories</p>
-                        <div className='border rounded-[15px] px-2 py-1 text-[11px] text-[#212121] flex items-center'>Sort By: <b className='mr-1'>Date </b><img src={IMAGES.DropDown2} />  </div>
+                        {/* <div className='border rounded-[15px] px-2 py-1 text-[11px] text-[#212121] flex items-center'>Sort By: <b className='mr-1'>Date </b><img src={IMAGES.DropDown2} />  </div> */}
                     </div>
                     
                     <CustomTableComponent
@@ -302,7 +302,7 @@ const [initialPageData1, setInitialPageData1] = useState({
                 <div className='flex flex-col gap-4   border rounded-[10px] border-lightgray '>
                     <div className='flex justify-between pl-[14px] border-b-0 pt-[21px]     pr-[10px] '>
                         <p className='text-[13px] font-[600]'>Variant</p>
-                        <div className='border rounded-[15px] px-2 py-1 text-[11px] text-[#212121] flex items-center'>Sort By: <b className='mr-1'>Date </b><img src={IMAGES.DropDown2} />  </div>
+                        {/* <div className='border rounded-[15px] px-2 py-1 text-[11px] text-[#212121] flex items-center'>Sort By: <b className='mr-1'>Date </b><img src={IMAGES.DropDown2} />  </div> */}
                     </div>
                     <CustomTableComponent
                         theadStyles={{ background: '#FCFCFC' }}
