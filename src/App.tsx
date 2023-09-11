@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
-import "./App.css";
+import { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import './App.css';
 import {
   Dashboard,
   Users,
@@ -41,18 +41,18 @@ import {
   EditProduct,
   Editnewbanner,
   Brands,
-  CreateBrand
-} from "./pages/index";
-import { SideBar } from "./components";
-import PrivateRoute from "./routes/Privateroute";
-import { token } from "./store/Slices/AuthSlice";
+  CreateBrand,
+} from './pages/index';
+import { SideBar } from './components';
+import PrivateRoute from './routes/Privateroute';
+import { token } from './store/Slices/AuthSlice';
 
 function App() {
   const [show, setShow] = useState(false);
   const location = useLocation();
-  const user =localStorage?.getItem("user") 
+  const user = localStorage?.getItem('user');
   useEffect(() => {
-    if (!user || location.pathname === "/") {
+    if (!user || location.pathname === '/') {
       setShow(false);
     } else {
       setShow(true);
@@ -95,7 +95,10 @@ function App() {
             <Route path="/CreateCategory" element={<CreateCategory />} />
             <Route path="/AddNewVariant" element={<AddNewVariant />} />
             <Route path="/HelpCenter" element={<HelpCenter />} />
-            <Route path="/HelpCenterDetail/:id" element={<HelpCenterDetail />} />
+            <Route
+              path="/HelpCenterDetail/:id"
+              element={<HelpCenterDetail />}
+            />
             <Route path="/Newadmin" element={<CreateNewadmin />} />
             <Route path="/Viewadmin/:id" element={<ViewAdmin />} />
             <Route path="/Searchrole" element={<Searchrole />} />

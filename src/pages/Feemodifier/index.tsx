@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { SVGIcon } from "../../components/SVG";
-import { CustomTableComponent } from "../../atoms";
-import { CustomMenu } from "../../atoms/global.style";
-import IMAGES from "../../assets/Images";
-import { Header, Feemodifcard, Confirmationmodal } from "../../components";
-import { useFeesAll } from "../../custom-hooks/feeshooks";
-import { CreateFees } from "../../store/Slices/FeesSlice";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { Paginatior } from "../../components";
-import moment from "moment";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SVGIcon } from '../../components/SVG';
+import { CustomTableComponent } from '../../atoms';
+import { CustomMenu } from '../../atoms/global.style';
+import IMAGES from '../../assets/Images';
+import { Header, Feemodifcard, Confirmationmodal } from '../../components';
+import { useFeesAll } from '../../custom-hooks/feeshooks';
+import { CreateFees } from '../../store/Slices/FeesSlice';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Paginatior } from '../../components';
+import moment from 'moment';
 export const Feemodifier = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
@@ -19,7 +19,7 @@ export const Feemodifier = () => {
     rowsPerPage: 10,
     currentPage: 1,
   });
-  const {data,loading,setLoading} = useFeesAll(feesModif,initialPageData);
+  const { data, loading, setLoading } = useFeesAll(feesModif, initialPageData);
   const [currSelected, setCurrSelectedProduct] = useState<any>();
   const [feeValue, setFeeValue] = useState(0);
   useEffect(() => {
@@ -27,58 +27,58 @@ export const Feemodifier = () => {
       return {
         ID: item.id,
         Category: item.category.name,
-        "Marketplace Fee": item.fees+"%",
-        "Last Changed On": moment(item.updated_on).format("DD MMM, YYYY"),
-        Action: "Edit",
+        'Marketplace Fee': item.fees + '%',
+        'Last Changed On': moment(item.updated_on).format('DD MMM, YYYY'),
+        Action: 'Edit',
         type: item.type,
       };
     });
     setFeesModif(newData);
   }, [loading]);
-  useEffect(()=>{
-    setLoading(true)
-  },[initialPageData])
+  useEffect(() => {
+    setLoading(true);
+  }, [initialPageData]);
   const items = [
     {
       items: [
         {
-          label: "Ban User",
+          label: 'Ban User',
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
-                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+                style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> Ban User
+                <SVGIcon fillcolor={'#212121'} src={IMAGES.Ban} /> Ban User
               </div>
             );
           },
         },
         {
-          label: "Delete",
+          label: 'Delete',
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
-                style={{ background: "rgba(231, 29, 54, 0.05)" }}
+                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
               >
-                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
+                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
               </div>
             );
           },
         },
         {
-          label: "Select",
+          label: 'Select',
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
-                style={{ background: "rgba(46, 102, 194, 0.05)" }}
+                style={{ background: 'rgba(46, 102, 194, 0.05)' }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
+                <SVGIcon fillcolor={'#212121'} src={IMAGES.Select} /> Select
               </div>
             );
           },
@@ -144,26 +144,25 @@ export const Feemodifier = () => {
     );
   };
   const columnData = [
-    { field: "ID", header: "ID" },
-    { field: "Category", header: "Category" },
-    { field: "Marketplace Fee", header: "Marketplace Fee" },
-    { field: "Last Changed On", header: "Last Changed On" },
-    { field: "Action", header: "Action", body: StatusBodyTemplate },
-    { field: "", header: "", body: MenuBodyTemplate },
+    { field: 'ID', header: 'ID' },
+    { field: 'Category', header: 'Category' },
+    { field: 'Marketplace Fee', header: 'Marketplace Fee' },
+    { field: 'Last Changed On', header: 'Last Changed On' },
+    { field: 'Action', header: 'Action', body: StatusBodyTemplate },
+    { field: '', header: '', body: MenuBodyTemplate },
   ];
   const handleFunction = async (value?: any) => {
     try {
-     
       let newData = {
         type: currSelected.type,
         fees: Number(feeValue),
       };
-      let addFees= await CreateFees(currSelected.ID,newData);
-      setFeesModif("")
-      setVisible(!visible)
-      setLoading(true)
+      let addFees = await CreateFees(currSelected.ID, newData);
+      setFeesModif('');
+      setVisible(!visible);
+      setLoading(true);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
   return (
@@ -181,47 +180,49 @@ export const Feemodifier = () => {
         <div className="ml-3 flex gap-3">
           <Feemodifcard
             onClick={() => setVisible(true)}
-            title={"SHIPPING FEE"}
-            number={"15"}
+            title={'SHIPPING FEE'}
+            number={'15'}
           />
-          <Feemodifcard title={"PROCESSING FEE"} number={"15"} />
+          <Feemodifcard title={'PROCESSING FEE'} number={'15'} />
         </div>
       </div>
       <div>
         <p className="font-semibold ml-3 text-[20px]">Market Place Fee</p>
-        {!loading?<CustomTableComponent
-          headerStyle={{ color: "black" }}
-          filterData={feesModif}
-          columnData={columnData}
-        />:
-        <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
-          <ProgressSpinner style={{ overflow: "hidden" }} />
-        </div>
-        }
+        {!loading ? (
+          <CustomTableComponent
+            headerStyle={{ color: 'black' }}
+            filterData={feesModif}
+            columnData={columnData}
+          />
+        ) : (
+          <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+            <ProgressSpinner style={{ overflow: 'hidden' }} />
+          </div>
+        )}
       </div>
       <Confirmationmodal
-        classes={"!h-[339px] "}
-        PopupHeader={"EDIT MARKETPLACE FEE"}
+        classes={'!h-[339px] '}
+        PopupHeader={'EDIT MARKETPLACE FEE'}
         visible={visible}
         setVisible={setVisible}
-        cnfrmbtnText={"Update"}
-        cnclebtnText={"Cancel"}
+        cnfrmbtnText={'Update'}
+        cnclebtnText={'Cancel'}
         text={
-          "You are editting marketplace fee for Phones. Press update to make    changes on website."
+          'You are editting marketplace fee for Phones. Press update to make    changes on website.'
         }
-        placeholderclasses={"text-[#3C82D6]"}
+        placeholderclasses={'text-[#3C82D6]'}
         Feemodif={true}
         setValue={setFeeValue}
         value={feeValue}
-        placeholderValue={"Enter Fees"}
+        placeholderValue={'Enter Fees'}
         handleFunction={handleFunction}
       />
-        <Paginatior
-              totalRecords={Number(data?.feecount)}
-              initialPageData={initialPageData}
-              setInitialPageData={setInitialPageData}
-              recordShowing={feesModif?.length}
-            />
+      <Paginatior
+        totalRecords={Number(data?.feecount)}
+        initialPageData={initialPageData}
+        setInitialPageData={setInitialPageData}
+        recordShowing={feesModif?.length}
+      />
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import url from "../../config/index";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import url from '../../config/index';
 const initialState: any = {
   Product: [],
 };
@@ -14,7 +14,7 @@ export const GetAllProducts = async (params?: any) => {
         ? `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
             params?.currentPage ? params?.currentPage : 1
           }`
-        : "";
+        : '';
     let response: any = await url.get(`/products?sort=-id&${urlParams}`);
     return response.data;
   } catch (e) {
@@ -56,7 +56,7 @@ export const getProductById = async (id: any) => {
  */
 export const CreateProduct = async (data: any) => {
   try {
-    let response: any = await url.post("/products", data);
+    let response: any = await url.post('/products', data);
     return response;
   } catch (e) {
     console.log(e);
@@ -89,13 +89,13 @@ export const getAllProductRequest = async (params?: any) => {
     let urlParams =
       params && params.rowsPerPage
         ? params.status && params.status
-          ? `status=${params?.status ?? "pending"}&limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
-              params?.currentPage ? params?.currentPage : 1
-            }`
+          ? `status=${params?.status ?? 'pending'}&limit=${
+              params?.rowsPerPage ? params.rowsPerPage : 80
+            }&page=${params?.currentPage ? params?.currentPage : 1}`
           : `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
               params?.currentPage ? params?.currentPage : 1
             }`
-        : "";
+        : '';
     let response: any = await url.get(`/productrequests?${urlParams}`);
     return response.data;
   } catch (e: any) {
@@ -124,9 +124,9 @@ export const getAllBestSellingProduct = async (params?: any) => {
         ? `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
             params?.currentPage ? params?.currentPage : 1
           }`
-        : "";
+        : '';
     let response: any = await url.get(
-      `/products/best-selling?sort=sold&${urlParams}`
+      `/products/best-selling?sort=sold&${urlParams}`,
     );
     return response.data;
   } catch (e: any) {
@@ -135,10 +135,10 @@ export const getAllBestSellingProduct = async (params?: any) => {
 };
 
 const ProductSlice = createSlice({
-  name: "products",
+  name: 'products',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     // builder.addCase(Login.pending, (state) => {
     //   state.status = "loading";
     // });

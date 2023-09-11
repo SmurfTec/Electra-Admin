@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Header,
   AdminCards,
   DashCard,
   ShippingModal,
-} from "../../../components";
-import { CustomTableComponent } from "../../../atoms";
-import { SVGIcon } from "../../../components/SVG";
-import IMAGES from "../../../assets/Images";
-import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
-import { useNavigate } from "react-router-dom";
-import { TabPanel } from "primereact/tabview";
-import { Paginatior } from "../../../components";
-import { ProgressSpinner } from "primereact/progressspinner";
+} from '../../../components';
+import { CustomTableComponent } from '../../../atoms';
+import { SVGIcon } from '../../../components/SVG';
+import IMAGES from '../../../assets/Images';
+import { CustomMenu, CustomTabView } from '../../../atoms/global.style';
+import { useNavigate } from 'react-router-dom';
+import { TabPanel } from 'primereact/tabview';
+import { Paginatior } from '../../../components';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
-import { useGetRoles, useDeleteRole } from "../../../custom-hooks/RolesHooks";
-import moment from "moment";
+import { useGetRoles, useDeleteRole } from '../../../custom-hooks/RolesHooks';
+import moment from 'moment';
 interface RoleStats {
   role: string;
   users: number;
@@ -49,11 +49,11 @@ export const Roles = () => {
   const menuLeft: any = React.useRef(null);
   const [CurrSelectedProduct, setCurrSelectedProduct] =
     useState<PartialAccount>({});
-  const [MenuLabel, setMenuLabel] = useState("");
+  const [MenuLabel, setMenuLabel] = useState('');
   const [Body, setBody] = useState({
-    ids: [""],
+    ids: [''],
   });
-  const [actIndex,setActIndex]=useState(0)
+  const [actIndex, setActIndex] = useState(0);
   const { userLoading }: any = useDeleteRole(Body, setFetch, fetch);
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 10,
@@ -77,9 +77,9 @@ export const Roles = () => {
     return {
       id: item.id,
       Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
-      "Email Address": item.email,
-      "Phone No": item.profile?.mobile_no ?? "-",
-      "Assigned On": moment(item.created_at).format("DD MMM YYYY"),
+      'Email Address': item.email,
+      'Phone No': item.profile?.mobile_no ?? '-',
+      'Assigned On': moment(item.created_at).format('DD MMM YYYY'),
       Role: item.role,
     };
   });
@@ -87,7 +87,7 @@ export const Roles = () => {
     event.stopPropagation();
     console.log(vaaluue);
 
-    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+    setMenuLabel(prevLabel => (prevLabel === item.label ? '' : item.label));
   };
   const deleteItem = (event: React.MouseEvent, item: any, vaaluue?: any) => {
     event.stopPropagation();
@@ -95,13 +95,13 @@ export const Roles = () => {
       ids: [vaaluue],
     });
 
-    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+    setMenuLabel(prevLabel => (prevLabel === item.label ? '' : item.label));
   };
   const items = [
     {
       items: [
         {
-          label: "View",
+          label: 'View',
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
@@ -109,13 +109,13 @@ export const Roles = () => {
                 onClick={(event: any) =>
                   viewItem(event, item, CurrSelectedProduct)
                 }
-                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+                style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
                 <SVGIcon
                   width="9px"
                   height="6px"
-                  fillcolor={"#212121"}
+                  fillcolor={'#212121'}
                   src={IMAGES.eye}
                 />
                 View Admin
@@ -124,7 +124,7 @@ export const Roles = () => {
           },
         },
         {
-          label: "Delete",
+          label: 'Delete',
 
           // command: handleBanUser,
           template: (item: any, options: any) => {
@@ -133,10 +133,10 @@ export const Roles = () => {
                 onClick={(event: any) =>
                   deleteItem(event, item, CurrSelectedProduct)
                 }
-                style={{ background: "rgba(231, 29, 54, 0.05)" }}
+                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
               >
-                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
+                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
               </div>
             );
           },
@@ -161,10 +161,10 @@ export const Roles = () => {
     };
     useEffect(() => {
       console.log(
-        "Menu",
+        'Menu',
         MenuLabel,
-        "CurrSelectedProduct",
-        CurrSelectedProduct
+        'CurrSelectedProduct',
+        CurrSelectedProduct,
       );
     }, [MenuLabel, CurrSelectedProduct]);
 
@@ -176,7 +176,7 @@ export const Roles = () => {
           <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
 
           <CustomMenu
-            height={"78px"}
+            height={'78px'}
             model={items}
             popup
             ref={menuLeft}
@@ -207,24 +207,24 @@ export const Roles = () => {
     );
   };
   const columnData = [
-    { field: "Account", header: "Account", body: AccountBodyTemplate },
-    { field: "Email Address", header: "Email Address" },
-    { field: "Phone No", header: "Phone No" },
-    { field: "Assigned On", header: "Assigned On" },
+    { field: 'Account', header: 'Account', body: AccountBodyTemplate },
+    { field: 'Email Address', header: 'Email Address' },
+    { field: 'Phone No', header: 'Phone No' },
+    { field: 'Assigned On', header: 'Assigned On' },
     {
-      field: "Role",
-      header: "Role",
+      field: 'Role',
+      header: 'Role',
       body: StatusBodyTemplate,
-      className: "role",
+      className: 'role',
     },
-    { field: "", header: "", body: MenuBodyTemplate },
+    { field: '', header: '', body: MenuBodyTemplate },
   ];
   useEffect(() => {
-    if (MenuLabel == "View") {
+    if (MenuLabel == 'View') {
       navigate(`/Viewadmin/${CurrSelectedProduct}`);
     }
   }, [MenuLabel]);
-  console.log(roleArray)
+  console.log(roleArray);
   return (
     <div>
       <ShippingModal visible={visible} setVisible={setVisible} />
@@ -243,19 +243,19 @@ export const Roles = () => {
             );
           })}
         <DashCard
-          onClick={() => navigate("/Newadmin")}
-          outerclasses={"!bg-[#212121] !w-[187px] !h-[93px]"}
+          onClick={() => navigate('/Newadmin')}
+          outerclasses={'!bg-[#212121] !w-[187px] !h-[93px]'}
           Add={true}
-          txt={"Add New Member"}
-          txtclasses={"!text-[#FFFFFF]"}
+          txt={'Add New Member'}
+          txtclasses={'!text-[#FFFFFF]'}
           Addimg={IMAGES.newmembers}
         />
         <DashCard
-          onClick={() => navigate("/Searchrole")}
-          outerclasses={"!bg-[#3C82D6] !w-[187px] !h-[93px]"}
+          onClick={() => navigate('/Searchrole')}
+          outerclasses={'!bg-[#3C82D6] !w-[187px] !h-[93px]'}
           Add={true}
-          txt={"View Roles"}
-          txtclasses={"!text-[#FFFFFF]"}
+          txt={'View Roles'}
+          txtclasses={'!text-[#FFFFFF]'}
           Addimg={IMAGES.Rolesbadge}
         />
       </div>
@@ -269,24 +269,27 @@ export const Roles = () => {
           </p>
           {!loading ? (
             <>
-              {" "}
-              <CustomTabView activeIndex={actIndex} onTabChange={(e)=>{
-                console.log(e.index)
-                setActIndex(e.index)
-              }} >
+              {' '}
+              <CustomTabView
+                activeIndex={actIndex}
+                onTabChange={e => {
+                  console.log(e.index);
+                  setActIndex(e.index);
+                }}
+              >
                 <TabPanel key={0} header={`All(${filterData?.length})`}>
                   <p className="m-0">
                     <CustomTableComponent
-                      columnStyle={{ backgroundColor: "#FCFCFC" }}
+                      columnStyle={{ backgroundColor: '#FCFCFC' }}
                       headerStyle={{
-                        color: "black",
-                        fontWeight: "800",
-                        textAlign: "left",
+                        color: 'black',
+                        fontWeight: '800',
+                        textAlign: 'left',
                       }}
-                      columnHeaderFirst={"start"}
+                      columnHeaderFirst={'start'}
                       filterData={filterData}
                       columnData={columnData}
-                      rowStyling={"#FCFCFC !important"}
+                      rowStyling={'#FCFCFC !important'}
                       // columnHeader={"flex-start"}
                     />
                   </p>
@@ -296,29 +299,28 @@ export const Roles = () => {
                     (item: PartialAccount, index: number) => {
                       return {
                         Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
-                        "Email Address": item.email,
-                        "Phone No": item.profile?.mobile_no ?? "-",
-                        "Assigned On": moment(item.created_at).format(
-                          "DD MMM YYYY"
+                        'Email Address': item.email,
+                        'Phone No': item.profile?.mobile_no ?? '-',
+                        'Assigned On': moment(item.created_at).format(
+                          'DD MMM YYYY',
                         ),
                         Role: item.role,
                       };
-                    }
+                    },
                   );
                   return (
-                    <TabPanel key={index} 
-                    header={item.name}>
+                    <TabPanel key={index} header={item.name}>
                       <CustomTableComponent
-                        columnStyle={{ backgroundColor: "#FCFCFC" }}
+                        columnStyle={{ backgroundColor: '#FCFCFC' }}
                         headerStyle={{
-                          color: "black",
-                          fontWeight: "800",
-                          textAlign: "left",
+                          color: 'black',
+                          fontWeight: '800',
+                          textAlign: 'left',
                         }}
-                        columnHeaderFirst={"start"}
+                        columnHeaderFirst={'start'}
                         filterData={filterData2}
                         columnData={columnData}
-                        rowStyling={"#FCFCFC !important"}
+                        rowStyling={'#FCFCFC !important'}
                         // columnHeader={"flex-start"}
                       />
                     </TabPanel>
@@ -328,14 +330,18 @@ export const Roles = () => {
             </>
           ) : (
             <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
-              <ProgressSpinner style={{ overflow: "hidden" }} />
+              <ProgressSpinner style={{ overflow: 'hidden' }} />
             </div>
           )}
           <Paginatior
             totalRecords={Number(totalStats?.total_users_registered)}
             initialPageData={initialPageData}
             setInitialPageData={setInitialPageData}
-            recordShowing={roleArray && actIndex>0?roleArray[actIndex-1]?.users?.length:filterData?.length}
+            recordShowing={
+              roleArray && actIndex > 0
+                ? roleArray[actIndex - 1]?.users?.length
+                : filterData?.length
+            }
           />
         </div>
       </div>

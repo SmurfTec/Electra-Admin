@@ -1,106 +1,110 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Header, DashCard, CreateCouponModel,SuccessModel,Confirmationmodal } from "../../../components";
-import { CustomTableComponent } from "../../../atoms";
-import { SVGIcon } from "../../../components/SVG";
-import { MenuItem } from "primereact/menuitem";
-import IMAGES from "../../../assets/Images";
-import { CustomMenu } from "../../../atoms/global.style";
-import { DeleteCoupons } from "../../../store/Slices/Coupons";
-import moment from "moment";
-import { Paginatior } from "../../../components";
+import React, { useState, useRef, useEffect } from 'react';
+import {
+  Header,
+  DashCard,
+  CreateCouponModel,
+  SuccessModel,
+  Confirmationmodal,
+} from '../../../components';
+import { CustomTableComponent } from '../../../atoms';
+import { SVGIcon } from '../../../components/SVG';
+import { MenuItem } from 'primereact/menuitem';
+import IMAGES from '../../../assets/Images';
+import { CustomMenu } from '../../../atoms/global.style';
+import { DeleteCoupons } from '../../../store/Slices/Coupons';
+import moment from 'moment';
+import { Paginatior } from '../../../components';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { useFetchCoupon } from "../../../custom-hooks/useFetchCoupons";
+import { useFetchCoupon } from '../../../custom-hooks/useFetchCoupons';
 export const Coupon = () => {
-  const [filterData,setfilterData] = useState([]);
-  const[added,setadded]=useState(false)
-  const[Title,setTitle]=useState("Create Coupon")
+  const [filterData, setfilterData] = useState([]);
+  const [added, setadded] = useState(false);
+  const [Title, setTitle] = useState('Create Coupon');
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 25,
     currentPage: 1,
-   
-  })
-  const [visible,setvisible]=useState(false)
-  const {couponData,couponLoading,stats}=useFetchCoupon(initialPageData)
-  const[currentItem,setcurrentItem]=useState()
-  const[currentId,setcurrentId]=useState()
-  useEffect(()=>{
-    
-    if(couponData){
-      let latestArr=couponData.map((item:any)=>{
-        let newObj={
+  });
+  const [visible, setvisible] = useState(false);
+  const { couponData, couponLoading, stats } = useFetchCoupon(initialPageData);
+  const [currentItem, setcurrentItem] = useState();
+  const [currentId, setcurrentId] = useState();
+  useEffect(() => {
+    if (couponData) {
+      let latestArr = couponData.map((item: any) => {
+        let newObj = {
           ...item,
-          CouponCode:item.code,
-          OffPercentage:item.discount,
-          CreatedOn:moment(item.created_on).format("DD,MMM,YYYY"),
-          Expiry:moment(item.expiry).format("DD,MMM,YYYY"),
-          UsedTime:item.maxUse
-        }
-        return newObj
-      })
-   
-      latestArr.sort((a:any, b:any) => a.id - b.id);
-      setfilterData(latestArr)
+          CouponCode: item.code,
+          OffPercentage: item.discount,
+          CreatedOn: moment(item.created_on).format('DD,MMM,YYYY'),
+          Expiry: moment(item.expiry).format('DD,MMM,YYYY'),
+          UsedTime: item.maxUse,
+        };
+        return newObj;
+      });
+
+      latestArr.sort((a: any, b: any) => a.id - b.id);
+      setfilterData(latestArr);
     }
-  },[couponData])
+  }, [couponData]);
   const [modalVisible, setmodalVisible] = useState(false);
-  const[successVisible,setsuccessVisible]=useState(false)
+  const [successVisible, setsuccessVisible] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
 
-  
-
-  const deleteItem = async(event: React.MouseEvent, id: any) => {
+  const deleteItem = async (event: React.MouseEvent, id: any) => {
     event.stopPropagation();
-    setcurrentId(id)
-    setvisible(true)
-    
+    setcurrentId(id);
+    setvisible(true);
   };
-  const setOkButton=async()=>{
-    try{
-      let response=await DeleteCoupons(currentId)
- 
-    
-    setsuccessVisible(true)
-    setvisible(false)
-    setInitialPageData({...initialPageData,currentPage:1})
-    }catch(err){
-      
-    }
-  }
-  const EditItem=(event:React.MouseEvent,item:any)=>{
+  const setOkButton = async () => {
+    try {
+      let response = await DeleteCoupons(currentId);
+
+      setsuccessVisible(true);
+      setvisible(false);
+      setInitialPageData({ ...initialPageData, currentPage: 1 });
+    } catch (err) {}
+  };
+  const EditItem = (event: React.MouseEvent, item: any) => {
     event.stopPropagation();
-   
-    setcurrentItem(item)
-    setTitle("Edit Coupon")
-    setmodalVisible(true)
-  }
+
+    setcurrentItem(item);
+    setTitle('Edit Coupon');
+    setmodalVisible(true);
+  };
   const MenuBodyTemplate = (rowData: any) => {
-    const MenuTemplate = ({ id, menuRef }: { id: string, menuRef: React.RefObject<any> }) => {
+    const MenuTemplate = ({
+      id,
+      menuRef,
+    }: {
+      id: string;
+      menuRef: React.RefObject<any>;
+    }) => {
       let [items] = useState([
         {
-          label: "Edit Item",
-    
+          label: 'Edit Item',
+
           template: (item: any) => {
             return (
               <div
-                onClick={(event)=>EditItem(event,rowData)}
-                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+                onClick={event => EditItem(event, rowData)}
+                style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Pencil} /> Edit Item
+                <SVGIcon fillcolor={'#212121'} src={IMAGES.Pencil} /> Edit Item
               </div>
             );
           },
         },
         {
-          label: "Delete",
+          label: 'Delete',
           template: (item: MenuItem) => {
             return (
               <div
-                onClick={(event) => deleteItem(event, rowData.id)}
-                style={{ background: "rgba(231, 29, 54, 0.05)" }}
+                onClick={event => deleteItem(event, rowData.id)}
+                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
               >
-                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
+                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
               </div>
             );
           },
@@ -108,7 +112,13 @@ export const Coupon = () => {
       ]);
 
       return (
-        <CustomMenu model={items} popup  height={"80px"} ref={menuRef} id="popup_menu_left" />
+        <CustomMenu
+          model={items}
+          popup
+          height={'80px'}
+          ref={menuRef}
+          id="popup_menu_left"
+        />
       );
     };
     const menuLeftRef = useRef<any>(null);
@@ -123,7 +133,6 @@ export const Coupon = () => {
         >
           <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
           <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
-         
         </div>
       </>
     );
@@ -135,32 +144,30 @@ export const Coupon = () => {
     return <p className="text-blue">{options.CouponCode}</p>;
   };
   const [columnData] = useState([
-    { field: "id", header: "ID" },
-    { field: "title", header: "Title" },
-    { field: "CouponCode", header: "Coupon Code", body: CouponCodeTxtTemplate },
+    { field: 'id', header: 'ID' },
+    { field: 'title', header: 'Title' },
+    { field: 'CouponCode', header: 'Coupon Code', body: CouponCodeTxtTemplate },
     {
-      field: "OffPercentage",
-      header: "Off Percentage",
+      field: 'OffPercentage',
+      header: 'Off Percentage',
       body: PercentageTxtTemplate,
     },
-    { field: "CreatedOn", header: "Created On" },
-    { field: "Expiry", header: "Expiry" },
-    { field: "UsedTime", header: "Used (times)" },
-    { field: "", header: "", body: MenuBodyTemplate },
+    { field: 'CreatedOn', header: 'Created On' },
+    { field: 'Expiry', header: 'Expiry' },
+    { field: 'UsedTime', header: 'Used (times)' },
+    { field: '', header: '', body: MenuBodyTemplate },
   ]);
-  
-  
 
- useEffect(()=>{
-  if(added){
-    setadded(false)
-    setInitialPageData({...initialPageData,currentPage:1})
-  }
- },[added])
+  useEffect(() => {
+    if (added) {
+      setadded(false);
+      setInitialPageData({ ...initialPageData, currentPage: 1 });
+    }
+  }, [added]);
   return (
     <div>
       <CreateCouponModel
-        classes={"!w-[496px] !h-[502px]"}
+        classes={'!w-[496px] !h-[502px]'}
         visible={modalVisible}
         setVisible={setmodalVisible}
         added={added}
@@ -169,61 +176,69 @@ export const Coupon = () => {
         currentItem={currentItem}
       />
       <Confirmationmodal
-        PopupHeader={"Confirmation"}
+        PopupHeader={'Confirmation'}
         visible={visible}
         setVisible={setvisible}
-        cnfrmbtnText={"Delete"}
+        cnfrmbtnText={'Delete'}
         cnfrmbtnStyle={'bg-red'}
-        cnclebtnText={"Cancel"}
-        text={
-          "Are you sure you want to Delete this user"
-        }
+        cnclebtnText={'Cancel'}
+        text={'Are you sure you want to Delete this user'}
         setOkButton={setOkButton}
-        setCancelButton={()=>{setvisible(true)}}
+        setCancelButton={() => {
+          setvisible(true);
+        }}
       />
-       <SuccessModel visible={successVisible} setVisible={setsuccessVisible} txt={"Coupon deleted Successfully"}/>
+      <SuccessModel
+        visible={successVisible}
+        setVisible={setsuccessVisible}
+        txt={'Coupon deleted Successfully'}
+      />
       <Header typeSearch={true} chooseFilter={true} UserBox={true} />
-      {!couponLoading ?
-    <>
-    <div className="mt-[35px]">
-        <div className="flex flex-wrap gap-6 mt-[28px]">
-          <DashCard
-            title={"Total Coupons"}
-            titleStyle={`!text-[13px]`}
-            totalNumber={String(stats.all_coupons)}
-            showDefaultNumber={false}
-            Numberstyle={`!text-[28px]`}
-          />
-          <DashCard
-            Add={true}
-            txt="Add New Coupon"
-            outerclasses="w-[284px] h-[140px]"
-            Addimg={IMAGES.AddItem}
-            onClick={() => {setTitle("Create Coupon");setmodalVisible(true)}}
-          />
+      {!couponLoading ? (
+        <>
+          <div className="mt-[35px]">
+            <div className="flex flex-wrap gap-6 mt-[28px]">
+              <DashCard
+                title={'Total Coupons'}
+                titleStyle={`!text-[13px]`}
+                totalNumber={String(stats.all_coupons)}
+                showDefaultNumber={false}
+                Numberstyle={`!text-[28px]`}
+              />
+              <DashCard
+                Add={true}
+                txt="Add New Coupon"
+                outerclasses="w-[284px] h-[140px]"
+                Addimg={IMAGES.AddItem}
+                onClick={() => {
+                  setTitle('Create Coupon');
+                  setmodalVisible(true);
+                }}
+              />
+            </div>
+          </div>
+          <div className="mt-[20px]">
+            <CustomTableComponent
+              showWrapper={false}
+              filterData={filterData}
+              selectedProducts={selectedProducts}
+              setSelectedProducts={setSelectedProducts}
+              columnData={columnData}
+              MultipleSelect={true}
+            />
+            <Paginatior
+              totalRecords={Number(stats.all_coupons)}
+              recordShowing={filterData?.length}
+              initialPageData={initialPageData}
+              setInitialPageData={setInitialPageData}
+            />
+          </div>
+        </>
+      ) : (
+        <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+          <ProgressSpinner style={{ overflow: 'hidden' }} />
         </div>
-      </div>
-      <div className="mt-[20px]">
-        <CustomTableComponent
-          showWrapper={false}
-          filterData={filterData}
-          selectedProducts={selectedProducts}
-          setSelectedProducts={setSelectedProducts}
-          columnData={columnData}
-          MultipleSelect={true}
-         
-        />
-      <Paginatior totalRecords={Number(stats.all_coupons)}
-      recordShowing={filterData?.length}
-      initialPageData={initialPageData} setInitialPageData={setInitialPageData} />
-      </div>
-    </>  
-    :
-    <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
-    <ProgressSpinner  style={{overflow:"hidden"}} />
-    </div>
-    }
-      
+      )}
     </div>
   );
 };

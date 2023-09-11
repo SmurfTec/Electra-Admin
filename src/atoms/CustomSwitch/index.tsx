@@ -1,15 +1,17 @@
-import React from "react";
-import { Switch } from "../global.style";
-export const CustomSwitch = (
-  { checked, setChecked, marginTop = "-6px",...props }: any,
-  
-) => {
+import React from 'react';
+import { Switch } from '../global.style';
+export const CustomSwitch = ({
+  checked,
+  setChecked,
+  marginTop = '-6px',
+  ...props
+}: any) => {
   return (
     <Switch
       name={props.value}
       margintop={marginTop}
       checked={checked}
-      onChange={(e) =>
+      onChange={e =>
         props.onChange ? props.onChange(e.target.name) : setChecked(e)
       }
     />

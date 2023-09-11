@@ -1,33 +1,31 @@
-import { useState, useRef,useEffect } from "react";
-import IMAGES from "../../assets/Images";
-import { CustomMenu } from "../../atoms/global.style";
-import { SVGIcon } from "../SVG/index.js";
-import moment from "moment";
+import { useState, useRef, useEffect } from 'react';
+import IMAGES from '../../assets/Images';
+import { CustomMenu } from '../../atoms/global.style';
+import { SVGIcon } from '../SVG/index.js';
+import moment from 'moment';
 export const Productdetailcard = (props: any) => {
   const [ViewMore, SetViewMore] = useState(true);
   const menuLeft: any = useRef(null);
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
   const [initial, setInitial] = useState(true);
 
-
   const items = [
     {
       items: [
         {
-          label: "Delete",
+          label: 'Delete',
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
-                style={{ background: "rgba(231, 29, 54, 0.05)" }}
-                onClick={(event: any) =>{
-                  console.log(props.id)
-                  props.deleteProduct(props.id)
-                }
-                }
+                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
+                onClick={(event: any) => {
+                  console.log(props.id);
+                  props.deleteProduct(props.id);
+                }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
               >
-                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
+                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
               </div>
             );
           },
@@ -42,11 +40,11 @@ export const Productdetailcard = (props: any) => {
       console.log(
         // "Menu",
         // MenuLabel,
-        "product",
-        CurrSelectedProduct
+        'product',
+        CurrSelectedProduct,
       );
     }
-  }, [ CurrSelectedProduct]);
+  }, [CurrSelectedProduct]);
   return (
     <div className="border border-custom w-[363px] h-[auto] rounded-xl overflow-hidden">
       <div className="flex justify-between mt-2 px-4 items-center">
@@ -55,7 +53,7 @@ export const Productdetailcard = (props: any) => {
           <img src={IMAGES.New} />
         </div>
         <p className="font-light text-[12px] text-[#656565]">
-          {moment(props.created).format("DD MMM, YYYY")}
+          {moment(props.created).format('DD MMM, YYYY')}
         </p>
       </div>
       <div className="overflow-hidden h-auto">
@@ -64,11 +62,11 @@ export const Productdetailcard = (props: any) => {
         
         ${
           ViewMore == false
-            ? "h-auto overflow-hidden  break-words"
-            : "h-[110px]  text-ellipsis overflow-hidden "
+            ? 'h-auto overflow-hidden  break-words'
+            : 'h-[110px]  text-ellipsis overflow-hidden '
         }`}
         >
-          {props.text}{" "}
+          {props.text}{' '}
         </p>
         {props.text.length > 50 && (
           <span
@@ -77,7 +75,7 @@ export const Productdetailcard = (props: any) => {
               SetViewMore(!ViewMore);
             }}
           >
-            {ViewMore ? "... View more" : "Collapse"}
+            {ViewMore ? '... View more' : 'Collapse'}
           </span>
         )}
       </div>

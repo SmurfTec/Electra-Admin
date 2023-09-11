@@ -1,10 +1,10 @@
-import { useState,useEffect } from "react";
-import { Galleria, GalleriaResponsiveOptions } from "primereact/galleria";
-import IMAGES from "../../assets/Images";
-import styled from "styled-components";
+import { useState, useEffect } from 'react';
+import { Galleria, GalleriaResponsiveOptions } from 'primereact/galleria';
+import IMAGES from '../../assets/Images';
+import styled from 'styled-components';
 const CustomCarousel = styled(Galleria)`
   border: 1px solid rgba(0, 0, 0, 0.11);
-  width:380px;
+  width: 380px;
   .p-galleria-thumbnail-wrapper {
     margin-top: 10px;
     .p-galleria-thumbnail-container {
@@ -25,7 +25,7 @@ const CustomCarousel = styled(Galleria)`
   .p-galleria-item-next {
     padding: 5px;
     ::before {
-      content: "";
+      content: '';
       display: inline-block;
       width: 100%;
       height: 2px;
@@ -41,7 +41,7 @@ const CustomCarousel = styled(Galleria)`
     padding: 5px;
 
     ::after {
-      content: "";
+      content: '';
       display: inline-block;
       width: 100%;
       height: 2px;
@@ -53,33 +53,33 @@ const CustomCarousel = styled(Galleria)`
       margin-right: 5px;
     }
   }
-  .p-galleria-thumbnail-prev{
+  .p-galleria-thumbnail-prev {
     display: none;
-  }.p-galleria-thumbnail-next{
+  }
+  .p-galleria-thumbnail-next {
     display: none;
   }
   .p-galleria-thumbnail-container {
-    padding:1rem 1.25rem;
+    padding: 1rem 1.25rem;
   }
-  .p-galleria-thumbnail-item-content img{
-    height:50px;
+  .p-galleria-thumbnail-item-content img {
+    height: 50px;
     margin-left: 5px;
-   
   }
 `;
-export const Carouselcard = ({Images}:any) => {
+export const Carouselcard = ({ Images }: any) => {
   const [images, setImages] = useState();
   const responsiveOptions: GalleriaResponsiveOptions[] = [
     {
-      breakpoint: "991px",
+      breakpoint: '991px',
       numVisible: 4,
     },
     {
-      breakpoint: "767px",
+      breakpoint: '767px',
       numVisible: 3,
     },
     {
-      breakpoint: "575px",
+      breakpoint: '575px',
       numVisible: 1,
     },
   ];
@@ -89,7 +89,7 @@ export const Carouselcard = ({Images}:any) => {
       <img
         src={item.itemImageSrc}
         alt={item.alt}
-        style={{ width: "100%", display: "block", height: "300px" }}
+        style={{ width: '100%', display: 'block', height: '300px' }}
       />
     );
   };
@@ -99,24 +99,23 @@ export const Carouselcard = ({Images}:any) => {
       <img
         src={item.thumbnailImageSrc}
         alt={item.alt}
-        style={{ display: "block", background: "white" }}
+        style={{ display: 'block', background: 'white' }}
       />
     );
   };
-useEffect(()=>{
-  
-if(Images){
-  setImages(Images)
-}
-},[Images])
+  useEffect(() => {
+    if (Images) {
+      setImages(Images);
+    }
+  }, [Images]);
   return (
-    <div className="card " style={{width:"510px",overflowX:"auto"}}>
+    <div className="card " style={{ width: '510px', overflowX: 'auto' }}>
       <CustomCarousel
         value={images}
         responsiveOptions={responsiveOptions}
         numVisible={5}
         circular
-        style={{ maxWidth: "530px", borderRadius: "15px" }}
+        style={{ maxWidth: '530px', borderRadius: '15px' }}
         showItemNavigators
         item={itemTemplate}
         thumbnail={thumbnailTemplate}

@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { getWebsite, getWebsiteById } from "../store/Slices/WebsiteSlice";
+import { useEffect, useState } from 'react';
+import { getWebsite, getWebsiteById } from '../store/Slices/WebsiteSlice';
 import {
   getNoticeBanner,
   deleteNoticeBanner,
-} from "../store/Slices/WebsiteSlice";
-export const useGetWebsite = (body:any) => {
-  const [loading,setLoading]=useState(true)
+} from '../store/Slices/WebsiteSlice';
+export const useGetWebsite = (body: any) => {
+  const [loading, setLoading] = useState(true);
   const [getWebsitedata, setData] = useState<any>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getWebsite();
         setData(response.data);
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         // Handle error
         console.error(error);
@@ -20,9 +20,9 @@ export const useGetWebsite = (body:any) => {
     };
     fetchData();
   }, [body]);
-  return {getWebsitedata,loading};
+  return { getWebsitedata, loading };
 };
-export const useGetWebsiteId = (id: any,load?:any) => {
+export const useGetWebsiteId = (id: any, load?: any) => {
   const [data, setData] = useState<any>(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -58,15 +58,15 @@ export const useGetNoticBanner = () => {
     }, [bannerLoading]);
     const deleteBanner = async (id: any) => {
       try {
-        setBannerLoading(true)
+        setBannerLoading(true);
         const response = await deleteNoticeBanner(id);
-        if(response){
-          setBannerLoading(false)
+        if (response) {
+          setBannerLoading(false);
         }
       } catch (e) {
-        return e
+        return e;
       }
     };
-    return { data, bannerLoading,deleteBanner };
+    return { data, bannerLoading, deleteBanner };
   } catch (e) {}
 };

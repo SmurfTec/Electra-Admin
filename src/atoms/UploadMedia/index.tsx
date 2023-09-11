@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import IMAGES from "../../assets/Images";
-import { BaseURL } from "../../config";
+import React, { useEffect, useRef, useState } from 'react';
+import IMAGES from '../../assets/Images';
+import { BaseURL } from '../../config';
 export function UploadPicture({
   multipleImages = false,
   setImage,
@@ -10,7 +10,7 @@ export function UploadPicture({
   fetchImages,
 }: any) {
   const fileInputRef: any = useRef(null);
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState('');
   const [selectedImages, setSelectedImages] = useState<any>([]);
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -33,10 +33,10 @@ export function UploadPicture({
     // Handle the selected file (e.g., upload or process it)
   };
   const deleteImg = (Itemindex: any) => {
-    console.log(Itemindex)
-    console.log(selectedImages)
+    console.log(Itemindex);
+    console.log(selectedImages);
     let filterImg = selectedImages.filter(
-      (item: any, index: any) => index !== Itemindex
+      (item: any, index: any) => index !== Itemindex,
     );
     setSelectedImages(filterImg);
   };
@@ -55,7 +55,7 @@ export function UploadPicture({
         type="file"
         accept="image/*"
         ref={fileInputRef}
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         onChange={handleFileChange}
       />
       <div className="flex">
@@ -73,7 +73,7 @@ export function UploadPicture({
         {!fetchImages && selectedImage && !multipleImages && (
           <div className="border border-lightgray ml-10 rounded relative">
             <div
-              onClick={() => setSelectedImage("")}
+              onClick={() => setSelectedImage('')}
               className="cursor-pointer w-[15px] h-[15px] text-[10px] flex justify-center items-center rounded-[50%] bg-black text-white absolute right-0 top-0"
             >
               x
@@ -118,7 +118,7 @@ export function UploadPicture({
                   </div>
                   <img
                     className="w-[120px] h-20 p-3"
-                    src={item.startsWith("blob:") ? item : BaseURL + item}
+                    src={item.startsWith('blob:') ? item : BaseURL + item}
                   />
                 </div>
               );

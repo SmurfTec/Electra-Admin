@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import {
   getProductById,
   GetAllProducts,
   getAllProductRequest,
-} from "../store/Slices/ProductSlice";
-export const useGetProducts = (props?:any) => {
+} from '../store/Slices/ProductSlice';
+export const useGetProducts = (props?: any) => {
   const [productsAdded, setProductAdded] = useState<any>(null);
   const [prodLoading, setProdLoading] = useState<any>(true);
 
@@ -34,9 +34,9 @@ export const useProductDetail = (id: any) => {
     const fetchData = async () => {
       try {
         const response = await getProductById(id);
-        console.log(response)
+        console.log(response);
         setData(response);
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         // Handle error
         console.error(error);
@@ -46,10 +46,14 @@ export const useProductDetail = (id: any) => {
     fetchData();
   }, [id]);
 
-  return {ProductData,loading};
+  return { ProductData, loading };
 };
 
-export const useAllProductRequests = (load?:any,setLoading?:any,initialPageData?:any) => {
+export const useAllProductRequests = (
+  load?: any,
+  setLoading?: any,
+  initialPageData?: any,
+) => {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
@@ -57,7 +61,7 @@ export const useAllProductRequests = (load?:any,setLoading?:any,initialPageData?
       try {
         const response = await getAllProductRequest(initialPageData);
         setData(response);
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         // Handle error
         console.error(error);
@@ -65,7 +69,7 @@ export const useAllProductRequests = (load?:any,setLoading?:any,initialPageData?
     };
 
     fetchData();
-  }, [load,initialPageData]);
+  }, [load, initialPageData]);
 
   return data;
 };

@@ -17,11 +17,11 @@ type MyProps = {
   showDefaultNumber?: boolean;
   txtclasses?: string;
   Addimg?: string;
-  percentageTxt?:string;
+  percentageTxt?: string;
   onClick?: React.MouseEventHandler;
 };
-import IMAGES from "../../assets/Images";
-import { SVGIcon } from "../SVG";
+import IMAGES from '../../assets/Images';
+import { SVGIcon } from '../SVG';
 export const DashCard = (props: MyProps) => {
   return (
     <div
@@ -30,7 +30,7 @@ export const DashCard = (props: MyProps) => {
     >
       {props?.Add ? (
         <div className="flex gap-3 cursor-pointer h-full flex-col justify-center items-center">
-          <img src={props.Addimg} width={'26px'} height={'26px'}/>
+          <img src={props.Addimg} width={'26px'} height={'26px'} />
           <p className={`${props.txtclasses}  text-[13px] font-[600]`}>
             {props.txt}
           </p>
@@ -66,8 +66,8 @@ export const DashCard = (props: MyProps) => {
                   <p
                     className={`text-[${props.textColor}] font-bold text-[12px]`}
                   >
-                    {" "}
-                    {props.percentageTxt??"-"}
+                    {' '}
+                    {props.percentageTxt ?? '-'}
                   </p>
                 )}
               </div>

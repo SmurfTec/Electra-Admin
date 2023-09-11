@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { Checkbox } from "primereact/checkbox";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import { Checkbox } from 'primereact/checkbox';
+import styled from 'styled-components';
 const CustomChecked = styled(Checkbox)`
   .p-highlight {
     background-color: black !important;
-    border:none
-
+    border: none;
   }
   .p-checkbox-box {
     border-radius: 11px;
@@ -19,12 +18,12 @@ export const Miniselect = (props: any) => {
         <input
           onClick={() => setChecked(!checked)}
           checked={checked}
-            className="rounded-full bg-[#D9D9D9]"
+          className="rounded-full bg-[#D9D9D9]"
           type="radio"
         />
       ) : (
         <CustomChecked
-          onChange={(e:any) => setChecked(!checked)}
+          onChange={(e: any) => setChecked(!checked)}
           checked={checked}
         ></CustomChecked>
       )}

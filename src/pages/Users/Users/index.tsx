@@ -1,22 +1,22 @@
-import { useState, useEffect, useRef } from "react";
-import { DashCard } from "../../../components/index.js";
-import IMAGES from "../../../assets/Images";
-import { CustomTableComponent, CustomButton } from "../../../atoms";
-import { SVGIcon } from "../../../components/SVG";
-import { CustomMenu } from "../../../atoms/global.style";
-import { useNavigate } from "react-router-dom";
-import { Header } from "../../../components/index.js";
-import { Confirmationmodal } from "../../../components/index.js";
+import { useState, useEffect, useRef } from 'react';
+import { DashCard } from '../../../components/index.js';
+import IMAGES from '../../../assets/Images';
+import { CustomTableComponent, CustomButton } from '../../../atoms';
+import { SVGIcon } from '../../../components/SVG';
+import { CustomMenu } from '../../../atoms/global.style';
+import { useNavigate } from 'react-router-dom';
+import { Header } from '../../../components/index.js';
+import { Confirmationmodal } from '../../../components/index.js';
 import {
   getAllUsers,
   BanUser,
   UnBanUser,
   DeleteSingleUser,
-} from "../../../store/Slices/UserSlice.js";
-import { Paginatior } from "../../../components/index.js";
-import { ProgressSpinner } from "primereact/progressspinner";
-import moment from "moment";
-import { useFetchUsers } from "../../../custom-hooks/useFetchUsers.js";
+} from '../../../store/Slices/UserSlice.js';
+import { Paginatior } from '../../../components/index.js';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import moment from 'moment';
+import { useFetchUsers } from '../../../custom-hooks/useFetchUsers.js';
 
 export const Users = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export const Users = () => {
 
   const [LoadMore, setLoadMore] = useState(false);
   const [selectedUsers, setselectedUsers] = useState<any>([]);
-  const [CurrSelectedUser, setCurrSelectedUser] = useState("");
+  const [CurrSelectedUser, setCurrSelectedUser] = useState('');
   const [filterData, setFilterData] = useState([]);
 
   const [initialPageData, setInitialPageData] = useState({
@@ -39,10 +39,10 @@ export const Users = () => {
       <>
         <div
           className={`px-[14px] py-[4px] text-[white] ${
-            !option.is_banned ? "bg-blue" : "bg-red"
+            !option.is_banned ? 'bg-blue' : 'bg-red'
           } flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <p>{!option.is_banned ? "Active" : "Banned"}</p>
+          <p>{!option.is_banned ? 'Active' : 'Banned'}</p>
         </div>
       </>
     );
@@ -56,7 +56,7 @@ export const Users = () => {
   const UnBanuser = async (e: any, id: any) => {
     e.stopPropagation();
     setVisible(false);
-    console.log(id, "id");
+    console.log(id, 'id');
     try {
       let body: any = {
         ids: [id],
@@ -137,11 +137,11 @@ export const Users = () => {
     let latestArr = users?.map((item: any) => {
       let newObj = {
         ...item,
-        firstname: item?.profile?.firstname || "",
-        lastname: item?.profile?.lastname || "",
-        phone: item?.profile?.mobile_no || "",
-        register: moment(item.created_at).format("DD,MM,YYYY"),
-        registerValue: "Website",
+        firstname: item?.profile?.firstname || '',
+        lastname: item?.profile?.lastname || '',
+        phone: item?.profile?.mobile_no || '',
+        register: moment(item.created_at).format('DD,MM,YYYY'),
+        registerValue: 'Website',
       };
 
       return newObj;
@@ -161,14 +161,14 @@ export const Users = () => {
     }) => {
       let [items] = useState([
         {
-          label: rowData.is_banned === true ? "UnBan User" : "Ban User",
+          label: rowData.is_banned === true ? 'UnBan User' : 'Ban User',
           template: (item: any, options: any) => {
             return (
               <div
                 className={`flex gap-1 items-center  text-[10px] font-[400] ${
                   rowData.is_banned === true
-                    ? "!bg-[#3C82D6] !text-[#FFFFFF]"
-                    : "!bg-ban-color !text-[#21212]"
+                    ? '!bg-[#3C82D6] !text-[#FFFFFF]'
+                    : '!bg-ban-color !text-[#21212]'
                 }   `}
                 onClick={(event: any) => {
                   rowData.is_banned === true
@@ -177,38 +177,38 @@ export const Users = () => {
                 }}
               >
                 <SVGIcon
-                  fillcolor={rowData.is_banned ? "#FFFFFF" : "#212121"}
+                  fillcolor={rowData.is_banned ? '#FFFFFF' : '#212121'}
                   src={IMAGES.Ban}
                 />
-                {rowData.is_banned === true ? "UnBan User" : "Ban User"}
+                {rowData.is_banned === true ? 'UnBan User' : 'Ban User'}
               </div>
             );
           },
         },
         {
-          label: "Delete",
+          label: 'Delete',
           template: (item: any, options: any) => {
             return (
               <div
-                style={{ background: "rgba(231, 29, 54, 0.05)" }}
+                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
                 onClick={(event: any) => DeleteUser(event, rowData.id)}
               >
-                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
+                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
               </div>
             );
           },
         },
         {
-          label: "Select",
+          label: 'Select',
           template: (item: any, options: any) => {
             return (
               <div
-                style={{ background: "rgba(46, 102, 194, 0.05)" }}
+                style={{ background: 'rgba(46, 102, 194, 0.05)' }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
                 onClick={(event: any) => SelectUser(event, rowData.id)}
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
+                <SVGIcon fillcolor={'#212121'} src={IMAGES.Select} /> Select
               </div>
             );
           },
@@ -238,31 +238,31 @@ export const Users = () => {
   };
 
   const [columnData] = useState([
-    { field: "id", header: "ID" },
-    { field: "firstname", header: "First Name" },
-    { field: "lastname", header: "Last Name" },
-    { field: "email", header: "Email" },
-    { field: "phone", header: "Phone" },
-    { field: "register", header: "Registered On" },
-    { field: "status", header: "Status", body: StatusBodyTemplate },
-    { field: "registerValue", header: "Registered Via" },
-    { field: "", header: "", body: MenuBodyTemplate },
+    { field: 'id', header: 'ID' },
+    { field: 'firstname', header: 'First Name' },
+    { field: 'lastname', header: 'Last Name' },
+    { field: 'email', header: 'Email' },
+    { field: 'phone', header: 'Phone' },
+    { field: 'register', header: 'Registered On' },
+    { field: 'status', header: 'Status', body: StatusBodyTemplate },
+    { field: 'registerValue', header: 'Registered Via' },
+    { field: '', header: '', body: MenuBodyTemplate },
   ]);
 
   function getLastMonthName() {
     const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
 
     const currentDate = new Date(); // Current date
@@ -292,17 +292,17 @@ export const Users = () => {
         <>
           <div className="flex flex-wrap gap-6 mt-[28px]">
             <DashCard
-              title={"Total Users"}
+              title={'Total Users'}
               totalNumber={String(stats?.total_users_registered || 0)}
               myImg={IMAGES.person}
-              imgColor={"bg-custom-grey"}
+              imgColor={'bg-custom-grey'}
               textDash={`${
                 stats?.total_users_percentage >= 0
-                  ? "bg-custom-blue"
-                  : "bg-custom-red"
+                  ? 'bg-custom-blue'
+                  : 'bg-custom-red'
               }  w-[67px]`}
               textColor={
-                stats?.total_users_percentage >= 0 ? "#3C82D6" : "#FF0000"
+                stats?.total_users_percentage >= 0 ? '#3C82D6' : '#FF0000'
               }
               arrowImg={
                 stats?.total_users_percentage >= 0
@@ -316,13 +316,13 @@ export const Users = () => {
               title={`User Registered In ${getLastMonthName()}`}
               totalNumber={stats?.total_users_last_month || 0}
               myImg={IMAGES.person}
-              imgColor={"bg-custom-grey"}
+              imgColor={'bg-custom-grey'}
               textDash={`${
                 stats?.users_percentage >= 0
-                  ? "bg-custom-blue"
-                  : "bg-custom-red"
+                  ? 'bg-custom-blue'
+                  : 'bg-custom-red'
               }  w-[67px]`}
-              textColor={stats?.users_percentage >= 0 ? "#3C82D6" : "#FF0000"}
+              textColor={stats?.users_percentage >= 0 ? '#3C82D6' : '#FF0000'}
               arrowImg={
                 stats?.users_percentage >= 0 ? IMAGES.uparrow : IMAGES.downarrow
               }
@@ -330,17 +330,17 @@ export const Users = () => {
               txt={stats?.users_percentage?.toFixed(2) || 0}
             />
             <DashCard
-              title={"User Registered This Year"}
+              title={'User Registered This Year'}
               totalNumber={String(stats?.total_user_this_year || 0)}
               myImg={IMAGES.person}
-              imgColor={"bg-custom-grey"}
+              imgColor={'bg-custom-grey'}
               textDash={`${
                 stats?.users_years_percentage >= 0
-                  ? "bg-custom-blue"
-                  : "bg-custom-red"
+                  ? 'bg-custom-blue'
+                  : 'bg-custom-red'
               }  w-[67px]`}
               textColor={
-                stats?.users_years_percentage >= 0 ? "#3C82D6" : "#FF0000"
+                stats?.users_years_percentage >= 0 ? '#3C82D6' : '#FF0000'
               }
               arrowImg={
                 stats?.users_years_percentage >= 0
@@ -369,12 +369,12 @@ export const Users = () => {
             />
           </div>
           <Confirmationmodal
-            PopupHeader={"Confirmation"}
+            PopupHeader={'Confirmation'}
             visible={visible}
             setVisible={setVisible}
-            cnfrmbtnText={"Ban"}
-            cnclebtnText={"Cancel"}
-            text={"Are you sure you want to ban this user"}
+            cnfrmbtnText={'Ban'}
+            cnclebtnText={'Cancel'}
+            text={'Are you sure you want to ban this user'}
             setOkButton={setOkButton}
             setCancelButton={setCancelButton}
           />
@@ -383,23 +383,23 @@ export const Users = () => {
               <CustomButton
                 onClick={DeleteSelected}
                 iconLeft={
-                  <SVGIcon fillcolor={"white"} src={IMAGES.DeleteIcon} />
+                  <SVGIcon fillcolor={'white'} src={IMAGES.DeleteIcon} />
                 }
-                classes={"!w-[194px] !h-[46px] !rounded-[8px] !bg-[#BA0000]"}
+                classes={'!w-[194px] !h-[46px] !rounded-[8px] !bg-[#BA0000]'}
                 txt={`Delete Users(${selectedUsers.length})`}
               />
               <CustomButton
                 onClick={BanSelected}
                 iconLeft={
                   <SVGIcon
-                    width={"14px"}
-                    height={"14px"}
-                    fillcolor={"#212121"}
+                    width={'14px'}
+                    height={'14px'}
+                    fillcolor={'#212121'}
                     src={IMAGES.Ban}
                   />
                 }
                 classes={
-                  "!w-[173px] !h-[46px] !text-black !rounded-[8px] !bg-[#FBBB00]"
+                  '!w-[173px] !h-[46px] !text-black !rounded-[8px] !bg-[#FBBB00]'
                 }
                 txt={`Ban Users(${selectedUsers.length})`}
               />
@@ -408,7 +408,7 @@ export const Users = () => {
         </>
       ) : (
         <div className="w-full mt-[100px] h-full flex justify-start items-center overflow-y-hidden">
-          <ProgressSpinner style={{ overflow: "hidden" }} />
+          <ProgressSpinner style={{ overflow: 'hidden' }} />
         </div>
       )}
     </div>

@@ -1,8 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export const CreateCoupon = () => {
-  return (
-    <div>CreateCoupon</div>
-  )
-}
-
+  return <div>CreateCoupon</div>;
+};

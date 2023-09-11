@@ -1,6 +1,6 @@
-import { CustomDialog } from "../../../atoms/global.style";
-import { CustomButton } from "../../../atoms";
-import { useState, useEffect } from "react";
+import { CustomDialog } from '../../../atoms/global.style';
+import { CustomButton } from '../../../atoms';
+import { useState, useEffect } from 'react';
 export const Confirmationmodal2 = ({
   PopupHeader,
   classes,
@@ -16,13 +16,13 @@ export const Confirmationmodal2 = ({
   handleFunction,
   setOkButton,
   setCancelButton,
-  Value = "",
+  Value = '',
   setValue,
   value,
   placeholderValue,
 }: any) => {
   // insert here
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   return (
     <CustomDialog
@@ -32,7 +32,7 @@ export const Confirmationmodal2 = ({
       <i
         className="pi pi-times absolute right-4 top-4 cursor-pointer"
         onClick={() => {
-          setError("");
+          setError('');
           setVisible(false);
         }}
       ></i>
@@ -50,7 +50,7 @@ export const Confirmationmodal2 = ({
               <input
                 placeholder="Enter color"
                 value={Value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={e => setValue(e.target.value)}
                 className="px-2 focus:outline-none"
               />
               <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
@@ -63,8 +63,8 @@ export const Confirmationmodal2 = ({
           <>
             <div className="flex justify-between items-center mt-3 px-2 border w-[200px] h-[54px] mx-auto rounded-[10px]">
               <input
-                onChange={(e) => {
-                  setError("");
+                onChange={e => {
+                  setError('');
                   setValue(e.target.value);
                 }}
                 placeholder={placeholderValue}
@@ -89,7 +89,7 @@ export const Confirmationmodal2 = ({
               if (setCancelButton) {
                 setCancelButton(e);
               } else {
-                setError("");
+                setError('');
                 setVisible(false);
               }
             }}
@@ -98,8 +98,8 @@ export const Confirmationmodal2 = ({
             onClick={() => {
               if (handleFunction) {
                 console.log(Value);
-                
-                handleFunction(Value)
+
+                handleFunction(Value);
               }
               if (setOkButton) {
                 setOkButton();

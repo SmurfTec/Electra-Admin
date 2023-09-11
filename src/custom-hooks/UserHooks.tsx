@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { getAllUsers } from "../store/Slices/UserSlice";
+import { useState, useEffect } from 'react';
+import { getAllUsers } from '../store/Slices/UserSlice';
 export const useGetAllUsers = () => {
   const [users, setUsers] = useState<any>(null);
   const [userLoading, setUserLoading] = useState<any>(true);

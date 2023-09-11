@@ -1,2 +1,2 @@
-export * from "./Coupon"
-export * from "./CreateCoupon"
+export * from './Coupon';
+export * from './CreateCoupon';

@@ -1,4 +1,4 @@
-import IMAGES from "../../assets/Images";
+import IMAGES from '../../assets/Images';
 type PropTypes = {
   listing: number;
   Products: number;

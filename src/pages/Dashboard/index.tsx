@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   DashCard,
   StaticCard,
@@ -7,28 +7,28 @@ import {
   DashTable,
   Header,
   DashboardModal,
-} from "../../components";
-import IMAGES from "../../assets/Images";
-import { useState } from "react";
+} from '../../components';
+import IMAGES from '../../assets/Images';
+import { useState } from 'react';
 import {
   useGetDashStats,
   useGetBestSelling,
-} from "../../custom-hooks/DashHooks";
-import { useGetAllUsers } from "../../custom-hooks/UserHooks";
-import { useGetProducts } from "../../custom-hooks";
-import { BaseURL } from "../../config";
-import moment from "moment";
-import { useGetOrderAll } from "../../custom-hooks/OrderHooks";
-import { ProgressSpinner } from "primereact/progressspinner";
+} from '../../custom-hooks/DashHooks';
+import { useGetAllUsers } from '../../custom-hooks/UserHooks';
+import { useGetProducts } from '../../custom-hooks';
+import { BaseURL } from '../../config';
+import moment from 'moment';
+import { useGetOrderAll } from '../../custom-hooks/OrderHooks';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 export const Dashboard = () => {
   const [visible, setvisible] = useState(false);
   const months = [
-    { value: "year", label: "Year" },
-    { value: "sixMonths", label: "6 months" },
-    { value: "threeMonths", label: "3 months" },
+    { value: 'year', label: 'Year' },
+    { value: 'sixMonths', label: '6 months' },
+    { value: 'threeMonths', label: '3 months' },
   ];
-  const [monthValue, setMonthValue] = useState("year");
+  const [monthValue, setMonthValue] = useState('year');
   const [productsParam, setProductParams] = useState({
     rowsPerPage: 4,
     currentPage: 1,
@@ -39,7 +39,7 @@ export const Dashboard = () => {
   });
 
   const { orderData, orderLoading }: any = useGetOrderAll({
-    status: "completed",
+    status: 'completed',
   });
   const { users, userLoading }: any = useGetAllUsers();
   const { bestSelling, bestLoading }: any =
@@ -51,18 +51,18 @@ export const Dashboard = () => {
   React.useEffect(() => {
     if (!loading) {
       let period;
-      if (monthValue === "year") {
+      if (monthValue === 'year') {
         period = dashStats?.revenueStats?.year?.data;
-      } else if (monthValue === "sixMonths") {
+      } else if (monthValue === 'sixMonths') {
         period = dashStats?.revenueStats?.sixMonths?.data;
-      } else if (monthValue === "threeMonths") {
+      } else if (monthValue === 'threeMonths') {
         period = dashStats?.revenueStats?.threeMonths?.data;
       }
       convertedArray = Object.entries(period)?.map(
         ([date, { sales }]: any) => ({
-          x: date.split("-")[0],
+          x: date.split('-')[0],
           y: sales,
-        })
+        }),
       );
       setNewData(convertedArray);
     }
@@ -70,10 +70,10 @@ export const Dashboard = () => {
   let latestArr = users?.users?.slice(0, 4).map((item: any) => {
     let newObj = {
       id: item.id,
-      name: item?.profile?.firstname + item?.profile?.lastname || "",
-      phone: item?.profile?.mobile_no || "",
-      email: item?.email || "",
-      Date: moment(item.created_at).format("DD,MM,YYYY"),
+      name: item?.profile?.firstname + item?.profile?.lastname || '',
+      phone: item?.profile?.mobile_no || '',
+      email: item?.email || '',
+      Date: moment(item.created_at).format('DD,MM,YYYY'),
     };
 
     return newObj;
@@ -86,11 +86,11 @@ export const Dashboard = () => {
     productsAdded?.products.length > 0 &&
     productsAdded?.products?.map((item: any, index: any) => {
       return {
-        img: item?.images?.length > 0 ? BaseURL + item?.images[0].filename : "",
+        img: item?.images?.length > 0 ? BaseURL + item?.images[0].filename : '',
         id: item.title,
-        name: { number: item.product_properties.sold, status: "sold" },
-        email: { number: item.product_properties.listings, status: "sold" },
-        Date: { number: `$ ${item.highest_offer ?? "0"}`, status: "Profit" },
+        name: { number: item.product_properties.sold, status: 'sold' },
+        email: { number: item.product_properties.listings, status: 'sold' },
+        Date: { number: `$ ${item.highest_offer ?? '0'}`, status: 'Profit' },
       };
     });
   const data3 =
@@ -101,9 +101,9 @@ export const Dashboard = () => {
       return {
         img: BaseURL + item.image.filename,
         id: item.title,
-        name: { number: item.sold, status: "sold" },
-        email: { number: item.listings, status: "sold" },
-        Date: { number: `$ ${item.profit ?? "0"}`, status: "Profit" },
+        name: { number: item.sold, status: 'sold' },
+        email: { number: item.listings, status: 'sold' },
+        Date: { number: `$ ${item.profit ?? '0'}`, status: 'Profit' },
       };
     });
   return (
@@ -119,24 +119,24 @@ export const Dashboard = () => {
           <div className="flex flex-wrap justify-start gap-2">
             {!loading && (
               <>
-                {" "}
+                {' '}
                 <DashCard
                   // onClick={() => setvisible(true)}
-                  title={"Net Revenue"}
+                  title={'Net Revenue'}
                   totalNumber={`$ ${dashStats?.revenueStats?.total_revenue?.toFixed(
-                    2
+                    2,
                   )}`}
                   myImg={IMAGES.coin}
-                  imgColor={"bg-blue-dash"}
+                  imgColor={'bg-blue-dash'}
                   textDash={
                     dashStats?.revenueStats?.revenue_percentage < 0
-                      ? "bg-custom-red"
-                      : "bg-custom-blue"
+                      ? 'bg-custom-red'
+                      : 'bg-custom-blue'
                   }
                   textColor={
                     dashStats?.revenueStats?.revenue_percentage < 0
-                      ? "#FF0000"
-                      : "#3C82D6"
+                      ? '#FF0000'
+                      : '#3C82D6'
                   }
                   arrowImg={
                     dashStats?.revenueStats?.revenue_percentage < 0
@@ -145,24 +145,24 @@ export const Dashboard = () => {
                   }
                   outerclasses={`!w-[400px]`}
                   percentageTxt={`$ ${dashStats?.revenueStats?.revenue_percentage?.toFixed(
-                    2
+                    2,
                   )}`}
                 />
                 <DashCard
-                  title={"Products Sold"}
+                  title={'Products Sold'}
                   totalNumber={`${dashStats?.productStats?.total_products_sold}`}
                   myImg={IMAGES.box}
-                  imgColor={"bg-yellow-dash"}
+                  imgColor={'bg-yellow-dash'}
                   outerclasses={`!w-[400px] `}
                   textDash={
                     dashStats?.productStats?.products_percentage < 0
-                      ? "bg-custom-red"
-                      : "bg-custom-blue"
+                      ? 'bg-custom-red'
+                      : 'bg-custom-blue'
                   }
                   textColor={
                     dashStats?.productStats?.products_percentage < 0
-                      ? "#FF0000"
-                      : "#3C82D6"
+                      ? '#FF0000'
+                      : '#3C82D6'
                   }
                   arrowImg={
                     dashStats?.productStats?.products_percentage < 0
@@ -170,59 +170,61 @@ export const Dashboard = () => {
                       : IMAGES.uparrow
                   }
                   percentageTxt={`$ ${dashStats?.productStats?.products_percentage?.toFixed(
-                    2
+                    2,
                   )}`}
                 />
                 <DashCard
-                  title={"Total Users"}
+                  title={'Total Users'}
                   totalNumber={dashStats?.userStats?.total_users_registered}
                   myImg={IMAGES.person}
-                  imgColor={"bg-custom-grey"}
+                  imgColor={'bg-custom-grey'}
                   outerclasses={`!w-[400px]`}
                   textDash={
                     dashStats?.userStats?.users_years_percentage < 0
-                      ? "bg-custom-red"
-                      : "bg-custom-blue"
+                      ? 'bg-custom-red'
+                      : 'bg-custom-blue'
                   }
                   textColor={
                     dashStats?.userStats?.users_years_percentage < 0
-                      ? "#FF0000"
-                      : "#3C82D6"
+                      ? '#FF0000'
+                      : '#3C82D6'
                   }
                   arrowImg={
                     dashStats?.userStats?.users_years_percentage < 0
                       ? IMAGES.downarrow
                       : IMAGES.uparrow
                   }
-                  percentageTxt={`$ ${dashStats?.userStats?.users_years_percentage?.toFixed(
-                    2
-                  )??"-"}`}
+                  percentageTxt={`$ ${
+                    dashStats?.userStats?.users_years_percentage?.toFixed(2) ??
+                    '-'
+                  }`}
                 />
                 <DashCard
-                  title={"Total Listings"}
+                  title={'Total Listings'}
                   totalNumber={`${dashStats?.listingStats?.total_listings}`}
                   myImg={IMAGES.box}
-                  imgColor={"bg-yellow-dash"}
-               
+                  imgColor={'bg-yellow-dash'}
                   outerclasses={`!w-[400px]`}
                   textDash={
                     dashStats?.listingStats?.total_listings_percentage < 0
-                      ? "bg-custom-red"
-                      : "bg-custom-blue"
+                      ? 'bg-custom-red'
+                      : 'bg-custom-blue'
                   }
                   textColor={
                     dashStats?.listingStats?.total_listings_percentage < 0
-                      ? "#FF0000"
-                      : "#3C82D6"
+                      ? '#FF0000'
+                      : '#3C82D6'
                   }
                   arrowImg={
                     dashStats?.listingStats?.total_listings_percentage < 0
                       ? IMAGES.downarrow
                       : IMAGES.uparrow
                   }
-                  percentageTxt={`$ ${dashStats?.listingStats?.total_listings_percentage?.toFixed(
-                    1
-                  )??"-"}`}
+                  percentageTxt={`$ ${
+                    dashStats?.listingStats?.total_listings_percentage?.toFixed(
+                      1,
+                    ) ?? '-'
+                  }`}
                 />
               </>
             )}
@@ -252,8 +254,8 @@ export const Dashboard = () => {
                   tableHeaderColor="#FCFCFC "
                   data={data}
                   header={true}
-                  classess={"!px-[3px] !mt-4 !rounded !overflow-x-auto "}
-                  route={"/Users"}
+                  classess={'!px-[3px] !mt-4 !rounded !overflow-x-auto '}
+                  route={'/Users'}
                 />
               )}
             </div>
@@ -268,7 +270,7 @@ export const Dashboard = () => {
                   selling={true}
                   customHeader="Best Selling Product"
                   pagination={true}
-                  route={"/Products"}
+                  route={'/Products'}
                   totalProducts={bestSelling?.stats?.total_products}
                   setParams={setBestProductParams}
                   page={bestProductParams?.currentPage}
@@ -285,7 +287,7 @@ export const Dashboard = () => {
                   selling={true}
                   customHeader="Recently Added Product"
                   pagination={true}
-                  route={"/Products"}
+                  route={'/Products'}
                   totalProducts={productsAdded?.stats?.total_products}
                   setParams={setProductParams}
                   page={productsParam?.currentPage}
@@ -297,16 +299,16 @@ export const Dashboard = () => {
         </>
       ) : (
         <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
-          <ProgressSpinner style={{ overflow: "hidden" }} />
+          <ProgressSpinner style={{ overflow: 'hidden' }} />
         </div>
       )}
       <DashboardModal
         PopupHeader="Filter Dashboard"
         visible={visible}
         setVisible={setvisible}
-        text={"Select Date to show statistics  until selected Date"}
-        cnfrmbtnText={"Confirm"}
-        classes={"!h-[310px]"}
+        text={'Select Date to show statistics  until selected Date'}
+        cnfrmbtnText={'Confirm'}
+        classes={'!h-[310px]'}
       />
     </div>
   );

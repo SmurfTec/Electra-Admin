@@ -1,13 +1,13 @@
-type Statuscard={
-    title:string
-    number:string
-    img:string
-    onClick?:React.MouseEventHandler
-}
-export const StatusCard = (props:Statuscard) => {
+type Statuscard = {
+  title: string;
+  number: string;
+  img: string;
+  onClick?: React.MouseEventHandler;
+};
+export const StatusCard = (props: Statuscard) => {
   return (
     <div
-    onClick={props.onClick}
+      onClick={props.onClick}
       className="bg-lightgray flex justify-between h-[96px]
     w-[191px] rounded p-5   overflow-hidden
     "
@@ -17,8 +17,7 @@ export const StatusCard = (props:Statuscard) => {
         <p className="text-[28px] font-bold">{props.number}</p>
       </div>
       <div>
-        <img  className="h-10"
-        src={props.img}/>
+        <img className="h-10" src={props.img} />
       </div>
     </div>
   );

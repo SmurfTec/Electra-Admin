@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Header } from "../../../components";
-import IMAGES from "../../../assets/Images";
-import { SVGIcon } from "../../../components/SVG";
-import { CustomMenu } from "../../../atoms/global.style";
-import { CustomButton } from "../../../atoms";
-import { useNavigate } from "react-router-dom";
-import { useGetUserById } from "../../../custom-hooks/RolesHooks";
-import { useLocation } from "react-router-dom";
-import { BaseURL } from "../../../config";
-import moment from "moment";
+import React, { useEffect, useState } from 'react';
+import { Header } from '../../../components';
+import IMAGES from '../../../assets/Images';
+import { SVGIcon } from '../../../components/SVG';
+import { CustomMenu } from '../../../atoms/global.style';
+import { CustomButton } from '../../../atoms';
+import { useNavigate } from 'react-router-dom';
+import { useGetUserById } from '../../../custom-hooks/RolesHooks';
+import { useLocation } from 'react-router-dom';
+import { BaseURL } from '../../../config';
+import moment from 'moment';
 type UserProfile = {
   id: number;
   firstname: string;
@@ -51,7 +51,7 @@ type DATA = {
 export const ViewAdmin = () => {
   const location = useLocation();
   const { pathname } = location;
-  const id = pathname.split("/").pop();
+  const id = pathname.split('/').pop();
   const { user, userLoading } = useGetUserById(id) as DATA;
   const [view, setView] = useState(false);
   useEffect(() => {
@@ -65,43 +65,43 @@ export const ViewAdmin = () => {
     {
       items: [
         {
-          label: "Ban User",
+          label: 'Ban User',
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
-                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+                style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> Ban User
+                <SVGIcon fillcolor={'#212121'} src={IMAGES.Ban} /> Ban User
               </div>
             );
           },
         },
         {
-          label: "Delete",
+          label: 'Delete',
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
-                style={{ background: "rgba(231, 29, 54, 0.05)" }}
+                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
               >
-                <SVGIcon fillcolor={"#E71D36"} src={IMAGES.Delete} /> Delete
+                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
               </div>
             );
           },
         },
         {
-          label: "Select",
+          label: 'Select',
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
-                style={{ background: "rgba(46, 102, 194, 0.05)" }}
+                style={{ background: 'rgba(46, 102, 194, 0.05)' }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Select} /> Select
+                <SVGIcon fillcolor={'#212121'} src={IMAGES.Select} /> Select
               </div>
             );
           },
@@ -129,7 +129,7 @@ export const ViewAdmin = () => {
               <div className="mt-8 flex justify-between w-[100%]">
                 <div>
                   <p className="text-[#969696]">Assigned On</p>
-                  <p>{moment(user?.assigned_on).format("DD MMM, YYYY")}</p>
+                  <p>{moment(user?.assigned_on).format('DD MMM, YYYY')}</p>
                 </div>
                 <div
                   className={`text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
@@ -164,17 +164,17 @@ export const ViewAdmin = () => {
             <div className="mt-3">
               <p className="text-[#969696] ml-2">Last Active On</p>
               <p className="ml-2">
-                {moment(user?.last_login).format("hh:mm A - dddd")}
+                {moment(user?.last_login).format('hh:mm A - dddd')}
               </p>
             </div>
           </div>
           <div className=" flex justify-center">
             <CustomButton
               onClick={() => {
-                navigate("/Searchrole");
+                navigate('/Searchrole');
               }}
-              txt={"Create Admin"}
-              classes={" !w-[90%]  !rounded-[6px] !h-[50px] mt-10 "}
+              txt={'Create Admin'}
+              classes={' !w-[90%]  !rounded-[6px] !h-[50px] mt-10 '}
             />
           </div>
         </div>
@@ -190,7 +190,7 @@ export const ViewAdmin = () => {
                     <div>
                       <p>{item.message}</p>
                       <p className="text-[#969696] mt-2 text-[11px]">
-                        {moment(item.created_on).format("hh:mm A - dddd")}
+                        {moment(item.created_on).format('hh:mm A - dddd')}
                       </p>
                     </div>
                   </div>
@@ -213,7 +213,7 @@ export const ViewAdmin = () => {
                       <div>
                         <p>{item.message}</p>
                         <p className="text-[#969696] mt-2 text-[11px]">
-                          {moment(item.created_on).format("hh:mm A - dddd")}
+                          {moment(item.created_on).format('hh:mm A - dddd')}
                         </p>
                       </div>
                     </div>

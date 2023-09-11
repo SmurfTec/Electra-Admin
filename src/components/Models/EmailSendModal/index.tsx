@@ -1,27 +1,27 @@
-import React, { useState, useRef, useEffect } from "react";
-import { CustomDialog } from "../../../atoms/global.style";
-import { InputTxt } from "../../../atoms";
-import { CustomButton } from "../../../atoms";
-import { forgotPassword } from "../../../store/Slices/UserSlice";
-import Countdown from "react-countdown";
+import React, { useState, useRef, useEffect } from 'react';
+import { CustomDialog } from '../../../atoms/global.style';
+import { InputTxt } from '../../../atoms';
+import { CustomButton } from '../../../atoms';
+import { forgotPassword } from '../../../store/Slices/UserSlice';
+import Countdown from 'react-countdown';
 
 export const EmailSendModal = ({
   classes,
   visible,
   setVisible,
-  title = "Change Password",
+  title = 'Change Password',
   onClick,
   SendEmail,
-  verifytxt = "",
-  setEmailModel
+  verifytxt = '',
+  setEmailModel,
 }: any) => {
-  const [Code, setCode] = useState("");
+  const [Code, setCode] = useState('');
   const [resetKey, setResetKey] = useState(0);
 
   const countDown = useRef();
   const renderer = ({ minutes, seconds, completed }: any) => {
     if (completed) {
-      setResetKey((prevKey) => prevKey + 1);
+      setResetKey(prevKey => prevKey + 1);
       if (SendEmail) {
         SendEmail();
       }
@@ -36,11 +36,10 @@ export const EmailSendModal = ({
   const sendVerificationMail = async () => {
     try {
       const send = await forgotPassword(Code);
-      if(send){
-        setVisible(false)
-        setEmailModel(true)
+      if (send) {
+        setVisible(false);
+        setEmailModel(true);
       }
-
     } catch (e) {}
   };
 
@@ -56,14 +55,14 @@ export const EmailSendModal = ({
         ></i>
         <div className="dialog-header">
           <p className="text-center text-[20px] font-[700] text-black uppercase ">
-            {title}{" "}
+            {title}{' '}
           </p>
         </div>
         <hr className="w-full border border-inputBorder" />
         <div className="dialogbody flex flex-col gap-4">
           <div className="flex flex-col">
             <p className="text-[12px] text-black font-extrabold mx-auto">
-              Enter an email you want to change password of.{" "}
+              Enter an email you want to change password of.{' '}
             </p>
             <p className="text-[12px] text-black font-extrabold mx-auto">
               A confirmation mail will be sent on your email.
@@ -79,7 +78,7 @@ export const EmailSendModal = ({
           <div className="flex text-center mx-auto"></div>
           <CustomButton
             onClick={() => sendVerificationMail()}
-            txt={"SEND"}
+            txt={'SEND'}
             classes={`!w-[126px] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]  `}
           />
         </div>

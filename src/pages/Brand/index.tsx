@@ -1,2 +1,2 @@
-export * from "./Brands"
-export * from "./CreateBrand"
+export * from './Brands';
+export * from './CreateBrand';

@@ -1,35 +1,38 @@
-import React, { useEffect, useState } from "react";
-import IMAGES from "../../assets/Images";
-import { InputTxt, InputPassword, CustomButton } from "../../atoms";
-import { Link, useNavigate } from "react-router-dom";
-import { EmailVerificationModel, ChangePasswordModel2,EmailSendModal } from "../../components";
-import { VerifyUserCode } from "../../store/Slices/UserSlice";
-import { useDispatch } from "react-redux";
-import { Login } from "../../store/Slices/AuthSlice";
-import useCookies from "react-cookie/cjs/useCookies";
+import React, { useEffect, useState } from 'react';
+import IMAGES from '../../assets/Images';
+import { InputTxt, InputPassword, CustomButton } from '../../atoms';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  EmailVerificationModel,
+  ChangePasswordModel2,
+  EmailSendModal,
+} from '../../components';
+import { VerifyUserCode } from '../../store/Slices/UserSlice';
+import { useDispatch } from 'react-redux';
+import { Login } from '../../store/Slices/AuthSlice';
+import useCookies from 'react-cookie/cjs/useCookies';
 type LoginData = {
   email: string;
   password: string;
 };
 export const Signin = () => {
-
   const dispatch = useDispatch();
-  const [Email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
   const [EmailErr, setEmailErr] = useState(false);
   const [EmailSent, setEmailSent] = useState(false);
   const [PasswordErr, setPasswordErr] = useState(false);
   const [EmailModel, setEmailModel] = useState(false);
   const [PassModel, setPassModel] = useState(false);
-  const[Code,setCode]=useState("")
+  const [Code, setCode] = useState('');
 
   const navigate = useNavigate();
-  const Login1 =async (event: any) => {
-    const data:LoginData={
-      email:Email,
-      password:Password
-    }
-  
+  const Login1 = async (event: any) => {
+    const data: LoginData = {
+      email: Email,
+      password: Password,
+    };
+
     if (Email.length == 0 || Password.length == 0) {
       if (Email.length == 0) {
         setEmailErr(true);
@@ -37,40 +40,48 @@ export const Signin = () => {
       if (Password.length == 0) {
         setPasswordErr(true);
       }
-    } 
-   
-    else {
-
+    } else {
       const loginCall = await dispatch(Login(data) as any);
-     
-    
-       if(loginCall.payload?.response?.data?.status===401){
-        console.log("HEREE")
-       
-          setEmailErr(true);
-        
-          setPasswordErr(true);
-        
-      }
-       else if(loginCall?.payload?.user){
-        localStorage.setItem("Route", "/Dashboard");
-      localStorage.setItem("user", JSON.stringify(loginCall?.payload.user));
-        navigate("/Dashboard");
+
+      if (loginCall.payload?.response?.data?.status === 401) {
+        console.log('HEREE');
+
+        setEmailErr(true);
+
+        setPasswordErr(true);
+      } else if (loginCall?.payload?.user) {
+        localStorage.setItem('Route', '/Dashboard');
+        localStorage.setItem('user', JSON.stringify(loginCall?.payload.user));
+        navigate('/Dashboard');
       }
     }
   };
   useEffect(() => {
-    localStorage.removeItem("user");
-  }, []); 
+    localStorage.removeItem('user');
+  }, []);
   const VerifyCode = async (code: any, txt: any) => {
-    let r = await VerifyUserCode(code)
-    console.log(r,"r")
-  }
+    let r = await VerifyUserCode(code);
+    console.log(r, 'r');
+  };
   return (
     <div className="min-h-[100vh] w-[100vw] flex flex-col items-center pt-[90px]">
-      <EmailSendModal visible={EmailSent} setVisible={setEmailSent}setEmailModel={setEmailModel}/>
-      <EmailVerificationModel Code={Code}setCode={setCode} visible={EmailModel} setVisible={setEmailModel} setVisible2={setPassModel} />
-      <ChangePasswordModel2 Code={Code} visible={PassModel} setVisible={setPassModel} />
+      <EmailSendModal
+        visible={EmailSent}
+        setVisible={setEmailSent}
+        setEmailModel={setEmailModel}
+      />
+      <EmailVerificationModel
+        Code={Code}
+        setCode={setCode}
+        visible={EmailModel}
+        setVisible={setEmailModel}
+        setVisible2={setPassModel}
+      />
+      <ChangePasswordModel2
+        Code={Code}
+        visible={PassModel}
+        setVisible={setPassModel}
+      />
       <div className="w-[116px] h-[116px] rounded-[50%] bg-lightgray flex justify-center align-middle items-center">
         <img src={IMAGES.Hand} alt="hand-img" className="w-[53px] h-[53px]" />
       </div>
@@ -129,27 +140,30 @@ export const Signin = () => {
             </p>
           </div>
           <p className="text-[14px] text-[#B4B4B4] font-[400] mt-[6px]">
-            Forgot Password?{" "}
+            Forgot Password?{' '}
             <span
               onClick={() => setEmailSent(true)}
               className="text-[#06448C] cursor-pointer "
             >
               Click Here
-            </span>{" "}
+            </span>{' '}
             to reset it.
           </p>
         </div>
       )}
-  {!PasswordErr || EmailErr &&   <div className="flex justify-end text-right  mt-[10px] w-[400px]">
-        <p 
+      {!PasswordErr ||
+        (EmailErr && (
+          <div className="flex justify-end text-right  mt-[10px] w-[400px]">
+            <p
               onClick={() => setEmailSent(true)}
-        
-        className=" cursor-pointer text-[14px] text-right font-[500] text-midgray">
-          Forgot Password?
-        </p>
-      </div>}
+              className=" cursor-pointer text-[14px] text-right font-[500] text-midgray"
+            >
+              Forgot Password?
+            </p>
+          </div>
+        ))}
       <CustomButton txt="Login" classes="mt-[41px]" onClick={Login1} />
-{/* 
+      {/* 
       <div className="flex mt-[10px] items-center gap-5 text-gray">
         <hr className="w-[159px] border-[#A4A4A4]" /> or{" "}
         <hr className="w-[159px] border-[#A4A4A4]" />

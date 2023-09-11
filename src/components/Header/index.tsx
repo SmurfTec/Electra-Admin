@@ -4,7 +4,7 @@ import {
   HeaderSearch,
   ChooseDate,
   ChooseFilter,
-  HeaderDropDown
+  HeaderDropDown,
 } from '../../atoms';
 import { useNavigate } from 'react-router-dom';
 import { Dropdown } from 'primereact/dropdown';
@@ -36,8 +36,8 @@ export const Header = (props: headerProps) => {
     const socket = io(BaseURL, {
       transports: ['websocket'],
       extraHeaders: {
-        authentication: token
-      }
+        authentication: token,
+      },
     });
     socket.on('connect', () => {
       console.log(`Hurrah Socket ${socket.id} Connected`);
@@ -45,7 +45,7 @@ export const Header = (props: headerProps) => {
 
       console.log('user.id', user.id);
       socket.emit('notifications', {
-        userId: user.id
+        userId: user.id,
       });
       socket.on('notifications', (data: any) => {
         console.log('data 1', data);
@@ -66,11 +66,12 @@ export const Header = (props: headerProps) => {
       <div
         className={`overflow-hidden h-16 mt-2 mb-2 flex items-center justify-between px-2 ${props.headerClasses} relative`}
       >
-        {props.typeSearch && (
+        <div></div>
+        {/* {props.typeSearch && (
           <HeaderSearch
-            placeholder={props.placeholder ?? 'Type here to search'}
+            placeholder={props.placeholder ?? "Type here to search"}
           />
-        )}
+        )} */}
         {props.title && (
           <div>
             <p
@@ -79,43 +80,43 @@ export const Header = (props: headerProps) => {
               {props.title}
             </p>
             {props.semiTitle && (
-              <p className='text-[#A4A4A4]'>{props.semiTitle}</p>
+              <p className="text-[#A4A4A4]">{props.semiTitle}</p>
             )}
           </div>
         )}
-        <div className='flex gap-4 items-center relative'>
-          {props.chooseDate && (
+        <div className="flex gap-4 items-center relative">
+          {/* {props.chooseDate && (
             <div className='flex gap-4'>
               <ChooseDate />
               <div className='border border-[#B4B4B4]'></div>
             </div>
-          )}
+          )} */}
           {props?.chooseFilter && (
-            <div className='flex gap-4'>
+            <div className="flex gap-4">
               <ChooseFilter />
-              <div className='border border-[#B4B4B4]'></div>
+              <div className="border border-[#B4B4B4]"></div>
             </div>
           )}
-          <div className='flex gap-4'>
-            <div className='bg-[black] rounded-[39px] flex  w-9 h-9 justify-center items-center'>
+          <div className="flex gap-4">
+            <div className="bg-[black] rounded-[39px] flex  w-9 h-9 justify-center items-center">
               {props.UserBox && (
                 <img
-                  className='cursor-pointer'
+                  className="cursor-pointer"
                   src={IMAGES.RectangleBox}
                   onClick={() => setDrop(!drop)}
                 />
               )}
             </div>
-            <div className='border border-[#B4B4B4]'></div>
+            <div className="border border-[#B4B4B4]"></div>
           </div>
 
-          <div className='flex gap-2'>
+          <div className="flex gap-2">
             <div>
               <img src={IMAGES.Admin} />
             </div>
             <div>
-              <p className='font-bold'>Huzayfah Hanif</p>
-              <p className='font-light text-[12px]'>Admin</p>
+              <p className="font-bold">Huzayfah Hanif</p>
+              <p className="font-light text-[12px]">Admin</p>
             </div>
           </div>
         </div>

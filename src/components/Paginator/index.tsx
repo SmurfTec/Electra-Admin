@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import {
   PaginatorPageChangeEvent,
   PaginatorNextPageLinkOptions,
   PaginatorPageLinksOptions,
   PaginatorPrevPageLinkOptions,
-} from "primereact/paginator";
+} from 'primereact/paginator';
 
-import { classNames } from "primereact/utils";
-import { CustomPaginator } from "../../atoms/global.style";
+import { classNames } from 'primereact/utils';
+import { CustomPaginator } from '../../atoms/global.style';
 export const Paginatior = ({
   totalRecords,
   initialPageData,
   setInitialPageData,
-  recordShowing
+  recordShowing,
 }: any) => {
-  console.log(recordShowing)
+  console.log(recordShowing);
   const paginatorRef = useRef<any>(null);
   const [first, setFirst] = useState<number[]>([0, 0, 0]);
   const onPageChange = (e: PaginatorPageChangeEvent, index: number) => {
@@ -26,12 +26,12 @@ export const Paginatior = ({
   };
 
   const template1 = {
-    layout: "PrevPageLink PageLinks NextPageLink ",
+    layout: 'PrevPageLink PageLinks NextPageLink ',
     PrevPageLink: (options: PaginatorPrevPageLinkOptions) => {
       return (
         <button
           type="button"
-          className={classNames(options.className, "border-round")}
+          className={classNames(options.className, 'border-round')}
           onClick={(e: any) => {
             options.onClick(e);
             setInitialPageData({
@@ -42,7 +42,8 @@ export const Paginatior = ({
           disabled={options.disabled}
         >
           <p>
-            Showing {recordShowing??initialPageData.rowsPerPage} out of {totalRecords}
+            Showing {recordShowing ?? initialPageData.rowsPerPage} out of{' '}
+            {totalRecords}
           </p>
           <span className="p-3">
             <i className="pi pi-arrow-left"></i>
@@ -54,7 +55,7 @@ export const Paginatior = ({
       return (
         <button
           type="button"
-          className={classNames(options.className, "border-round")}
+          className={classNames(options.className, 'border-round')}
           onClick={(e: any) => {
             options.onClick(e);
             setInitialPageData({
@@ -77,10 +78,10 @@ export const Paginatior = ({
         (options.view.endPage === options.page &&
           options.page + 1 !== options.totalPages)
       ) {
-        const className = classNames(options.className, { "p-disabled": true });
+        const className = classNames(options.className, { 'p-disabled': true });
 
         return (
-          <span className={className} style={{ userSelect: "none" }}>
+          <span className={className} style={{ userSelect: 'none' }}>
             ...
           </span>
         );
@@ -118,7 +119,7 @@ export const Paginatior = ({
         first={first[0]}
         rows={initialPageData?.rowsPerPage}
         totalRecords={totalRecords}
-        onPageChange={(e) => onPageChange(e, 0)}
+        onPageChange={e => onPageChange(e, 0)}
       />
     </div>
   );

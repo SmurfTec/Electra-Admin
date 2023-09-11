@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { CustomDropdown2 } from "../../atoms";
-import Chart from "react-apexcharts";
-import "./index.css";
-import IMAGES from "../../assets/Images";
+import React, { useEffect } from 'react';
+import { CustomDropdown2 } from '../../atoms';
+import Chart from 'react-apexcharts';
+import './index.css';
+import IMAGES from '../../assets/Images';
 type PropType = {
   statData: any;
   setData?: any;
@@ -39,7 +39,7 @@ export const RevenueChart = (props: PropType) => {
 
   let series = [
     {
-      name: "Series 1",
+      name: 'Series 1',
       data: uniqueData,
     },
   ];
@@ -53,10 +53,10 @@ export const RevenueChart = (props: PropType) => {
 
     stroke: {
       show: true,
-      colors: ["#000000"],
+      colors: ['#000000'],
     },
     markers: {
-      colors: ["#212121"],
+      colors: ['#212121'],
     },
     dataLabels: {
       enabled: false,
@@ -73,14 +73,14 @@ export const RevenueChart = (props: PropType) => {
     },
 
     fill: {
-      type: "gradient",
+      type: 'gradient',
       gradient: {
         shadeIntensity: 0.2,
         opacityFrom: 0.4,
         opacityTo: 0.1,
         stops: [0, 90, 100],
       },
-      colors: ["#000000"],
+      colors: ['#000000'],
     },
   };
 
@@ -89,7 +89,7 @@ export const RevenueChart = (props: PropType) => {
       <div className="">
         <div className="flex justify-between px-2">
           <p className="font-semibold pt-3 pl-3 overflow-hidden ">Revenue</p>
-       
+
           <CustomDropdown2
             setValue={(value: any) => {
               props.setData(value);
@@ -116,7 +116,7 @@ export const RevenueChart = (props: PropType) => {
             series={series}
             type="area"
             height={350}
-            style={{ width: "74rem", marginLeft: "14px" }}
+            style={{ width: '74rem', marginLeft: '14px' }}
           />
         </div>
       </div>

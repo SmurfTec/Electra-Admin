@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { CustomDialog } from "../../../atoms/global.style";
-import { InputPassword } from "../../../atoms";
-import { CustomButton } from "../../../atoms";
-import IMAGES from "../../../assets/Images";
-import { ChangePassword } from "../../../store/Slices/UserSlice";
+import React, { useState } from 'react';
+import { CustomDialog } from '../../../atoms/global.style';
+import { InputPassword } from '../../../atoms';
+import { CustomButton } from '../../../atoms';
+import IMAGES from '../../../assets/Images';
+import { ChangePassword } from '../../../store/Slices/UserSlice';
 export const ChangePasswordModel = ({
   classes,
   visible,
@@ -11,20 +11,20 @@ export const ChangePasswordModel = ({
   showSuccessModel = true,
   onClick,
 }: any) => {
-  const [currentPass, setcurrentPass] = useState("");
-  const [newPass, setnewPass] = useState("");
+  const [currentPass, setcurrentPass] = useState('');
+  const [newPass, setnewPass] = useState('');
   const [Success, setSuccess] = useState(false);
 
-  const ChangeUserPassword=async()=>{
-    let body={
-      "currentPassword" :currentPass,
-      "newPassword" :newPass
+  const ChangeUserPassword = async () => {
+    let body = {
+      currentPassword: currentPass,
+      newPassword: newPass,
+    };
+    let response = await ChangePassword(body);
+    if (!(response.status == 404) || !(response.status == 401)) {
+      setSuccess(true);
     }
-    let response=await ChangePassword(body)
-    if(!(response.status==404) || (!(response.status==401))){
-      setSuccess(true)
-    }
-  }
+  };
   return (
     <>
       <CustomDialog

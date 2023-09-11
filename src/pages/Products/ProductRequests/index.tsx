@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import IMAGES from "../../../assets/Images";
-import { Header, StatusCard, Productdetailcard } from "../../../components";
-import { Confirmationmodal } from "../../../components";
-import { useAllProductRequests } from "../../../custom-hooks";
-import { deleteProductById } from "../../../store/Slices/ProductSlice";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { Paginatior } from "../../../components";
+import { useEffect, useState } from 'react';
+import IMAGES from '../../../assets/Images';
+import { Header, StatusCard, Productdetailcard } from '../../../components';
+import { Confirmationmodal } from '../../../components';
+import { useAllProductRequests } from '../../../custom-hooks';
+import { deleteProductById } from '../../../store/Slices/ProductSlice';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Paginatior } from '../../../components';
 export const ProductRequests = () => {
   type Stats = {
     status: string;
@@ -53,13 +53,13 @@ export const ProductRequests = () => {
       />
       {!loading ? (
         <>
-          {" "}
+          {' '}
           <div className="flex gap-2">
             <StatusCard
               onClick={() => {
                 // setVisible(true);
                 let { status, ...rest } = initialPageData;
-                console.log(rest)
+                console.log(rest);
                 setInitialPageData(rest);
               }}
               title="All"
@@ -73,7 +73,7 @@ export const ProductRequests = () => {
               onClick={() => {
                 setInitialPageData({
                   ...initialPageData,
-                  status: "pending",
+                  status: 'pending',
                 });
               }}
             />
@@ -84,7 +84,7 @@ export const ProductRequests = () => {
               onClick={() => {
                 setInitialPageData({
                   ...initialPageData,
-                  status: "rejected",
+                  status: 'rejected',
                 });
               }}
             />
@@ -95,7 +95,7 @@ export const ProductRequests = () => {
               onClick={() => {
                 setInitialPageData({
                   ...initialPageData,
-                  status: "approved",
+                  status: 'approved',
                 });
               }}
             />
@@ -117,13 +117,13 @@ export const ProductRequests = () => {
               })}
           </div>
           <Confirmationmodal
-            PopupHeader={"Item Listed"}
+            PopupHeader={'Item Listed'}
             visible={visible}
             setVisible={setVisible}
-            cnfrmbtnText={"Send Notification"}
-            cnclebtnText={"Cancel"}
+            cnfrmbtnText={'Send Notification'}
+            cnclebtnText={'Cancel'}
             text={
-              "This will send a notifcation to the user who requested you to list this item"
+              'This will send a notifcation to the user who requested you to list this item'
             }
           />
           <Paginatior
@@ -134,7 +134,7 @@ export const ProductRequests = () => {
         </>
       ) : (
         <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
-          <ProgressSpinner style={{ overflow: "hidden" }} />
+          <ProgressSpinner style={{ overflow: 'hidden' }} />
         </div>
       )}
     </div>

@@ -1,150 +1,150 @@
-import { useState, useEffect } from "react";
-import IMAGES from "../../assets/Images";
-import { SVGIcon } from "../SVG";
-import { Link, useNavigate } from "react-router-dom";
-import { PanelMenu } from "primereact/panelmenu";
+import { useState, useEffect } from 'react';
+import IMAGES from '../../assets/Images';
+import { SVGIcon } from '../SVG';
+import { Link, useNavigate } from 'react-router-dom';
+import { PanelMenu } from 'primereact/panelmenu';
 export const SideBar = () => {
-  const checkRoute = localStorage.getItem("Route");
+  const checkRoute = localStorage.getItem('Route');
   const navigate = useNavigate();
   const [navItems, setNavItems] = useState([
     {
       id: 1,
-      name: "Dashboard",
+      name: 'Dashboard',
       icon: IMAGES.Barchart,
       active: true,
       number: 25,
-      url: "/Dashboard",
+      url: '/Dashboard',
     },
     {
       id: 2,
-      name: "Users",
+      name: 'Users',
       icon: IMAGES.User,
       active: false,
       number: 25,
-      url: "/Users",
+      url: '/Users',
     },
     {
       id: 3,
-      name: "Products",
+      name: 'Products',
       icon: IMAGES.Product,
       active: false,
-      iconFillColor: "",
-      url: "/Products",
+      iconFillColor: '',
+      url: '/Products',
       open: false,
       DropDown: true,
       subItems: [
         {
           id: 31,
-          name: "All Products",
+          name: 'All Products',
           active: true,
-          url: "/Products",
+          url: '/Products',
         },
         {
           id: 32,
-          name: "Product Request",
+          name: 'Product Request',
           active: false,
-          url: "/Productrequest",
+          url: '/Productrequest',
         },
       ],
     },
     {
       id: 4,
-      name: "Wallet",
+      name: 'Wallet',
       icon: IMAGES.Wallet,
       active: false,
-      url: "/Wallet",
+      url: '/Wallet',
     },
     {
       id: 5,
-      name: "Listings",
+      name: 'Listings',
       icon: IMAGES.Listing,
       active: false,
-      url: "/Listings",
+      url: '/Listings',
     },
     {
       id: 6,
-      name: "Orders",
+      name: 'Orders',
       icon: IMAGES.Order,
       active: false,
-      url: "/Orders",
+      url: '/Orders',
     },
     {
       id: 7,
-      name: "Verification",
-      url: "/Verification",
+      name: 'Verification',
+      url: '/Verification',
       icon: IMAGES.Verification,
       active: false,
     },
     {
       id: 8,
-      name: "Roles",
+      name: 'Roles',
       icon: IMAGES.Roles,
       active: false,
-      iconFillColor: "",
-      url: "/Roles",
+      iconFillColor: '',
+      url: '/Roles',
     },
     {
       id: 9,
-      name: "Fee Modifier",
+      name: 'Fee Modifier',
       icon: IMAGES.FreeModifier,
       active: false,
-      url: "/Feemodifier",
+      url: '/Feemodifier',
     },
     {
       id: 10,
-      name: "Coupons",
-      url: "/Coupon",
+      name: 'Coupons',
+      url: '/Coupon',
       icon: IMAGES.Coupons,
       active: false,
     },
     {
       id: 11,
-      name: "Categories",
-      url: "/Category",
+      name: 'Categories',
+      url: '/Category',
       icon: IMAGES.Categories,
       active: false,
     },
     {
       id: 12,
-      name: "Brands",
-      url: "/Brand",
+      name: 'Brands',
+      url: '/Brand',
       icon: IMAGES.Brand,
       active: false,
     },
     {
       id: 13,
-      name: "Edit Website",
+      name: 'Edit Website',
       icon: IMAGES.EditWebsite,
       active: false,
-      url: "/Editwebsite",
+      url: '/Editwebsite',
     },
     {
       id: 14,
-      name: "Help center",
-      url: "/HelpCenter",
+      name: 'Help center',
+      url: '/HelpCenter',
       icon: IMAGES.HelpCenter,
       active: false,
     },
     {
       id: 15,
-      name: "Settings",
+      name: 'Settings',
       icon: IMAGES.Settings,
       active: false,
-      iconFillColor: "",
-      strokeColor: "",
-      url: "/Settings",
+      iconFillColor: '',
+      strokeColor: '',
+      url: '/Settings',
     },
   ]);
   const handleItemClick = (itemId: number) => {
     const updatedNavItems: any = navItems.map((item: any) => {
       if (item.id === itemId) {
-        if (item.name == "Settings") {
-          return { ...item, active: true, iconFillColor: "transparent" }; //icon:IMAGES.SettingActive,
+        if (item.name == 'Settings') {
+          return { ...item, active: true, iconFillColor: 'transparent' }; //icon:IMAGES.SettingActive,
         } else {
           if (item.open !== null || item.open !== undefined) {
             return { ...item, active: true, open: !item.open };
           } else {
-            if (item.name !== "Products") {
+            if (item.name !== 'Products') {
               return { ...item, active: true, open: false };
             }
 
@@ -152,8 +152,8 @@ export const SideBar = () => {
           }
         }
       } else {
-        if (item.name == "Settings") {
-          return { ...item, active: false, iconFillColor: "" };
+        if (item.name == 'Settings') {
+          return { ...item, active: false, iconFillColor: '' };
         } else {
           return { ...item, active: false };
         }
@@ -182,7 +182,7 @@ export const SideBar = () => {
   const Logout = () => {
     localStorage.clear();
     setTimeout(() => {
-      navigate("/");
+      navigate('/');
     }, 2000);
   };
   useEffect(() => {
@@ -190,13 +190,13 @@ export const SideBar = () => {
     if (checkRoute) {
       const updatedNavItems: any = navItems.map((item: any) => {
         if (item.url === checkRoute) {
-          if (item.name == "Settings") {
-            return { ...item, active: true, iconFillColor: "transparent" }; //icon:IMAGES.SettingActive,
+          if (item.name == 'Settings') {
+            return { ...item, active: true, iconFillColor: 'transparent' }; //icon:IMAGES.SettingActive,
           } else {
             if (item.open !== null || item.open !== undefined) {
               return { ...item, active: true, open: !item.open };
             } else {
-              if (item.name !== "Products") {
+              if (item.name !== 'Products') {
                 return { ...item, active: true, open: false };
               }
 
@@ -204,8 +204,8 @@ export const SideBar = () => {
             }
           }
         } else {
-          if (item.name == "Settings") {
-            return { ...item, active: false, iconFillColor: "" };
+          if (item.name == 'Settings') {
+            return { ...item, active: false, iconFillColor: '' };
           } else {
             return { ...item, active: false };
           }
@@ -230,14 +230,14 @@ export const SideBar = () => {
             <Link
               key={item.id}
               onClick={() => {
-                localStorage.setItem("Route", item.url);
+                localStorage.setItem('Route', item.url);
               }}
               to={item.url}
             >
               <div
                 key={item.id}
                 className={`md:w-[11rem] lg:w-[11.75rem] h-[35px] flex items-center justify-between md:ml-[12px] lg:ml-[22px] rounded-[8px] pl-[17px] pr-[19px] ${
-                  item.active ? "bg-[#212121]" : ""
+                  item.active ? 'bg-[#212121]' : ''
                 }`}
                 onClick={(e: any) => {
                   handleItemClick(item.id);
@@ -253,7 +253,7 @@ export const SideBar = () => {
                     />
                     <p
                       className={`${
-                        item.active ? "text-[white]" : "text-gray"
+                        item.active ? 'text-[white]' : 'text-gray'
                       }  font-[600] cursor-pointer md:text-[13px] lg:text-[16px]`}
                     >
                       {item.name}
@@ -271,8 +271,8 @@ export const SideBar = () => {
                     <div
                       className={`w-[22px] flex justify-center items-center text-[13px] h-[22px] rounded-[6px] ${
                         item.active
-                          ? "bg-[white] text-[#3C82D6]"
-                          : "bg-[#3C82D6] text-[white]"
+                          ? 'bg-[white] text-[#3C82D6]'
+                          : 'bg-[#3C82D6] text-[white]'
                       }`}
                     >
                       {item.number}
@@ -281,7 +281,7 @@ export const SideBar = () => {
                 </div>
               </div>
               {item.DropDown && (
-                <div className={`sub-items ${item.open ? "open" : ""}`}>
+                <div className={`sub-items ${item.open ? 'open' : ''}`}>
                   {item.subItems.map((subItem: any) => (
                     <Link key={subItem.id} to={subItem.url}>
                       <div
@@ -296,8 +296,8 @@ export const SideBar = () => {
                             <p
                               className={`font-[600] text-[12px] cursor-pointer ${
                                 subItem.active
-                                  ? "text-[#3C82D6]"
-                                  : "text-[#656565]"
+                                  ? 'text-[#3C82D6]'
+                                  : 'text-[#656565]'
                               } `}
                             >
                               {subItem.name}
@@ -318,7 +318,7 @@ export const SideBar = () => {
             className="ml-[39px] mt-[0px] gap-3 flex items-center cursor-pointer"
             onClick={Logout}
           >
-            <SVGIcon fillcolor={"#000000"} src={IMAGES.LogoutIcon} />
+            <SVGIcon fillcolor={'#000000'} src={IMAGES.LogoutIcon} />
             <p className="text-[#212121] text-[16px] font-[600]">Logout</p>
           </div>
         </div>
