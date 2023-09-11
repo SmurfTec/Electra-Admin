@@ -10,11 +10,7 @@ type Response = {
   total_user_last_year: number | null;
 };
 
-export const UsersCount = createAsyncThunk<
-  Response,
-  payload,
-  { rejectValue: any }
->('users/count', async () => {
+export const UsersCount = createAsyncThunk('users/count', async () => {
   try {
     let response: any = await url.get('/users/stats/all');
     console.log(response.data, 'RESPONSEE');

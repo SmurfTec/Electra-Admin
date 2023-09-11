@@ -190,13 +190,12 @@ const UserSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {},
-  extraReducers: {
-    [UsersCount.fulfilled]: (
-      state: any,
-      payload: { payload: { total_users_registered: number } }
-    ) => {
-      state.count = payload.payload.total_users_registered;
-    },
+  extraReducers: builder => {
+    builder.addCase(UsersCount.pending, (state: any, action: any) => {
+      // both `state` and `action` are now correctly typed
+      // based on the slice state and the `pending` action creator
+      state.count = action.payload.total_users_registered;
+    });
   },
 });
 export default UserSlice.reducer;

@@ -35,11 +35,7 @@ export const DeleteOrders = async (id: any) => {
 
 type payload = {};
 
-export const OrdersCount = createAsyncThunk<
-  Response,
-  payload,
-  { rejectValue: any }
->('orders/count', async () => {
+export const OrdersCount = createAsyncThunk('orders/count', async () => {
   try {
     let response: any = await url.get('/orders/stats/all');
     console.log(response.data, 'RESPONSEE');
@@ -56,10 +52,10 @@ export const OrderSlice = createSlice({
     totalOrders: 0,
   },
   reducers: {},
-  extraReducers: {
-    [OrdersCount.fulfilled]: (state, action) => {
+  extraReducers: builder => {
+    builder.addCase(OrdersCount.pending, (state: any, action: any) => {
       state.totalOrders = action.payload.total_orders;
-    },
+    });
   },
 });
 

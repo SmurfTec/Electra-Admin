@@ -137,11 +137,7 @@ export const getAllBestSellingProduct = async (params?: any) => {
 
 type payload = {};
 
-export const ProductsCount = createAsyncThunk<
-  Response,
-  payload,
-  { rejectValue: any }
->('products/count', async () => {
+export const ProductsCount = createAsyncThunk('products/count', async () => {
   try {
     let response: any = await url.get('/products/count');
     console.log(response.data, 'RESPONSEE');
@@ -155,10 +151,12 @@ const ProductSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {},
-  extraReducers: {
-    [ProductsCount.fulfilled]: (state, action) => {
+  extraReducers: builder => {
+    builder.addCase(ProductsCount.pending, (state: any, action: any) => {
+      // both `state` and `action` are now correctly typed
+      // based on the slice state and the `pending` action creator
       state.total_products = action.payload.count;
-    },
+    });
   },
 });
 export default ProductSlice.reducer;

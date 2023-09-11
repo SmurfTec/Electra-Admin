@@ -53,11 +53,7 @@ export const flagListing = async (body: any) => {
 
 type payload = {};
 
-export const ListingsCount = createAsyncThunk<
-  Response,
-  payload,
-  { rejectValue: any }
->('listings/count', async () => {
+export const ListingsCount = createAsyncThunk('listings/count', async () => {
   try {
     let response: any = await url.get('/listings/count');
     console.log(response.data, 'RESPONSEE');
@@ -74,10 +70,12 @@ export const OrderSlice = createSlice({
     total_listings: 0,
   },
   reducers: {},
-  extraReducers: {
-    [ListingsCount.fulfilled]: (state, action) => {
+  extraReducers: builder => {
+    builder.addCase(ListingsCount.pending, (state: any, action: any) => {
+      // both `state` and `action` are now correctly typed
+      // based on the slice state and the `pending` action creator
       state.total_listings = action.payload.count.all_listings || 0;
-    },
+    });
   },
 });
 
