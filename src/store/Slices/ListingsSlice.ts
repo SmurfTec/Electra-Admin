@@ -50,3 +50,35 @@ export const flagListing = async (body: any) => {
     return e;
   }
 };
+
+type payload = {};
+
+export const ListingsCount = createAsyncThunk<
+  Response,
+  payload,
+  { rejectValue: any }
+>('listings/count', async () => {
+  try {
+    let response: any = await url.get('/listings/count');
+    console.log(response.data, 'RESPONSEE');
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+});
+
+export const OrderSlice = createSlice({
+  name: 'orders',
+  initialState: {
+    orders: [],
+    total_listings: 0,
+  },
+  reducers: {},
+  extraReducers: {
+    [ListingsCount.fulfilled]: (state, action) => {
+      state.total_listings = action.payload.count.all_listings || 0;
+    },
+  },
+});
+
+export default OrderSlice.reducer;

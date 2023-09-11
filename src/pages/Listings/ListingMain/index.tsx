@@ -204,7 +204,7 @@ export const Listings = () => {
         'product',
         // selectedProducts,
         'CurrSelectedProduct',
-        CurrSelectedProduct,
+        CurrSelectedProduct
       );
     }
   }, [MenuLabel]);

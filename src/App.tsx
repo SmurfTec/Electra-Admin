@@ -46,11 +46,17 @@ import {
 import { SideBar } from './components';
 import PrivateRoute from './routes/Privateroute';
 import { token } from './store/Slices/AuthSlice';
+import { useDispatch } from 'react-redux';
+import { UsersCount } from './pages/Users/Users/extraReducers';
+import { OrdersCount } from './store/Slices/OrderSlice';
+import { ProductsCount } from './store/Slices/ProductSlice';
+import { ListingsCount } from './store/Slices/ListingsSlice';
 
 function App() {
   const [show, setShow] = useState(false);
   const location = useLocation();
   const user = localStorage?.getItem('user');
+  const dispatch = useDispatch();
   useEffect(() => {
     if (!user || location.pathname === '/') {
       setShow(false);
@@ -61,6 +67,16 @@ function App() {
   // useEffect(()=>{
   //   console.clear()
   // })
+
+  useEffect(() => {
+    dispatch(UsersCount());
+    dispatch(OrdersCount());
+    dispatch(ProductsCount());
+    dispatch(ListingsCount());
+    // dispatch(UsersCount());
+    // dispatch(UsersCount());
+  }, []);
+
   return (
     <div className="flex">
       {show && <SideBar />}

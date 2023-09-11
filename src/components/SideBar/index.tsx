@@ -3,16 +3,22 @@ import IMAGES from '../../assets/Images';
 import { SVGIcon } from '../SVG';
 import { Link, useNavigate } from 'react-router-dom';
 import { PanelMenu } from 'primereact/panelmenu';
+import { useSelector } from 'react-redux';
+import { numify } from 'numify';
+
 export const SideBar = () => {
   const checkRoute = localStorage.getItem('Route');
   const navigate = useNavigate();
+  const { count: usersCount } = useSelector((state: any) => state.user);
+  const { totalOrders } = useSelector((state: any) => state.orders);
+  const { total_listings } = useSelector((state: any) => state.listings);
+  const { total_products } = useSelector((state: any) => state.products);
   const [navItems, setNavItems] = useState([
     {
       id: 1,
       name: 'Dashboard',
       icon: IMAGES.Barchart,
       active: true,
-      number: 25,
       url: '/Dashboard',
     },
     {
@@ -20,7 +26,7 @@ export const SideBar = () => {
       name: 'Users',
       icon: IMAGES.User,
       active: false,
-      number: 25,
+      number: usersCount,
       url: '/Users',
     },
     {
@@ -32,6 +38,7 @@ export const SideBar = () => {
       url: '/Products',
       open: false,
       DropDown: true,
+      number: total_products,
       subItems: [
         {
           id: 31,
@@ -60,6 +67,7 @@ export const SideBar = () => {
       icon: IMAGES.Listing,
       active: false,
       url: '/Listings',
+      number: +total_listings,
     },
     {
       id: 6,
@@ -67,6 +75,7 @@ export const SideBar = () => {
       icon: IMAGES.Order,
       active: false,
       url: '/Orders',
+      number: +totalOrders,
     },
     {
       id: 7,
@@ -275,7 +284,7 @@ export const SideBar = () => {
                           : 'bg-[#3C82D6] text-[white]'
                       }`}
                     >
-                      {item.number}
+                      {numify(item.number)}
                     </div>
                   )}
                 </div>

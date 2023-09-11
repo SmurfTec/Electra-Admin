@@ -3,6 +3,9 @@ import authSlice from './Slices/AuthSlice';
 import UserSlice from './Slices/UserSlice';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import OrderSlice from './Slices/OrderSlice';
+import ProductSlice from './Slices/ProductSlice';
+import ListingsSlice from './Slices/ListingsSlice';
 // Use redux persist here
 const persistConfig = {
   key: 'root',
@@ -12,6 +15,9 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authSlice,
   user: UserSlice,
+  orders: OrderSlice,
+  listings: ListingsSlice,
+  products: ProductSlice,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({

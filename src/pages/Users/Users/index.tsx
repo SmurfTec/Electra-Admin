@@ -12,7 +12,7 @@ import {
   BanUser,
   UnBanUser,
   DeleteSingleUser,
-} from '../../../store/Slices/UserSlice.js';
+} from '../../../store/Slices/UserSlice';
 import { Paginatior } from '../../../components/index.js';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import moment from 'moment';

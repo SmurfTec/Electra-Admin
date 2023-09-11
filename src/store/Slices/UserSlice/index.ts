@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import url from '../../config/index';
-import axios from 'axios';
+import url from '../../../config/index';
+import { UsersCount } from '../../../pages/Users/Users/extraReducers';
 const initialState: any = {
   users: [],
   CurrentActiveUser: {},
+  count: 0,
 };
 type adminBody = {
   firstname: string;
@@ -189,5 +190,13 @@ const UserSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {},
+  extraReducers: {
+    [UsersCount.fulfilled]: (
+      state: any,
+      payload: { payload: { total_users_registered: number } }
+    ) => {
+      state.count = payload.payload.total_users_registered;
+    },
+  },
 });
 export default UserSlice.reducer;

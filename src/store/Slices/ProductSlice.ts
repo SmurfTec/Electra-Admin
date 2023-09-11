@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import url from '../../config/index';
 const initialState: any = {
   Product: [],
+  total_products: 0,
 };
 /**
  * Retrieves all products.
@@ -126,7 +127,7 @@ export const getAllBestSellingProduct = async (params?: any) => {
           }`
         : '';
     let response: any = await url.get(
-      `/products/best-selling?sort=sold&${urlParams}`,
+      `/products/best-selling?sort=sold&${urlParams}`
     );
     return response.data;
   } catch (e: any) {
@@ -134,24 +135,30 @@ export const getAllBestSellingProduct = async (params?: any) => {
   }
 };
 
+type payload = {};
+
+export const ProductsCount = createAsyncThunk<
+  Response,
+  payload,
+  { rejectValue: any }
+>('products/count', async () => {
+  try {
+    let response: any = await url.get('/products/count');
+    console.log(response.data, 'RESPONSEE');
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+});
+
 const ProductSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {},
-  extraReducers: builder => {
-    // builder.addCase(Login.pending, (state) => {
-    //   state.status = "loading";
-    // });
-    // builder.addCase(Login.rejected, (state, action) => {
-    //   state.token = "";
-    //   state.status = action.error.message;
-    // }),
-    //   builder.addCase(Login.fulfilled, (state, action) => {
-    //     const email = action.payload.user.email;
-    //     state.auth = true;
-    //     state.email = email;
-    //     state.status = "Success";
-    //   });
+  extraReducers: {
+    [ProductsCount.fulfilled]: (state, action) => {
+      state.total_products = action.payload.count;
+    },
   },
 });
 export default ProductSlice.reducer;
