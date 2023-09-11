@@ -21,7 +21,7 @@ export const getAllUsers = async ({
     let response: any = await url.get(
       `/users/?sort=id&limit=${rowsPerPage ? rowsPerPage : 25}&page=${
         currentPage ? currentPage : 1
-      }`,
+      }`
     );
     return response.data;
   } catch (e) {
@@ -95,7 +95,7 @@ export const getSingleUser = async (id: any) => {
 export const getSingleUserOrder = async (
   id: any,
   status: any,
-  { rowsPerPage = 25, currentPage = 1, orderid = 0, name = '', date = '' },
+  { rowsPerPage = 25, currentPage = 1, orderid = 0, name = '', date = '' }
 ) => {
   let params: any =
     status.length > 0
@@ -162,6 +162,14 @@ export const addAdmin = async (body: adminBody) => {
 export const getNotifications = async () => {
   try {
     let response: any = await url.get('/notifications/own/all');
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e);
+  }
+};
+export const readMyNotifications = async () => {
+  try {
+    let response: any = await url.patch('/notifications');
     return response.data;
   } catch (e: any) {
     throw new Error(e);

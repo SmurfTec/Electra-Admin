@@ -1,9 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import IMAGES from '../../assets/Images';
+import { readMyNotifications } from '../../store/Slices/UserSlice';
 
 export const HeaderDropDown = (props: any) => {
   const navigate = useNavigate();
+  const handleReadMyNotifications = async () => {
+    await readMyNotifications();
+  };
   return (
     <div
       className={`${props.className} z-10 `}
@@ -11,7 +15,13 @@ export const HeaderDropDown = (props: any) => {
     >
       <div className="flex justify-between p-4">
         <p className="text-[19px] font-bold">Notifications</p>
-        <p className="text-[#3C82D6] items-center text-[15px] font-semibold">
+        <p
+          className="text-[#3C82D6] items-center text-[15px] font-semibold"
+          style={{
+            cursor: 'pointer',
+          }}
+          onClick={handleReadMyNotifications}
+        >
           Mark all as read
         </p>
       </div>
