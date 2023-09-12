@@ -56,30 +56,29 @@ export const Products = () => {
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
 
   const SwitchTemplate = (option: any) => {
-    const [checked, setChecked] = useState(false);
-
-    // console.log(option);
     let dataOption = option.is_active ? true : false;
-    // setChecked(dataOption);
+  
     const Edit = async (value: any) => {
+      setLoading(true)
       console.log(value, 'Changes');
       let data = new FormData();
       data.append('is_active', value ? 'true' : 'false');
       const add = await EditProductAPI(data, option.id);
-      console.log(add, 'ADD');
-    };
-
+      const get= await getProducts()
+      setLoading(false)
+        };
+  
     return (
       <>
         <CustomSwitch
           onChange={(e: any) => {
             console.log('HERY', e);
-            setChecked(!dataOption);
-            Edit(!checked);
+            dataOption= !dataOption
+            Edit(!e);
           }}
-          value={checked}
-          checked={checked}
-          setChecked={setChecked}
+          value={dataOption}
+          checked={dataOption}
+          // setChecked={setChecked}
         />
       </>
     );
@@ -262,7 +261,7 @@ export const Products = () => {
           </div>
         </>
       ) : (
-        <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+        <div className="w-full  flex justify-start  h-[800px] items-center overflow-y-hidden">
           <ProgressSpinner style={{ overflow: 'hidden' }} />
         </div>
       )}
