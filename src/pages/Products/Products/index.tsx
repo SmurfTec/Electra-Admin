@@ -11,6 +11,7 @@ import moment from 'moment';
 import { MenuItem } from 'primereact/menuitem';
 import { Paginatior } from '../../../components/index.js';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { EditProductAPI } from '../../../store/Slices/ProductSlice.js';
 export const Products = () => {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState([]);
@@ -53,13 +54,32 @@ export const Products = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const [LoadMore, setLoadMore] = useState(true);
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
+  const [checked, setChecked] = useState(false);
   const SwitchTemplate = (option: any) => {
-    const [checked, setChecked] = useState(
-      option.availibility.toLowerCase() == 'active' ? true : false,
-    );
+    console.log(option);
+    let dataOption = option.is_active ? true : false;
+    setChecked(dataOption);
+   
+    const Edit = async (value:any) => {
+      console.log(value,"Changes")
+      let data = new FormData();
+      data.append('is_active', value ? 'true' : 'false');
+      const add = await EditProductAPI(data, option.id);
+      console.log(add,"ADD")
+    };
+
     return (
       <>
-        <CustomSwitch checked={checked} setChecked={setChecked} />
+        <CustomSwitch
+          onChange={(e: any) => {
+            console.log('HERY', e);
+            setChecked(!checked);
+            Edit(!checked)
+          }}
+          value={checked}
+          checked={checked}
+          setChecked={setChecked}
+        />
       </>
     );
   };
@@ -110,7 +130,7 @@ export const Products = () => {
           'product',
           selectedProducts,
           'CurrSelectedProduct',
-          CurrSelectedProduct,
+          CurrSelectedProduct
         );
       }
     }, [MenuLabel, CurrSelectedProduct]);
@@ -153,7 +173,7 @@ export const Products = () => {
         'product',
         selectedProducts,
         'CurrSelectedProduct',
-        CurrSelectedProduct,
+        CurrSelectedProduct
       );
     }
   }, [MenuLabel]);

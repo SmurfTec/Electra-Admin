@@ -225,6 +225,7 @@ export const Brands = () => {
               totalRecords={Number(stats)}
               initialPageData={initialPageData}
               setInitialPageData={setInitialPageData}
+              recordShowing={filterData.length}
             />
           </div>
         </>
