@@ -189,13 +189,19 @@ export const forgotPassword = async (email: string) => {
 const UserSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    setUserCount:(state:any,action:any)=>{
+      state.count=action.payload.total_users_registered
+    }
+  },
   extraReducers: builder => {
-    builder.addCase(UsersCount.pending, (state: any, action: any) => {
+    builder.addCase(UsersCount.fulfilled, (state: any, action: any) => {
       // both `state` and `action` are now correctly typed
       // based on the slice state and the `pending` action creator
+     
       state.count = action.payload.total_users_registered;
     });
   },
 });
+export const { setUserCount } = UserSlice.actions
 export default UserSlice.reducer;

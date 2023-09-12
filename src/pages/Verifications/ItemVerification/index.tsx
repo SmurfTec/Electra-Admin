@@ -347,10 +347,10 @@ export const ItemVerification = () => {
               Upload 6 photos, Front back side and 1 extra
             </p>
             <UploadPicture
-              setImages={setImages}
-              images={images}
+              setImages={(value:any)=>setImages(value)}
+              IMAGEE={images}
               multipleImages={true}
-            />
+            /> 
             <p className="text-[#656565] text-[12px]">
               Note : Picture Ratio Must be 1:1{' '}
             </p>

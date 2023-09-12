@@ -99,7 +99,7 @@ export const Dashboard = () => {
     bestSelling?.products.length > 0 &&
     bestSelling?.products?.map((item: any, index: any) => {
       return {
-        img: BaseURL + item.image.filename,
+        img: BaseURL + item.image?.filename,
         id: item.title,
         name: { number: item.sold, status: 'sold' },
         email: { number: item.listings, status: 'sold' },

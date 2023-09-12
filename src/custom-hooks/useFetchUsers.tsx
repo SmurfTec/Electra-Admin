@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getAllUsers } from '../store/Slices/UserSlice';
+import { getAllUsers,setUserCount } from '../store/Slices/UserSlice';
+
 interface UserParams {
   rowsPerPage?: number;
   currentPage?: number;
@@ -15,6 +16,7 @@ export const useFetchUsers = (params: UserParams) => {
         const response = await getAllUsers(params);
         if (response.users) {
           setUsers(response.users);
+          setUserCount(response?.stats?.total_user_this_year)
           let newstats = {
             total_user_this_year: response?.stats?.total_user_this_year || 0,
             total_users_last_month:
