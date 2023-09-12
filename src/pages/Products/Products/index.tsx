@@ -54,18 +54,19 @@ export const Products = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const [LoadMore, setLoadMore] = useState(true);
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
-  const [checked, setChecked] = useState(false);
+
   const SwitchTemplate = (option: any) => {
-    console.log(option);
+    const [checked, setChecked] = useState(false);
+
+    // console.log(option);
     let dataOption = option.is_active ? true : false;
-    setChecked(dataOption);
-   
-    const Edit = async (value:any) => {
-      console.log(value,"Changes")
+    // setChecked(dataOption);
+    const Edit = async (value: any) => {
+      console.log(value, 'Changes');
       let data = new FormData();
       data.append('is_active', value ? 'true' : 'false');
       const add = await EditProductAPI(data, option.id);
-      console.log(add,"ADD")
+      console.log(add, 'ADD');
     };
 
     return (
@@ -73,8 +74,8 @@ export const Products = () => {
         <CustomSwitch
           onChange={(e: any) => {
             console.log('HERY', e);
-            setChecked(!checked);
-            Edit(!checked)
+            setChecked(!dataOption);
+            Edit(!checked);
           }}
           value={checked}
           checked={checked}
