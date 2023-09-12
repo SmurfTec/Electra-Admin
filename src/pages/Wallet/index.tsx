@@ -161,6 +161,7 @@ export const Wallet = () => {
     if (walletstats) {
       setbankloader(false);
     }
+    console.log(walletstats,"wallet stats")
     setWalletStats(walletstats);
     // let r3=await getPayouts()
     // let r4=await getPayments()
@@ -197,10 +198,10 @@ export const Wallet = () => {
   };
   return (
     <div>
-      <Header typeSearch={true} chooseFilter={true} UserBox={true} />
+      <Header typeSearch={true} chooseFilter={false} UserBox={true} />
       {!WalletLoading && !bankloader ? (
         <>
-          <div className="flex flex-wrap gap-5 mt-[20px]">
+          {/* <div className="flex flex-wrap gap-5 mt-[20px]">
             <div
               className="p-3 w-[419px] h-auto bg-[#212121] rounded-[10px] overflow-hidden"
               style={{ background: `url(${IMAGES.AtmBackground})` }}
@@ -256,7 +257,7 @@ export const Wallet = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="mt-[35px]">
             <div className="flex flex-wrap gap-6 mt-[28px]">
               <DashCard

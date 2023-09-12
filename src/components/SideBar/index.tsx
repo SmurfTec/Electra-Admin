@@ -252,7 +252,7 @@ export const SideBar = () => {
                   handleItemClick(item.id);
                 }}
               >
-                <div className="flex items-center  justify-between  w-full">
+                <div className={`flex items-center  justify-between  w-full ${item.active?'!text-[white]':'!text-[black]'}`}>
                   <div className="flex items-center gap-3">
                     <SVGIcon
                       src={item.icon}
@@ -277,15 +277,15 @@ export const SideBar = () => {
                   </div>
 
                   {item.number && (
-                    <div
+                    <p
                       className={`w-[22px] flex justify-center items-center text-[13px] h-[22px] rounded-[6px] ${
                         item.active
-                          ? 'bg-[white] text-[#3C82D6]'
-                          : 'bg-[#3C82D6] text-[white]'
+                          ? ' !text-[white]'
+                          : ' !text-[black]'
                       }`}
                     >
                       {numify(item.number)}
-                    </div>
+                    </p>
                   )}
                 </div>
               </div>
