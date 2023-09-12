@@ -63,7 +63,11 @@ export const UserProfile = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const [SearchDate, setSearchDate] = useState<any>('');
   const [userOrders, setuserOrders] = useState<any>();
-
+    const[sales,setsales]=useState({
+      completed:0,
+      rejected:0,
+     
+    })
   const [ButtonList, setButtonList] = useState([
     { id: 1, txt: 'Active', active: true },
     { id: 2, txt: 'Pending', active: false },
@@ -278,6 +282,14 @@ export const UserProfile = () => {
       // })
       // setuserOrders(order)
       let response = await GetUserAsks(id);
+      
+      setsales({
+        completed:response?.data?.orderStats?.completed_sales || 0        ,
+        
+
+        rejected:response?.data?.orderStats?.rejected_sales || 0 ,
+       
+      })
       let newData = Data.map((item: any) => {
         if (item.id == 1) {
           return {
@@ -294,7 +306,42 @@ export const UserProfile = () => {
             ...item,
             body: response?.askStats?.net_value,
           };
-        } else if (item.id == 10) {
+        }else if (item.id == 4) {
+          return {
+            ...item,
+            body: response?.askStats?.pending_sales            || "$0",
+          };
+        }else if (item.id == 5) {
+          return {
+            ...item,
+            body: response?.askStats?.gross_value_pending || "$0",
+          };
+        }
+        else if (item.id == 6) {
+          return {
+            ...item,
+            body: response?.askStats?.net_value_pending || "$0",
+          };
+        }
+        
+        else if(item.id==7){
+          return {
+            ...item,
+            body: response?.askStats?.total_sales || "$0",
+          };
+        }else if(item.id==8){
+          return {
+            ...item,
+            body: response?.askStats?.gross_value_completed || "$0",
+          };
+        }
+        else if(item.id==9){
+          return {
+            ...item,
+            body: response?.askStats?.net_value_completed|| "$0",
+          };
+        }
+        else if (item.id == 10) {
           return {
             ...item,
             body: stats[0]?.points_earned_buyer || 0,
@@ -341,7 +388,7 @@ export const UserProfile = () => {
       <Header
         title="User Profile"
         semiTitle="View user profile and their stats"
-        chooseFilter={true}
+        chooseFilter={false}
         UserBox={true}
       />
       <div className="flex flex-wrap gap-5 mt-[31px]">
@@ -481,7 +528,7 @@ export const UserProfile = () => {
           <CustomButton
             txt={'Completed'}
             classes={'!h-[45px] !w-[276px] !rounded-[1px] !bg-blue !text-white'}
-            value="17"
+            value={`${sales.completed}`}
             valueclasses={'!bg-[#F1F1F1] !text-[black] ml-2'}
           />
           <CustomButton
@@ -489,7 +536,7 @@ export const UserProfile = () => {
             classes={
               '!h-[47px] !w-[276px] !rounded-[1px] !bg-[#F1F1F1] !text-[black]'
             }
-            value="3"
+            value={`${sales.rejected}`}
             valueclasses={'!bg-[#111111] !text-white ml-2'}
           />
         </div>
