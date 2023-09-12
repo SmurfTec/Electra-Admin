@@ -52,6 +52,9 @@ export const HelpCenterDetail = () => {
         message: Reply,
       };
       let r = await ReplySupportCenter(id, body);
+      if(r){
+        setReply('')
+      }
       getDetail();
     } catch (err) {}
   };
@@ -108,7 +111,7 @@ export const HelpCenterDetail = () => {
         setVisible={setvisible}
         txt="Deleted Successfully"
       />
-      <Header chooseFilter={true} typeSearch={true} UserBox={true} />
+      <Header chooseFilter={false} typeSearch={true} UserBox={true} />
       <div className="w-[98%] h-auto border border-inputBorder rounded-[7px] mt-[35px] ">
         <div className="flex justify-between pt-[21px] pb-[18px] items-center border-b border-inputBorder px-[39px]">
           <p className="text-[20px] font-[600]">Help (ID #{detail.id})</p>
