@@ -153,7 +153,8 @@ export const Settings = () => {
         setVisible={setbankmodel}
         onClick={() => {
           setbankmodel(false);
-          setaddbank(true);
+          setsuccessModel(true)
+          setsuccesstxt("Banking Information Added Successfully")
         }}
       />
       <BankAccountPinModel

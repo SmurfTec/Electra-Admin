@@ -273,8 +273,8 @@ export const EditProduct = () => {
     }
   };
   const Addproduct = async () => {
-    console.log(productData, 'FINALs');
-    console.log(images, 'IMAGe DATA');
+ 
+    console.log(productData.technicalSpecificationModel,"ATTACHMENT")
     let data = new FormData();
     data.append('title', productData.title);
     data.append('is_active', 'true');
@@ -288,12 +288,12 @@ export const EditProduct = () => {
       'productProperties[description]',
       productData.productProperties.description,
     );
-    productData.productVariants.length > 0 &&
+    productData.productVariants?.length > 0 &&
       productData.productVariants.map((item, index) => {
         data.append(`productVariants[${index}][variant]`, item.variant);
         data.append(`productVariants[${index}][value]`, item.value);
       });
-    productData.technicalSpecificationModel.length > 0 &&
+    productData.technicalSpecificationModel?.length > 0 &&
       productData.technicalSpecificationModel.map((item, index) => {
         data.append(`technicalSpecificationModel[${index}][title]`, item.title);
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
@@ -517,6 +517,7 @@ export const EditProduct = () => {
         <div className="flex gap-3 mb-3">
           <CustomButton
             txt={'Cancel'}
+            onClick={()=> navigate('/Products')}
             classes={
               '!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]'
             }

@@ -10,34 +10,56 @@ export function UploadPicture({
   fetchImages,
 }: any) {
   const fileInputRef: any = useRef(null);
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, setSelectedImage] = useState<any>();
   const [selectedImages, setSelectedImages] = useState<any>([]);
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
   const handleFileChange = (event: any) => {
-    const selectedFile = event.target.files[0];
-    setSelectedImage(URL.createObjectURL(selectedFile));
+    console.log(event.target.files);
+    let selectedFile;
+    let objectFiles:any;
+    if (event.target.files.length === 1) {
+      console.log('HEREREE');
+      selectedFile = event.target.files[0];
+      setSelectedImage(URL.createObjectURL(selectedFile));
+      setSelectedImages([...selectedImages, URL.createObjectURL(selectedFile)]);
+    } else if (event.target.files.length > 1) {
+      console.log('HEREREE', Object.values(event.target.files));
+
+      objectFiles = Object.values(event.target.files).map(
+        (item: any, index: any) => {
+          return item;
+        }
+      );
+      selectedFile = objectFiles.map((item:any, index:number) => {
+        return URL.createObjectURL(item);
+      });
+      setSelectedImages([...selectedFile]);
+      // setSelectedImages([...selectedImages, URL.createObjectURL(selectedFile)]);
+    }
     if (setImage) {
-      setImage(event.target.files[0]);
+      setImage(selectedFile);
     }
     if (setImages) {
       if (IMAGEE && IMAGEE?.length > 0) {
-        setImages([...IMAGEE, event.target.files[0]]);
+        setImages([...IMAGEE, ...objectFiles]);
       } else {
-        setImages([event.target.files[0]]);
+        console.log("SETTING IMAGES FOR Attachment")
+        setImages([...objectFiles]);
       }
     }
     console.log(selectedImages);
-    setSelectedImages([...selectedImages, URL.createObjectURL(selectedFile)]);
     // Handle the selected file (e.g., upload or process it)
   };
   const deleteImg = (Itemindex: any) => {
     console.log(Itemindex);
     console.log(selectedImages);
     let filterImg = selectedImages.filter(
-      (item: any, index: any) => index !== Itemindex,
+      (item: any, index: any) => index !== Itemindex
     );
+    console.log(filterImg);
+    setImages(filterImg)
     setSelectedImages(filterImg);
   };
   useEffect(() => {
@@ -53,6 +75,7 @@ export function UploadPicture({
     <div className="mt-3 ">
       <input
         type="file"
+        multiple
         accept="image/*"
         ref={fileInputRef}
         style={{ display: 'none' }}
@@ -84,6 +107,8 @@ export function UploadPicture({
         {!fetchImages && multipleImages && selectedImages.length > 0 && (
           <>
             {selectedImages.map((item: any, index: any) => {
+              console.log(item);
+
               return (
                 <div
                   key={index}
