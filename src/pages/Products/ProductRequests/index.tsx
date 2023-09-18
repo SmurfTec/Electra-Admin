@@ -48,7 +48,7 @@ export const ProductRequests = () => {
       <Header
         placeholder="Search Product Requests"
         typeSearch={true}
-        chooseFilter={true}
+        
         UserBox={true}
       />
       {!loading ? (

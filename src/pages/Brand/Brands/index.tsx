@@ -187,7 +187,7 @@ export const Brands = () => {
         setVisible={setsuccessVisible}
         txt={'Brand deleted Successfully'}
       />
-      <Header typeSearch={true} chooseFilter={true} UserBox={true} />
+      <Header typeSearch={true}UserBox={true} />
       {!BrandLoading ? (
         <>
           <div className="mt-[35px]">

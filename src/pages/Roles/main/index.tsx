@@ -231,7 +231,7 @@ export const Roles = () => {
       <Header
         placeholder="Search Admins"
         typeSearch={true}
-        chooseFilter={true}
+       
         UserBox={true}
       />
       <div className="flex gap-2 flex-wrap">

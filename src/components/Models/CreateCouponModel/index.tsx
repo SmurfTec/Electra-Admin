@@ -39,7 +39,7 @@ export const CreateCouponModel = ({
   ]);
   const [successVisible, setsuccessVisible] = useState(false);
   const [buttonDisable, setbuttonDisable] = useState(true);
-
+  const [error, setError] = useState('');
   useEffect(() => {
     //&&(values.UsageLimit.length>0)
     if (
@@ -55,6 +55,24 @@ export const CreateCouponModel = ({
     }
     console.log(values);
   }, [values]);
+  function generateCouponCode() {
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let couponCode = '';
+
+    for (let i = 0; i < 6; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      couponCode += characters.charAt(randomIndex);
+    } // Combine the time and random part
+    // Combine the time and random part
+    setValues({
+      ...values,
+      couponCode,
+    });
+    setbuttonTitle('Create Coupon');
+    return couponCode;
+  }
+
   const generateCode = async () => {
     try {
       let newvalues = {
@@ -66,15 +84,32 @@ export const CreateCouponModel = ({
       };
       if (headerTitle == 'Create Coupon') {
         let response = await CreateCoupon(newvalues);
-        if (response) {
+        console.log(response)
+        if (response?.response?.status === 400) {
+          console.log(response);
+          setError('Coupon code already exist');
+          return false
+        } else{
+          console.log("HERE")
+          setError("");
           setadded(true);
           setsuccessVisible(true);
+          return true
         }
+         
+          
       } else {
         let response = await UpdateCoupon(currentItem.id, newvalues);
-        if (response) {
+        console.log(response);
+        if (response?.response?.status === 400) {
+          console.log(response);
+          setError('Coupon code already exist');
+          return false
+        } else {
+          setError("");
           setadded(true);
           setsuccessVisible(true);
+          return true
         }
       }
     } catch (err) {}
@@ -98,7 +133,7 @@ export const CreateCouponModel = ({
         percentage: '',
         UsageLimit: -1,
       });
-      setbuttonTitle('Create Coupon');
+      setbuttonTitle('Generate Coupon');
     }
   }, [headerTitle, currentItem]);
   return (
@@ -106,7 +141,9 @@ export const CreateCouponModel = ({
       <CustomDialog className={classes} visible={visible}>
         <i
           className="pi pi-times absolute right-4 top-4 cursor-pointer"
-          onClick={() => setVisible(false)}
+          onClick={() =>{
+            setError("")
+            setVisible(false)}}
         ></i>
         <div className="dialog-header">
           <p className="text-center text-[20px] font-[700] text-black ">
@@ -150,14 +187,21 @@ export const CreateCouponModel = ({
               value={values?.couponCode}
               placeholder="Coupon Code"
               Title={values.couponCode}
-              onChange={(e: any) =>
-                setValues({ ...values, couponCode: e.target.value })
-              }
+              onChange={(e: any) => {
+                setValues({ ...values, couponCode: e.target.value });
+                if (e.target.value === '') {
+                  setbuttonTitle('Generate Coupon');
+                } else {
+                  setbuttonTitle('Create Coupon');
+                }
+              }}
               MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
             />
+
             <p className="text-[12px] text-[#656565] text-right mr-[4rem]">
               Max 6 Character Code
             </p>
+            {error && <p className="text-red text-center text-[12px]">{error}</p>}
           </div>
           <CustomDropdown
             options={options}
@@ -176,11 +220,17 @@ export const CreateCouponModel = ({
             />
             <CustomButton
               txt={buttonTitle}
-              onClick={() => {
+              onClick={async() => {
                 if (!buttonDisable) {
-                  setVisible(false);
-
-                  generateCode();
+                 const check= await generateCode();
+                
+                  if(check){
+                    
+                    setVisible(false);
+                  }
+                 
+                } else if (buttonTitle !== 'Create Coupon') {
+                  generateCouponCode();
                 }
               }}
               classes={`!w-[179px] !h-[50px] ${

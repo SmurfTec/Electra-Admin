@@ -179,7 +179,7 @@ export const Products = () => {
   }, [MenuLabel]);
   return (
     <div>
-      <Header typeSearch={true} chooseFilter={true} UserBox={true} />
+      <Header typeSearch={true}  UserBox={true} />
       {!loading ? (
         <>
           {' '}

@@ -142,14 +142,14 @@ export const ItemVerification = () => {
     );
     newFormData.append('images', images);
     console.log(images);
-    if (images.length < 6) {
-      alert('Please upload atleast 6 Images');
-    } else {
+    // if (images.length < 6) {
+    //   alert('Please upload atleast 6 Images');
+    // } else {
       let response = await UpdateVerfication(id, newFormData);
       if (response) {
         navigate('/Verification');
       }
-    }
+    // }
   };
   const GetVerificationDetail = async () => {
     let response = await getVerficationById(id);

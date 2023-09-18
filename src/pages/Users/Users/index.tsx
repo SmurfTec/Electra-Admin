@@ -287,7 +287,7 @@ export const Users = () => {
   }
   return (
     <div className="pb-[50px]">
-      <Header typeSearch={true} chooseFilter={false} UserBox={true} />
+      <Header typeSearch={true}  UserBox={true} />
       {!userLoading ? (
         <>
           <div className="flex flex-wrap gap-6 mt-[28px]">

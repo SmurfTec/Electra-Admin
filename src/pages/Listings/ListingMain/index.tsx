@@ -213,7 +213,7 @@ export const Listings = () => {
       <Header
         placeholder="Search Admins"
         typeSearch={true}
-        chooseFilter={true}
+       
         UserBox={true}
       />
 

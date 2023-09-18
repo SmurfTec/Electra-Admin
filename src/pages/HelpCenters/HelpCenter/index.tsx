@@ -159,7 +159,7 @@ export const HelpCenter = () => {
         setVisible={setvisible}
         txt="Deleted Successfully"
       />
-      <Header chooseFilter={true} typeSearch={true} UserBox={true} />
+      <Header typeSearch={true} UserBox={true} />
       {!helpLoading ? (
         <>
           <div>
