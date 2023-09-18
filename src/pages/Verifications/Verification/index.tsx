@@ -228,7 +228,7 @@ export const Verification = () => {
 
   return (
     <div>
-      <Header chooseFilter={true} typeSearch={true} UserBox={true} />
+      <Header  UserBox={true} />
       <div className="flex mt-[37px] gap-3">
         <InputTxt
           placeholder="Enter Order/Tracking Number"

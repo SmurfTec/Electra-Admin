@@ -193,7 +193,7 @@ export const Coupon = () => {
         setVisible={setsuccessVisible}
         txt={'Coupon deleted Successfully'}
       />
-      <Header typeSearch={true} chooseFilter={true} UserBox={true} />
+      <Header typeSearch={true} UserBox={true} />
       {!couponLoading ? (
         <>
           <div className="mt-[35px]">

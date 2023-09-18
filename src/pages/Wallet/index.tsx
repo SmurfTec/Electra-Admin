@@ -198,7 +198,7 @@ export const Wallet = () => {
   };
   return (
     <div>
-      <Header typeSearch={true} chooseFilter={false} UserBox={true} />
+      <Header typeSearch={true}  UserBox={true} />
       {!WalletLoading && !bankloader ? (
         <>
           {/* <div className="flex flex-wrap gap-5 mt-[20px]">

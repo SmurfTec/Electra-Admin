@@ -254,7 +254,7 @@ export const Orders = () => {
       <Header
         placeholder="Search Admins"
         typeSearch={true}
-        chooseFilter={true}
+        
         UserBox={true}
       />
       <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">

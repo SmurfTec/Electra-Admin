@@ -169,8 +169,7 @@ export const Feemodifier = () => {
     <div>
       <Header
         typeSearch={true}
-        placeholder="Search "
-        chooseFilter={true}
+       
         UserBox={true}
       />
       <div>
