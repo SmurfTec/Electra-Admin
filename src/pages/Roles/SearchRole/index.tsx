@@ -210,7 +210,7 @@ export const Searchrole = () => {
             </p>
             <div className="flex gap-8 px-4 border-b border-custom ">
               <p className="border-b-4 border-[#3C82D6] text-[#3C82D6] pb-2 font-semibold">
-                All (3)
+                All ({filterData?.length??0})
               </p>
             </div>
             {!loading && !fetch ? (
