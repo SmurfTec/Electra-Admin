@@ -20,7 +20,7 @@ export const Editwebsite = () => {
       <Header typeSearch={true} placeholder="Search Page" UserBox={true} />
       <div>
         <p className="font-bold text-[19px]">Pages</p>
-        <div className="flex p-2 mt-3 gap-6">
+        <div className="flex p-2 flex-wrap mt-3 gap-6">
           {!loading ? (
             <>
               {web?.websites &&
