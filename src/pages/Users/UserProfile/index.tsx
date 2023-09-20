@@ -57,26 +57,26 @@ export const UserProfile = () => {
   const { orderData, orderLoading, stats } = useFetchUserOrder(
     id,
     activetxt == 'Active' ? '' : activetxt.toLowerCase(),
-    initialPageData,
+    initialPageData
   );
   const [search, setSearch] = useState('');
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const [SearchDate, setSearchDate] = useState<any>('');
   const [userOrders, setuserOrders] = useState<any>();
-    const[sales,setsales]=useState({
-      completed:0,
-      rejected:0,
-     
-    })
+  const [userLoading, setUserLoading] = useState<any>(false);
+  const [sales, setsales] = useState({
+    completed: 0,
+    rejected: 0,
+  });
   const [ButtonList, setButtonList] = useState([
     { id: 1, txt: 'Active', active: true },
     { id: 2, txt: 'Pending', active: false },
     { id: 3, txt: 'Completed', active: false },
   ]);
   const [Data, setData] = useState([
-    { id: 1, txt: 'Active', title: 'No of Listings', body: '20' },
-    { id: 2, txt: 'Active', title: 'Gross Value', body: '$2000' },
-    { id: 3, txt: 'Active', title: 'Net Value', body: '$1900' },
+    { id: 1, txt: 'Active', title: 'No of Listings', body: '' },
+    { id: 2, txt: 'Active', title: 'Gross Value', body: '' },
+    { id: 3, txt: 'Active', title: 'Net Value', body: '' },
     { id: 4, txt: 'Pending', title: 'Pending Sales', body: '5' },
     { id: 5, txt: 'Pending', title: 'Gross Value', body: '$2000' },
     { id: 6, txt: 'Pending', title: 'Net Value', body: '$2100' },
@@ -281,15 +281,14 @@ export const UserProfile = () => {
       //   return updatedOrders
       // })
       // setuserOrders(order)
+      setUserLoading(true);
       let response = await GetUserAsks(id);
-      
-      setsales({
-        completed:response?.data?.orderStats?.completed_sales || 0        ,
-        
 
-        rejected:response?.data?.orderStats?.rejected_sales || 0 ,
-       
-      })
+      setsales({
+        completed: response?.data?.orderStats?.completed_sales || 0,
+
+        rejected: response?.data?.orderStats?.rejected_sales || 0,
+      });
       let newData = Data.map((item: any) => {
         if (item.id == 1) {
           return {
@@ -306,52 +305,50 @@ export const UserProfile = () => {
             ...item,
             body: response?.askStats?.net_value,
           };
-        }else if (item.id == 4) {
+        } else if (item.id == 4) {
           return {
             ...item,
-            body: response?.askStats?.pending_sales            || "$0",
+            body: response?.askStats?.pending_sales || '$0',
           };
-        }else if (item.id == 5) {
+        } else if (item.id == 5) {
           return {
             ...item,
-            body: response?.askStats?.gross_value_pending || "$0",
+            body: response?.askStats?.gross_value_pending || '$0',
           };
-        }
-        else if (item.id == 6) {
+        } else if (item.id == 6) {
           return {
             ...item,
-            body: response?.askStats?.net_value_pending || "$0",
+            body: response?.askStats?.net_value_pending || '$0',
           };
-        }
-        
-        else if(item.id==7){
+        } else if (item.id == 7) {
           return {
             ...item,
-            body: response?.askStats?.total_sales || "$0",
+            body: response?.askStats?.total_sales || '$0',
           };
-        }else if(item.id==8){
+        } else if (item.id == 8) {
           return {
             ...item,
-            body: response?.askStats?.gross_value_completed || "$0",
+            body: response?.askStats?.gross_value_completed || '$0',
           };
-        }
-        else if(item.id==9){
+        } else if (item.id == 9) {
           return {
             ...item,
-            body: response?.askStats?.net_value_completed|| "$0",
+            body: response?.askStats?.net_value_completed || '$0',
           };
-        }
-        else if (item.id == 10) {
+        } else if (item.id == 10) {
           return {
             ...item,
-            body: stats[0]?.points_earned_buyer || 0,
+            body: (stats && stats[0]?.points_earned_buyer) || 0,
           };
         } else {
           return item;
         }
       });
       setData(newData);
-    } catch (err) {}
+      setUserLoading(false);
+    } catch (err) {
+      console.log(err, 'ERROR');
+    }
   };
   useEffect(() => {
     let order = orderData?.map((item: any) => {
@@ -367,9 +364,10 @@ export const UserProfile = () => {
     setuserOrders(order);
   }, [orderData]);
   useEffect(() => {
-    GetUserDetail();
     getUserOrder();
+    GetUserDetail();
   }, [activetxt]);
+
   useEffect(() => {
     let isnum = /^\d+$/.test(search);
     if (isnum) {
@@ -502,25 +500,31 @@ export const UserProfile = () => {
         })}
       </div>
       <div className="flex flex-wrap gap-3 mt-[20px]">
-        {Data.map((item: any, index: any) => {
-          return (
-            <React.Fragment key={index}>
-              {item.txt == activetxt && (
-                <div
-                  key={index}
-                  className="w-[201px] h-[115px] bg-[#FFFFFF] border border-custom-cardBorder border-[#6565654A] pt-[19px] pl-[21px]"
-                >
-                  <p className="text-[#656565] text-[14px] font-[500]">
-                    {item.title}
-                  </p>
-                  <p className="text-[#111111] text-[32px] font-[700]">
-                    {item.body}
-                  </p>
-                </div>
-              )}
-            </React.Fragment>
-          );
-        })}
+        {!userLoading ? (
+          Data.map((item: any, index: any) => {
+            return (
+              <React.Fragment key={index}>
+                {item.txt == activetxt && (
+                  <div
+                    key={index}
+                    className="w-[201px] h-[115px] bg-[#FFFFFF] border border-custom-cardBorder border-[#6565654A] pt-[19px] pl-[21px]"
+                  >
+                    <p className="text-[#656565] text-[14px] font-[500]">
+                      {item.title}
+                    </p>
+                    <p className="text-[#111111] text-[32px] font-[700]">
+                      {item.body}
+                    </p>
+                  </div>
+                )}
+              </React.Fragment>
+            );
+          })
+        ) : (
+          <div className="w-56 mt-[20px] h-full flex justify-start items-center overflow-y-hidden">
+            <ProgressSpinner style={{ overflow: 'hidden' }} />
+          </div>
+        )}
       </div>
 
       {activetxt == 'Completed' && (
