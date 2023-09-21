@@ -96,6 +96,9 @@ export const ItemVerification = () => {
     if (percent <= 50) {
       setPass(false);
     }
+    else if(percent>50){
+      setPass(true)
+    }
     setTotal(t);
     setpercentage(percent);
   }, [state]);
