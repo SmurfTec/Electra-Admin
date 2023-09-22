@@ -44,7 +44,7 @@ export const EditProduct = () => {
   const [images, setImage] = useState<any>([]);
   const [attachments, setAttachment] = useState<any>([]);
   const [varVal, setVariantValue] = useState('');
-  const [techType, setTechType] = useState(1);
+  const [imageIDS, setimageIDS] = useState([]);
   const [brands, setBrands] = useState([]);
   const [category, setCategories] = useState([]);
   const [productData, setProductData] = useState({
@@ -88,6 +88,7 @@ export const EditProduct = () => {
   useEffect(() => {
     if (ProductData) {
       console.log(ProductData, 'PRoduct');
+      setimageIDS(ProductData.product?.images);
       let newarr = ProductData.product?.images?.map((item: any, index: any) => {
         return item.id;
       });
@@ -104,14 +105,14 @@ export const EditProduct = () => {
           description: ProductData.product?.product_properties.description,
         } as descriptionProp,
         productVariants:
-          ProductData.product.product_variants &&
-          (ProductData.product.product_variants?.map(
+          ProductData.product?.product_variants &&
+          (ProductData.product?.product_variants?.map(
             (item: any, index: any) => {
               return {
                 variant: item.id,
                 value: item.value,
               };
-            },
+            }
           ) as variantSpec[]),
         technicalSpecificationModel:
           ProductData.product.technical_specifications &&
@@ -121,7 +122,7 @@ export const EditProduct = () => {
                 title: item.title,
                 value: item.value,
               };
-            },
+            }
           ) as techSpec[]),
       });
     }
@@ -138,7 +139,7 @@ export const EditProduct = () => {
           const hasMatchingValue =
             ProductData?.product.product_variants &&
             ProductData?.product.product_variants.some(
-              (item: any) => item.value === value1,
+              (item: any) => item.value === value1
             );
 
           return {
@@ -173,6 +174,7 @@ export const EditProduct = () => {
     if (sendVariant) {
       setVisible(!visible);
       VariantsData;
+      setVariantValue('');
     }
     setFetchVariants(!fetchVariants);
   };
@@ -210,7 +212,7 @@ export const EditProduct = () => {
   const updateVariantData = (variant: any, value: any) => {
     let updateVariants: any = productData.productVariants;
     const updatedVariants = updateVariants.findIndex(
-      (item: any) => item.value === value,
+      (item: any) => item.value === value
     );
     if (
       value !== 'capacity' &&
@@ -245,7 +247,7 @@ export const EditProduct = () => {
         setVariantArray(newData);
       } else {
         updateVariants = updateVariants.filter(
-          (item: any) => item.value !== value,
+          (item: any) => item.value !== value
         );
         setProductData(prevData => {
           return { ...prevData, productVariants: updateVariants };
@@ -273,8 +275,7 @@ export const EditProduct = () => {
     }
   };
   const Addproduct = async () => {
- 
-    console.log(productData.technicalSpecificationModel,"ATTACHMENT")
+    console.log(productData.technicalSpecificationModel, 'ATTACHMENT');
     let data = new FormData();
     data.append('title', productData.title);
     data.append('is_active', 'true');
@@ -286,7 +287,7 @@ export const EditProduct = () => {
     data.append('category', productData.category);
     data.append(
       'productProperties[description]',
-      productData.productProperties.description,
+      productData.productProperties.description
     );
     productData.productVariants?.length > 0 &&
       productData.productVariants.map((item, index) => {
@@ -303,6 +304,7 @@ export const EditProduct = () => {
         data.append(`images[${index}]`, item);
       });
     }
+
     const add = await EditProductAPI(data, id);
     console.log(add, 'DATA Updated');
     if (add?.response?.status === 404) {
@@ -311,9 +313,28 @@ export const EditProduct = () => {
       navigate('/Products');
     }
   };
+  const handleUpload=async(value:any)=>{
+    let newAttach: any = [];
+    let prevImage: any = [];
+    value.map((item: any, index: any) => {
+      if (typeof item === 'object') {
+        newAttach.push(item);
+      } else {
+        prevImage.push(item);
+      }
+    });
+    setAttachment(newAttach);
+    if (prevImage.length > 0) {
+      let check = imageIDS
+        .filter((item: any) => prevImage.includes(item.url))
+        .map((item: any) => item.id);
+      console.log(check);
+      setImage(check);
+    }
+  }
   const getTechnicalSpecificationValue = (name: string) => {
     const item = productData.technicalSpecificationModel?.find(
-      (spec: any) => spec.title === name,
+      (spec: any) => spec.title === name
     );
 
     return item ? item.value : '';
@@ -394,7 +415,7 @@ export const EditProduct = () => {
                     let newVariant = item.values.map(
                       (item: any, index: any) => {
                         return item.txt;
-                      },
+                      }
                     );
                     setVariant({
                       ...variant,
@@ -420,7 +441,7 @@ export const EditProduct = () => {
         />
         <UploadPicture
           setImages={(value: any) => {
-            setAttachment(value);
+            handleUpload(value)
           }}
           images={ProductData?.product?.images}
           IMAGEE={attachments}
@@ -433,19 +454,14 @@ export const EditProduct = () => {
             '!w-[220px] !h-[40px] !mt-6 !rounded-[12px] !bg-[#EFEFEF] !text-[black] !px-2 '
           }
         />
-        <div className="flex gap-3 mt-5">
+        {/* <div className="flex gap-3 mt-5">
           <FetchButton
             manual={enterManual}
             value={'Database'}
             setManual={setManual}
             txt={'Fetch from Database'}
           />
-          {/* <FetchButton
-            manual={enterManual}
-            value={"manual"}
-            setManual={setManual}
-            txt={"Enter Manually"}
-          /> */}
+         
         </div>
         <CustomButton
           txt={'Search Item'}
@@ -453,7 +469,7 @@ export const EditProduct = () => {
             '!w-[220px] !h-[55px] !mt-6 !rounded-[12px] !bg-[#3C82D6] !text-[white] !px-2 '
           }
           icon={true}
-        />
+        /> */}
         {enterManual === 'Database' && (
           <>
             <div>
@@ -482,7 +498,7 @@ export const EditProduct = () => {
                               onChange={(e: any) =>
                                 updateTechnicalSpecificationModel(
                                   e.target.name,
-                                  e.target.value,
+                                  e.target.value
                                 )
                               }
                               value={item.value}
@@ -496,14 +512,14 @@ export const EditProduct = () => {
                                 console.log(e, 'EVENT');
                                 updateTechnicalSpecificationModel(
                                   e.target.name,
-                                  e.target.value,
+                                  e.target.value
                                 );
                               }}
                             />
                           )}
                         </div>
                       );
-                    },
+                    }
                   )}
               </div>
             </div>
@@ -517,7 +533,7 @@ export const EditProduct = () => {
         <div className="flex gap-3 mb-3">
           <CustomButton
             txt={'Cancel'}
-            onClick={()=> navigate('/Products')}
+            onClick={() => navigate('/Products')}
             classes={
               '!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]'
             }

@@ -116,6 +116,7 @@ export const AddProduct = () => {
     if (sendVariant) {
       setVisible(!visible);
       VariantsData;
+      setVariantValue('')
     }
     setFetchVariants(!fetchVariants);
   };
@@ -354,19 +355,14 @@ export const AddProduct = () => {
             '!w-[220px] !h-[40px] !mt-6 !rounded-[12px] !bg-[#EFEFEF] !text-[black] !px-2 '
           }
         />
-        <div className="flex gap-3 mt-5">
+        {/* <div className="flex gap-3 mt-5">
           <FetchButton
             manual={enterManual}
             value={'Database'}
             setManual={setManual}
             txt={'Fetch from Database'}
           />
-          {/* <FetchButton
-            manual={enterManual}
-            value={"manual"}
-            setManual={setManual}
-            txt={"Enter Manually"}
-          /> */}
+    
         </div>
         <CustomButton
           txt={'Search Item'}
@@ -374,7 +370,7 @@ export const AddProduct = () => {
             '!w-[220px] !h-[55px] !mt-6 !rounded-[12px] !bg-[#3C82D6] !text-[white] !px-2 '
           }
           icon={true}
-        />
+        /> */}
         {enterManual === 'Database' && (
           <>
             <div>
