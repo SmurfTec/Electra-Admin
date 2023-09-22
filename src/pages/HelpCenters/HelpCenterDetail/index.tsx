@@ -118,7 +118,7 @@ export const HelpCenterDetail = () => {
           <div className="flex gap-4 items-center">
             <CustomButton
               txt={detail.status}
-              classes={`!w-auto px-[32px] !h-auto !py-[6px] !rounded-[22px] ${
+              classes={`!w-auto px-[32px] !h-auto !py-[10px] !rounded-[22px] ${
                 detail.status == 'resolved' ? '!bg-[#3C82D6]' : ''
               } `}
             />
@@ -217,11 +217,14 @@ export const HelpCenterDetail = () => {
               </div>
             );
           })}
-        {/* <div className='flex gap-3 justify-center items-center mt-[46px]'>
-        <hr className="w-[18.5rem] border-[#A4A4A4]" />
-        <CustomButton txt="Solved" classes="!w-auto !bg-blue !text-white px-[32px] !h-auto !py-[6px] !rounded-[22px] "  />
-        <hr className="w-[18.5rem] border-[#A4A4A4]" />
-        </div> */}
+     {detail.status == 'resolved' && 
+     <div className='flex gap-3 justify-center items-center mt-[46px]'>
+     <hr className="w-[18.5rem] border-[#A4A4A4]" />
+     <CustomButton txt="Solved" classes="!w-auto !bg-blue !text-white px-[32px] !h-auto !py-[10px] !rounded-[22px] "  />
+     <hr className="w-[18.5rem] border-[#A4A4A4]" />
+     </div>
+     }   
+     
         <div className="pt-[114px] pl-[39px] pr-[39px] pb-[39px]">
           <InputTxt
             placeholder="Type Reply here"
