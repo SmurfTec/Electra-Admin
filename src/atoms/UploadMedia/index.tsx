@@ -11,55 +11,55 @@ export function UploadPicture({
 }: any) {
   const fileInputRef: any = useRef(null);
   const [selectedImage, setSelectedImage] = useState<any>();
-  const [selectedImages, setSelectedImages] = useState<any>([]);
+  const [selectedImages, setSelectedImages] = useState<any>([]); //used for rendering new images or all images
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
   const handleFileChange = (event: any) => {
-    console.log(event.target.files);
+  
     let selectedFile;
-    let objectFiles:any;
-    if (event.target.files.length === 1) {
-      console.log('HEREREE');
-      selectedFile = event.target.files[0];
-      setSelectedImage(URL.createObjectURL(selectedFile));
-      setSelectedImages([...selectedImages, URL.createObjectURL(selectedFile)]);
-    } else if (event.target.files.length > 1) {
-      console.log('HEREREE', Object.values(event.target.files));
+    let objectFiles: any;
+    console.log('HEREREEghgtrt', Object.values(event.target.files));
 
-      objectFiles = Object.values(event.target.files).map(
-        (item: any, index: any) => {
-          return item;
-        }
-      );
-      selectedFile = objectFiles.map((item:any, index:number) => {
-        return URL.createObjectURL(item);
-      });
-      setSelectedImages([...selectedFile]);
-      // setSelectedImages([...selectedImages, URL.createObjectURL(selectedFile)]);
+    objectFiles = Object.values(event.target.files).map(
+      (item: any, index: any) => {
+        return item;
+      }
+    );
+    selectedFile = objectFiles.map((item: any, index: number) => {
+      return URL.createObjectURL(item);
+    });
+    if (event.target.files.length === 1) {
+      setSelectedImage(selectedFile[0]);
     }
+
+    setSelectedImages([...selectedImages, ...selectedFile]);
+
     if (setImage) {
-      setImage(selectedFile);
+      setImage(objectFiles[0]);
     }
     if (setImages) {
+      console.log(IMAGEE);
       if (IMAGEE && IMAGEE?.length > 0) {
+        console.log([...IMAGEE, ...objectFiles], 'EWOPJOIREJFJ');
         setImages([...IMAGEE, ...objectFiles]);
       } else {
-        console.log("SETTING IMAGES FOR Attachment")
+        console.log('SETTING IMAGES FOR Attachment');
         setImages([...objectFiles]);
       }
     }
     console.log(selectedImages);
     // Handle the selected file (e.g., upload or process it)
   };
+
   const deleteImg = (Itemindex: any) => {
     console.log(Itemindex);
     console.log(selectedImages);
     let filterImg = selectedImages.filter(
       (item: any, index: any) => index !== Itemindex
     );
-    console.log(filterImg);
-    setImages(filterImg)
+    console.log(filterImg, 'FILTERED');
+    setImages(filterImg);
     setSelectedImages(filterImg);
   };
   useEffect(() => {
@@ -143,7 +143,7 @@ export function UploadPicture({
                   </div>
                   <img
                     className="w-[120px] h-20 p-3"
-                    src={item.startsWith('blob:') ? item : BaseURL + item}
+                    src={item?.startsWith('blob:') ? item : BaseURL + item}
                   />
                 </div>
               );

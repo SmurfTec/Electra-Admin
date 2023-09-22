@@ -23,7 +23,7 @@ export const Feemodifier = () => {
   const [currSelected, setCurrSelectedProduct] = useState<any>();
   const [feeValue, setFeeValue] = useState(0);
   useEffect(() => {
-    let newData = data?.fees.map((item: any, index: any) => {
+    let newData = data?.fees?.map((item: any, index: any) => {
       return {
         ID: item.id,
         Category: item.category.name,

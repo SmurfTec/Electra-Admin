@@ -83,12 +83,18 @@ export const ProductView = () => {
                 navigate('/AddProduct');
               }}
             >
-              {ProductData?.product?.images && (
+              {ProductData?.product?.images ? (
                 <img
-                  className="h-[390px]"
+                  className="h-[390px] w-[363px]"
                   src={`${BaseURL}${ProductData?.product?.images[0]?.filename}`}
                 />
-              )}
+              )
+              :
+              <img 
+              className='w-[363px]'
+              src={IMAGES.Logo}
+              />
+            }
             </div>
             <div>
               <div className="flex gap-2 items-center">

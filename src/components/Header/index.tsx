@@ -66,8 +66,10 @@ export const Header = (props: headerProps) => {
       <div
         className={`overflow-hidden h-16 mt-2 mb-2 flex items-center justify-between px-2 ${props.headerClasses} relative`}
       >
+    
+        {/*
         <div></div>
-        {/* {props.typeSearch && (
+        {props.typeSearch && (
           <HeaderSearch
             placeholder={props.placeholder ?? "Type here to search"}
           />
