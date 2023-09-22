@@ -40,7 +40,7 @@ export const Notifications = () => {
     <div>
       <Header UserBox={true} typeSearch={true} />
       <div className="mt-[30px] w-[96%] pb-[30px]">
-        <div className="flex justify-between mb-[29px]">
+        <div className="flex justify-between ">
           <p className="text-[16px] font-[700] text-black">Notifications</p>
           <p
             className="text-[16px] font-[700] text-blue"
@@ -52,6 +52,7 @@ export const Notifications = () => {
             Mark all as read
           </p>
         </div>
+        <div className='w-full h-[2px] bg-[#B4B4B421] mt-[10px] mb-[29px]'></div>
         <div className="flex flex-col gap-5">
          {dates.map((item:any,index:any)=>{
           let obj=data.filter((itm:any)=>{
@@ -63,7 +64,8 @@ export const Notifications = () => {
             <React.Fragment key={index}>
               {obj.map((item:any,index:any)=>{
                 return(
-                  <div className="flex justify-between items-center mt-[] " key={index}>
+                 <React.Fragment key={index}>
+ <div className="flex  justify-between items-center mt-[] " key={index}>
                   <div className="flex items-center gap-3">
                     <img src={IMAGES.smphone} className="w-[46px] h-[46px]" />
                     <div className="flex flex-col gap-3">
@@ -81,7 +83,11 @@ export const Notifications = () => {
                   <p className="text-[#969696] font-[14px]">
                     {moment(item.create_on).format('DD,MM,YYYY')}
                   </p>
+                 
                 </div>
+                <div className='w-full h-[1px] bg-[#B4B4B421]'></div>
+
+                  </React.Fragment>
                 )
               })}
                <div className='flex justify-center'>
