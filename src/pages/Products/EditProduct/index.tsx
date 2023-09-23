@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { getProductById } from "../../../store/Slices/ProductSlice";
-import { useParams } from "react-router-dom";
-import moment from "moment";
-import { Header, Variants, Confirmationmodal } from "../../../components";
+import React, { useState, useEffect } from 'react';
+import { getProductById } from '../../../store/Slices/ProductSlice';
+import { useParams } from 'react-router-dom';
+import moment from 'moment';
+import { Header, Variants, Confirmationmodal } from '../../../components';
 import {
   InputTxt,
   CustomDropdown2,
   CustomButton,
   UploadPicture,
   FetchButton,
-} from "../../../atoms";
-import { useNavigate } from "react-router-dom";
-import { useVariantDetail, useProductDetail } from "../../../custom-hooks";
-import url from "../../../config/index";
-import { EditProductAPI } from "../../../store/Slices/ProductSlice";
-import { getBrands } from "../../../store/Slices/BrandSlice";
-import { getCategories } from "../../../store/Slices/Categories";
-import { Techspec } from "../../../components";
-import { CustomCalendar } from "../../../atoms";
+} from '../../../atoms';
+import { useNavigate } from 'react-router-dom';
+import { useVariantDetail, useProductDetail } from '../../../custom-hooks';
+import url from '../../../config/index';
+import { EditProductAPI } from '../../../store/Slices/ProductSlice';
+import { getBrands } from '../../../store/Slices/BrandSlice';
+import { getCategories } from '../../../store/Slices/Categories';
+import { Techspec } from '../../../components';
+import { CustomCalendar } from '../../../atoms';
 
 export const EditProduct = () => {
   type techSpec = {
@@ -39,25 +39,25 @@ export const EditProduct = () => {
   const [VariantsArray, setVariantArray] = useState<
     { variant: any; values: any }[]
   >([]);
-  const [enterManual, setManual] = useState("Database");
+  const [enterManual, setManual] = useState('Database');
 
   const [images, setImage] = useState<any>([]);
   const [attachments, setAttachment] = useState<any>([]);
-  const [varVal, setVariantValue] = useState("");
-  const [techType, setTechType] = useState(1);
+  const [varVal, setVariantValue] = useState('');
+  const [imageIDS, setimageIDS] = useState([]);
   const [brands, setBrands] = useState([]);
   const [category, setCategories] = useState([]);
   const [productData, setProductData] = useState({
-    title: "",
+    title: '',
     is_active: true,
-    category: "",
-    brand: "",
+    category: '',
+    brand: '',
     productProperties: {} as descriptionProp,
     productVariants: [] as variantSpec[],
     technicalSpecificationModel: [] as techSpec[],
   });
   const [variant, setVariant] = useState<any>({
-    title: "",
+    title: '',
     datatype: String,
     values: [],
     id: Number,
@@ -75,7 +75,7 @@ export const EditProduct = () => {
       return newObj;
     });
     setBrands(data);
-    console.log(data,"BRANDSS")
+    console.log(data, 'BRANDSS');
     dataCat = dataCat.categories.map((item: any, index: any) => {
       let newObj = {
         value: item.id,
@@ -87,7 +87,8 @@ export const EditProduct = () => {
   };
   useEffect(() => {
     if (ProductData) {
-      console.log(ProductData, "PRoduct");
+      console.log(ProductData, 'PRoduct');
+      setimageIDS(ProductData.product?.images);
       let newarr = ProductData.product?.images?.map((item: any, index: any) => {
         return item.id;
       });
@@ -104,8 +105,8 @@ export const EditProduct = () => {
           description: ProductData.product?.product_properties.description,
         } as descriptionProp,
         productVariants:
-          ProductData.product.product_variants &&
-          (ProductData.product.product_variants?.map(
+          ProductData.product?.product_variants &&
+          (ProductData.product?.product_variants?.map(
             (item: any, index: any) => {
               return {
                 variant: item.id,
@@ -144,8 +145,8 @@ export const EditProduct = () => {
           return {
             txt: value1,
             classes: hasMatchingValue
-              ? "!bg-[#FCFCFC] !w-[148px] ml-2 !border !border-[#3C82D6] !text-[black] !p-4 !rounded-[9px] !mt-5"
-              : "!bg-[#FCFCFC] !w-[148px] !text-[black] !p-4 !rounded-[9px] !mt-5",
+              ? '!bg-[#FCFCFC] !w-[148px] ml-2 !border !border-[#3C82D6] !text-[black] !p-4 !rounded-[9px] !mt-5'
+              : '!bg-[#FCFCFC] !w-[148px] !text-[black] !p-4 !rounded-[9px] !mt-5',
           };
         });
 
@@ -166,13 +167,14 @@ export const EditProduct = () => {
     let Newpush = [...prevArray, value];
     let sendingData = {
       title: variant.title,
-      datatype: "string",
+      datatype: 'string',
       values: Newpush,
     };
     const sendVariant = await url.put(`/variants/${variant.id}`, sendingData);
     if (sendVariant) {
       setVisible(!visible);
       VariantsData;
+      setVariantValue('');
     }
     setFetchVariants(!fetchVariants);
   };
@@ -191,16 +193,16 @@ export const EditProduct = () => {
     });
   };
   const updateTechnicalSpecificationModel = (name: any, value: any) => {
-    console.log(value,"VALUUEE")
-    setProductData((prevData) => {
-      const updatedModel = prevData.technicalSpecificationModel?.map((item) => {
+    console.log(value, 'VALUUEE');
+    setProductData(prevData => {
+      const updatedModel = prevData.technicalSpecificationModel?.map(item => {
         if (item.title === name) {
           return { ...item, value: value };
         }
         return item;
       });
 
-      if (!updatedModel.some((item) => item.title === name)) {
+      if (!updatedModel.some(item => item.title === name)) {
         updatedModel.push({ title: name, value: value });
       }
 
@@ -213,15 +215,15 @@ export const EditProduct = () => {
       (item: any) => item.value === value
     );
     if (
-      value !== "capacity" &&
-      value !== "color" &&
-      value !== "carrier" &&
-      value !== "screen"
+      value !== 'capacity' &&
+      value !== 'color' &&
+      value !== 'carrier' &&
+      value !== 'screen'
     ) {
       if (updatedVariants === -1) {
         updateVariants.push({ variant: variant, value: value });
-        console.log(updateVariants, "Variants");
-        setProductData((prevData) => {
+        console.log(updateVariants, 'Variants');
+        setProductData(prevData => {
           return { ...prevData, productVariants: updateVariants };
         });
         let newData = VariantsArray.map((item: any) => {
@@ -230,7 +232,7 @@ export const EditProduct = () => {
               return {
                 txt: valueItem.txt,
                 classes:
-                  "!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+                  '!bg-[#FCFCFC] !border !border-[#3C82D6] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5',
               };
             } else {
               return valueItem;
@@ -247,7 +249,7 @@ export const EditProduct = () => {
         updateVariants = updateVariants.filter(
           (item: any) => item.value !== value
         );
-        setProductData((prevData) => {
+        setProductData(prevData => {
           return { ...prevData, productVariants: updateVariants };
         });
         let newData = VariantsArray.map((item: any) => {
@@ -256,7 +258,7 @@ export const EditProduct = () => {
               return {
                 txt: valueItem.txt,
                 classes:
-                  "!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+                  '!bg-[#FCFCFC]  !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5',
               };
             } else {
               return valueItem;
@@ -273,27 +275,26 @@ export const EditProduct = () => {
     }
   };
   const Addproduct = async () => {
-    console.log(productData, "FINALs");
-    console.log(images, "IMAGe DATA");
+    console.log(productData.technicalSpecificationModel, 'ATTACHMENT');
     let data = new FormData();
-    data.append("title", productData.title);
-    data.append("is_active", "true");
-    data.append("brand", productData.brand);
+    data.append('title', productData.title);
+    data.append('is_active', 'true');
+    data.append('brand', productData.brand);
     attachments.forEach((file: any, index: any) => {
-      data.append("attachments", file);
+      data.append('attachments', file);
     });
 
-    data.append("category", productData.category);
+    data.append('category', productData.category);
     data.append(
-      "productProperties[description]",
+      'productProperties[description]',
       productData.productProperties.description
     );
-    productData.productVariants.length > 0 &&
+    productData.productVariants?.length > 0 &&
       productData.productVariants.map((item, index) => {
         data.append(`productVariants[${index}][variant]`, item.variant);
         data.append(`productVariants[${index}][value]`, item.value);
       });
-    productData.technicalSpecificationModel.length > 0 &&
+    productData.technicalSpecificationModel?.length > 0 &&
       productData.technicalSpecificationModel.map((item, index) => {
         data.append(`technicalSpecificationModel[${index}][title]`, item.title);
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
@@ -303,21 +304,40 @@ export const EditProduct = () => {
         data.append(`images[${index}]`, item);
       });
     }
-    const add = await EditProductAPI(data, id);
-    console.log(add, "DATA Updated");
-    if (add?.response?.status===404) {
-      console.log("ISSUE")
-    }else{
-      navigate("/Products");
 
+    const add = await EditProductAPI(data, id);
+    console.log(add, 'DATA Updated');
+    if (add?.response?.status === 404) {
+      console.log('ISSUE');
+    } else {
+      navigate('/Products');
     }
   };
+  const handleUpload=async(value:any)=>{
+    let newAttach: any = [];
+    let prevImage: any = [];
+    value.map((item: any, index: any) => {
+      if (typeof item === 'object') {
+        newAttach.push(item);
+      } else {
+        prevImage.push(item);
+      }
+    });
+    setAttachment(newAttach);
+    if (prevImage.length > 0) {
+      let check = imageIDS
+        .filter((item: any) => prevImage.includes(item.url))
+        .map((item: any) => item.id);
+      console.log(check);
+      setImage(check);
+    }
+  }
   const getTechnicalSpecificationValue = (name: string) => {
     const item = productData.technicalSpecificationModel?.find(
       (spec: any) => spec.title === name
     );
 
-    return item ? item.value : "";
+    return item ? item.value : '';
   };
   return (
     <div>
@@ -331,7 +351,7 @@ export const EditProduct = () => {
         onChange={handleChange(setProductData)}
         placeholder="Enter Phone model"
         MainClasses="mt-[40px] !w-[80%]"
-        name={"title"}
+        name={'title'}
         value={productData.title}
       />
       <div className="flex gap-4">
@@ -344,7 +364,7 @@ export const EditProduct = () => {
           }}
           placeholder="Category"
           options={category}
-          mainclasses={"mt-10  !w-[35%]"}
+          mainclasses={'mt-10  !w-[35%]'}
           value={productData.category}
         />
         <CustomDropdown2
@@ -356,21 +376,21 @@ export const EditProduct = () => {
           }}
           placeholder="Brands"
           options={brands}
-          mainclasses={"mt-10  !w-[35%]"}
+          mainclasses={'mt-10  !w-[35%]'}
           value={productData.brand}
         />
       </div>
       <textarea
-        onChange={(e) => handleChangeDescription(e.target.value)}
+        onChange={e => handleChangeDescription(e.target.value)}
         value={productData.productProperties.description}
-        name={"description"}
+        name={'description'}
         className="pt-2 bg-lightgray border border-custom mt-4 rounded-[8px] w-[75%] h-[142px] overflow-hidden pl-[21px] pr-[22px] focus:outline-none"
       />
       <div>
         <CustomButton
-          txt={"Variants"}
+          txt={'Variants'}
           classes={
-            "!w-[100px] !h-[40px] !mt-6 !mb-4 !rounded-[12px] !bg-[#EFEFEF] !text-[black]"
+            '!w-[100px] !h-[40px] !mt-6 !mb-4 !rounded-[12px] !bg-[#EFEFEF] !text-[black]'
           }
         />
         {VariantsArray &&
@@ -405,8 +425,8 @@ export const EditProduct = () => {
                     });
                     setVisible(!visible);
                   }}
-                  txt={"+Add text"}
-                  classes={"!w-[148px] !mt-5 !rounded-[9px]  "}
+                  txt={'+Add text'}
+                  classes={'!w-[148px] !mt-5 !rounded-[9px]  '}
                 />
               </div>
             );
@@ -414,14 +434,14 @@ export const EditProduct = () => {
       </div>
       <div>
         <CustomButton
-          txt={"Pictures"}
+          txt={'Pictures'}
           classes={
-            "!w-[100px] !h-[40px] !mt-6 !rounded-[12px] !bg-[#EFEFEF] !text-[black]"
+            '!w-[100px] !h-[40px] !mt-6 !rounded-[12px] !bg-[#EFEFEF] !text-[black]'
           }
         />
         <UploadPicture
           setImages={(value: any) => {
-            setAttachment(value);
+            handleUpload(value)
           }}
           images={ProductData?.product?.images}
           IMAGEE={attachments}
@@ -429,33 +449,28 @@ export const EditProduct = () => {
           fetchImages={true}
         />
         <CustomButton
-          txt={"Technical Specifications"}
+          txt={'Technical Specifications'}
           classes={
-            "!w-[220px] !h-[40px] !mt-6 !rounded-[12px] !bg-[#EFEFEF] !text-[black] !px-2 "
+            '!w-[220px] !h-[40px] !mt-6 !rounded-[12px] !bg-[#EFEFEF] !text-[black] !px-2 '
           }
         />
-        <div className="flex gap-3 mt-5">
+        {/* <div className="flex gap-3 mt-5">
           <FetchButton
             manual={enterManual}
-            value={"Database"}
+            value={'Database'}
             setManual={setManual}
-            txt={"Fetch from Database"}
+            txt={'Fetch from Database'}
           />
-          {/* <FetchButton
-            manual={enterManual}
-            value={"manual"}
-            setManual={setManual}
-            txt={"Enter Manually"}
-          /> */}
+         
         </div>
         <CustomButton
-          txt={"Search Item"}
+          txt={'Search Item'}
           classes={
-            "!w-[220px] !h-[55px] !mt-6 !rounded-[12px] !bg-[#3C82D6] !text-[white] !px-2 "
+            '!w-[220px] !h-[55px] !mt-6 !rounded-[12px] !bg-[#3C82D6] !text-[white] !px-2 '
           }
           icon={true}
-        />
-        {enterManual === "Database" && (
+        /> */}
+        {enterManual === 'Database' && (
           <>
             <div>
               <p className="bg-lightgray p-4 w-[60%] rounded mt-5 border border-custom">
@@ -469,74 +484,75 @@ export const EditProduct = () => {
               </p>
 
               <div className="border border-custom  w-[60%] pb-4">
-                {productData&&productData.technicalSpecificationModel?.map(
-                  (item: any, index: any) => {
-                    return (
-                      <div key={index} className="ml-5">
-                        <p className="text-[#656565] text-[12px] mt-4">
-                          {item.title}
-                        </p>
-                        {item.title !== "Release Date" ? (
-                          <InputTxt
-                            name={item.title}
-                            onChange={(e: any) =>
-                              updateTechnicalSpecificationModel(
-                                e.target.name,
-                                e.target.value
-                              )
-                            }
-                            value={item.value
-                            }
-                            placeholder={"eg: 20 aug 2022"}
-                            MainClasses={"!h-[28px] !bg-white"}
-                          />
-                        ) : (
-                          <CustomCalendar
-                            date={new Date(item?.value)}
-                            setDate={(e: any) =>
-                          {    console.log(e,"EVENT")
-                              updateTechnicalSpecificationModel(
-                                e.target.name,
-                                e.target.value
-                              )}
-                            }
-                          />
-                        )}
-                      </div>
-                    );
-                  }
-                )}
+                {productData &&
+                  productData.technicalSpecificationModel?.map(
+                    (item: any, index: any) => {
+                      return (
+                        <div key={index} className="ml-5">
+                          <p className="text-[#656565] text-[12px] mt-4">
+                            {item.title}
+                          </p>
+                          {item.title !== 'Release Date' ? (
+                            <InputTxt
+                              name={item.title}
+                              onChange={(e: any) =>
+                                updateTechnicalSpecificationModel(
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              value={item.value}
+                              placeholder={'eg: 20 aug 2022'}
+                              MainClasses={'!h-[28px] !bg-white'}
+                            />
+                          ) : (
+                            <CustomCalendar
+                              date={new Date(item?.value)}
+                              setDate={(e: any) => {
+                                console.log(e, 'EVENT');
+                                updateTechnicalSpecificationModel(
+                                  e.target.name,
+                                  e.target.value
+                                );
+                              }}
+                            />
+                          )}
+                        </div>
+                      );
+                    }
+                  )}
               </div>
             </div>
           </>
         )}
-        {enterManual === "manual" && (
+        {enterManual === 'manual' && (
           <div>
             <Techspec />
           </div>
         )}
         <div className="flex gap-3 mb-3">
           <CustomButton
-            txt={"Cancel"}
+            txt={'Cancel'}
+            onClick={() => navigate('/Products')}
             classes={
-              "!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]"
+              '!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]'
             }
           />
           <CustomButton
             onClick={() => Addproduct()}
-            txt={"Edit Product"}
-            classes={" !w-[179px] !rounded-[12px] !h-[50px]"}
+            txt={'Edit Product'}
+            classes={' !w-[179px] !rounded-[12px] !h-[50px]'}
           />
         </div>
       </div>
       <Confirmationmodal
         addValue={true}
-        PopupHeader={"Add variant"}
+        PopupHeader={'Add variant'}
         visible={visible}
         setVisible={setVisible}
-        cnfrmbtnText={"Confirm"}
-        cnclebtnText={"Cancel"}
-        text={"Add name of the variant"}
+        cnfrmbtnText={'Confirm'}
+        cnclebtnText={'Cancel'}
+        text={'Add name of the variant'}
         handleFunction={handleFunction}
         setValue={setVariantValue}
         Value={varVal}

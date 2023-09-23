@@ -1,3 +1,3 @@
-export * from "./Verification"
-export * from "./ItemVerification"
-export * from "./Step1"
+export * from './Verification';
+export * from './ItemVerification';
+export * from './Step1';

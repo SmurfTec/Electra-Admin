@@ -1,7 +1,7 @@
-import url from "../../config";
+import url from '../../config';
 export const getWebsite = async () => {
   try {
-    let response: any = await url.get("/websites");
+    let response: any = await url.get('/websites');
     return response;
   } catch (e) {
     return e;
@@ -19,7 +19,7 @@ export const getWebsiteById = async (id: any) => {
 // SECTIONS
 export const updateSeciton = async (wid: any, id: any, body: any) => {
   try {
-    console.log(body, "BODy");
+    console.log(body, 'BODy');
     let response: any = await url.put(`/sections/${id}`, body);
     if (response) {
       const getNew = await getWebsiteById(wid);
@@ -32,7 +32,7 @@ export const updateSeciton = async (wid: any, id: any, body: any) => {
 // SECTIONS
 export const deleteSeciton = async (id: any, body: any) => {
   try {
-    console.log(body, "BODy");
+    console.log(body, 'BODy');
     let response: any = await url.put(`/sections/${id}`, body);
     if (response) {
       const getNew = await getWebsiteById(id);
@@ -44,7 +44,7 @@ export const deleteSeciton = async (id: any, body: any) => {
 };
 export const getNoticeBanner = async () => {
   try {
-    let response = await url.get("/notice_banners");
+    let response = await url.get('/notice_banners');
     if (response) {
       return response.data;
     }
@@ -69,8 +69,8 @@ type noticeBanner = {
 };
 export const createNoticeBanner = async (data: noticeBanner) => {
   try {
-    let response = await url.post("/notice_banners", data);
-    console.log(response, "RESPONSE");
+    let response = await url.post('/notice_banners', data);
+    console.log(response, 'RESPONSE');
     if (response) {
       return response.data;
     }
@@ -102,7 +102,7 @@ export const deleteNoticeBanner = async (id: any) => {
 
 export const hideAllNoticebanner = async (body: any) => {
   try {
-    let response = await url.patch(`/notice_banners/manage-status/`,body);
+    let response = await url.patch(`/notice_banners/manage-status/`, body);
     if (response) {
       return response.data;
     }

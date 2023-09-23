@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import IMAGES from "../../assets/Images";
-import { BaseURL } from "../../config";
+import React, { useEffect, useRef, useState } from 'react';
+import IMAGES from '../../assets/Images';
+import { BaseURL } from '../../config';
 export function UploadPicture({
   multipleImages = false,
   setImage,
@@ -8,54 +8,86 @@ export function UploadPicture({
   images, // used for rendering previous images
   IMAGEE, //shows the useState for sending new images
   fetchImages,
+  singleImage
 }: any) {
   const fileInputRef: any = useRef(null);
-  const [selectedImage, setSelectedImage] = useState("");
-  const [selectedImages, setSelectedImages] = useState<any>([]);
+  const [selectedImage, setSelectedImage] = useState<any>();
+  const [selectedImages, setSelectedImages] = useState<any>([]); //used for rendering new images or all images
+  const [removedExistingImage, setRemoved] = useState(false);
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
   const handleFileChange = (event: any) => {
-    const selectedFile = event.target.files[0];
-    setSelectedImage(URL.createObjectURL(selectedFile));
+    setRemoved(true)
+    let selectedFile;
+    let objectFiles: any;
+    console.log('HEREREEghgtrt', Object.values(event.target.files));
+
+    objectFiles = Object.values(event.target.files).map(
+      (item: any, index: any) => {
+        return item;
+      }
+    );
+    selectedFile = objectFiles.map((item: any, index: number) => {
+      return URL.createObjectURL(item);
+    });
+    if (event.target.files.length === 1) {
+      console.log(selectedFile[0]);
+      setSelectedImage(selectedFile[0]);
+    }
+
+    setSelectedImages([...selectedImages, ...selectedFile]);
+
     if (setImage) {
-      setImage(event.target.files[0]);
+      setImage(objectFiles[0]);
     }
     if (setImages) {
+      console.log(IMAGEE);
       if (IMAGEE && IMAGEE?.length > 0) {
-        setImages([...IMAGEE, event.target.files[0]]);
+        console.log([...IMAGEE, ...objectFiles], 'EWOPJOIREJFJ');
+        setImages([...IMAGEE, ...objectFiles]);
       } else {
-        setImages([event.target.files[0]]);
+        console.log('SETTING IMAGES FOR Attachment');
+        setImages([...objectFiles]);
       }
     }
-    console.log(selectedImages);
-    setSelectedImages([...selectedImages, URL.createObjectURL(selectedFile)]);
+  
     // Handle the selected file (e.g., upload or process it)
   };
+
   const deleteImg = (Itemindex: any) => {
-    console.log(Itemindex)
-    console.log(selectedImages)
+    console.log(Itemindex);
+    console.log(selectedImages);
     let filterImg = selectedImages.filter(
       (item: any, index: any) => index !== Itemindex
     );
+    console.log(filterImg, 'FILTERED');
+    setImages(filterImg);
     setSelectedImages(filterImg);
   };
   useEffect(() => {
-    if (images) {
+    if (images && multipleImages && fetchImages) {
       let files: any = [];
       images.map((item: any, index: any) => {
         files.push(item.filename);
       });
       setSelectedImages(files);
     }
+    if (images && !multipleImages && fetchImages ) {
+      console.log(images,"YE cALL");
+      if(images.filename){
+      setSelectedImage(images);
+    }}
+    // if(!multipleImages &&)
   }, [images]);
   return (
     <div className="mt-3 ">
       <input
         type="file"
+        multiple
         accept="image/*"
         ref={fileInputRef}
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         onChange={handleFileChange}
       />
       <div className="flex">
@@ -73,7 +105,7 @@ export function UploadPicture({
         {!fetchImages && selectedImage && !multipleImages && (
           <div className="border border-lightgray ml-10 rounded relative">
             <div
-              onClick={() => setSelectedImage("")}
+              onClick={() => setSelectedImage('')}
               className="cursor-pointer w-[15px] h-[15px] text-[10px] flex justify-center items-center rounded-[50%] bg-black text-white absolute right-0 top-0"
             >
               x
@@ -81,9 +113,34 @@ export function UploadPicture({
             <img className="w-[120px] h-20 p-3" src={selectedImage} />
           </div>
         )}
+
+        {fetchImages && !multipleImages && selectedImage && (
+          <div className="border border-lightgray  rounded relative">
+            <div
+              onClick={() => {
+                
+
+                setSelectedImage('');
+              }}
+              className="cursor-pointer w-[15px] h-[15px] text-[10px] flex justify-center items-center rounded-[50%] bg-black text-white absolute right-0 top-0"
+            >
+              x
+            </div>
+            { !removedExistingImage  ? (
+              <img
+                className="w-[120px] h-20 p-3"
+                src={BaseURL + selectedImage.filename}
+              />
+            ) : (
+              <img className="w-[120px] h-20 p-3" src={selectedImage} />
+            )}
+          </div>
+        )}
         {!fetchImages && multipleImages && selectedImages.length > 0 && (
           <>
             {selectedImages.map((item: any, index: any) => {
+              console.log(item);
+
               return (
                 <div
                   key={index}
@@ -118,7 +175,7 @@ export function UploadPicture({
                   </div>
                   <img
                     className="w-[120px] h-20 p-3"
-                    src={item.startsWith("blob:") ? item : BaseURL + item}
+                    src={item?.startsWith('blob:') ? item : BaseURL + item}
                   />
                 </div>
               );

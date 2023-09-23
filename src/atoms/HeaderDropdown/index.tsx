@@ -1,17 +1,27 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import IMAGES from "../../assets/Images";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../assets/Images';
+import { readMyNotifications } from '../../store/Slices/UserSlice';
 
 export const HeaderDropDown = (props: any) => {
-    const navigate=useNavigate()
+  const navigate = useNavigate();
+  const handleReadMyNotifications = async () => {
+    await readMyNotifications();
+  };
   return (
     <div
       className={`${props.className} z-10 `}
-      style={{ border: "1px solid rgba(0, 0, 0, 0.06)" }}
+      style={{ border: '1px solid rgba(0, 0, 0, 0.06)' }}
     >
       <div className="flex justify-between p-4">
         <p className="text-[19px] font-bold">Notifications</p>
-        <p className="text-[#3C82D6] items-center text-[15px] font-semibold">
+        <p
+          className="text-[#3C82D6] items-center text-[15px] font-semibold"
+          style={{
+            cursor: 'pointer',
+          }}
+          onClick={handleReadMyNotifications}
+        >
           Mark all as read
         </p>
       </div>
@@ -28,8 +38,8 @@ export const HeaderDropDown = (props: any) => {
             <div className="flex gap-2">
               <p className="underline">View </p>
               <span className="bg-[black] overflow-hidden items-center text-[white] h-5 rounded-full w-5 flex justify-center mt-1">
-                {" "}
-                {">"}
+                {' '}
+                {'>'}
               </span>
             </div>
           </div>
@@ -52,8 +62,8 @@ export const HeaderDropDown = (props: any) => {
             <div className="flex gap-2">
               <p className="underline">View </p>
               <span className="bg-[black] overflow-hidden items-center text-[white] h-5 rounded-full w-5 flex justify-center mt-1">
-                {" "}
-                {">"}
+                {' '}
+                {'>'}
               </span>
             </div>
           </div>
@@ -76,8 +86,8 @@ export const HeaderDropDown = (props: any) => {
             <div className="flex gap-2">
               <p className="underline">View </p>
               <span className="bg-[black] overflow-hidden items-center text-[white] h-5 rounded-full w-5 flex justify-center mt-1">
-                {" "}
-                {">"}
+                {' '}
+                {'>'}
               </span>
             </div>
           </div>
@@ -88,12 +98,13 @@ export const HeaderDropDown = (props: any) => {
         </div>
       </div>
       <div className="border border-custom my-1"></div>
-      
-  <p 
-  onClick={()=>navigate("/Notifications")}
-  className="text-center py-2 text-[#3C82D6] font-bold cursor-pointer">
-    View All
-  </p>
+
+      <p
+        onClick={() => navigate('/Notifications')}
+        className="text-center py-2 text-[#3C82D6] font-bold cursor-pointer"
+      >
+        View All
+      </p>
     </div>
   );
 };

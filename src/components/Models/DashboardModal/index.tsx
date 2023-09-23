@@ -1,6 +1,6 @@
-import React from "react";
-import { CustomDialog } from "../../../atoms/global.style";
-import { CustomButton,CustomCalendar} from "../../../atoms";
+import React from 'react';
+import { CustomDialog } from '../../../atoms/global.style';
+import { CustomButton, CustomCalendar } from '../../../atoms';
 export const DashboardModal = ({
   PopupHeader,
   classes,
@@ -14,8 +14,8 @@ export const DashboardModal = ({
   placeholderclasses,
 }: any) => {
   const [values, setValues] = React.useState({
-    date: "",
-    To: "",
+    date: '',
+    To: '',
   });
   return (
     <CustomDialog
@@ -41,7 +41,7 @@ export const DashboardModal = ({
             placeholder="From"
             MainClasses="!w-[204px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF]"
           />
-           <CustomCalendar
+          <CustomCalendar
             value={values.date}
             setDate={(e: any) => setValues({ ...values, date: e.value })}
             classes="!w-[204px] !h-[54px]  !rounded-[10px] !bg-[#FFFFFF]"

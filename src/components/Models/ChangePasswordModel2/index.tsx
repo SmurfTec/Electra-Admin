@@ -1,36 +1,36 @@
-import React, { useState } from "react";
-import { CustomDialog } from "../../../atoms/global.style";
-import { InputPassword } from "../../../atoms";
-import { CustomButton } from "../../../atoms";
-import IMAGES from "../../../assets/Images";
-import { ResetPassword } from "../../../store/Slices/UserSlice";
+import React, { useState } from 'react';
+import { CustomDialog } from '../../../atoms/global.style';
+import { InputPassword } from '../../../atoms';
+import { CustomButton } from '../../../atoms';
+import IMAGES from '../../../assets/Images';
+import { ResetPassword } from '../../../store/Slices/UserSlice';
 export const ChangePasswordModel2 = ({
   classes,
   visible,
   setVisible,
   showSuccessModel = true,
   onClick,
-  Code
+  Code,
 }: any) => {
-  const [currentPass, setcurrentPass] = useState("");
-  const [newPass, setnewPass] = useState("");
+  const [currentPass, setcurrentPass] = useState('');
+  const [newPass, setnewPass] = useState('');
   const [Success, setSuccess] = useState(false);
-  const [err,setErr]=useState("")
-  const ChangeUserPassword=async()=>{
-    let body={
-      "password" :currentPass,
-      "confirmPassword" :newPass
+  const [err, setErr] = useState('');
+  const ChangeUserPassword = async () => {
+    let body = {
+      password: currentPass,
+      confirmPassword: newPass,
+    };
+    console.log(Code, 'CODE');
+
+    let response = await ResetPassword(body, Code);
+    if (!(response.status == 404) || !(response.status == 401)) {
+      setSuccess(false);
+      setErr('Unauthorized password was not chnaged');
+    } else {
+      console.log('ISSUE with changing password');
     }
-    console.log(Code,"CODE")
-    
-    let response=await ResetPassword(body,Code)
-    if(!(response.status==404) || (!(response.status==401))){
-      setSuccess(false)
-      setErr("Unauthorized password was not chnaged")
-    }else{
-        console.log("ISSUE with changing password")
-    }
-  }
+  };
   return (
     <>
       <CustomDialog
@@ -67,12 +67,10 @@ export const ChangePasswordModel2 = ({
               Min password length 6 characters
             </p>
           </div>
-          {err && <p className="text-red text-center">
-            {err}
-            </p>}
+          {err && <p className="text-red text-center">{err}</p>}
           <CustomButton
             onClick={() => {
-             ChangeUserPassword();
+              ChangeUserPassword();
             }}
             txt="UPDATE"
             classes="!w-[155px] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]"

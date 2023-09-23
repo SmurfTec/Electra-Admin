@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Header } from "../../../components";
-import { CustomButton } from "../../../atoms";
-import IMAGES from "../../../assets/Images";
-import { useGetNoticBanner } from "../../../custom-hooks";
-import { hideAllNoticebanner } from "../../../store/Slices/WebsiteSlice";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Header } from '../../../components';
+import { CustomButton } from '../../../atoms';
+import IMAGES from '../../../assets/Images';
+import { useGetNoticBanner } from '../../../custom-hooks';
+import { hideAllNoticebanner } from '../../../store/Slices/WebsiteSlice';
 type Banner = {
   id: number;
   title: string;
@@ -39,9 +39,9 @@ export const Noticebanner = () => {
   };
   const hideBanners = async () => {
     try {
-      let body={
-        status:status
-      }
+      let body = {
+        status: status,
+      };
       const hide = await hideAllNoticebanner(body);
       console.log(hide);
     } catch (e) {}
@@ -53,10 +53,10 @@ export const Noticebanner = () => {
       <p className="font-bold my-3">Notice Banners</p>
       <div className="flex gap-3">
         <CustomButton
-          classes={"!bg-[#3C82D6] !h-[42px] !w-[122px] !rounded-[9px]"}
-          txt={"+ Add New"}
+          classes={'!bg-[#3C82D6] !h-[42px] !w-[122px] !rounded-[9px]'}
+          txt={'+ Add New'}
           onClick={() => {
-            navigate("/Addbanner");
+            navigate('/Addbanner');
           }}
         />
         <CustomButton
@@ -65,9 +65,9 @@ export const Noticebanner = () => {
             hideBanners();
           }}
           classes={
-            "!bg-[#EFEFEF] !h-[42px] !w-[162px] !rounded-[9px] !text-[black]"
+            '!bg-[#EFEFEF] !h-[42px] !w-[162px] !rounded-[9px] !text-[black]'
           }
-          txt={"Hide All On Website"}
+          txt={'Hide All On Website'}
         />
       </div>
       <div className="mt-2 rounded">

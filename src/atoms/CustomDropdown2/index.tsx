@@ -1,6 +1,6 @@
-import { Dropdown } from "primereact/dropdown";
-import { useState, useEffect } from "react";
-import styled from "styled-components";
+import { Dropdown } from 'primereact/dropdown';
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 interface DropsProps {
   placeholdercolor: string;
   options: [];
@@ -18,7 +18,7 @@ const Drops = styled(Dropdown)<DropsProps>`
   border-radius: 6px;
   align-items: center;
   font-weight: 500;
-  font-family: "Manrope";
+  font-family: 'Manrope';
   color: #212121;
   font-size: 16px;
   &:focus {
@@ -30,18 +30,15 @@ const Drops = styled(Dropdown)<DropsProps>`
     display: flex;
     align-items: center;
     color: ${({ placeholdercolor }: any) =>
-      placeholdercolor ? placeholdercolor : "black"};
+      placeholdercolor ? placeholdercolor : 'black'};
     padding-left: 18px;
   }
 `;
 export const CustomDropdown2 = (props: any) => {
-  console.log(props.options);
   const [selectedItem, setSelectedItem] = useState([props.options]);
   let Values = props.options;
   useEffect(() => {
     if (props.value) {
-      console.log(props.value);
-
       setSelectedItem(props.value);
     }
   }, [props.value]);
@@ -50,7 +47,6 @@ export const CustomDropdown2 = (props: any) => {
       placeholdercolor={props.placeholderColor}
       value={selectedItem}
       onChange={(e: any) => {
-        console.log(e.value);
         setSelectedItem(e.value);
         const selectedOption = Values.find(
           (item: any) => item.value === e.value

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Header } from "../../../components";
+import React, { useEffect, useState } from 'react';
+import { Header } from '../../../components';
 import {
   CustomDropdown2,
   InputTxt,
   CustomButton,
   InputPassword,
-} from "../../../atoms";
-import { useNavigate } from "react-router-dom";
-import { useCreateAdmin } from "../../../custom-hooks/RolesHooks";
+} from '../../../atoms';
+import { useNavigate } from 'react-router-dom';
+import { useCreateAdmin } from '../../../custom-hooks/RolesHooks';
 type adminBody = {
   firstname: string;
   lastname: string;
@@ -32,7 +32,7 @@ export const CreateNewadmin = () => {
   const [rolesRender, setRolesRender] = useState();
   const { roles, setAdmin, loading }: UseCreateAdminReturnType =
     useCreateAdmin();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   useEffect(() => {
     if (!loading) {
       let data;
@@ -47,17 +47,17 @@ export const CreateNewadmin = () => {
     }
   }, [loading]);
   const [adminBody, setAdminBody] = useState<adminBody>({
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    mobile_no: "",
-    role: "",
+    firstname: '',
+    lastname: '',
+    email: '',
+    password: '',
+    mobile_no: '',
+    role: '',
   });
   function handleChange<T>(
     e: React.ChangeEvent<HTMLInputElement>,
     object: T,
-    setObject: React.Dispatch<React.SetStateAction<T>>
+    setObject: React.Dispatch<React.SetStateAction<T>>,
   ): void {
     const { name, value } = e.target;
     setObject((prevObject: T) => ({
@@ -67,7 +67,7 @@ export const CreateNewadmin = () => {
   }
   function isAllValuesFilled(adminBody: any) {
     for (const key in adminBody) {
-      if (adminBody.hasOwnProperty(key) && adminBody[key] === "") {
+      if (adminBody.hasOwnProperty(key) && adminBody[key] === '') {
         return false;
       }
     }
@@ -140,9 +140,9 @@ export const CreateNewadmin = () => {
         </div>
         <div>
           <CustomDropdown2
-            placeholderColor={"#A4A4A4"}
+            placeholderColor={'#A4A4A4'}
             placeholder="Choose Role"
-            mainclasses={"mt-4 w-[286px] !h-[59px]"}
+            mainclasses={'mt-4 w-[286px] !h-[59px]'}
             options={rolesRender}
             setValue={(value: any) => {
               console.log(value);
@@ -153,29 +153,28 @@ export const CreateNewadmin = () => {
             }}
           />
         </div>
-        {error && <p className="text-red">
-          {error}</p>}
+        {error && <p className="text-red">{error}</p>}
         <div className="flex gap-4 mt-4">
           <CustomButton
-            txt={"Cancel"}
+            txt={'Cancel'}
             classes={
-              "!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]"
+              '!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]'
             }
           />
           <CustomButton
             onClick={() => {
               if (isAllValuesFilled(adminBody)) {
                 // All values are filled, perform your action here
-                console.log("All values are filled.");
-                setError("")
+                console.log('All values are filled.');
+                setError('');
                 setAdmin(adminBody);
               } else {
                 // Not all values are filled, handle the error or display a message
-                setError("Fill all the fields");
+                setError('Fill all the fields');
               }
             }}
-            txt={"Create Admin"}
-            classes={" !w-[179px] !rounded-[12px] !h-[50px]"}
+            txt={'Create Admin'}
+            classes={' !w-[179px] !rounded-[12px] !h-[50px]'}
           />
         </div>
       </div>

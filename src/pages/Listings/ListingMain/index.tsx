@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Header } from "../../../components";
-import { CustomTableComponent, CustomButton } from "../../../atoms";
-import { SVGIcon } from "../../../components/SVG";
-import IMAGES from "../../../assets/Images";
-import { CustomMenu, CustomTabView } from "../../../atoms/global.style";
-import { useNavigate } from "react-router-dom";
-import { useListingDetail } from "../../../custom-hooks";
-import { TabPanel } from "primereact/tabview";
-import { Paginatior } from "../../../components";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { Confirmationmodal } from "../../../components";
-import { flagListing } from "../../../store/Slices/ListingsSlice";
-import moment from "moment";
+import React, { useState, useEffect } from 'react';
+import { Header } from '../../../components';
+import { CustomTableComponent, CustomButton } from '../../../atoms';
+import { SVGIcon } from '../../../components/SVG';
+import IMAGES from '../../../assets/Images';
+import { CustomMenu, CustomTabView } from '../../../atoms/global.style';
+import { useNavigate } from 'react-router-dom';
+import { useListingDetail } from '../../../custom-hooks';
+import { TabPanel } from 'primereact/tabview';
+import { Paginatior } from '../../../components';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Confirmationmodal } from '../../../components';
+import { flagListing } from '../../../store/Slices/ListingsSlice';
+import moment from 'moment';
 export const Listings = () => {
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
@@ -19,26 +19,26 @@ export const Listings = () => {
     rowsPerPage: 10,
     currentPage: 1,
   });
-  const [actIndex,setActIndex]=useState(0)
+  const [actIndex, setActIndex] = useState(0);
   const [totalList, setTotalList] = useState();
-  const {data ,listLoad}= useListingDetail(initialPageData);
-  const [visible,setVisible]=useState(false)
+  const { data, listLoad } = useListingDetail(initialPageData);
+  const [visible, setVisible] = useState(false);
   const [listings, setListings] = useState<any>([
     {
-      name: "",
+      name: '',
       data: [],
     },
   ]);
-  const [MenuLabel, setMenuLabel] = useState("");
+  const [MenuLabel, setMenuLabel] = useState('');
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
   const [initial, setInitial] = useState(true);
-   const [selectedListing,setSelectedListing]=useState<any>([])
+  const [selectedListing, setSelectedListing] = useState<any>([]);
   const getListings = async () => {
     let soldItems: any = [];
     let unsoldItems: any = [];
-    let flagged:any = [];
-    let All:any = [];
-    setTotalList(data.data.stats[0].all_listings);
+    let flagged: any = [];
+    let All: any = [];
+    setTotalList(data?.data?.stats.all_listings);
     data?.data?.listings?.forEach((item: any) => {
       let newObj = {
         ...item,
@@ -46,11 +46,11 @@ export const Listings = () => {
         Account: item?.user.firstname + item?.user.lastname,
         ItemName: item.product_data.title,
         Ask: item.ask,
-        "Lwst Offer": item.lowest_offer ?? "-",
-        "Hgst Offer": item.highest_offer ?? "-",
-        "Sale Price": item.saleprice ? `$ ${item.saleprice}` : "-",
-        "Listed On": moment(item?.created_on).format("DD MMM, YYYY"),
-        Role: item.is_active ? "Unsold" : "Sold",
+        'Lwst Offer': item.lowest_offer ?? '-',
+        'Hgst Offer': item.highest_offer ?? '-',
+        'Sale Price': item.saleprice ? `$ ${item.saleprice}` : '-',
+        'Listed On': moment(item?.created_on).format('DD MMM, YYYY'),
+        Role: item.is_active ? 'Unsold' : 'Sold',
       };
       All.push(newObj);
       if (item.is_flagged) {
@@ -63,10 +63,10 @@ export const Listings = () => {
       }
     });
     setListings([
-      { name: "All", data: All },
-      { name: "sold", data: soldItems },
-      { name: "not sold", data: unsoldItems },
-      { name: "flagged", data: flagged },
+      { name: 'All', data: All },
+      { name: 'sold', data: soldItems },
+      { name: 'not sold', data: unsoldItems },
+      { name: 'flagged', data: flagged },
     ]);
   };
   useEffect(() => {
@@ -76,30 +76,30 @@ export const Listings = () => {
     event.stopPropagation();
     console.log(vaaluue);
 
-    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+    setMenuLabel(prevLabel => (prevLabel === item.label ? '' : item.label));
   };
-const flagListings = async () => {
-  try {
-    console.log(selectedListing, "LISTIJNGSS");
-    let newarr = selectedListing.map((item: any) => {
-      return item.id;
-    });
-    let body = {
-      is_flagged: true,
-      ids: newarr,
-    };
-    let flag = await flagListing(body);
-    console.log(flag,"FLAGGED")
-    if(flag){
-      setVisible(true)
-    }
-  } catch (e) {}
-};
+  const flagListings = async () => {
+    try {
+      console.log(selectedListing, 'LISTIJNGSS');
+      let newarr = selectedListing.map((item: any) => {
+        return item.id;
+      });
+      let body = {
+        is_flagged: true,
+        ids: newarr,
+      };
+      let flag = await flagListing(body);
+      console.log(flag, 'FLAGGED');
+      if (flag) {
+        setVisible(true);
+      }
+    } catch (e) {}
+  };
   const items = [
     {
       items: [
         {
-          label: "View",
+          label: 'View',
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
@@ -107,15 +107,14 @@ const flagListings = async () => {
                 onClick={(event: any) =>
                   viewItem(event, item, CurrSelectedProduct)
                 }
-                style={{ backgroundColor: "rgba(255, 245, 0, 0.05)" }}
+                style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
-                <SVGIcon fillcolor={"#212121"} src={IMAGES.Ban} /> View listings
+                <SVGIcon fillcolor={'#212121'} src={IMAGES.Ban} /> View listings
               </div>
             );
           },
         },
-      
       ],
     },
   ];
@@ -139,7 +138,6 @@ const flagListings = async () => {
       if (initial) {
         setInitial(false);
       } else {
-       
       }
     }, [MenuLabel, CurrSelectedProduct]);
     return (
@@ -156,7 +154,7 @@ const flagListings = async () => {
   };
   const StatusBodyTemplate = (option: any) => {
     let style;
-    if (option.Role === "Sold") {
+    if (option.Role === 'Sold') {
       style = `px-[14px] py-[4px]
           text-center
           h-[33px]
@@ -164,7 +162,7 @@ const flagListings = async () => {
            max-w-[100px]
            mx-auto
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
-    } else if (option.Role === "Unsold") {
+    } else if (option.Role === 'Unsold') {
       style = `px-[14px] py-[4px]
           text-center
           h-[33px]
@@ -182,30 +180,30 @@ const flagListings = async () => {
     );
   };
   const SalesTemplate = (option: any) => {
-    return <p className="text-[#3C82D6]">{option["Sale Price"]}</p>;
+    return <p className="text-[#3C82D6]">{option['Sale Price']}</p>;
   };
   const columnData = [
-    { field: "id", header: "ID" },
-    { field: "Account", header: "Account", body: AccountBodyTemplate },
-    { field: "ItemName", header: "ItemName" },
-    { field: "Ask", header: "Ask" },
-    { field: "Lwst Offer", header: "Lwst Offer" },
-    { field: "Hgst Offer", header: "Hgst Offer" },
-    { field: "Sale Price", header: "Sale Price", body: SalesTemplate },
-    { field: "Listed On", header: "Listed On" },
-    { field: "Role", header: "Role", body: StatusBodyTemplate },
-    { field: "", header: "", body: MenuBodyTemplate },
+    { field: 'id', header: 'ID' },
+    { field: 'Account', header: 'Account', body: AccountBodyTemplate },
+    { field: 'ItemName', header: 'ItemName' },
+    { field: 'Ask', header: 'Ask' },
+    { field: 'Lwst Offer', header: 'Lwst Offer' },
+    { field: 'Hgst Offer', header: 'Hgst Offer' },
+    { field: 'Sale Price', header: 'Sale Price', body: SalesTemplate },
+    { field: 'Listed On', header: 'Listed On' },
+    { field: 'Role', header: 'Role', body: StatusBodyTemplate },
+    { field: '', header: '', body: MenuBodyTemplate },
   ];
   useEffect(() => {
-    if (MenuLabel == "View") {
+    if (MenuLabel == 'View') {
       navigate(`/ListingsDetail/${CurrSelectedProduct}`);
     } else {
       console.log(
-        "Menu",
+        'Menu',
         MenuLabel,
-        "product",
+        'product',
         // selectedProducts,
-        "CurrSelectedProduct",
+        'CurrSelectedProduct',
         CurrSelectedProduct
       );
     }
@@ -215,11 +213,11 @@ const flagListings = async () => {
       <Header
         placeholder="Search Admins"
         typeSearch={true}
-        chooseFilter={true}
+       
         UserBox={true}
       />
-   
-     <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
+
+      <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
         <div>
           <p className="font-bold p-4 text-[19px]">
             Listings <br />
@@ -227,48 +225,52 @@ const flagListings = async () => {
               Check All the Listings
             </span>
           </p>
-          {!listLoad?<> 
-            <div className="flex gap-8 px-4 border-b border-custom "></div>
-               <CustomTabView
-               activeIndex={actIndex} onTabChange={(e)=>{
-                console.log(e.index)
-                console.log(listings[e.index])
+          {!listLoad ? (
+            <>
+              <div className="flex gap-8 px-4 border-b border-custom "></div>
+              <CustomTabView
+                activeIndex={actIndex}
+                onTabChange={e => {
+                  console.log(e.index);
+                  console.log(listings[e.index]);
 
-                setActIndex(e.index)
-              }}  className="!bg-[#FCFCFC]">
-            {listings.map((item: any, index: number) => {
-              return(
-              <TabPanel key={index} header={item.name}>
-                <CustomTableComponent
-                  colume={{ backgroundColor: "#FCFCFC !important" }}
-                  headerStyle={{
-                    color: "black",
-                    fontWeight: "800",
-                    backgroundColor: "#FCFCFC",
-                  }}
-                  selectedProducts={selectedListing}
-                  setSelectedProducts={setSelectedListing}
-                  filterData={item.data}
-                  columnData={columnData}
-                  rowStyling={"#FCFCFC !important"}
-                  MultipleSelect={true}
-                />
-              </TabPanel>)
-            })}
-          </CustomTabView>
-          </>
-          :
-          <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
-          <ProgressSpinner style={{ overflow: "hidden" }} />
+                  setActIndex(e.index);
+                }}
+                className="!bg-[#FCFCFC]"
+              >
+                {listings.map((item: any, index: number) => {
+                  return (
+                    <TabPanel key={index} header={item.name}>
+                      <CustomTableComponent
+                        colume={{ backgroundColor: '#FCFCFC !important' }}
+                        headerStyle={{
+                          color: 'black',
+                          fontWeight: '800',
+                          backgroundColor: '#FCFCFC',
+                        }}
+                        selectedProducts={selectedListing}
+                        setSelectedProducts={setSelectedListing}
+                        filterData={item.data}
+                        columnData={columnData}
+                        rowStyling={'#FCFCFC !important'}
+                        MultipleSelect={true}
+                      />
+                    </TabPanel>
+                  );
+                })}
+              </CustomTabView>
+            </>
+          ) : (
+            <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+              <ProgressSpinner style={{ overflow: 'hidden' }} />
+            </div>
+          )}
         </div>
-         }
-        </div>
-
       </div>
       <div>
         <CustomButton
           onClick={() => {
-          flagListings()
+            flagListings();
           }}
           iconLeft={<img src={IMAGES.Flag} />}
           classes="!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]"
@@ -279,22 +281,24 @@ const flagListings = async () => {
         totalRecords={Number(totalList)}
         initialPageData={initialPageData}
         setInitialPageData={setInitialPageData}
-        recordShowing={listings&& actIndex>0?listings[actIndex].data?.length:listings[0]?.length}
+        recordShowing={
+          listings && actIndex > 0
+            ? listings[actIndex].data?.length
+            : listings[0]?.length
+        }
       />
-     <Confirmationmodal
-        PopupHeader={"Confirmation"}
+      <Confirmationmodal
+        PopupHeader={'Confirmation'}
         visible={visible}
         setVisible={setVisible}
-        cnfrmbtnText={"ok"}
-        cnclebtnText={"Cancel"}
-        text={
-          "Listings flagged"
-        }
-        setOkButton={()=>{
-          setVisible(false)
+        cnfrmbtnText={'ok'}
+        cnclebtnText={'Cancel'}
+        text={'Listings flagged'}
+        setOkButton={() => {
+          setVisible(false);
         }}
-        setCancelButton={()=>{
-          setVisible(false)
+        setCancelButton={() => {
+          setVisible(false);
         }}
       />
     </div>

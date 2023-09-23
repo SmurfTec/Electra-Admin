@@ -1,5 +1,5 @@
 .list-tick li::before {
-  content: "✔"; /* Add your preferred tick mark character or symbol */
+  content: '✔'; /* Add your preferred tick mark character or symbol */
   /* display: inline-block;
     width: 1em;
     margin-left: -1em; */
@@ -14,46 +14,46 @@
   text-align: left;
 }
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 24px;
-  }
-  
-  .toggle-input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    border-radius: 34px;
-    transition: background-color 0.4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 10px;
-    width: 10px;
-    left: 7px;
-    bottom: 7px;
-    background-color: white;
-    border-radius: 50%;
-    transition: transform 0.4s;
-  }
-  
-  .toggle-input:checked + .slider {
-    background-color: #2196F3;
-  }
-  
-  .toggle-input:checked + .slider:before {
-    transform: translateX(26px);
-  }
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: background-color 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 10px;
+  width: 10px;
+  left: 7px;
+  bottom: 7px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.4s;
+}
+
+.toggle-input:checked + .slider {
+  background-color: #2196f3;
+}
+
+.toggle-input:checked + .slider:before {
+  transform: translateX(26px);
+}

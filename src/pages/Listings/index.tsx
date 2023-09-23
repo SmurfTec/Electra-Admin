@@ -1,2 +1,2 @@
-export * from "./ListingMain"
-export * from "./Listingdetail"
+export * from './ListingMain';
+export * from './Listingdetail';

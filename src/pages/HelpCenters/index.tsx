@@ -1,2 +1,2 @@
-export * from "./HelpCenter"
-export * from "./HelpCenterDetail"
+export * from './HelpCenter';
+export * from './HelpCenterDetail';

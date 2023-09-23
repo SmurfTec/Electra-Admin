@@ -1,18 +1,18 @@
 .sub-items {
-    height: 0;
-    overflow: hidden;
-    transition: height 0.3s;
-  }
-  
-  .sub-items.open {
-    height: auto;
-    transition: height 0.3s;
-  }
-  
-  .sub-item {
-    padding-left: 20px;
-  }
-  
-  .sub-item:hover {
-    background-color: #e9e9e9;
-  }
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s;
+}
+
+.sub-items.open {
+  height: auto;
+  transition: height 0.3s;
+}
+
+.sub-item {
+  padding-left: 20px;
+}
+
+.sub-item:hover {
+  background-color: #e9e9e9;
+}

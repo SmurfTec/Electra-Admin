@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
 export const FetchButton = (props: any) => {
   const [isChecked, setIsChecked] = React.useState(false);
@@ -21,9 +21,9 @@ export const FetchButton = (props: any) => {
   return (
     <div>
       <button
-        style={{ borderSpacing: "9rem", borderWidth: "2px" }}
+        style={{ borderSpacing: '9rem', borderWidth: '2px' }}
         className={`border-dashed rounded border-2 p-5 w-[225px] bg-lightgray ${
-          isChecked ? "border-blue-500" : "border-[#EFEFEF]"
+          isChecked ? 'border-blue-500' : 'border-[#EFEFEF]'
         } p-2`}
       >
         <input

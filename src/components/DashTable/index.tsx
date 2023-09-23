@@ -1,9 +1,9 @@
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { ViewAll } from "../../atoms";
-import styled from "styled-components";
-import { Paginatior } from "..";
-import { useState, useEffect } from "react";
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { ViewAll } from '../../atoms';
+import styled from 'styled-components';
+import { Paginatior } from '..';
+import { useState, useEffect } from 'react';
 // Styled Paginator component
 const CustomTable = styled(DataTable)<any>`
   .p-datatable-header {
@@ -29,7 +29,7 @@ const CustomTable = styled(DataTable)<any>`
   .p-paginator-prev {
     color: black !important;
     ::after {
-      content: "";
+      content: '';
       display: inline-block;
       width: 50%;
       height: 2px;
@@ -44,7 +44,7 @@ const CustomTable = styled(DataTable)<any>`
   .p-paginator-next {
     color: black !important;
     ::before {
-      content: "";
+      content: '';
       display: inline-block;
       width: 50%;
       height: 2px;
@@ -68,18 +68,18 @@ const CustomTable = styled(DataTable)<any>`
   }
 `;
 export const DashTable = (props: any) => {
-  let total= props.totalProducts
+  let total = props.totalProducts;
   const [PAGE, setPAGE] = useState();
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 4,
     currentPage: 1,
-  })
+  });
   useEffect(() => {
     setPAGE(props.page);
   }, [props.page]);
   const tableHeader = (
     <div className={`flex justify-between !bg-[#FCFCFC]"`}>
-      <p style={{ fontWeight: "900", marginRight: "10px", color: "black" }}>
+      <p style={{ fontWeight: '900', marginRight: '10px', color: 'black' }}>
         {props.customHeader}
       </p>
       <ViewAll route={props?.route} />
@@ -88,10 +88,10 @@ export const DashTable = (props: any) => {
   const CustomBody = (rowData: any) => {
     return (
       <div className="flex flex-col justify-between ">
-        <p style={{ fontWeight: "900", marginRight: "10px", color: "black" }}>
+        <p style={{ fontWeight: '900', marginRight: '10px', color: 'black' }}>
           {rowData.name.number}
         </p>
-        <p style={{ fontWeight: "500", marginRight: "10px" }}>
+        <p style={{ fontWeight: '500', marginRight: '10px' }}>
           {rowData.name.status}
         </p>
       </div>
@@ -100,10 +100,10 @@ export const DashTable = (props: any) => {
   const CustomEmailBody = (rowData: any) => {
     return (
       <div className="flex flex-col justify-between ">
-        <p style={{ fontWeight: "900", marginRight: "10px", color: "black" }}>
+        <p style={{ fontWeight: '900', marginRight: '10px', color: 'black' }}>
           {rowData.email.number}
         </p>
-        <p style={{ fontWeight: "500", marginRight: "10px" }}>
+        <p style={{ fontWeight: '500', marginRight: '10px' }}>
           {rowData.email.status}
         </p>
       </div>
@@ -112,10 +112,10 @@ export const DashTable = (props: any) => {
   const CustomDateBody = (rowData: any) => {
     return (
       <div className="flex flex-col justify-between ">
-        <p style={{ fontWeight: "900", marginRight: "10px", color: "black" }}>
+        <p style={{ fontWeight: '900', marginRight: '10px', color: 'black' }}>
           {rowData.Date.number}
         </p>
-        <p style={{ fontWeight: "500", marginRight: "10px" }}>
+        <p style={{ fontWeight: '500', marginRight: '10px' }}>
           {rowData.Date.status}
         </p>
       </div>
@@ -130,62 +130,68 @@ export const DashTable = (props: any) => {
         dataKey="id"
         value={props.data}
         header={tableHeader}
-        tableStyle={{ minWidth: "20rem" }}
+        tableStyle={{ minWidth: '20rem' }}
         tablebgcolor={props.tableHeaderColor}
       >
         {props.imginData && (
           <Column
             field="img"
             body={imageBodyTemplate}
-            style={{ width: "13%" }}
+            style={{ width: '13%' }}
             headerStyle={
               props.header
-                ? { backgroundColor: "#F7F7F7" }
-                : { display: "none" }
+                ? { backgroundColor: '#F7F7F7' }
+                : { display: 'none' }
             }
           ></Column>
         )}
         <Column
           field="id"
-          header={props.header ? "ID" : false}
+          header={props.header ? 'ID' : false}
           style={
             props.selling
-              ? { width: "30%", fontWeight: "900", color: "black" }
-              : { width: "30%" }
+              ? { width: '30%', fontWeight: '900', color: 'black' }
+              : { width: '30%' }
           }
           headerStyle={
-            props.header ? { backgroundColor: "#F7F7F7" } : { display: "none" }
+            props.header ? { backgroundColor: '#F7F7F7' } : { display: 'none' }
           }
         ></Column>
         <Column
-          field={props.selling ? "name.number" : "name"}
+          field={props.selling ? 'name.number' : 'name'}
           header="Name"
-          style={{ width: "25%" }}
+          style={{ width: '25%' }}
           headerStyle={
-            props.header ? { backgroundColor: "#F7F7F7" } : { display: "none" }
+            props.header ? { backgroundColor: '#F7F7F7' } : { display: 'none' }
           }
           body={props.selling ? CustomBody : false}
         ></Column>
         <Column
-          field={props.selling ? "email.number" : "email"}
+          field={props.selling ? 'email.number' : 'email'}
           header="Email"
-          style={{ width: "25%" }}
+          style={{ width: '25%' }}
           headerStyle={
-            props.header ? { backgroundColor: "#F7F7F7" } : { display: "none" }
+            props.header ? { backgroundColor: '#F7F7F7' } : { display: 'none' }
           }
           body={props.selling ? CustomEmailBody : false}
         ></Column>
         <Column
-          field={props.selling ? "Date.number" : "Date"}
+          field={props.selling ? 'Date.number' : 'Date'}
           header="Date Registered"
-          style={{ width: "25%" }}
+          style={{ width: '25%' }}
           headerStyle={
-            props.header ? { backgroundColor: "#F7F7F7" } : { display: "none" }
+            props.header ? { backgroundColor: '#F7F7F7' } : { display: 'none' }
           }
           body={props.selling ? CustomDateBody : false}
         ></Column>
       </CustomTable>
-    {props.pagination &&  <Paginatior totalRecords={Number(props.totalProducts)} initialPageData={props.param} setInitialPageData={props.setParams} />}
+      {props.pagination && (
+        <Paginatior
+          totalRecords={Number(props.totalProducts)}
+          initialPageData={props.param}
+          setInitialPageData={props.setParams}
+        />
+      )}
     </div>
   );
 };

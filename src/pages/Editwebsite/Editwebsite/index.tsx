@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import IMAGES from "../../../assets/Images";
-import { Header, Webcarousel, Threebuttons } from "../../../components";
-import { CustomButton } from "../../../atoms";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { useGetWebsiteId } from "../../../custom-hooks/WebsiteHook";
-import { updateSeciton } from "../../../store/Slices/WebsiteSlice";
-import { BaseURL } from "../../../config";
-import { ProgressSpinner } from "primereact/progressspinner";
+import { useEffect, useState } from 'react';
+import IMAGES from '../../../assets/Images';
+import { Header, Webcarousel, Threebuttons } from '../../../components';
+import { CustomButton } from '../../../atoms';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useGetWebsiteId } from '../../../custom-hooks/WebsiteHook';
+import { updateSeciton } from '../../../store/Slices/WebsiteSlice';
+import { BaseURL } from '../../../config';
+import { ProgressSpinner } from 'primereact/progressspinner';
 type Section = {
   id: number;
   section: string;
@@ -48,20 +48,20 @@ export const Webandbanner = () => {
 
     const file = event.target.files[0];
     let sendingData = new FormData();
-    sendingData.append("images", file);
+    sendingData.append('images', file);
 
     websiteData?.sections[1]?.images &&
       websiteData?.sections[1]?.images.forEach((item: any) => {
         console.log(item);
-        sendingData.append("attachments[]", item.id);
+        sendingData.append('attachments[]', item.id);
       });
     const Adding = await updateSeciton(
       id,
       websiteData?.sections[1]?.id,
-      sendingData
+      sendingData,
     );
     setLoading(false);
-    console.log("bsdk2");
+    console.log('bsdk2');
     setWebsiteData(Adding);
   };
 
@@ -75,12 +75,12 @@ export const Webandbanner = () => {
         .map((item: any) => item.id);
 
       if (attachments?.length === 0) {
-        console.log("HEREE");
-        attachments.push(""); // Push an empty string to create an empty attachment array
+        console.log('HEREE');
+        attachments.push(''); // Push an empty string to create an empty attachment array
       }
       let sendingData = new FormData();
       attachments?.forEach((attachment: any) => {
-        sendingData.append("attachments[]", attachment);
+        sendingData.append('attachments[]', attachment);
       });
       const Adding = await updateSeciton(id, secID, sendingData);
       setWebsiteData(Adding);
@@ -160,25 +160,25 @@ export const Webandbanner = () => {
                           className="bg-cover bg-center  h-[250px] rounded-[10px]"
                           src={`${BaseURL}/${item.filename}`}
                           style={{
-                            width: "99%",
-                            height: "530px",
+                            width: '99%',
+                            height: '530px',
                           }}
                         ></img>
                         <div className=" absolute top-[40%] left-[25%]">
                           <Threebuttons
-                            class={"Carddss"}
+                            class={'Carddss'}
                             handleFileUpload={handleFileUpload}
                             deletePicture={() =>
                               deletePicture(
                                 item.id,
-                                websiteData?.sections[1]?.id
+                                websiteData?.sections[1]?.id,
                               )
                             }
                           />
                         </div>
                       </div>
                     );
-                  }
+                  },
                 )
               ) : (
                 <div className="  relative">
@@ -187,13 +187,13 @@ export const Webandbanner = () => {
                     alt="no-pic"
                     // src={`${BaseURL}/${item.filename}`}
                     style={{
-                      width: "550px",
-                      height: "530px",
+                      width: '550px',
+                      height: '530px',
                     }}
                   ></img>
                   <div className=" absolute top-[40%] left-[25%]">
                     <Threebuttons
-                      class={"Carddss"}
+                      class={'Carddss'}
                       ind={1}
                       handleFileUpload={handleFileUpload}
                     />
@@ -205,23 +205,23 @@ export const Webandbanner = () => {
 
           <div className="flex gap-3 mt-3">
             <CustomButton
-              txt={"Cancel"}
+              txt={'Cancel'}
               classes={
-                "!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[10px]"
+                '!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[10px]'
               }
             />
             <CustomButton
               onClick={() => {
-                navigate("/Editwebsite");
+                navigate('/Editwebsite');
               }}
-              txt={"Update"}
-              classes={" !w-[179px] !rounded-[10px] !h-[50px]"}
+              txt={'Update'}
+              classes={' !w-[179px] !rounded-[10px] !h-[50px]'}
             />
           </div>
         </div>
       ) : (
         <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
-          <ProgressSpinner style={{ overflow: "hidden" }} />
+          <ProgressSpinner style={{ overflow: 'hidden' }} />
         </div>
       )}
     </div>

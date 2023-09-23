@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { getRoles } from "../store/Slices/RoleSlice";
-import { getAllUsers, addAdmin } from "../store/Slices/UserSlice";
-import { getPermission } from "../store/Slices/RoleSlice";
-import { useNavigate } from "react-router-dom";
-import { getRolesByName,getUserByID } from "../store/Slices/RoleSlice";
-import { DeleteSingleUser } from "../store/Slices/UserSlice";
+import React, { useEffect } from 'react';
+import { getRoles } from '../store/Slices/RoleSlice';
+import { getAllUsers, addAdmin } from '../store/Slices/UserSlice';
+import { getPermission } from '../store/Slices/RoleSlice';
+import { useNavigate } from 'react-router-dom';
+import { getRolesByName, getUserByID } from '../store/Slices/RoleSlice';
+import { DeleteSingleUser } from '../store/Slices/UserSlice';
 interface RoleStats {
   role: string;
   users: number;
@@ -46,20 +46,20 @@ type permission = {
   name: string;
 };
 type permissionData = permission[];
-export const useGetRoles = (fetch?:boolean,params?:any) => {
+export const useGetRoles = (fetch?: boolean, params?: any) => {
   const [roles, setRoles] = React.useState();
   const [users, setUsers] = React.useState();
   const [rolesStats, setRolesStats] = React.useState<Stats>([]);
   const [roleArray, setRoleArray] = React.useState<RoleArray>();
   const [loading, setLoading] = React.useState(true);
-  const [totalStats,setTotalStats]=React.useState()
+  const [totalStats, setTotalStats] = React.useState();
   const fetchRoles = async () => {
     try {
       const ROLES = await getRoles();
       const USERS = await getAllUsers(params);
       setRoles(ROLES?.roles);
       setUsers(USERS?.users);
-      setTotalStats(USERS?.stats)
+      setTotalStats(USERS?.stats);
       setRolesStats(ROLES?.usersPerRole);
       let result: any = await createRoleArrays(ROLES?.roles, USERS?.users);
       setRoleArray(result);
@@ -67,14 +67,14 @@ export const useGetRoles = (fetch?:boolean,params?:any) => {
   };
   async function createRoleArrays(
     roles: Role[],
-    users: User[]
+    users: User[],
   ): Promise<any[]> {
     const roleArrays: any[] = [];
 
-    roles.forEach((role) => {
+    roles.forEach(role => {
       const roleArray: any[] = [];
 
-      users.forEach((user) => {
+      users.forEach(user => {
         if (user.role === role.name) {
           roleArray.push(user);
         }
@@ -91,9 +91,8 @@ export const useGetRoles = (fetch?:boolean,params?:any) => {
   }, []);
   useEffect(() => {
     fetchRoles();
-  }, [fetch,params]
-  );
-  return { roles, rolesStats, users,totalStats, roleArray, loading };
+  }, [fetch, params]);
+  return { roles, rolesStats, users, totalStats, roleArray, loading };
 };
 export const useCreateAdmin = (): UseCreateAdminReturnType => {
   const Navigate = useNavigate();
@@ -106,7 +105,7 @@ export const useCreateAdmin = (): UseCreateAdminReturnType => {
     try {
       const add = await addAdmin(adminBody);
       if (add) {
-        Navigate("/Roles");
+        Navigate('/Roles');
       }
     } catch (e) {
       setLoading(false);
@@ -160,69 +159,65 @@ type rolePermission = {
 };
 type rolePermissionData = rolePermission[];
 
-export const useGetRoleByName =  (name?: string) => {
+export const useGetRoleByName = (name?: string) => {
   try {
     const [perm1, setPerm] = React.useState<rolePermissionData>();
-    const [loading1,setLoading]=React.useState(true);
-    
+    const [loading1, setLoading] = React.useState(true);
+
     const fetchPermission = async () => {
       try {
         const response = await getRolesByName(name);
         setPerm(response.data);
         setLoading(false);
       } catch (e) {
-        return e
+        return e;
       }
     };
     useEffect(() => {
       fetchPermission();
     }, [name]);
-    return {perm1,loading1}
+    return { perm1, loading1 };
   } catch (e) {
-    return e
+    return e;
   }
 };
 
-export const useGetUserById=(id?:string)=>{
-  try{
+export const useGetUserById = (id?: string) => {
+  try {
     const [user, setUser] = React.useState();
-    const [userLoading,setLoading]=React.useState(true);
+    const [userLoading, setLoading] = React.useState(true);
     const fetchUser = async () => {
       try {
         const response = await getUserByID(id);
-       setUser(response[0]);
+        setUser(response[0]);
         setLoading(false);
       } catch (e) {
-        return e
+        return e;
       }
     };
     useEffect(() => {
       fetchUser();
     }, [id]);
-    return{user,userLoading}
-  }catch(e){
+    return { user, userLoading };
+  } catch (e) {}
+};
 
-  }
-}
-
-export const useDeleteRole=(body:any,setFetch?:any,fetch?:any)=>{
-try{
-  const [userLoading,setLoading]=React.useState(true);
-  const fetchUser = async () => {
-    try {
-      const response = await DeleteSingleUser(body);
-     console.log(response.data)
-      setLoading(false);
-      setFetch(!fetch)
-    } catch (e) {
-      return e
-    }
-  };
-  useEffect(() => {
-    fetchUser();
-  }, [body]);
-  return{userLoading}
-}catch(e){
-
-}
-}
+export const useDeleteRole = (body: any, setFetch?: any, fetch?: any) => {
+  try {
+    const [userLoading, setLoading] = React.useState(true);
+    const fetchUser = async () => {
+      try {
+        const response = await DeleteSingleUser(body);
+        console.log(response.data);
+        setLoading(false);
+        setFetch(!fetch);
+      } catch (e) {
+        return e;
+      }
+    };
+    useEffect(() => {
+      fetchUser();
+    }, [body]);
+    return { userLoading };
+  } catch (e) {}
+};

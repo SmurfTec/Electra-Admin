@@ -2,23 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base{
-    *{
-        font-family: 'Manrope', sans-serif;
-        overflow-x: hidden;
-        
-    }
-   
+@layer base {
+  * {
+    font-family: 'Manrope', sans-serif;
+    overflow-x: hidden;
+  }
 }
-@layer utilities{
-    .active-icon path,
-    .active-icon circle {
-      fill: red;
-    }
-    .role .p-column-header-content{
-       padding-left: 50px !important;
-    }
-    .dataType{
-        width: 10rem !important;
-    }
+@layer utilities {
+  .active-icon path,
+  .active-icon circle {
+    fill: red;
+  }
+  .role .p-column-header-content {
+    padding-left: 50px !important;
+  }
+  .dataType {
+    width: 10rem !important;
+  }
 }

@@ -1,15 +1,15 @@
-import React from "react";
-import { Header } from "../../../components";
-import { DashCard } from "../../../components";
-import { useNavigate } from "react-router-dom";
-import { CustomTableComponent } from "../../../atoms";
-import IMAGES from "../../../assets/Images";
-import { SVGIcon } from "../../../components/SVG";
-import { CustomMenu } from "../../../atoms/global.style";
-import { useGetRoles } from "../../../custom-hooks/RolesHooks";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { deleteRole } from "../../../store/Slices/RoleSlice";
-import moment from "moment";
+import React from 'react';
+import { Header } from '../../../components';
+import { DashCard } from '../../../components';
+import { useNavigate } from 'react-router-dom';
+import { CustomTableComponent } from '../../../atoms';
+import IMAGES from '../../../assets/Images';
+import { SVGIcon } from '../../../components/SVG';
+import { CustomMenu } from '../../../atoms/global.style';
+import { useGetRoles } from '../../../custom-hooks/RolesHooks';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { deleteRole } from '../../../store/Slices/RoleSlice';
+import moment from 'moment';
 type SuperAdminRole = {
   created_at: string;
   created_by: string;
@@ -28,7 +28,7 @@ export const Searchrole = () => {
     rowsPerPage: 10,
     currentPage: 1,
   });
-  const [MenuLabel, setMenuLabel] = React.useState("");
+  const [MenuLabel, setMenuLabel] = React.useState('');
   const [CurrSelectedProduct, setCurrSelectedProduct] = React.useState({});
   const [initial, setInitial] = React.useState(true);
 
@@ -41,25 +41,25 @@ export const Searchrole = () => {
     console.log(roles);
   }
   const filterData = roles?.map((item: SuperAdminRole, index: number) => {
-    console.log(item, "ITEEM");
+    console.log(item, 'ITEEM');
     return {
       Role: item.name,
-      "User Count": item.description ?? "-",
-      "Created On": moment(item.created_at).format("DD MMM YYYY"),
+      'User Count': item.description ?? '-',
+      'Created On': moment(item.created_at).format('DD MMM YYYY'),
       Edit: item.name,
     };
   });
   const viewItem = async (
     event: React.MouseEvent,
     item: any,
-    vaaluue?: any
+    vaaluue?: any,
   ) => {
     event.stopPropagation();
     console.log(vaaluue);
-    setFetch(true)
+    setFetch(true);
     const deleteTheRole = await deleteRole(vaaluue.Role);
-    setFetch(false)
-    setMenuLabel((prevLabel) => (prevLabel === item.label ? "" : item.label));
+    setFetch(false);
+    setMenuLabel(prevLabel => (prevLabel === item.label ? '' : item.label));
   };
   //  useEffect(() => {
   //   if (MenuLabel == "View") {
@@ -79,7 +79,7 @@ export const Searchrole = () => {
     {
       items: [
         {
-          label: "Ban User",
+          label: 'Ban User',
           // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
@@ -87,10 +87,11 @@ export const Searchrole = () => {
                 onClick={(event: any) =>
                   viewItem(event, item, CurrSelectedProduct)
                 }
-                style={{ background: "rgba(231, 29, 54, 0.05)" }}
+                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
-                <SVGIcon fillcolor={"#E71D36"}  src={IMAGES.Delete} /> Delete role
+                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
+                role
               </div>
             );
           },
@@ -125,7 +126,13 @@ export const Searchrole = () => {
         >
           <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
 
-          <CustomMenu height={"50px"} model={items} popup ref={menuLeft} id="popup_menu_left" />
+          <CustomMenu
+            height={'50px'}
+            model={items}
+            popup
+            ref={menuLeft}
+            id="popup_menu_left"
+          />
         </div>
       </>
     );
@@ -156,23 +163,23 @@ export const Searchrole = () => {
     );
   };
   const columnData = [
-    { field: "Role", header: "Role", body: AccountBodyTemplate },
-    { field: "User Count", header: "User Count" },
-    { field: "Created On", header: "Created On" },
-    { field: "Edit", header: "Edit", body: StatusBodyTemplate },
-    { field: "", header: "", body: MenuBodyTemplate },
+    { field: 'Role', header: 'Role', body: AccountBodyTemplate },
+    { field: 'User Count', header: 'User Count' },
+    { field: 'Created On', header: 'Created On' },
+    { field: 'Edit', header: 'Edit', body: StatusBodyTemplate },
+    { field: '', header: '', body: MenuBodyTemplate },
   ];
   React.useEffect(() => {
-    if (MenuLabel == "View") {
+    if (MenuLabel == 'View') {
       // navigate(`/ListingsDetail/${CurrSelectedProduct}`);
     } else {
       console.log(
-        "Menu",
+        'Menu',
         MenuLabel,
-        "product",
+        'product',
         // selectedProducts,
-        "CurrSelectedProduct",
-        CurrSelectedProduct
+        'CurrSelectedProduct',
+        CurrSelectedProduct,
       );
     }
   }, [MenuLabel]);
@@ -186,11 +193,11 @@ export const Searchrole = () => {
       />
       <div>
         <DashCard
-          onClick={() => navigate("/Creationroles")}
-          outerclasses={"!bg-[#212121] !w-[187px] !h-[93px] !mt-10"}
+          onClick={() => navigate('/Creationroles')}
+          outerclasses={'!bg-[#212121] !w-[187px] !h-[93px] !mt-10'}
           Add={true}
-          txt={"Add New Member"}
-          txtclasses={"!text-[#FFFFFF]"}
+          txt={'Add New Member'}
+          txtclasses={'!text-[#FFFFFF]'}
           Addimg={IMAGES.newmembers}
         />
         <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
@@ -203,21 +210,21 @@ export const Searchrole = () => {
             </p>
             <div className="flex gap-8 px-4 border-b border-custom ">
               <p className="border-b-4 border-[#3C82D6] text-[#3C82D6] pb-2 font-semibold">
-                All (3)
+                All ({filterData?.length??0})
               </p>
             </div>
-            {!loading &&!fetch   ? (
+            {!loading && !fetch ? (
               <CustomTableComponent
-                columnStyle={{ backgroundColor: "#FCFCFC" }}
-                headerStyle={{ color: "black", fontWeight: "800" }}
+                columnStyle={{ backgroundColor: '#FCFCFC' }}
+                headerStyle={{ color: 'black', fontWeight: '800' }}
                 //   columnHeader={"flex-start"}
                 filterData={filterData}
                 columnData={columnData}
-                rowStyling={"#FCFCFC !important"}
+                rowStyling={'#FCFCFC !important'}
               />
             ) : (
               <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
-                <ProgressSpinner style={{ overflow: "hidden" }} />
+                <ProgressSpinner style={{ overflow: 'hidden' }} />
               </div>
             )}
           </div>

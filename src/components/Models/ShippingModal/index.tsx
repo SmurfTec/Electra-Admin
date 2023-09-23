@@ -1,13 +1,13 @@
-import IMAGES from "../../../assets/Images";
-import { CustomDialog } from "../../../atoms/global.style";
-import { CustomButton } from "../../../atoms";
+import IMAGES from '../../../assets/Images';
+import { CustomDialog } from '../../../atoms/global.style';
+import { CustomButton } from '../../../atoms';
 export const ShippingModal = ({ onHide, visible, setVisible }: any) => {
   return (
     <CustomDialog
       onHide={onHide}
       className={`bg-[#FFFFFF] w-[598px] h-[666px] flex  justify-center align-middle items-center overflow-hidden `}
       visible={visible}
-      rounded={"0px"}
+      rounded={'0px'}
     >
       <div className="flex items-center justify-between px-8 py-5 border-b border-custom">
         <p className="ali">Shipping Label</p>
@@ -76,11 +76,9 @@ export const ShippingModal = ({ onHide, visible, setVisible }: any) => {
           />
         </div>
         <div className="flex justify-between items-center gap-1">
-        <img src={IMAGES.Receipt} className="mt-7"/>
-        <p className="text-[#000000] font-bold mt-7">View Receipt</p>
+          <img src={IMAGES.Receipt} className="mt-7" />
+          <p className="text-[#000000] font-bold mt-7">View Receipt</p>
         </div>
-
-       
       </div>
     </CustomDialog>
   );

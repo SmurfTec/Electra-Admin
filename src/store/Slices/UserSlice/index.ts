@@ -1,9 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
-import url from "../../config/index";
-import axios from "axios";
+import { createSlice } from '@reduxjs/toolkit';
+import url from '../../../config/index';
+import { UsersCount } from '../../../pages/Users/Users/extraReducers';
 const initialState: any = {
   users: [],
   CurrentActiveUser: {},
+  count: 0,
 };
 type adminBody = {
   firstname: string;
@@ -30,7 +31,7 @@ export const getAllUsers = async ({
 };
 export const SendEmail = async () => {
   try {
-    let response = await url.post("/auth/email-2fa");
+    let response = await url.post('/auth/email-2fa');
     return response.data;
   } catch (e) {
     return e;
@@ -60,7 +61,7 @@ export const ChangePassword = async (body: any) => {
     return e;
   }
 };
-export const ResetPassword = async (body: any,code:any) => {
+export const ResetPassword = async (body: any, code: any) => {
   try {
     let response = await url.patch(`/auth/reset-password/${code}`, body);
     return response.data;
@@ -76,7 +77,7 @@ export const GetUserAsks = async (userId: any) => {
     return e;
   }
 };
-export const GetUserStats = async (userId: any, status = "pending") => {
+export const GetUserStats = async (userId: any, status = 'pending') => {
   try {
     let response = await url.get(`/orders/users/${userId}?status=${status}`);
     return { ...response.data };
@@ -95,9 +96,9 @@ export const getSingleUser = async (id: any) => {
 export const getSingleUserOrder = async (
   id: any,
   status: any,
-  { rowsPerPage = 25, currentPage = 1,orderid=0,name="",date="" }
+  { rowsPerPage = 25, currentPage = 1, orderid = 0, name = '', date = '' }
 ) => {
-  let params:any =
+  let params: any =
     status.length > 0
       ? `/orders/users/${id}?status=${status}&limit=${
           rowsPerPage ? rowsPerPage : 25
@@ -105,15 +106,15 @@ export const getSingleUserOrder = async (
       : `/orders/users/${id}?limit=${rowsPerPage ? rowsPerPage : 25}&page=${
           currentPage ? currentPage : 1
         }`; //?buyer=${id}
-      params=orderid>0 ?params+`&id=${orderid}`:params
-      params=name.length>0 ?params+`&title=${name}`:params
-      if(date){
-        params=params+`&created_on=${new Date(date).toDateString()}`
-      }
-      
+  params = orderid > 0 ? params + `&id=${orderid}` : params;
+  params = name.length > 0 ? params + `&title=${name}` : params;
+  if (date) {
+    params = params + `&created_on=${new Date(date).toDateString()}`;
+  }
+
   try {
     let response: any = await url.get(`${params}`);
-    console.log(response, "response");
+    console.log(response, 'response');
     return response.data;
   } catch (e) {
     return e;
@@ -153,7 +154,7 @@ export const GetAllUserOrder = async (id: any) => {
 };
 export const addAdmin = async (body: adminBody) => {
   try {
-    let response: any = await url.post("/users/admin", body);
+    let response: any = await url.post('/users/admin', body);
     return response;
   } catch (e) {
     return e;
@@ -161,16 +162,24 @@ export const addAdmin = async (body: adminBody) => {
 };
 export const getNotifications = async () => {
   try {
-    let response: any = await url.get("/notifications/own/all");
+    let response: any = await url.get('/notifications/own/all');
     return response.data;
-  } catch (e:any) {
+  } catch (e: any) {
+    throw new Error(e);
+  }
+};
+export const readMyNotifications = async () => {
+  try {
+    let response: any = await url.patch('/notifications');
+    return response.data;
+  } catch (e: any) {
     throw new Error(e);
   }
 };
 export const forgotPassword = async (email: string) => {
   try {
     let body = { email: email };
-    let response: any = await url.post("/auth/forgot-password", body);
+    let response: any = await url.post('/auth/forgot-password', body);
     return response.data;
   } catch (e: any) {
     throw new Error(e);
@@ -178,8 +187,21 @@ export const forgotPassword = async (email: string) => {
 };
 
 const UserSlice = createSlice({
-  name: "users",
+  name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    setUserCount:(state:any,action:any)=>{
+      state.count=action.payload.total_users_registered
+    }
+  },
+  extraReducers: builder => {
+    builder.addCase(UsersCount.fulfilled, (state: any, action: any) => {
+      // both `state` and `action` are now correctly typed
+      // based on the slice state and the `pending` action creator
+     
+      state.count = action.payload.total_users_registered;
+    });
+  },
 });
+export const { setUserCount } = UserSlice.actions
 export default UserSlice.reducer;

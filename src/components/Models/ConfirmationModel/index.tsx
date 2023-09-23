@@ -1,6 +1,6 @@
-import { CustomDialog } from "../../../atoms/global.style";
-import { CustomButton } from "../../../atoms";
-import { useState, useEffect } from "react";
+import { CustomDialog } from '../../../atoms/global.style';
+import { CustomButton } from '../../../atoms';
+import { useState, useEffect } from 'react';
 export const Confirmationmodal = ({
   PopupHeader,
   classes,
@@ -16,13 +16,13 @@ export const Confirmationmodal = ({
   handleFunction,
   setOkButton,
   setCancelButton,
-  Value = "",
+  Value = '',
   setValue,
   value,
   placeholderValue,
 }: any) => {
   // insert here
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   return (
     <CustomDialog
@@ -32,7 +32,7 @@ export const Confirmationmodal = ({
       <i
         className="pi pi-times absolute right-4 top-4 cursor-pointer"
         onClick={() => {
-          setError("");
+          setError('');
           setVisible(false);
         }}
       ></i>
@@ -50,9 +50,10 @@ export const Confirmationmodal = ({
               <input
                 placeholder="Enter color"
                 value={Value}
-                onChange={(e) =>{
-                  console.log(e.target.value)
-                  setValue(e.target.value)}}
+                onChange={e => {
+                  console.log(e.target.value);
+                  setValue(e.target.value);
+                }}
                 className="px-2 focus:outline-none"
               />
               <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
@@ -65,8 +66,8 @@ export const Confirmationmodal = ({
           <>
             <div className="flex justify-between items-center mt-3 px-2 border w-[200px] h-[54px] mx-auto rounded-[10px]">
               <input
-                onChange={(e) => {
-                  setError("");
+                onChange={e => {
+                  setError('');
                   setValue(e.target.value);
                 }}
                 placeholder={placeholderValue}
@@ -91,7 +92,7 @@ export const Confirmationmodal = ({
               if (setCancelButton) {
                 setCancelButton(e);
               } else {
-                setError("");
+                setError('');
                 setVisible(false);
               }
             }}
@@ -101,15 +102,14 @@ export const Confirmationmodal = ({
               if (handleFunction) {
                 console.log(value);
                 if (!value) {
-                  console.log("eeewfjbj");
-                  setError("Enter a value for fee modifier");
+                  console.log('eeewfjbj');
+                  setError('Enter a value for fee modifier');
                 }
-                 if(Value){
-                  setError("");
+                if (Value) {
+                  setError('');
                   handleFunction(Value);
-                }
-                else {
-                  setError("");
+                } else {
+                  setError('');
                   handleFunction(value);
                 }
               }

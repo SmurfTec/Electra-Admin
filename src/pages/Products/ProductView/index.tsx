@@ -1,19 +1,19 @@
-import IMAGES from "../../../assets/Images";
-import { RoundedButton, CustomButton } from "../../../atoms";
-import { DashCard, Variants, Header } from "../../../components";
-import "./index.css";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import IMAGES from '../../../assets/Images';
+import { RoundedButton, CustomButton } from '../../../atoms';
+import { DashCard, Variants, Header } from '../../../components';
+import './index.css';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   getProductById,
   deleteProductById,
-} from "../../../store/Slices/ProductSlice";
-import { useEffect, useState } from "react";
-import { useProductDetail, useVariantDetail } from "../../../custom-hooks";
-import { ProgressSpinner } from "primereact/progressspinner";
+} from '../../../store/Slices/ProductSlice';
+import { useEffect, useState } from 'react';
+import { useProductDetail, useVariantDetail } from '../../../custom-hooks';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
-import moment from "moment";
-import { BaseURL } from "../../../config";
+import moment from 'moment';
+import { BaseURL } from '../../../config';
 export const ProductView = () => {
   const params = useParams();
   let { id } = params;
@@ -22,10 +22,10 @@ export const ProductView = () => {
 
   const [VariantsArray, setVariantArray] = useState([]);
   const [stats, setStats] = useState({
-    tradeRange: "",
-    Avg_sale: "",
-    priceMin: "",
-    noOfSales: "",
+    tradeRange: '',
+    Avg_sale: '',
+    priceMin: '',
+    noOfSales: '',
   });
   useEffect(() => {
     getProductById(id);
@@ -34,11 +34,11 @@ export const ProductView = () => {
     if (ProductData) {
       setStats({
         tradeRange: `${
-          ProductData?.stats?.stats?.trade_range[0].min_saleprice ?? "0"
-        } - ${ProductData?.stats?.stats?.trade_range[0].max_saleprice ?? "0"}`,
-        Avg_sale: ProductData?.stats?.stats?.avg_sale_price ?? "-",
-        priceMin: ProductData?.stats?.stats?.price_premium ?? "-",
-        noOfSales: ProductData?.stats?.stats?.no_of_sales ?? "-",
+          ProductData?.stats?.stats?.trade_range[0].min_saleprice ?? '0'
+        } - ${ProductData?.stats?.stats?.trade_range[0].max_saleprice ?? '0'}`,
+        Avg_sale: ProductData?.stats?.stats?.avg_sale_price ?? '-',
+        priceMin: ProductData?.stats?.stats?.price_premium ?? '-',
+        noOfSales: ProductData?.stats?.stats?.no_of_sales ?? '-',
       });
       const mappedData = ProductData?.product?.product_variants
         ? ProductData?.product?.product_variants.map((item: any) => {
@@ -47,8 +47,8 @@ export const ProductView = () => {
               txt: value1,
               classes:
                 value === value1
-                  ? "!bg-[#FCFCFC] !w-[148px] ml-2 !border !border-[#3C82D6] !text-[black] !p-4 !rounded-[9px] !mt-5"
-                  : "!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5",
+                  ? '!bg-[#FCFCFC] !w-[148px] ml-2 !border !border-[#3C82D6] !text-[black] !p-4 !rounded-[9px] !mt-5'
+                  : '!bg-[#FCFCFC] !w-[148px]  !text-[black] !p-4 !rounded-[9px] !mt-5',
             }));
 
             return {
@@ -66,28 +66,37 @@ export const ProductView = () => {
   const deleteProduct = async () => {
     try {
       const DeleteProduct = await deleteProductById(id);
-      console.log("DeleteProduct", DeleteProduct);
+      console.log('DeleteProduct', DeleteProduct);
       if (DeleteProduct) {
-        navigate("/products");
+        navigate('/products');
       }
     } catch (e) {}
   };
   return (
     <div>
-      <Header title={"Product Details"} UserBox={true} />
+      <Header title={'Product Details'} UserBox={true} />
       {!loading ? (
         <>
           <div className="flex gap-11">
             <div
               onClick={() => {
-                navigate("/AddProduct");
+                navigate('/AddProduct');
               }}
             >
-              {ProductData?.product?.images && (
+              {ProductData?.product?.images ? (
+                 <div className='border-2 border-lightgray p-2'>
                 <img
-                  className="h-[390px]"
+                  className="h-[390px] w-[363px]"
                   src={`${BaseURL}${ProductData?.product?.images[0]?.filename}`}
                 />
+                </div>
+              ) : (
+                <div className='border-lightgray p-2'>
+                  <img
+                    className="w-[363px] "
+                    src={IMAGES.Logo}
+                  />
+                </div>
               )}
             </div>
             <div>
@@ -97,13 +106,13 @@ export const ProductView = () => {
                 </p>
                 <RoundedButton
                   icon={IMAGES.Pen}
-                  classes={"bg-[#212121]"}
+                  classes={'bg-[#212121]'}
                   onClick={() => navigate(`/EditProduct/${id}`)}
                 />
                 <RoundedButton
                   onClick={() => deleteProduct()}
                   icon={IMAGES.Bin}
-                  classes={"bg-[#FF0000]"}
+                  classes={'bg-[#FF0000]'}
                 />
               </div>
               <div className="mt-3">
@@ -111,9 +120,9 @@ export const ProductView = () => {
                   View Technical Specifications
                 </p>
                 <CustomButton
-                  txt={"description"}
+                  txt={'description'}
                   classes={
-                    "!bg-[#FCE39C]  !w-[97px] !h-[50px] !text-[black] !p-2 !rounded-[7px] !mt-5"
+                    '!bg-[#FCE39C]  !w-[97px] !h-[50px] !text-[black] !p-2 !rounded-[7px] !mt-5'
                   }
                 />
                 <div className="mt-5">
@@ -122,9 +131,9 @@ export const ProductView = () => {
                 <div className="flex gap-8">
                   <div className="flex flex-col gap-4">
                     <CustomButton
-                      txt={"Category"}
+                      txt={'Category'}
                       classes={
-                        "!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
+                        '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
                       }
                     />
                     <p className="font-medium text-[14px] text-[#212121]">
@@ -133,9 +142,9 @@ export const ProductView = () => {
                   </div>
                   <div className="flex flex-col gap-4">
                     <CustomButton
-                      txt={"Brand"}
+                      txt={'Brand'}
                       classes={
-                        "!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
+                        '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
                       }
                     />
                     <p className="font-medium text-[14px] text-[#212121]">
@@ -144,34 +153,34 @@ export const ProductView = () => {
                   </div>
                   <div className="flex flex-col gap-4">
                     <CustomButton
-                      txt={"Addedon"}
+                      txt={'Addedon'}
                       classes={
-                        "!bg-[#FCE39C] !w-[97px] !h-[2px] !text-[black] !p-4 !rounded-[7px] !mt-5 !text-[15px] "
+                        '!bg-[#FCE39C] !w-[97px] !h-[2px] !text-[black] !p-4 !rounded-[7px] !mt-5 !text-[15px] '
                       }
                     />
                     <p className="font-medium text-[14px] text-[#212121]">
                       {moment(ProductData?.product?.created_on).format(
-                        "DD-MMM-YYYY"
+                        'DD-MMM-YYYY'
                       )}
                     </p>
                   </div>
                   <div className="flex flex-col gap-4">
                     <CustomButton
-                      txt={"Listings"}
+                      txt={'Listings'}
                       classes={
-                        "!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
+                        '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
                       }
                     />
                     <p className="font-medium text-[14px] text-[#212121]">
-                      {" "}
+                      {' '}
                       {ProductData?.product?.product_properties?.listings}
                     </p>
                   </div>
                   <div className="flex flex-col gap-4">
                     <CustomButton
-                      txt={"ModelNo"}
+                      txt={'ModelNo'}
                       classes={
-                        "!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
+                        '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
                       }
                     />
                     <p className="font-medium text-[14px] text-[#212121]">
@@ -180,9 +189,9 @@ export const ProductView = () => {
                   </div>
                   <div className="flex flex-col gap-4">
                     <CustomButton
-                      txt={"Availability"}
+                      txt={'Availability'}
                       classes={
-                        "!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5"
+                        '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
                       }
                     />
                     <label className="switch">
@@ -218,22 +227,22 @@ export const ProductView = () => {
             <h1 className="text-[24px] font-bold my-3">Statistics</h1>
             <div className="flex gap-3">
               <DashCard
-                title={"12 Months Trade Range"}
+                title={'12 Months Trade Range'}
                 totalNumber={stats.tradeRange}
                 myImg={IMAGES.box}
-                imgColor={"bg-yellow-dash"}
+                imgColor={'bg-yellow-dash'}
                 // textDash={"bg-custom-blue"}
                 // textColor={"#3C82D6"}
                 // arrowImg={IMAGES.uparrow}
                 textDash={
                   ProductData?.stats?.stats?.trade_range_percentage < 0
-                    ? "bg-custom-red !w-[63px]"
-                    : "bg-custom-blue !w-[63px]"
+                    ? 'bg-custom-red !w-[63px]'
+                    : 'bg-custom-blue !w-[63px]'
                 }
                 textColor={
                   ProductData?.stats?.stats?.trade_range_percentage < 0
-                    ? "#FF0000"
-                    : "#3C82D6"
+                    ? '#FF0000'
+                    : '#3C82D6'
                 }
                 arrowImg={
                   ProductData?.stats?.stats?.trade_range_percentage < 0
@@ -243,23 +252,23 @@ export const ProductView = () => {
                 percentageTxt={`% ${
                   ProductData?.stats?.stats?.trade_range_percentage?.toFixed(
                     1
-                  ) ?? "-"
+                  ) ?? '-'
                 }`}
               />
               <DashCard
-                title={"Average Sale Price"}
+                title={'Average Sale Price'}
                 totalNumber={stats.Avg_sale}
                 myImg={IMAGES.Tag}
-                imgColor={"bg-yellow-dash"}
+                imgColor={'bg-yellow-dash'}
                 textDash={
                   ProductData?.stats?.stats?.average_saleprice_percentage < 0
-                    ? "bg-custom-red !w-[63px]"
-                    : "bg-custom-blue !w-[63px]"
+                    ? 'bg-custom-red !w-[63px]'
+                    : 'bg-custom-blue !w-[63px]'
                 }
                 textColor={
                   ProductData?.stats?.stats?.average_saleprice_percentage < 0
-                    ? "#FF0000"
-                    : "#3C82D6"
+                    ? '#FF0000'
+                    : '#3C82D6'
                 }
                 arrowImg={
                   ProductData?.stats?.stats?.average_saleprice_percentage < 0
@@ -269,23 +278,23 @@ export const ProductView = () => {
                 percentageTxt={`% ${
                   ProductData?.stats?.stats?.average_saleprice_percentage?.toFixed(
                     1
-                  ) ?? "-"
+                  ) ?? '-'
                 }`}
               />
               <DashCard
-                title={"Price Premium"}
+                title={'Price Premium'}
                 totalNumber={`$ ${stats.priceMin}`}
                 myImg={IMAGES.dollar}
-                imgColor={"bg-[#8CB869]"}
+                imgColor={'bg-[#8CB869]'}
                 textDash={
                   ProductData?.stats?.stats?.price_premium_percentage < 0
-                    ? "bg-custom-red !w-[63px]"
-                    : "bg-custom-blue !w-[63px]"
+                    ? 'bg-custom-red !w-[63px]'
+                    : 'bg-custom-blue !w-[63px]'
                 }
                 textColor={
                   ProductData?.stats?.stats?.price_premium_percentage < 0
-                    ? "#FF0000"
-                    : "#3C82D6"
+                    ? '#FF0000'
+                    : '#3C82D6'
                 }
                 arrowImg={
                   ProductData?.stats?.stats?.price_premium_percentage < 0
@@ -295,23 +304,23 @@ export const ProductView = () => {
                 percentageTxt={`% ${
                   ProductData?.stats?.stats?.price_premium_percentage?.toFixed(
                     1
-                  ) ?? "-"
+                  ) ?? '-'
                 }`}
               />
               <DashCard
-                title={"No Of Sales"}
+                title={'No Of Sales'}
                 totalNumber={stats.noOfSales}
                 myImg={IMAGES.WhiteBox}
-                imgColor={"bg-[#3E3E3E]"}
+                imgColor={'bg-[#3E3E3E]'}
                 textDash={
                   ProductData?.stats?.stats?.no_of_sales_percentage < 0
-                    ? "bg-custom-red !w-[63px]"
-                    : "bg-custom-blue !w-[63px]"
+                    ? 'bg-custom-red !w-[63px]'
+                    : 'bg-custom-blue !w-[63px]'
                 }
                 textColor={
                   ProductData?.stats?.stats?.no_of_sales_percentage < 0
-                    ? "#FF0000"
-                    : "#3C82D6"
+                    ? '#FF0000'
+                    : '#3C82D6'
                 }
                 arrowImg={
                   ProductData?.stats?.stats?.no_of_sales_percentage < 0
@@ -321,7 +330,7 @@ export const ProductView = () => {
                 percentageTxt={`% ${
                   ProductData?.stats?.stats?.no_of_sales_percentage?.toFixed(
                     1
-                  ) ?? "-"
+                  ) ?? '-'
                 }`}
                 active={true}
               />
@@ -354,7 +363,7 @@ export const ProductView = () => {
         </>
       ) : (
         <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
-          <ProgressSpinner style={{ overflow: "hidden" }} />
+          <ProgressSpinner style={{ overflow: 'hidden' }} />
         </div>
       )}
     </div>

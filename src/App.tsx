@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
-import "./App.css";
+import { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import './App.css';
 import {
   Dashboard,
   Users,
@@ -41,18 +41,25 @@ import {
   EditProduct,
   Editnewbanner,
   Brands,
-  CreateBrand
-} from "./pages/index";
-import { SideBar } from "./components";
-import PrivateRoute from "./routes/Privateroute";
-import { token } from "./store/Slices/AuthSlice";
-
+  CreateBrand,EditBrand
+} from './pages/index';
+import { SideBar } from './components';
+import PrivateRoute from './routes/Privateroute';
+import { token } from './store/Slices/AuthSlice';
+import { useDispatch } from 'react-redux';
+import { UsersCount } from './pages/Users/Users/extraReducers';
+import { OrdersCount } from './store/Slices/OrderSlice';
+import { ProductsCount } from './store/Slices/ProductSlice';
+import { ListingsCount } from './store/Slices/ListingsSlice';
+import { AppDispatch } from './store/store';
+// Ye comment nomi ki farmaish par
 function App() {
   const [show, setShow] = useState(false);
   const location = useLocation();
-  const user =localStorage?.getItem("user") 
+  const user = localStorage?.getItem('user');
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    if (!user || location.pathname === "/") {
+    if (!user || location.pathname === '/') {
       setShow(false);
     } else {
       setShow(true);
@@ -61,6 +68,16 @@ function App() {
   // useEffect(()=>{
   //   console.clear()
   // })
+
+  useEffect(() => {
+    dispatch(UsersCount());
+    dispatch(OrdersCount());
+    dispatch(ProductsCount());
+    dispatch(ListingsCount());
+    // dispatch(UsersCount());
+    // dispatch(UsersCount());
+  }, []);
+
   return (
     <div className="flex">
       {show && <SideBar />}
@@ -91,11 +108,15 @@ function App() {
             <Route path="/CreateCoupon" element={<CreateCoupon />} />
             <Route path="/CreateBrand" element={<CreateBrand />} />
             <Route path="/Brand" element={<Brands />} />
+            <Route path="/EditBrand/:id" element={<EditBrand />} />
             <Route path="/Category" element={<Category />} />
             <Route path="/CreateCategory" element={<CreateCategory />} />
             <Route path="/AddNewVariant" element={<AddNewVariant />} />
             <Route path="/HelpCenter" element={<HelpCenter />} />
-            <Route path="/HelpCenterDetail/:id" element={<HelpCenterDetail />} />
+            <Route
+              path="/HelpCenterDetail/:id"
+              element={<HelpCenterDetail />}
+            />
             <Route path="/Newadmin" element={<CreateNewadmin />} />
             <Route path="/Viewadmin/:id" element={<ViewAdmin />} />
             <Route path="/Searchrole" element={<Searchrole />} />

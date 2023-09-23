@@ -1,12 +1,12 @@
-import  { useEffect, useState } from "react";
-import { Header } from "../../../components";
-import { InputTxt, CustomButton, CustomSwitch } from "../../../atoms";
+import { useEffect, useState } from 'react';
+import { Header } from '../../../components';
+import { InputTxt, CustomButton, CustomSwitch } from '../../../atoms';
 import {
   useGetPermission,
   useGetRoleByName,
-} from "../../../custom-hooks/RolesHooks";
-import { editRole } from "../../../store/Slices/RoleSlice";
-import { useNavigate, useLocation } from "react-router-dom";
+} from '../../../custom-hooks/RolesHooks';
+import { editRole } from '../../../store/Slices/RoleSlice';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 type permission = {
   permissions: {
@@ -36,12 +36,12 @@ type simplePermission = {
 export const Editrole = () => {
   const [permissions, setPermissions] = useState<permission[]>();
   const [permissionData, setPermissionData] = useState<PermissionBody>({
-    name: "",
+    name: '',
     permissions: [],
   });
   const location = useLocation();
   const { pathname } = location;
-  const name = pathname.split("/").pop();
+  const name = pathname.split('/').pop();
   const hookResult = useGetRoleByName(name) as PermissionHookState1;
   const { perm1, loading1 } = hookResult;
   const { perm, loading }: PermissionHookState = useGetPermission();
@@ -69,7 +69,7 @@ export const Editrole = () => {
   const handleChangePermission = (permissionValue: string) => {
     console.log(permissionValue);
     const existingPermissionIndex = permissionData.permissions?.findIndex(
-      (item) => item === permissionValue
+      item => item === permissionValue,
     );
 
     if (existingPermissionIndex !== -1) {
@@ -93,7 +93,7 @@ export const Editrole = () => {
     const ADD = await editRole(permissionData, name);
     console.log(ADD);
     if (ADD) {
-      navigate("/Searchrole");
+      navigate('/Searchrole');
     }
   };
   useEffect(() => {
@@ -101,10 +101,10 @@ export const Editrole = () => {
   }, [permissionData]);
   return (
     <div>
-      {" "}
+      {' '}
       <Header
-        title={"Edit Role"}
-        semiTitle={"Edit role and give permissions"}
+        title={'Edit Role'}
+        semiTitle={'Edit role and give permissions'}
         UserBox={true}
       />
       <InputTxt
@@ -124,7 +124,7 @@ export const Editrole = () => {
           {permissions?.map((item?: simplePermission, index?: number) => {
             const existingPermissionIndex =
               permissionData.permissions?.findIndex(
-                (item1) => item1 === item?.name
+                item1 => item1 === item?.name,
               );
             return (
               <div className="flex p-3 gap-3" key={index}>
@@ -142,17 +142,17 @@ export const Editrole = () => {
       <div className="flex  mt-2 gap-4">
         <CustomButton
           onClick={() => {
-            navigate("/Searchrole");
+            navigate('/Searchrole');
           }}
-          txt={"Cancel"}
+          txt={'Cancel'}
           classes={
-            "!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]"
+            '!bg-[#E2E2E2] !text-black !w-[179px] !h-[50px] !rounded-[12px]'
           }
         />
         <CustomButton
           onClick={EDIT}
-          txt={"Create Role"}
-          classes={" !w-[179px] !rounded-[12px] !h-[50px]"}
+          txt={'Create Role'}
+          classes={' !w-[179px] !rounded-[12px] !h-[50px]'}
         />
       </div>
     </div>
