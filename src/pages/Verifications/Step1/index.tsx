@@ -213,7 +213,7 @@ export const Step1 = () => {
       </CustomSidebar>
       <div>
         <div className="flex">
-          <div className="flex gap-5 ">
+          <div className="flex gap-1 ">
             {/* <img src={IMAGES.IphoneView} /> */}
             <Carouselcard Images={images} />
             <div>
@@ -525,13 +525,13 @@ export const Step1 = () => {
               navigate(`/Verification/ItemVerification/${id}`);
             }}
             iconLeft={<img src={IMAGES.Verified} />}
-            classes="!w-auto !max-w-[150px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3C82D6]"
+            classes="!w-auto !max-w-[150px] !mb-[23px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3C82D6]"
             txt="Verify"
           />
         ) : (
           <CustomButton
             iconLeft={<img src={IMAGES.Verified} />}
-            classes="!w-auto !max-w-[150px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3CD670]"
+            classes="!w-auto !max-w-[150px]  !mb-[23px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3CD670]"
             txt="Mark for review"
           />
         )}
