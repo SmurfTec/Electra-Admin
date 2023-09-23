@@ -8,7 +8,7 @@ const jar = new CookieJar();
 const cookies = document.cookie;
 // console.log(document.cookie)
 // wrapper(axios.create({ jar }))
-const instance = axios.create({
+const instance = axios.create({ 
   baseURL: BaseURL,
   // baseURL: "https://0618-103-169-64-13.ngrok-free.app",
   withCredentials: true,

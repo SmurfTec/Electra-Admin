@@ -84,17 +84,20 @@ export const ProductView = () => {
               }}
             >
               {ProductData?.product?.images ? (
+                 <div className='border-2 border-lightgray p-2'>
                 <img
                   className="h-[390px] w-[363px]"
                   src={`${BaseURL}${ProductData?.product?.images[0]?.filename}`}
                 />
-              )
-              :
-              <img 
-              className='w-[363px]'
-              src={IMAGES.Logo}
-              />
-            }
+                </div>
+              ) : (
+                <div className='border-lightgray p-2'>
+                  <img
+                    className="w-[363px] "
+                    src={IMAGES.Logo}
+                  />
+                </div>
+              )}
             </div>
             <div>
               <div className="flex gap-2 items-center">
@@ -157,7 +160,7 @@ export const ProductView = () => {
                     />
                     <p className="font-medium text-[14px] text-[#212121]">
                       {moment(ProductData?.product?.created_on).format(
-                        'DD-MMM-YYYY',
+                        'DD-MMM-YYYY'
                       )}
                     </p>
                   </div>
@@ -248,7 +251,7 @@ export const ProductView = () => {
                 }
                 percentageTxt={`% ${
                   ProductData?.stats?.stats?.trade_range_percentage?.toFixed(
-                    1,
+                    1
                   ) ?? '-'
                 }`}
               />
@@ -274,7 +277,7 @@ export const ProductView = () => {
                 }
                 percentageTxt={`% ${
                   ProductData?.stats?.stats?.average_saleprice_percentage?.toFixed(
-                    1,
+                    1
                   ) ?? '-'
                 }`}
               />
@@ -300,7 +303,7 @@ export const ProductView = () => {
                 }
                 percentageTxt={`% ${
                   ProductData?.stats?.stats?.price_premium_percentage?.toFixed(
-                    1,
+                    1
                   ) ?? '-'
                 }`}
               />
@@ -326,7 +329,7 @@ export const ProductView = () => {
                 }
                 percentageTxt={`% ${
                   ProductData?.stats?.stats?.no_of_sales_percentage?.toFixed(
-                    1,
+                    1
                   ) ?? '-'
                 }`}
                 active={true}
@@ -351,7 +354,7 @@ export const ProductView = () => {
                             <p>{item.value}</p>
                           </div>
                         );
-                      },
+                      }
                     )}
                 </div>
               </>

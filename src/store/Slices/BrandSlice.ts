@@ -20,9 +20,26 @@ export const getAllBrands = async ({ rowsPerPage = 25, currentPage = 1 }) => {
     return e;
   }
 };
+export const GetBrandID=async(id:any)=>{
+  try {
+    let response: any = await url.get(`/brands/${id}`,);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+}
 export const CreateNewBrand = async (body: any) => {
   try {
     let response: any = await url.post('/brands', body);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+};
+export const EditBrandByID = async (id:string|number,body: any) => {
+  try {
+    console.log(id)
+    let response: any = await url.put(`/brands/${id}`, body);
     return response.data;
   } catch (e) {
     return e;

@@ -9,10 +9,24 @@ import {
 import moment from 'moment';
 export const Notifications = () => {
   const [data, setdata] = useState<any>([]);
+  const[dates,setdates]=useState<any>([])
   const GetNotifications = async () => {
     let r = await getNotifications();
     setdata(r);
-    console.log(r);
+    if(r){
+      const uniqueDates = new Set();
+      for (const obj of r) {
+        const createdOnDate = obj.create_on.split("T")[0]; // Extract date part
+        uniqueDates.add(createdOnDate); // Add to the Set
+      }
+      let uniqueDatesArray:any = [...uniqueDates];
+    
+      uniqueDatesArray.sort((a:any,b:any)=> new Date(b).getTime()- new Date(a).getTime())
+     
+
+      setdates(uniqueDatesArray)
+    }
+   
   };
   useEffect(() => {
     GetNotifications();
@@ -25,7 +39,7 @@ export const Notifications = () => {
   return (
     <div>
       <Header UserBox={true} typeSearch={true} />
-      <div className="mt-[30px] w-[96%]">
+      <div className="mt-[30px] w-[96%] pb-[30px]">
         <div className="flex justify-between mb-[29px]">
           <p className="text-[16px] font-[700] text-black">Notifications</p>
           <p
@@ -39,10 +53,17 @@ export const Notifications = () => {
           </p>
         </div>
         <div className="flex flex-col gap-5">
-          {data.map((item: any) => {
-            return (
-              <>
-                <div className="flex justify-between items-center mt-[] ">
+         {dates.map((item:any,index:any)=>{
+          let obj=data.filter((itm:any)=>{
+            let dt=itm.create_on.split("T")[0]
+            return dt==item
+          })
+         
+          return(
+            <React.Fragment key={index}>
+              {obj.map((item:any,index:any)=>{
+                return(
+                  <div className="flex justify-between items-center mt-[] " key={index}>
                   <div className="flex items-center gap-3">
                     <img src={IMAGES.smphone} className="w-[46px] h-[46px]" />
                     <div className="flex flex-col gap-3">
@@ -58,12 +79,23 @@ export const Notifications = () => {
                     </div>
                   </div>
                   <p className="text-[#969696] font-[14px]">
-                    {moment(item.created_on).format('DD,MM,YYYY')}
+                    {moment(item.create_on).format('DD,MM,YYYY')}
                   </p>
                 </div>
-              </>
-            );
-          })}
+                )
+              })}
+               <div className='flex justify-center'>
+        <div className='!inline-block py-[0.6rem] px-6 border border-[black] rounded-[38px] font-bold'>
+         {index==0?'Today':index==1?'Yesterday':moment(item).format('DD,MM,YYYY') }
+          </div>
+        </div>
+            </React.Fragment>
+          )
+         })}
+        
+         <div>
+       
+         </div>
         </div>
       </div>
     </div>

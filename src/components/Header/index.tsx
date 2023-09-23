@@ -64,7 +64,7 @@ export const Header = (props: headerProps) => {
   return (
     <>
       <div
-        className={`overflow-hidden h-16 mt-2 mb-2 flex items-center justify-between px-2 ${props.headerClasses} relative`}
+        className={`overflow-hidden h-16 mt-2 mb-2 flex items-center ${props.title?`justify-between`:`justify-end`}  px-2 pr-8 ${props.headerClasses} relative`}
       >
     
         {/*
