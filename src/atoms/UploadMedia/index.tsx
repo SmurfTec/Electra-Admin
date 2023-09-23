@@ -8,15 +8,17 @@ export function UploadPicture({
   images, // used for rendering previous images
   IMAGEE, //shows the useState for sending new images
   fetchImages,
+  singleImage
 }: any) {
   const fileInputRef: any = useRef(null);
   const [selectedImage, setSelectedImage] = useState<any>();
   const [selectedImages, setSelectedImages] = useState<any>([]); //used for rendering new images or all images
+  const [removedExistingImage, setRemoved] = useState(false);
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
   const handleFileChange = (event: any) => {
-  
+    setRemoved(true)
     let selectedFile;
     let objectFiles: any;
     console.log('HEREREEghgtrt', Object.values(event.target.files));
@@ -30,6 +32,7 @@ export function UploadPicture({
       return URL.createObjectURL(item);
     });
     if (event.target.files.length === 1) {
+      console.log(selectedFile[0]);
       setSelectedImage(selectedFile[0]);
     }
 
@@ -48,7 +51,7 @@ export function UploadPicture({
         setImages([...objectFiles]);
       }
     }
-    console.log(selectedImages);
+  
     // Handle the selected file (e.g., upload or process it)
   };
 
@@ -63,13 +66,19 @@ export function UploadPicture({
     setSelectedImages(filterImg);
   };
   useEffect(() => {
-    if (images) {
+    if (images && multipleImages && fetchImages) {
       let files: any = [];
       images.map((item: any, index: any) => {
         files.push(item.filename);
       });
       setSelectedImages(files);
     }
+    if (images && !multipleImages && fetchImages ) {
+      console.log(images,"YE cALL");
+      if(images.filename){
+      setSelectedImage(images);
+    }}
+    // if(!multipleImages &&)
   }, [images]);
   return (
     <div className="mt-3 ">
@@ -102,6 +111,29 @@ export function UploadPicture({
               x
             </div>
             <img className="w-[120px] h-20 p-3" src={selectedImage} />
+          </div>
+        )}
+
+        {fetchImages && !multipleImages && selectedImage && (
+          <div className="border border-lightgray  rounded relative">
+            <div
+              onClick={() => {
+                
+
+                setSelectedImage('');
+              }}
+              className="cursor-pointer w-[15px] h-[15px] text-[10px] flex justify-center items-center rounded-[50%] bg-black text-white absolute right-0 top-0"
+            >
+              x
+            </div>
+            { !removedExistingImage  ? (
+              <img
+                className="w-[120px] h-20 p-3"
+                src={BaseURL + selectedImage.filename}
+              />
+            ) : (
+              <img className="w-[120px] h-20 p-3" src={selectedImage} />
+            )}
           </div>
         )}
         {!fetchImages && multipleImages && selectedImages.length > 0 && (
