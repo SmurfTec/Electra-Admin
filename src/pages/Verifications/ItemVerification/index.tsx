@@ -92,11 +92,11 @@ export const ItemVerification = () => {
   const FinishVerification = async () => {
     itemData.map((item: any, index: any) => {
       newFormData.append(
-        `order_verification_details[0][id]`,
+        `order_verification_details[${index}][id]`,
         String(item?.id)
       );
       newFormData.append(
-        `order_verification_details[0][is_pass]`,
+        `order_verification_details[${index}][is_pass]`,
         state[item.title]
       );
     });
