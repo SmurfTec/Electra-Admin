@@ -18,6 +18,7 @@ export const getAllVerfications = async ({
         }`;
   params = order !== 0 ? params + `&order=${order}` : params;
   params = trakingid.length > 0 ? params + `&trackingid=${trakingid}` : params;
+ 
 
   // console.log(params,"params")
   try {

@@ -312,7 +312,7 @@ export const Verification = () => {
                     }}
                     showWrapper={false}
                     filterData={filterData?.filter(
-                      (item: any) => item.Status.toLowerCase() == 'rejected',
+                      (item: any) => item.Status.toLowerCase() == 'rejected' || item.Status.toLowerCase() == 'fail',
                     )}
                     selectedProducts={selectedProducts}
                     setSelectedProducts={setSelectedProducts}
@@ -340,7 +340,7 @@ export const Verification = () => {
                     }}
                     showWrapper={false}
                     filterData={filterData?.filter(
-                      (item: any) => item.Status.toLowerCase() == 'verified',
+                      (item: any) => item.Status.toLowerCase() == 'verified' || item.Status.toLowerCase() == 'pass',
                     )}
                     selectedProducts={selectedProducts}
                     setSelectedProducts={setSelectedProducts}

@@ -215,7 +215,7 @@ export const Step1 = () => {
         <div className="flex">
           <div className="flex gap-1 ">
             {/* <img src={IMAGES.IphoneView} /> */}
-            <Carouselcard Images={images} />
+            <Carouselcard outerclasses={`!w-[420px]`} Images={images} />
             <div>
               <div className="flex gap-2 items-center">
                 <p className="text-[36px] font-extrabold">
@@ -338,9 +338,9 @@ export const Step1 = () => {
           </div>
         </div>
         {/* PRODUCT VARAINTSS */}
-        <div className="flex items-center gap-7 mt-1">
+        <div className="flex items-start gap-7 mt-8">
           <div>
-            <h1 className="text-[24px] font-bold my-3">Product Variants</h1>
+            <h1 className="text-[24px] font-bold ">Product Variants</h1>
             {ItemData?.product?.variants.map((item: any, index: any) => {
               console.log(item);
               let arr = [
@@ -365,7 +365,7 @@ export const Step1 = () => {
             <Variants data={VariantsArray3} /> */}
           </div>
           <div>
-            <h1 className="text-[24px] font-bold my-3">
+            <h1 className="text-[24px] font-bold ">
               Seller and Buyer Details
             </h1>
             <div className="flex gap-4">
@@ -525,16 +525,26 @@ export const Step1 = () => {
               navigate(`/Verification/ItemVerification/${id}`);
             }}
             iconLeft={<img src={IMAGES.Verified} />}
-            classes="!w-auto !max-w-[150px] !mb-[23px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3C82D6]"
+            classes="!w-auto !mt-[30px] !max-w-[150px] !mb-[33px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3C82D6]"
             txt="Verify"
           />
-        ) : (
+        ) : 
+        ItemData?.status=='verified' ? (
           <CustomButton
             iconLeft={<img src={IMAGES.Verified} />}
-            classes="!w-auto !max-w-[150px]  !mb-[23px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3CD670]"
-            txt="Mark for review"
+            classes="!w-auto !mt-[30px] !max-w-[150px]  !mb-[33px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3CD670]"
+            txt="Verified"
           />
-        )}
+        ):
+        (
+          <CustomButton
+           
+            classes="!w-auto !mt-[30px] !max-w-[150px]  !mb-[33px] !h-[43px] !text-[13px] !text-[black] !rounded-[8px] !bg-custom-pink"
+            txt="Rejected"
+          />
+        )
+        
+        }
       </div>
     </div>
   );
