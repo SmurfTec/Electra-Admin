@@ -118,10 +118,16 @@ export const EditProduct = () => {
           ProductData.product.technical_specifications &&
           (ProductData.product.technical_specifications?.map(
             (item: any, index: any) => {
-              return {
-                title: item.title,
-                value: item.value,
-              };
+              return item?.id
+                ? {
+                    id: item.id,
+                    title: item.title,
+                    value: item.value,
+                  }
+                : {
+                    title: item.title,
+                    value: item.value,
+                  };
             }
           ) as techSpec[]),
       });
@@ -192,7 +198,11 @@ export const EditProduct = () => {
       },
     });
   };
-  const updateTechnicalSpecificationModel = (name: any, value: any) => {
+  const updateTechnicalSpecificationModel = (
+    name: any,
+    value: any,
+    id?: any
+  ) => {
     console.log(value, 'VALUUEE');
     setProductData(prevData => {
       const updatedModel = prevData.technicalSpecificationModel?.map(item => {
@@ -295,7 +305,13 @@ export const EditProduct = () => {
         data.append(`productVariants[${index}][value]`, item.value);
       });
     productData.technicalSpecificationModel?.length > 0 &&
-      productData.technicalSpecificationModel.map((item, index) => {
+      productData.technicalSpecificationModel.map((item:{
+        title:string,
+        value:string,
+        id?:any
+      }, index) => {
+        item?.id &&
+          data.append(`technicalSpecificationModel[${index}][id]`, item.id);
         data.append(`technicalSpecificationModel[${index}][title]`, item.title);
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
       });
@@ -313,7 +329,7 @@ export const EditProduct = () => {
       navigate('/Products');
     }
   };
-  const handleUpload=async(value:any)=>{
+  const handleUpload = async (value: any) => {
     let newAttach: any = [];
     let prevImage: any = [];
     value.map((item: any, index: any) => {
@@ -331,7 +347,7 @@ export const EditProduct = () => {
       console.log(check);
       setImage(check);
     }
-  }
+  };
   const getTechnicalSpecificationValue = (name: string) => {
     const item = productData.technicalSpecificationModel?.find(
       (spec: any) => spec.title === name
@@ -441,7 +457,7 @@ export const EditProduct = () => {
         />
         <UploadPicture
           setImages={(value: any) => {
-            handleUpload(value)
+            handleUpload(value);
           }}
           images={ProductData?.product?.images}
           IMAGEE={attachments}
@@ -487,6 +503,7 @@ export const EditProduct = () => {
                 {productData &&
                   productData.technicalSpecificationModel?.map(
                     (item: any, index: any) => {
+                      console.log(item);
                       return (
                         <div key={index} className="ml-5">
                           <p className="text-[#656565] text-[12px] mt-4">
@@ -495,12 +512,18 @@ export const EditProduct = () => {
                           {item.title !== 'Release Date' ? (
                             <InputTxt
                               name={item.title}
-                              onChange={(e: any) =>
-                                updateTechnicalSpecificationModel(
-                                  e.target.name,
-                                  e.target.value
-                                )
-                              }
+                              onChange={(e: any) => {
+                                item?.id
+                                  ? updateTechnicalSpecificationModel(
+                                      e.target.name,
+                                      e.target.value,
+                                      item.id
+                                    )
+                                  : updateTechnicalSpecificationModel(
+                                      e.target.name,
+                                      e.target.value
+                                    );
+                              }}
                               value={item.value}
                               placeholder={'eg: 20 aug 2022'}
                               MainClasses={'!h-[28px] !bg-white'}

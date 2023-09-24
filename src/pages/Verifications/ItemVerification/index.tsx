@@ -22,19 +22,26 @@ import {
 } from '../../../store/Slices/VerificationSlice';
 import { useNavigate } from 'react-router-dom';
 const reducer = (state: any, action: any) => {
+  console.log(action);
+  console.log(InitialState);
   switch (action.type) {
-    case 'crackswitch':
-      return { ...state, crackswitch: !state.crackswitch };
-    case 'serialswitch':
-      return { ...state, serialswitch: !state.serialswitch };
-    case 'batteryswitch':
-      return { ...state, batteryswitch: !state.batteryswitch };
-    case 'lightswitch':
-      return { ...state, lightswitch: !state.lightswitch };
-    case 'IMEIswitch':
-      return { ...state, IMEIswitch: !state.IMEIswitch };
-    case 'ItemStandardSwitch':
-      return { ...state, ItemStandardSwitch: !state.ItemStandardSwitch };
+    case 'toggleSwitch':
+      return {
+        ...state,
+        [action.property]: !state[action.property],
+      };
+    // case 'crackswitch':
+    //   return { ...state, crackswitch: !state.crackswitch };
+    // case 'serialswitch':
+    //   return { ...state, serialswitch: !state.serialswitch };
+    // case 'batteryswitch':
+    //   return { ...state, batteryswitch: !state.batteryswitch };
+    // case 'lightswitch':
+    //   return { ...state, lightswitch: !state.lightswitch };
+    // case 'IMEIswitch':
+    //   return { ...state, IMEIswitch: !state.IMEIswitch };
+    // case 'ItemStandardSwitch':
+    //   return { ...state, ItemStandardSwitch: !state.ItemStandardSwitch };
     case 'SetAll':
       state = action.payload;
       return state;
@@ -42,14 +49,7 @@ const reducer = (state: any, action: any) => {
       throw new Error();
   }
 };
-const InitialState = {
-  crackswitch: true,
-  serialswitch: true,
-  batteryswitch: true,
-  lightswitch: true,
-  IMEIswitch: true,
-  ItemStandardSwitch: true,
-};
+let InitialState: any = {};
 export const ItemVerification = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -73,85 +73,43 @@ export const ItemVerification = () => {
   useEffect(() => {
     let percent = 0;
     let t = 0;
-    if (state.crackswitch) {
-      percent += 20;
-      t += 1;
-    }
-    if (state.serialswitch) {
-      percent += 20;
-      t += 1;
-    }
-    if (state.batteryswitch) {
-      percent += 20;
-      t += 1;
-    }
-    if (state.lightswitch) {
-      percent += 20;
-      t += 1;
-    }
-    if (state.IMEIswitch) {
-      percent += 20;
-      t += 1;
-    }
+    itemData?.map((item: any, index: number) => {
+      console.log(state[item.title], 'MY ITEM');
+      if (state[item.title]) {
+        percent += 20;
+        t += 1;
+      }
+    });
+
     if (percent <= 50) {
       setPass(false);
-    }
-    else if(percent>50){
-      setPass(true)
+    } else if (percent > 50) {
+      setPass(true);
     }
     setTotal(t);
     setpercentage(percent);
   }, [state]);
   const FinishVerification = async () => {
-    newFormData.append(
-      `order_verification_details[0][id]`,
-      String(itemData[0]?.id),
-    );
-    newFormData.append(
-      `order_verification_details[0][is_pass]`,
-      state.crackswitch,
-    );
-    newFormData.append(
-      `order_verification_details[1][id]`,
-      String(itemData[1]?.id),
-    );
-    newFormData.append(
-      `order_verification_details[1][is_pass]`,
-      state.serialswitch,
-    );
-    newFormData.append(
-      `order_verification_details[2][id]`,
-      String(itemData[2]?.id),
-    );
-    newFormData.append(
-      `order_verification_details[2][is_pass]`,
-      state.batteryswitch,
-    );
-    newFormData.append(
-      `order_verification_details[3][id]`,
-      String(itemData[3]?.id),
-    );
-    newFormData.append(
-      `order_verification_details[3][is_pass]`,
-      state.lightswitch,
-    );
-    newFormData.append(
-      `order_verification_details[4][id]`,
-      String(itemData[4]?.id),
-    );
-    newFormData.append(
-      `order_verification_details[4][is_pass]`,
-      state.IMEIswitch,
-    );
+    itemData.map((item: any, index: any) => {
+      newFormData.append(
+        `order_verification_details[${index}][id]`,
+        String(item?.id)
+      );
+      newFormData.append(
+        `order_verification_details[${index}][is_pass]`,
+        state[item.title]
+      );
+    });
+   
     newFormData.append('images', images);
     console.log(images);
     // if (images.length < 6) {
     //   alert('Please upload atleast 6 Images');
     // } else {
-      let response = await UpdateVerfication(id, newFormData);
-      if (response) {
-        navigate('/Verification');
-      }
+    let response = await UpdateVerfication(id, newFormData);
+    if (response) {
+      navigate('/Verification');
+    }
     // }
   };
   const GetVerificationDetail = async () => {
@@ -159,45 +117,51 @@ export const ItemVerification = () => {
     console.log(response, 'response');
     setItemData(response.verification);
     setverificationStats(response.verificationStats);
-    let initialState = {
-      crackswitch: false,
-      serialswitch: false,
-      batteryswitch: false,
-      lightswitch: false,
-      IMEIswitch: false,
-      ItemStandardSwitch: false,
-    };
+    let initialState = {};
     let percent = 0;
     let t = 0;
-    if (response?.verification?.order?.order_verification_details[0].is_pass) {
-      percent += 20;
-      t += 1;
-      initialState.crackswitch = true;
-    }
-    if (response?.verification?.order?.order_verification_details[1].is_pass) {
-      percent += 20;
-      t += 1;
-      initialState.serialswitch = true;
-    }
-    if (response?.verification?.order?.order_verification_details[2].is_pass) {
-      percent += 20;
-      t += 1;
-      initialState.batteryswitch = true;
-    }
-    if (response?.verification?.order?.order_verification_details[3].is_pass) {
-      percent += 20;
-      t += 1;
-      initialState.lightswitch = true;
-    }
-    if (response?.verification?.order?.order_verification_details[4].is_pass) {
-      percent += 20;
-      t += 1;
-      initialState.IMEIswitch = true;
-    }
+    response?.verification?.order?.order_verification_details.map(
+      (item: any, index: number) => {
+        if (item.is_pass) {
+          percent += 20;
+          t += 1;
+          initialState = {
+            ...initialState,
+            [item.title]: true,
+          };
+        }
+      }
+    );
+    console.log(initialState);
+    // if (response?.verification?.order?.order_verification_details[0].is_pass) {
+    //   percent += 20;
+    //   t += 1;
+    //   initialState.crackswitch = true;
+    // }
+    // if (response?.verification?.order?.order_verification_details[1].is_pass) {
+    //   percent += 20;
+    //   t += 1;
+    //   initialState.serialswitch = true;
+    // }
+    // if (response?.verification?.order?.order_verification_details[2].is_pass) {
+    //   percent += 20;
+    //   t += 1;
+    //   initialState.batteryswitch = true;
+    // }
+    // if (response?.verification?.order?.order_verification_details[3].is_pass) {
+    //   percent += 20;
+    //   t += 1;
+    //   initialState.lightswitch = true;
+    // }
+    // if (response?.verification?.order?.order_verification_details[4].is_pass) {
+    //   percent += 20;
+    //   t += 1;
+    //   initialState.IMEIswitch = true;
+    // }
     dispatch({ type: 'SetAll', payload: initialState });
     console.log(
       response?.verification?.order.order_verification_details,
-      'response',
+      'response'
     );
     setItemData(response?.verification?.order?.order_verification_details);
   };
@@ -248,50 +212,23 @@ export const ItemVerification = () => {
 
       <div className="flex flex-wrap mt-[22px] justify-between items-center w-[98%]">
         <div className=" flex flex-col gap-8">
-          <div className="flex gap-3 items-center">
-            <CustomSwitch
-              marginTop={'-5px'}
-              checked={state.crackswitch}
-              setChecked={() => dispatch({ type: 'crackswitch' })}
-            />
-            <p className="text-[15px] font-[500] text-black">
-              No Cracks Present
-            </p>
-          </div>
-          <div className="flex gap-3 items-center">
-            <CustomSwitch
-              checked={state.serialswitch}
-              setChecked={() => dispatch({ type: 'serialswitch' })}
-            />
-            <p className="text-[15px] font-[500] text-black">Serial Number</p>
-          </div>
-          <div className="flex gap-3 items-center">
-            <CustomSwitch
-              marginTop={'-5px'}
-              checked={state.batteryswitch}
-              setChecked={() => dispatch({ type: 'batteryswitch' })}
-            />
-            <p className="text-[15px] font-[500] text-black">
-              Battery Health is Over 80%
-            </p>
-          </div>
-          <div className="flex gap-3 items-center">
-            <CustomSwitch
-              checked={state.lightswitch}
-              setChecked={() => dispatch({ type: 'lightswitch' })}
-            />
-            <p className="text-[15px] font-[500] text-black">
-              Light Scratches and Dings
-            </p>
-          </div>
-          <div className="flex gap-3 items-center">
-            <CustomSwitch
-              marginTop={'-5px'}
-              checked={state.IMEIswitch}
-              setChecked={() => dispatch({ type: 'IMEIswitch' })}
-            />
-            <p className="text-[15px] font-[500] text-black">IMEI No</p>
-          </div>
+          {itemData &&
+            itemData.map((item: any, index: number) => {
+              return (
+                <div className="flex gap-3 items-center">
+                  <CustomSwitch
+                    marginTop={'-5px'}
+                    checked={state[item.title]}
+                    setChecked={() => {
+                      dispatch({ type: 'toggleSwitch', property: item.title });
+                    }}
+                  />
+                  <p className="text-[15px] font-[500] text-black">
+                    {item.title}
+                  </p>
+                </div>
+              );
+            })}
         </div>
         <div className="w-[380px] h-[320px] border border-inputBorder">
           <p className="pl-[10px] py-[10px] text-black text-[16px] font-[500]">
@@ -350,10 +287,10 @@ export const ItemVerification = () => {
               Upload 6 photos, Front back side and 1 extra
             </p>
             <UploadPicture
-              setImages={(value:any)=>setImages(value)}
+              setImages={(value: any) => setImages(value)}
               IMAGEE={images}
               multipleImages={true}
-            /> 
+            />
             <p className="text-[#656565] text-[12px]">
               Note : Picture Ratio Must be 1:1{' '}
             </p>

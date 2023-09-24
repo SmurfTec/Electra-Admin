@@ -41,7 +41,7 @@ import {
   EditProduct,
   Editnewbanner,
   Brands,
-  CreateBrand,
+  CreateBrand,EditBrand
 } from './pages/index';
 import { SideBar } from './components';
 import PrivateRoute from './routes/Privateroute';
@@ -108,6 +108,7 @@ function App() {
             <Route path="/CreateCoupon" element={<CreateCoupon />} />
             <Route path="/CreateBrand" element={<CreateBrand />} />
             <Route path="/Brand" element={<Brands />} />
+            <Route path="/EditBrand/:id" element={<EditBrand />} />
             <Route path="/Category" element={<Category />} />
             <Route path="/CreateCategory" element={<CreateCategory />} />
             <Route path="/AddNewVariant" element={<AddNewVariant />} />

@@ -57,7 +57,7 @@ export const Listingdetail = () => {
             },
             values: options ?? [],
           };
-        },
+        }
       );
       console.log(variaantts);
       setVariantArray(variaantts);
@@ -135,30 +135,32 @@ export const Listingdetail = () => {
           MainClasses="mt-[40px] ml-4"
         />
 
-        {listingg?.listing?.technical_specifications.map(
-          (item: any, index: any) => {
-            return (
-              <>
-                <p
-                  className="font-bold text-[20px] text-[#000000] mt-6 px-4 "
-                  key={index}
-                >
-                  {item.title}
-                </p>
-                <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6 px-4">
-                  {item.value}
-                </p>
-              </>
-            );
-          },
-        )}
+        {listingg?.listing?.technical_specifications &&
+          listingg?.listing?.technical_specifications.length > 0 &&
+          listingg?.listing?.technical_specifications.map(
+            (item: any, index: any) => {
+              return (
+                <>
+                  <p
+                    className="font-bold text-[20px] text-[#000000] mt-6 px-4 "
+                    key={index}
+                  >
+                    {item.title}
+                  </p>
+                  <p className="text-[15px] pt-2 text-[#656565] border-b border-custom pb-6 px-4">
+                    {item.value}
+                  </p>
+                </>
+              );
+            }
+          )}
       </CustomSidebar>
       {!loading ? (
         <div>
           <div className="flex">
             <div className="flex gap-5 ">
               {/* <img src={IMAGES.IphoneView} /> */}
-              <Carouselcard
+            {images?  <Carouselcard
                 Images={
                   images &&
                   images.map((item: any, index: any) => {
@@ -170,7 +172,14 @@ export const Listingdetail = () => {
                     };
                   })
                 }
+              />:
+              <div className='border-lightgray p-2'>
+              <img
+                className="w-[363px] "
+                src={IMAGES.Logo}
               />
+            </div>
+              }
               <div>
                 <div className="flex gap-2 items-center">
                   <p className="text-[36px] font-extrabold">

@@ -22,3 +22,12 @@ export const CreateFees = async (id: any, body: any) => {
     return e;
   }
 };
+
+export const deleteFees =async(id:any)=>{
+  try {
+    let response: any = await url.delete(`/fees/${id}`);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+}

@@ -53,6 +53,7 @@ export const Brands = () => {
 
   const deleteItem = async (event: React.MouseEvent, id: any) => {
     event.stopPropagation();
+  
     setcurrentId(id);
     setvisible(true);
   };
@@ -67,8 +68,15 @@ export const Brands = () => {
   };
   const EditItem = (event: React.MouseEvent, item: any) => {
     event.stopPropagation();
+   
+    navigate(`/EditBrand/${item}`)
   };
   const MenuBodyTemplate = (rowData: any) => {
+    const menuLeftRef = useRef<any>(null);
+    const handleClick = (event: any) => {
+      event.preventDefault();
+      menuLeftRef.current?.toggle(event);
+    };
     const MenuTemplate = ({
       id,
       menuRef,
@@ -83,7 +91,7 @@ export const Brands = () => {
           template: (item: any) => {
             return (
               <div
-                onClick={event => EditItem(event, rowData)}
+                onClick={event => EditItem(event, rowData.id)}
                 style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }}
                 className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
               >
@@ -118,18 +126,14 @@ export const Brands = () => {
         />
       );
     };
-    const menuLeftRef = useRef<any>(null);
-    const handleClick = (event: any) => {
-      event.preventDefault();
-      menuLeftRef.current?.toggle(event);
-    };
+  
     return (
       <>
         <div
           className={` px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
           <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
-          <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
+          <MenuTemplate id={rowData} menuRef={menuLeftRef} />
         </div>
       </>
     );

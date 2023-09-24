@@ -35,13 +35,10 @@ const Drops = styled(Dropdown)<DropsProps>`
   }
 `;
 export const CustomDropdown2 = (props: any) => {
-  console.log(props.options);
   const [selectedItem, setSelectedItem] = useState([props.options]);
   let Values = props.options;
   useEffect(() => {
     if (props.value) {
-      console.log(props.value);
-
       setSelectedItem(props.value);
     }
   }, [props.value]);
@@ -50,10 +47,9 @@ export const CustomDropdown2 = (props: any) => {
       placeholdercolor={props.placeholderColor}
       value={selectedItem}
       onChange={(e: any) => {
-        console.log(e.value);
         setSelectedItem(e.value);
         const selectedOption = Values.find(
-          (item: any) => item.value === e.value,
+          (item: any) => item.value === e.value
         );
         if (selectedOption) {
           props.setValue(selectedOption.value);
