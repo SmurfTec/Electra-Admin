@@ -67,7 +67,7 @@ const CustomCarousel = styled(Galleria)`
     margin-left: 5px;
   }
 `;
-export const Carouselcard = ({ Images }: any) => {
+export const Carouselcard = ({ Images,outerclasses,cardclasses }: any) => {
   const [images, setImages] = useState();
   const responsiveOptions: GalleriaResponsiveOptions[] = [
     {
@@ -109,13 +109,14 @@ export const Carouselcard = ({ Images }: any) => {
     }
   }, [Images]);
   return (
-    <div className="card " style={{ width: '510px', overflowX: 'auto' }}>
+    <div className={`card ${outerclasses}`} style={{ width: '510px', overflowX: 'auto' }}>
       <CustomCarousel
         value={images}
         responsiveOptions={responsiveOptions}
         numVisible={5}
         circular
         style={{ maxWidth: '530px', borderRadius: '15px' }}
+        className={`${cardclasses}`}
         showItemNavigators
         item={itemTemplate}
         thumbnail={thumbnailTemplate}
