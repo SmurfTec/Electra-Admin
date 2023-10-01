@@ -1,7 +1,7 @@
 import url from '../../config/index';
-export const getAllVariants = async () => {
+export const getAllVariants = async (params?:any) => {
   try {
-    let response: any = await url.get(`/variants`);
+    let response: any = await url.get(`/variants${params?`?category=${params}`:""}`);
 
     return response.data;
   } catch (e) {

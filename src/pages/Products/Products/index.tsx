@@ -195,7 +195,7 @@ export const Products = () => {
               outerclasses="w-[284px] h-[140px]"
             />
             <DashCard
-              title={'Product Sold in march'}
+              title={'Product Sold in last month'}
               totalNumber={stats?.total_products_sold_last_month}
               myImg={IMAGES.ProductBox}
               imgColor={'bg-yellow-dash'}
@@ -210,7 +210,7 @@ export const Products = () => {
                   ? IMAGES.downarrow
                   : IMAGES.uparrow
               }
-              percentageTxt={`% ${stats?.products_percentage?.toFixed(1)}`}
+              percentageTxt={`% ${stats?.products_percentage?.toFixed(1)??"-"}`}
               outerclasses="w-[284px] h-[140px]"
             />
             <DashCard
@@ -229,7 +229,7 @@ export const Products = () => {
                   ? IMAGES.downarrow
                   : IMAGES.uparrow
               }
-              percentageTxt={`% ${stats?.products_percentage?.toFixed(1)}`}
+              percentageTxt={`% ${stats?.products_percentage?.toFixed(1)??"-"}`}
               outerclasses="w-[284px] h-[140px]"
             />
             <DashCard

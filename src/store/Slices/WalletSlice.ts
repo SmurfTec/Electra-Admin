@@ -18,11 +18,11 @@ export const getWalletStats = async () => {
 export const getPayouts = async ({ limit = 5, starting_after = '' }: any) => {
   let params =
     starting_after?.length > 0
-      ? `/wallets/payouts/?limit=${limit}&starting_after=${starting_after}`
-      : `/wallets/payouts/?limit=${limit}`;
+      ? `/transactions?limit=${limit}&starting_after=${starting_after}`
+      : `/transactions/?limit=${limit}`;
   try {
     let response: any = await url.get(params);
-    return response.data;
+    return response;
   } catch (e) {}
 };
 export const getPayments = async ({ limit = 5, starting_after = '' }: any) => {

@@ -55,7 +55,7 @@ export const AddProduct = () => {
     id: Number,
   });
   const navigate = useNavigate();
-  const VariantsData = useVariantDetail(fetchVariants);
+  const VariantsData = useVariantDetail(fetchVariants,productData.category);
   const getAllBrands = async () => {
     let data = await getBrands();
     let dataCat = await getCategories();
@@ -296,7 +296,7 @@ export const AddProduct = () => {
             '!w-[100px] !h-[40px] !mt-6 !mb-4 !rounded-[12px] !bg-[#EFEFEF] !text-[black]'
           }
         />
-        {VariantsArray &&
+        {productData.category&&VariantsArray &&
           VariantsArray.map((item: any, index: any) => {
             return (
               <div className="flex gap-2" key={index}>
