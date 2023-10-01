@@ -133,31 +133,7 @@ export const ItemVerification = () => {
       }
     );
     console.log(initialState);
-    // if (response?.verification?.order?.order_verification_details[0].is_pass) {
-    //   percent += 20;
-    //   t += 1;
-    //   initialState.crackswitch = true;
-    // }
-    // if (response?.verification?.order?.order_verification_details[1].is_pass) {
-    //   percent += 20;
-    //   t += 1;
-    //   initialState.serialswitch = true;
-    // }
-    // if (response?.verification?.order?.order_verification_details[2].is_pass) {
-    //   percent += 20;
-    //   t += 1;
-    //   initialState.batteryswitch = true;
-    // }
-    // if (response?.verification?.order?.order_verification_details[3].is_pass) {
-    //   percent += 20;
-    //   t += 1;
-    //   initialState.lightswitch = true;
-    // }
-    // if (response?.verification?.order?.order_verification_details[4].is_pass) {
-    //   percent += 20;
-    //   t += 1;
-    //   initialState.IMEIswitch = true;
-    // }
+    
     dispatch({ type: 'SetAll', payload: initialState });
     console.log(
       response?.verification?.order.order_verification_details,
