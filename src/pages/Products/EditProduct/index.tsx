@@ -455,7 +455,7 @@ export const EditProduct = () => {
             '!w-[100px] !h-[40px] !mt-6 !rounded-[12px] !bg-[#EFEFEF] !text-[black]'
           }
         />
-        <UploadPicture
+        <UploadPicture 
           setImages={(value: any) => {
             handleUpload(value);
           }}

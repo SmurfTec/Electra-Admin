@@ -68,7 +68,7 @@ export const CustomTableComponent = ({
                 key={index}
                 style={columnStyle ?? null}
                 field={item.field}
-                header={item.header}
+                header={item.header} 
                 headerStyle={headerStyle}
                 bodyClassName={'!bg-[#F6F6F6]'}
                 body={item.body ? item.body : null}
@@ -78,7 +78,7 @@ export const CustomTableComponent = ({
           })}
         </CustomTable>
         {LoadMore && showLoadMore && (
-          <div className="flex justify-center mt-3 w-full ">
+          <div className="flex justify-center w-full mt-3 ">
             <CustomButton
               onClick={() => {
                 setLoadMore(false);
