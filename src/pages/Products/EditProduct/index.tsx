@@ -31,6 +31,10 @@ export const EditProduct = () => {
   type descriptionProp = {
     description: string;
   };
+  type VerificationSpec = {
+    title: string;
+  
+  };
   const params = useParams();
   let { id } = params;
   const { ProductData }: any = useProductDetail(id);
@@ -55,6 +59,7 @@ export const EditProduct = () => {
     productProperties: {} as descriptionProp,
     productVariants: [] as variantSpec[],
     technicalSpecificationModel: [] as techSpec[],
+    ProductVerification:[] as VerificationSpec[] 
   });
   const [variant, setVariant] = useState<any>({
     title: '',
@@ -130,6 +135,13 @@ export const EditProduct = () => {
                   };
             }
           ) as techSpec[]),
+          ProductVerification:ProductData.product.product_verification_details && 
+          (ProductData.product.product_verification_details?.map((item:any,index:any)=>{
+            return {
+              id:item.id,
+              title:item.title
+            }
+          }))
       });
     }
   }, [ProductData]);
@@ -540,6 +552,28 @@ export const EditProduct = () => {
                               }}
                             />
                           )}
+                        </div>
+                      );
+                    }
+                  )}
+              </div>
+            </div>
+            <div className="mb-5">
+              <p className="text-[black] font-extrabold bg-lightgray border-b-0 p-4 w-[60%] rounded mt-5 border border-custom">
+              Product Verification
+              </p>
+
+              <div className="border border-custom  w-[60%] pb-4">
+                {productData &&
+                  productData.ProductVerification.map(
+                    (item: any, index: any) => {
+                      console.log(item);
+                      return (
+                        <div key={index} className="ml-5">
+                          <p className="text-[#656565] text-[12px] mt-4">
+                            {item.title}
+                          </p>
+                          
                         </div>
                       );
                     }

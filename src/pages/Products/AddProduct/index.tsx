@@ -45,6 +45,7 @@ export const AddProduct = () => {
   const [brands, setBrands] = useState([]);
   const [category, setCategories] = useState([]);
   const [Addvisible, setAddVisible] = useState(false);
+  const[Addvisible2,setAddVisible2]=useState(false)
   const [Editvisible, setEditVisible] = useState(false);
   const [productData, setProductData] = useState({
     title: '',
@@ -58,6 +59,9 @@ export const AddProduct = () => {
   });
   const[buttonDisable,setbuttonDisable]=useState(true)
   const[Addvalue,setAddvalue]=useState('')
+  const[AddObjvalue,setAddObjvalue]=useState({
+    title:'',value:''
+  })
   const [variant, setVariant] = useState<any>({
     title: '',
     datatype: String,
@@ -236,7 +240,7 @@ export const AddProduct = () => {
     data.append(
       'productProperties[description]',
       productData.productProperties.description,
-    );
+    ); 
     productData.productVariants.length > 0 &&
       productData.productVariants.map((item, index) => {
         data.append(`productVariants[${index}][variant]`, item.variant);
@@ -276,9 +280,25 @@ export const AddProduct = () => {
       }
     }
   } 
+  const AddSpecification=(value:any)=>{
+    console.log(value)
+    if(value.title.length>0){
+      const exist=productData.ProductVerification.some((item)=>item.title==value.title)
+      if (!exist) {
+        setProductData(prevData=>({
+          ...prevData,
+          technicalSpecificationModel:[...prevData.technicalSpecificationModel,{title:value.title,value:value.value}]
+        }))
+        setAddVisible2(false);
+        setAddObjvalue({title:'',value:''})
+      }else {
+        setAddVisible2(false);
+      }
+    }
+  }
   useEffect(()=>{
     console.log(productData,"productData")
-if( productData.ProductVerification.length>0 && productData.title.length>0 && productData.technicalSpecificationModel.length>0){
+if( productData.ProductVerification.length>0 && productData.title.length>0 && productData.technicalSpecificationModel.length>0 && productData.productVariants.length>0){
   setbuttonDisable(false)
 }
   },[productData])
@@ -421,113 +441,22 @@ if( productData.ProductVerification.length>0 && productData.title.length>0 && pr
               </p>
 
               <div className="border border-custom  w-[60%] pb-4">
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">
-                    RELEASE DATE
-                  </p>
-                 
-                  <CustomCalendar
-                    placeholder={'eg: 08/10/2022'}
-                    // date={new Date(item?.value)}
-                    setDate={(e: any) => {
-                      console.log(e, 'EVENT');
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value,
-                      );
-                    }}
-                  />
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">BLUETOOTH</p>
-                  <InputTxt
-                    name="Bluetooth"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value,
-                      )
-                    }
-                    placeholder={'5.0'}
-                    MainClasses={'!h-[28px] !bg-white'}
-                  />
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">BATTERY</p>
-                  <InputTxt
-                    name="Battery"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value,
-                      )
-                    }
-                    placeholder={'eg: Battery info'}
-                    MainClasses={'!h-[28px] !bg-white'}
-                  />
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">STORAGE</p>
-                  <InputTxt
-                    name="Storage"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value,
-                      )
-                    }
-                    placeholder={'eg: 512 GB'}
-                    MainClasses={'!h-[28px] !bg-white'}
-                  />
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">CAMERA</p>
-                  <InputTxt
-                    name="Camera"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value,
-                      )
-                    }
-                    placeholder={'eg: Camera Specs'}
-                    MainClasses={'!h-[28px] !bg-white'}
-                  />
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4">
-                    CONNECTIVITY
-                  </p>
-                  <InputTxt
-                    name="Connectivity"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value,
-                      )
-                    }
-                    placeholder={'eg: bluetooth, wifi'}
-                    MainClasses={'!h-[28px] !bg-white'}
-                  />
-                  {/* <li className="font-medium"> Wi-Fi 6 (802.11ax) with MIMO</li>
-              <li className="font-medium"> Bluetooth 5.0 </li> */}
-                </div>
-                <div className="ml-5">
-                  <p className="text-[#656565] text-[12px] mt-4"> SCREEN </p>
-                  <InputTxt
-                    name="Screen"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value,
-                      )
-                    }
-                    placeholder={'eg: 1080px'}
-                    MainClasses={'!h-[28px] !bg-white'}
-                  />
-                </div>
+                {productData.technicalSpecificationModel.map((item,index)=>{
+                  return(
+                    <div key={index} className="ml-5">
+                    <p className="text-[#656565] text-[12px] mt-4 uppercase">
+                     {item.title}
+                    </p>
+                    <p className="text-[#656565] ml-[20px] text-[12px] mt-2 uppercase">
+                     {item.value}
+                    </p>
+                    
+                  </div>
+                  )
+                })}
+              
                 <CustomButton
-            onClick={() => {setAddVisible(true)}}
+            onClick={() => {setAddVisible2(true)}}
             txt={'Add Specifications'}
             classes={' !ml-[10px] mt-[20px] !w-[179px] !rounded-[12px] !h-[50px]'}
           />
@@ -583,6 +512,19 @@ if( productData.ProductVerification.length>0 && productData.title.length>0 && pr
           />
         </div>
       </div>
+      <Confirmationmodal2
+        ObjVal={AddObjvalue}
+        setObjVal={setAddObjvalue}
+        handleFunction2={(value: any) => AddSpecification(value)}
+        PopupHeader={'Add Value'}
+        visible={Addvisible2}
+        setVisible={setAddVisible2}
+        cnfrmbtnText={'Add value'}
+        placeholderValue="Add Title"
+        placeholderValue2="Add Value"
+        cnclebtnText={'Cancel'}
+       classes={`!h-[378px]`}
+      />
       <Confirmationmodal2
         addValue={true}
         Value={Addvalue}

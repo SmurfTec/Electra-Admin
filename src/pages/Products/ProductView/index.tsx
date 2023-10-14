@@ -84,14 +84,14 @@ export const ProductView = () => {
               }}
             >
               {ProductData?.product?.images ? (
-                 <div className='border-2 border-lightgray p-2'>
+                 <div className='p-2 border-2 border-lightgray'>
                 <img
                   className="h-[390px] w-[363px]"
                   src={`${BaseURL}${ProductData?.product?.images[0]?.filename}`}
                 />
                 </div>
               ) : (
-                <div className='border-lightgray p-2'>
+                <div className='p-2 border-lightgray'>
                   <img
                     className="w-[363px] "
                     src={IMAGES.Logo}
@@ -100,7 +100,7 @@ export const ProductView = () => {
               )}
             </div>
             <div>
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <p className="text-[36px] font-extrabold">
                   {ProductData?.product?.title}
                 </p>
@@ -359,10 +359,32 @@ export const ProductView = () => {
                 </div>
               </>
             </div>
+            <div className="mb-5">
+              <p className="text-[black] font-extrabold bg-lightgray border-b-0 p-4 w-[60%] rounded mt-5 border border-custom">
+                Product Verification
+              </p>
+              <>
+                <div className="border border-custom  w-[60%] pb-4">
+                  {ProductData?.product?.product_verification_details &&
+                    ProductData?.product?.product_verification_details.map(
+                      (item: any, index: any) => {
+                        return (
+                          <div className="ml-5" key={index}>
+                            <p className="text-[#656565] text-[12px] mt-4">
+                              {item.title}
+                            </p>
+                           
+                          </div>
+                        );
+                      }
+                    )}
+                </div>
+              </>
+            </div>
           </>
         </>
       ) : (
-        <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+        <div className="flex items-center justify-start w-full h-full overflow-y-hidden">
           <ProgressSpinner style={{ overflow: 'hidden' }} />
         </div>
       )}

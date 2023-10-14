@@ -14,12 +14,16 @@ export const Confirmationmodal2 = ({
   Feemodif,
   placeholderclasses,
   handleFunction,
+  handleFunction2,
   setOkButton,
   setCancelButton,
   Value = '',
+  ObjVal,
+  setObjVal,
   setValue,
   value,
   placeholderValue="Enter Color",
+  placeholderValue2="Enter Color",
 }: any) => {
   // insert here
   const [error, setError] = useState('');
@@ -59,6 +63,32 @@ export const Confirmationmodal2 = ({
             </div>
           </>
         )}
+        {ObjVal &&
+        <>
+         <div className="flex justify-between items-center px-2 border w-[370px] h-[54px] mx-auto mt-8 rounded-[10px]">
+              <input
+                placeholder={placeholderValue}
+                value={ObjVal.title}
+                onChange={e => setObjVal({...ObjVal,title:e.target.value})}
+                className="px-2 focus:outline-none"
+              />
+              <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
+                i
+              </div>
+            </div>
+            <div className="flex justify-between items-center px-2 border w-[370px] h-[54px] mx-auto mt-8 rounded-[10px]">
+              <input
+                placeholder={placeholderValue2}
+                value={ObjVal.value}
+                onChange={e => setObjVal({...ObjVal,value:e.target.value})}
+                className="px-2 focus:outline-none"
+              />
+              <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
+                i
+              </div>
+            </div>
+        </>
+        }
         {Feemodif && (
           <>
             <div className="flex justify-between items-center mt-3 px-2 border w-[200px] h-[54px] mx-auto rounded-[10px]">
@@ -96,10 +126,13 @@ export const Confirmationmodal2 = ({
           />
           <CustomButton
             onClick={() => {
-              if (handleFunction) {
+              console.log(handleFunction)
+              if (handleFunction!==undefined) {
                 console.log(Value);
-
                 handleFunction(Value);
+              }
+              if(handleFunction2!==undefined){
+                handleFunction2(ObjVal);
               }
               if (setOkButton) {
                 setOkButton();
