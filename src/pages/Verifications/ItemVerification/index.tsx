@@ -40,8 +40,8 @@ const reducer = (state: any, action: any) => {
     //   return { ...state, lightswitch: !state.lightswitch };
     // case 'IMEIswitch':
     //   return { ...state, IMEIswitch: !state.IMEIswitch };
-    // case 'ItemStandardSwitch':
-    //   return { ...state, ItemStandardSwitch: !state.ItemStandardSwitch };
+    case 'ItemStandardSwitch':
+      return { ...state, ItemStandardSwitch: !state.ItemStandardSwitch };
     case 'SetAll':
       state = action.payload;
       return state;
@@ -73,97 +73,85 @@ export const ItemVerification = () => {
   useEffect(() => {
     let percent = 0;
     let t = 0;
-    itemData?.map((item: any, index: number) => {
-      console.log(state[item.title], 'MY ITEM');
-      if (state[item.title]) {
-        percent += 20;
-        t += 1;
-      }
-    });
+    itemData &&
+      itemData?.map((item: any, index: number) => {
+        console.log(state[item.title], 'MY ITEM');
+        if (state[item.title]) {
+          percent += 20;
+          t += 1;
+        }
+      });
 
     if (percent <= 50) {
       setPass(false);
     } else if (percent > 50) {
       setPass(true);
     }
+
     setTotal(t);
     setpercentage(percent);
   }, [state]);
   const FinishVerification = async () => {
-    itemData.map((item: any, index: any) => {
-      newFormData.append(
-        `order_verification_details[${index}][id]`,
-        String(item?.id)
-      );
-      newFormData.append(
-        `order_verification_details[${index}][is_pass]`,
-        state[item.title]
-      );
-    });
-   
-    newFormData.append('images', images);
-    console.log(images);
-    // if (images.length < 6) {
-    //   alert('Please upload atleast 6 Images');
-    // } else {
-    let response = await UpdateVerfication(id, newFormData);
-    if (response) {
-      navigate('/Verification');
+    try {
+     itemData&& itemData.map((item: any, index: any) => {
+        newFormData.append(
+          `order_verification_details[${index}][id]`,
+          String(item?.id)
+        );
+        newFormData.append(
+          `order_verification_details[${index}][is_pass]`,
+          state[item.title]
+        );
+      });
+
+     images &&  newFormData.append('images', images);
+      console.log(images);
+      // if (images.length < 6) {
+      //   alert('Please upload atleast 6 Images');
+      // } else {
+      let response = await UpdateVerfication(id, newFormData);
+      if (response) {
+        navigate('/Verification');
+      }
+    } catch (e) {
+      console.log(e);
     }
+
     // }
   };
   const GetVerificationDetail = async () => {
-    let response = await getVerficationById(id);
-    console.log(response, 'response');
-    setItemData(response.verification);
-    setverificationStats(response.verificationStats);
-    let initialState = {};
-    let percent = 0;
-    let t = 0;
-    response?.verification?.order?.order_verification_details.map(
-      (item: any, index: number) => {
-        if (item.is_pass) {
-          percent += 20;
-          t += 1;
-          initialState = {
-            ...initialState,
-            [item.title]: true,
-          };
-        }
-      }
-    );
-    console.log(initialState);
-    // if (response?.verification?.order?.order_verification_details[0].is_pass) {
-    //   percent += 20;
-    //   t += 1;
-    //   initialState.crackswitch = true;
-    // }
-    // if (response?.verification?.order?.order_verification_details[1].is_pass) {
-    //   percent += 20;
-    //   t += 1;
-    //   initialState.serialswitch = true;
-    // }
-    // if (response?.verification?.order?.order_verification_details[2].is_pass) {
-    //   percent += 20;
-    //   t += 1;
-    //   initialState.batteryswitch = true;
-    // }
-    // if (response?.verification?.order?.order_verification_details[3].is_pass) {
-    //   percent += 20;
-    //   t += 1;
-    //   initialState.lightswitch = true;
-    // }
-    // if (response?.verification?.order?.order_verification_details[4].is_pass) {
-    //   percent += 20;
-    //   t += 1;
-    //   initialState.IMEIswitch = true;
-    // }
-    dispatch({ type: 'SetAll', payload: initialState });
-    console.log(
-      response?.verification?.order.order_verification_details,
-      'response'
-    );
-    setItemData(response?.verification?.order?.order_verification_details);
+    try {
+      let response = await getVerficationById(id);
+      console.log(response, 'response');
+      setItemData(response.verification);
+      setverificationStats(response.verificationStats);
+      let initialState = {};
+      let percent = 0;
+      let t = 0;
+      response?.verification?.order?.order_verification_details &&
+        response?.verification?.order?.order_verification_details.map(
+          (item: any, index: number) => {
+            if (item.is_pass) {
+              percent += 20;
+              t += 1;
+              initialState = {
+                ...initialState,
+                [item.title]: true,
+              };
+            }
+          }
+        );
+      console.log(initialState);
+
+      dispatch({ type: 'SetAll', payload: initialState });
+      console.log(
+        response?.verification?.order.order_verification_details,
+        'response'
+      );
+      setItemData(response?.verification?.order?.order_verification_details);
+    } catch (e) {
+      console.log(e);
+    }
   };
   useEffect(() => {
     GetVerificationDetail();

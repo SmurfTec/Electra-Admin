@@ -49,6 +49,7 @@ export const Wallet = () => {
       });
       setfilterData(newfilterData);
     } else if (initialData.activetab == 'payouts') {
+      console.log(Walletdata)
       const newfilterData = Walletdata?.map((item: any, index: any) => {
         return {
           id: item.id,
@@ -306,7 +307,7 @@ export const Wallet = () => {
                 outerclasses="w-[284px] h-[140px]"
                 txt={WalletStats?.grossProfitPercentage || 0}
               />
-              <DashCard
+              {/* <DashCard
                 title={'Withdrawn'}
                 totalNumber={'$3500'}
                 myImg={IMAGES.Volume}
@@ -327,7 +328,7 @@ export const Wallet = () => {
                 textColor={'#3C82D6'}
                 txt="Lorem Ipsum"
                 outerclasses="w-[284px] h-[140px]"
-              />
+              /> */}
             </div>
           </div>
           <div className="mt-[20px]">

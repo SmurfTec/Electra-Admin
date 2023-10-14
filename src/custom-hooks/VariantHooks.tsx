@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { getAllVariants } from '../store/Slices/VariantSlice';
-export const useVariantDetail = (value: any) => {
+export const useVariantDetail = (value: any,catg?:any) => {
   const [data, setData] = useState<any>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getAllVariants();
+        const response = await getAllVariants(catg);
         setData(response);
       } catch (error) {
         // Handle error
@@ -13,6 +13,6 @@ export const useVariantDetail = (value: any) => {
       }
     };
     fetchData();
-  }, [value]);
+  }, [value,catg]);
   return data;
 };
