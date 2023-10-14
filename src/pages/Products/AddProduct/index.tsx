@@ -300,7 +300,7 @@ export const AddProduct = () => {
     console.log(productData,"productData")
 if( productData.ProductVerification.length>0 && productData.title.length>0 && productData.technicalSpecificationModel.length>0 && productData.productVariants.length>0){
   setbuttonDisable(false)
-}
+} 
   },[productData])
   return (
     <div>

@@ -126,12 +126,13 @@ export const Confirmationmodal2 = ({
           />
           <CustomButton
             onClick={() => {
-              console.log(handleFunction)
+             
               if (handleFunction!==undefined) {
-                console.log(Value);
+                
                 handleFunction(Value);
               }
               if(handleFunction2!==undefined){
+               
                 handleFunction2(ObjVal);
               }
               if (setOkButton) {
