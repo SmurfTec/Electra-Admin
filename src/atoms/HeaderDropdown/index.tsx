@@ -7,7 +7,7 @@ export const HeaderDropDown = (props: any) => {
   const navigate = useNavigate();
   const handleReadMyNotifications = async () => {
    let r= await readMyNotifications();
-   console.log(r,"r")
+   console.log(r,"notification")
   };
   return (
     <div
@@ -27,7 +27,9 @@ export const HeaderDropDown = (props: any) => {
         </p>
       </div>
       <div className="border border-custom"></div>
-      <div className="flex px-3 py-2 gap-7">
+      {props.notification ?
+      <>
+        <div className="flex px-3 py-2 gap-7">
         <div className="flex gap-3">
           <div>
             <img src={IMAGES.Iphone22} />
@@ -51,61 +53,27 @@ export const HeaderDropDown = (props: any) => {
         </div>
       </div>
       <div className="my-1 border border-custom"></div>
-      <div className="flex px-3 py-2 gap-7">
-        <div className="flex gap-3">
-          <div>
-            <img src={IMAGES.Iphone22} />
-          </div>
-          <div>
-            <p className="flex gap-2 font-bold">
-              New listing by <p className="text-[#3C82D6] ">Huzayfah Hanif</p>
+     
+      </>
+      :
+      <>
+      <div className='flex justify-center items-center mt-[20px]'>
+      <p className="flex text-center gap-2 font-bold">
+             No New Notifications
             </p>
-            <div className="flex gap-2">
-              <p className="underline">View </p>
-              <span className="bg-[black] overflow-hidden items-center text-[white] h-5 rounded-full w-5 flex justify-center mt-1">
-                {' '}
-                {'>'}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="pt-2 mt-5 ">
-          <p className="text-[#969696] text-[10px]"> 22 Aug 2023</p>
-        </div>
       </div>
-      <div className="my-1 border border-custom"></div>
-      <div className="flex px-3 py-2 gap-7">
-        <div className="flex gap-3">
-          <div>
-            <img src={IMAGES.Iphone22} />
-          </div>
-          <div>
-            <p className="flex gap-2 font-bold">
-              New listing by <p className="text-[#3C82D6] ">Huzayfah Hanif</p>
-            </p>
-            <div className="flex gap-2">
-              <p className="underline">View </p>
-              <span className="bg-[black] overflow-hidden items-center text-[white] h-5 rounded-full w-5 flex justify-center mt-1">
-                {' '}
-                {'>'}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="pt-2 mt-5 ">
-          <p className="text-[#969696] text-[10px]"> 22 Aug 2023</p>
-        </div>
-      </div>
-      <div className="my-1 border border-custom"></div>
-
-      <p
+      </>
+      }
+    
+    <p
         onClick={() => navigate('/Notifications')}
         className="text-center py-2 text-[#3C82D6] font-bold cursor-pointer"
       >
         View All
       </p>
+     
+
+      
     </div>
   );
 };

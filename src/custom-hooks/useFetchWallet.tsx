@@ -21,12 +21,12 @@ export const useFetchWallet = (props: WalletProps) => {
           limit: props.limit,
           starting_after: props.starting_after,
         };
-
+       
         if (props.activetab == 'payout') {
           setWalletLoading(true);
           let r = await getPayouts(params);
-          console.log(r);
-          if (r?.payouts) {
+          
+          if (r?.status==200) {
             setWalletdata(r.payouts);
             console.log(r.payouts);
             setWalletLoading(false);
@@ -34,18 +34,18 @@ export const useFetchWallet = (props: WalletProps) => {
         } else if (props.activetab == 'payment') {
           setWalletLoading(true);
           let r = await getPayments(params);
-          console.log(r);
-          if (r?.payments) {
+          
+          if (r) {
             setWalletdata(r.payments);
             setWalletLoading(false);
           }
         } else {
           setWalletLoading(true);
           let r = await getTransfers(params);
-          console.log(r);
+          
           setWalletdata(r.transfers);
           setWalletLoading(false);
-          if (r?.transfers) {
+          if (r) {
             setWalletdata(r.transfers);
             console.log(r.transfers);
             setWalletLoading(false);

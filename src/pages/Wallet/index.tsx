@@ -36,7 +36,7 @@ export const Wallet = () => {
   const [filterData, setfilterData] = useState<any>();
 
   useEffect(() => {
-    console.log(Walletdata, 'WALLET');
+  
     if (initialData.activetab == 'transfer') {
       const newfilterData = Walletdata?.map((item: any, index: any) => {
         return {
@@ -157,12 +157,14 @@ export const Wallet = () => {
   const Balance = async () => {
     setbankloader(true);
     let balance = await getBalance();
+    
     setAccountBalance(balance);
     let walletstats = await getWalletStats();
+
     if (walletstats) {
       setbankloader(false);
     }
-    console.log(walletstats,"wallet stats")
+   
     setWalletStats(walletstats);
     // let r3=await getPayouts()
     // let r4=await getPayments()
@@ -197,6 +199,7 @@ export const Wallet = () => {
       });
     }
   };
+ 
   return (
     <div>
       <Header typeSearch={true}  UserBox={true} />
