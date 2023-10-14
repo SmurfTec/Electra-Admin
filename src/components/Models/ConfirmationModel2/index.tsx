@@ -19,7 +19,7 @@ export const Confirmationmodal2 = ({
   Value = '',
   setValue,
   value,
-  placeholderValue,
+  placeholderValue="Enter Color",
 }: any) => {
   // insert here
   const [error, setError] = useState('');
@@ -30,7 +30,7 @@ export const Confirmationmodal2 = ({
       visible={visible}
     >
       <i
-        className="pi pi-times absolute right-4 top-4 cursor-pointer"
+        className="absolute cursor-pointer pi pi-times right-4 top-4"
         onClick={() => {
           setError('');
           setVisible(false);
@@ -48,7 +48,7 @@ export const Confirmationmodal2 = ({
           <>
             <div className="flex justify-between items-center px-2 border w-[370px] h-[54px] mx-auto mt-8 rounded-[10px]">
               <input
-                placeholder="Enter color"
+                placeholder={placeholderValue}
                 value={Value}
                 onChange={e => setValue(e.target.value)}
                 className="px-2 focus:outline-none"
@@ -81,7 +81,7 @@ export const Confirmationmodal2 = ({
             )}
           </>
         )}
-        <div className="flex mt-8 justify-center gap-4">
+        <div className="flex justify-center gap-4 mt-8">
           <CustomButton
             txt={cnclebtnText}
             classes="!w-[179px] !h-[50px] !bg-[#E2E2E2] !rounded-[10px] !text-black !text-[16px]"

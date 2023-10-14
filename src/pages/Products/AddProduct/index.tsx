@@ -15,10 +15,15 @@ import { getBrands } from '../../../store/Slices/BrandSlice';
 import { getCategories } from '../../../store/Slices/Categories';
 import { Techspec } from '../../../components';
 import { CustomCalendar } from '../../../atoms';
+import { Confirmationmodal2 } from '../../../components';
 export const AddProduct = () => {
   type techSpec = {
     title: string;
     value: string;
+  };
+  type VerificationSpec = {
+    title: string;
+  
   };
   type variantSpec = {
     variant: string;
@@ -39,6 +44,8 @@ export const AddProduct = () => {
   const [techType, setTechType] = useState(1);
   const [brands, setBrands] = useState([]);
   const [category, setCategories] = useState([]);
+  const [Addvisible, setAddVisible] = useState(false);
+  const [Editvisible, setEditVisible] = useState(false);
   const [productData, setProductData] = useState({
     title: '',
     is_active: true,
@@ -47,7 +54,10 @@ export const AddProduct = () => {
     productProperties: {} as descriptionProp,
     productVariants: [] as variantSpec[],
     technicalSpecificationModel: [] as techSpec[],
+    ProductVerification:[] as VerificationSpec[] ,
   });
+  const[buttonDisable,setbuttonDisable]=useState(true)
+  const[Addvalue,setAddvalue]=useState('')
   const [variant, setVariant] = useState<any>({
     title: '',
     datatype: String,
@@ -237,6 +247,10 @@ export const AddProduct = () => {
         data.append(`technicalSpecificationModel[${index}][title]`, item.title);
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
       });
+    productData.ProductVerification.length>0 && 
+    productData.ProductVerification.map((item,index)=>{
+      data.append(`productVerificationDetailsModel[${index}][title]`,item.title)
+    })
     attachments.forEach((file: any, index: any) => {
       data.append('attachments', file);
     });
@@ -246,6 +260,28 @@ export const AddProduct = () => {
       navigate('/Products');
     }
   };
+  const AddVerification=(value: any)=>{
+    if (value.length > 0) {
+      const exist=productData.ProductVerification.some((item)=>item.title==value)
+      if (!exist) {
+        console.log(value);
+        setProductData(prevData=>({
+          ...prevData,
+          ProductVerification:[...prevData.ProductVerification,{title:value}]
+        }))
+        setAddVisible(false);
+        setAddvalue('');
+      } else {
+        setAddVisible(false);
+      }
+    }
+  } 
+  useEffect(()=>{
+    console.log(productData,"productData")
+if( productData.ProductVerification.length>0 && productData.title.length>0 && productData.technicalSpecificationModel.length>0){
+  setbuttonDisable(false)
+}
+  },[productData])
   return (
     <div>
       <Header
@@ -389,16 +425,7 @@ export const AddProduct = () => {
                   <p className="text-[#656565] text-[12px] mt-4">
                     RELEASE DATE
                   </p>
-                  {/* <InputTxt
-                    name="Release Date"
-                    onChange={(e: any) =>
-                      updateTechnicalSpecificationModel(
-                        e.target.name,
-                        e.target.value
-                      )
-                    }
-                    MainClasses={"!h-[28px] !bg-white"}
-                  /> */}
+                 
                   <CustomCalendar
                     placeholder={'eg: 08/10/2022'}
                     // date={new Date(item?.value)}
@@ -499,7 +526,37 @@ export const AddProduct = () => {
                     MainClasses={'!h-[28px] !bg-white'}
                   />
                 </div>
+                <CustomButton
+            onClick={() => {setAddVisible(true)}}
+            txt={'Add Specifications'}
+            classes={' !ml-[10px] mt-[20px] !w-[179px] !rounded-[12px] !h-[50px]'}
+          />
               </div>
+            </div>
+            <div className="mb-5">
+              <p className="text-[black] font-extrabold bg-lightgray border-b-0 p-4 w-[60%] rounded mt-5 border border-custom">
+                Product Verification
+              </p>
+
+              <div className="border border-custom  w-[60%] pb-4">
+                {productData.ProductVerification.map((item,index)=>{
+                  return(
+                    <div key={index} className="ml-5">
+                  <p className="text-[#656565] text-[16px] mt-4">
+                   {item.title}
+                  </p>
+               
+                  
+                </div>
+                  )
+                })}
+                <CustomButton
+            onClick={() => {setAddVisible(true)}}
+            txt={'Add Verifications'}
+            classes={' !ml-[10px] mt-[20px] !w-[179px] !rounded-[12px] !h-[50px]'}
+          />
+              </div>
+              
             </div>
           </>
         )}
@@ -516,12 +573,29 @@ export const AddProduct = () => {
             }
           />
           <CustomButton
-            onClick={() => Addproduct()}
+            onClick={() => {
+              if(!buttonDisable){
+                Addproduct()
+              }
+            }}
             txt={'Add Product'}
-            classes={' !w-[179px] !rounded-[12px] !h-[50px]'}
+            classes={`${buttonDisable?'!bg-[#E2E2E2] !text-black':''} !w-[179px] !rounded-[12px] !h-[50px]`}
           />
         </div>
       </div>
+      <Confirmationmodal2
+        addValue={true}
+        Value={Addvalue}
+        setValue={setAddvalue}
+        handleFunction={(value: any) => AddVerification(value)}
+        PopupHeader={'Add Value'}
+        visible={Addvisible}
+        setVisible={setAddVisible}
+        cnfrmbtnText={'Add value'}
+        placeholderValue="Add Verification Model"
+        cnclebtnText={'Cancel'}
+        text={'Are you sure you want to delete this variant'}
+      />
       <Confirmationmodal
         addValue={true}
         PopupHeader={'Add variant'}
