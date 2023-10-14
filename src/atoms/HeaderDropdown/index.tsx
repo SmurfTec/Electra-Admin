@@ -6,7 +6,8 @@ import { readMyNotifications } from '../../store/Slices/UserSlice';
 export const HeaderDropDown = (props: any) => {
   const navigate = useNavigate();
   const handleReadMyNotifications = async () => {
-    await readMyNotifications();
+   let r= await readMyNotifications();
+   console.log(r,"r")
   };
   return (
     <div
@@ -32,7 +33,7 @@ export const HeaderDropDown = (props: any) => {
             <img src={IMAGES.Iphone22} />
           </div>
           <div>
-            <p className="font-bold flex gap-2">
+            <p className="flex gap-2 font-bold">
               New listing by <p className="text-[#3C82D6] ">Huzayfah Hanif</p>
             </p>
             <div className="flex gap-2">
@@ -45,18 +46,18 @@ export const HeaderDropDown = (props: any) => {
           </div>
         </div>
 
-        <div className="mt-5 pt-2 ">
+        <div className="pt-2 mt-5 ">
           <p className="text-[#969696] text-[10px]"> 22 Aug 2023</p>
         </div>
       </div>
-      <div className="border border-custom my-1"></div>
+      <div className="my-1 border border-custom"></div>
       <div className="flex px-3 py-2 gap-7">
         <div className="flex gap-3">
           <div>
             <img src={IMAGES.Iphone22} />
           </div>
           <div>
-            <p className="font-bold flex gap-2">
+            <p className="flex gap-2 font-bold">
               New listing by <p className="text-[#3C82D6] ">Huzayfah Hanif</p>
             </p>
             <div className="flex gap-2">
@@ -69,18 +70,18 @@ export const HeaderDropDown = (props: any) => {
           </div>
         </div>
 
-        <div className="mt-5 pt-2 ">
+        <div className="pt-2 mt-5 ">
           <p className="text-[#969696] text-[10px]"> 22 Aug 2023</p>
         </div>
       </div>
-      <div className="border border-custom my-1"></div>
+      <div className="my-1 border border-custom"></div>
       <div className="flex px-3 py-2 gap-7">
         <div className="flex gap-3">
           <div>
             <img src={IMAGES.Iphone22} />
           </div>
           <div>
-            <p className="font-bold flex gap-2">
+            <p className="flex gap-2 font-bold">
               New listing by <p className="text-[#3C82D6] ">Huzayfah Hanif</p>
             </p>
             <div className="flex gap-2">
@@ -93,11 +94,11 @@ export const HeaderDropDown = (props: any) => {
           </div>
         </div>
 
-        <div className="mt-5 pt-2 ">
+        <div className="pt-2 mt-5 ">
           <p className="text-[#969696] text-[10px]"> 22 Aug 2023</p>
         </div>
       </div>
-      <div className="border border-custom my-1"></div>
+      <div className="my-1 border border-custom"></div>
 
       <p
         onClick={() => navigate('/Notifications')}
