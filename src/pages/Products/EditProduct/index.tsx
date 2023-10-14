@@ -18,7 +18,8 @@ import { getBrands } from '../../../store/Slices/BrandSlice';
 import { getCategories } from '../../../store/Slices/Categories';
 import { Techspec } from '../../../components';
 import { CustomCalendar } from '../../../atoms';
-
+import IMAGES from '../../../assets/Images';
+import { Confirmationmodal2 } from '../../../components';
 export const EditProduct = () => {
   type techSpec = {
     title: string;
@@ -30,6 +31,10 @@ export const EditProduct = () => {
   };
   type descriptionProp = {
     description: string;
+  };
+  type VerificationSpec = {
+    title: string;
+  
   };
   const params = useParams();
   let { id } = params;
@@ -55,7 +60,14 @@ export const EditProduct = () => {
     productProperties: {} as descriptionProp,
     productVariants: [] as variantSpec[],
     technicalSpecificationModel: [] as techSpec[],
+    ProductVerification:[] as VerificationSpec[] 
   });
+  const[EditValue,setEditValue]=useState('')
+  const[OriginalEditValue,setOriginalEditValue]=useState('')
+  const[EditObj,setEditObj]=useState({title:'',value:''})
+  const[OriginalEditObj,setOriginalEditObj]=useState({title:'',value:''})
+  const[EditVisible,setEditVisible]=useState(false);
+  const[EditVisible2,setEditVisible2]=useState(false)
   const [variant, setVariant] = useState<any>({
     title: '',
     datatype: String,
@@ -85,6 +97,7 @@ export const EditProduct = () => {
     });
     setCategories(dataCat);
   };
+  
   useEffect(() => {
     if (ProductData) {
       console.log(ProductData, 'PRoduct');
@@ -130,6 +143,13 @@ export const EditProduct = () => {
                   };
             }
           ) as techSpec[]),
+          ProductVerification:ProductData.product.product_verification_details && 
+          (ProductData.product.product_verification_details?.map((item:any,index:any)=>{
+            return {
+              id:item.id,
+              title:item.title
+            }
+          }))
       });
     }
   }, [ProductData]);
@@ -315,6 +335,16 @@ export const EditProduct = () => {
         data.append(`technicalSpecificationModel[${index}][title]`, item.title);
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
       });
+      productData.ProductVerification?.length > 0 &&
+      productData.ProductVerification.map((item:{
+        title:string,
+        id?:any
+      }, index) => {
+        item?.id &&
+        data.append(`productVerificationDetailsModel[${index}][id]`, item.id);
+        data.append(`productVerificationDetailsModel[${index}][title]`, item.title);
+      
+      });
     if (images) {
       images.forEach((item: any, index: any) => {
         data.append(`images[${index}]`, item);
@@ -355,6 +385,23 @@ export const EditProduct = () => {
 
     return item ? item.value : '';
   };
+  const HandleEditObj=(value:any)=>{
+    const index = productData.technicalSpecificationModel.findIndex((elem:any)=>elem.title==OriginalEditObj.title);
+    productData.technicalSpecificationModel[index]={title:value.title,value:value.value}
+    setProductData(productData)
+    setEditVisible2(false);
+    setOriginalEditObj({title:'',value:''})
+    
+  }
+  const HandleEditValue=(value:any)=>{
+   
+    const index = productData.ProductVerification.findIndex((elem:any)=>elem.title==OriginalEditValue);
+    productData.ProductVerification[index]={title:value}
+    setProductData(productData)
+    setEditVisible(false);
+    setOriginalEditValue('')
+    
+  }
   return (
     <div>
       <Header
@@ -455,7 +502,7 @@ export const EditProduct = () => {
             '!w-[100px] !h-[40px] !mt-6 !rounded-[12px] !bg-[#EFEFEF] !text-[black]'
           }
         />
-        <UploadPicture
+        <UploadPicture 
           setImages={(value: any) => {
             handleUpload(value);
           }}
@@ -506,40 +553,53 @@ export const EditProduct = () => {
                       console.log(item);
                       return (
                         <div key={index} className="ml-5">
-                          <p className="text-[#656565] text-[12px] mt-4">
+                          <p className="text-[#656565] text-[12px] flex mt-4">
                             {item.title}
+                            <img
+                    src={IMAGES.Edit}
+                    className="ml-[10px]"
+                    onClick={() => {
+                      setEditObj({title:item.title,value:item.value})
+                      setOriginalEditObj({title:item.title,value:item.value})
+                      setEditVisible2(true)
+                    }}
+                  />
                           </p>
-                          {item.title !== 'Release Date' ? (
-                            <InputTxt
-                              name={item.title}
-                              onChange={(e: any) => {
-                                item?.id
-                                  ? updateTechnicalSpecificationModel(
-                                      e.target.name,
-                                      e.target.value,
-                                      item.id
-                                    )
-                                  : updateTechnicalSpecificationModel(
-                                      e.target.name,
-                                      e.target.value
-                                    );
-                              }}
-                              value={item.value}
-                              placeholder={'eg: 20 aug 2022'}
-                              MainClasses={'!h-[28px] !bg-white'}
-                            />
-                          ) : (
-                            <CustomCalendar
-                              date={new Date(item?.value)}
-                              setDate={(e: any) => {
-                                console.log(e, 'EVENT');
-                                updateTechnicalSpecificationModel(
-                                  e.target.name,
-                                  e.target.value
-                                );
-                              }}
-                            />
-                          )}
+                          <p className="text-[#656565] text-[12px] ml-[10px] mt-2">
+                            {item.value}
+                          </p>
+                          
+                        </div>
+                      );
+                    }
+                  )}
+              </div>
+            </div>
+            <div className="mb-5">
+              <p className="text-[black] font-extrabold bg-lightgray border-b-0 p-4 w-[60%] rounded mt-5 border border-custom">
+              Product Verification
+              </p>
+
+              <div className="border border-custom  w-[60%] pb-4">
+                {productData &&
+                  productData.ProductVerification.map(
+                    (item: any, index: any) => {
+                     
+                      return (
+                        <div key={index} className="flex items-center gap-5 ml-5">
+                          <p className="text-[#656565] flex text-[12px] mt-4">
+                            {item.title}
+                            <img
+                    src={IMAGES.Edit}
+                    className="ml-[15px]"
+                    onClick={() => {
+                     setEditValue(item.title)
+                     setOriginalEditValue(item.title)
+                     setEditVisible(true)
+                    }}
+                  />
+                          </p>
+                          
                         </div>
                       );
                     }
@@ -568,6 +628,30 @@ export const EditProduct = () => {
           />
         </div>
       </div>
+      <Confirmationmodal2
+        addValue={true}
+        Value={EditValue}
+        setValue={setEditValue}
+        PopupHeader={'Edit Value'}
+        visible={EditVisible}
+        setVisible={setEditVisible}
+        cnfrmbtnText={'Edit value'}
+        cnclebtnText={'Cancel'}
+        handleFunction={(value: any) =>HandleEditValue(value)}
+      />
+
+      <Confirmationmodal2 
+       ObjVal={EditObj}
+       setObjVal={setEditObj}
+        PopupHeader={'Edit Value'}
+        visible={EditVisible2}
+        setVisible={setEditVisible2}
+        cnfrmbtnText={'Edit value'}
+        cnclebtnText={'Cancel'}
+        handleFunction2={(value: any) =>HandleEditObj(value)}
+        classes={`!h-[400px]`}
+      />
+
       <Confirmationmodal
         addValue={true}
         PopupHeader={'Add variant'}

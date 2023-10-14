@@ -123,9 +123,9 @@ export const Dashboard = () => {
                 <DashCard
                   // onClick={() => setvisible(true)}
                   title={'Net Revenue'}
-                  totalNumber={`$ ${dashStats?.revenueStats?.total_revenue?.toFixed(
+                  totalNumber={`$ ${dashStats?.revenueStats?.total_revenue? dashStats?.revenueStats?.total_revenue?.toFixed(
                     2,
-                  )}`}
+                  ):0 }`}
                   myImg={IMAGES.coin}
                   imgColor={'bg-blue-dash'}
                   textDash={
@@ -144,9 +144,9 @@ export const Dashboard = () => {
                       : IMAGES.uparrow
                   }
                   outerclasses={`!w-[400px]`}
-                  percentageTxt={`$ ${dashStats?.revenueStats?.revenue_percentage?.toFixed(
+                  percentageTxt={`$ ${dashStats?.revenueStats?.revenue_percentage? dashStats?.revenueStats?.revenue_percentage?.toFixed(
                     2,
-                  )}`}
+                  ):0}`}
                 />
                 <DashCard
                   title={'Products Sold'}
@@ -229,7 +229,7 @@ export const Dashboard = () => {
               </>
             )}
           </div>
-          <div className="flex mt-3 gap-2 w-full   ">
+          <div className="flex w-full gap-2 mt-3 ">
             <div>
               <StaticCard
                 listing={dashStats?.listingStats?.total_listings_for_last_month}
@@ -298,7 +298,7 @@ export const Dashboard = () => {
           </div>
         </>
       ) : (
-        <div className="w-full h-full flex justify-start items-center overflow-y-hidden">
+        <div className="flex items-center justify-start w-full h-full overflow-y-hidden">
           <ProgressSpinner style={{ overflow: 'hidden' }} />
         </div>
       )}

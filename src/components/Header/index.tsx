@@ -128,6 +128,7 @@ export const Header = (props: headerProps) => {
           className={
             'absolute h-[340px] w-[401px] right-40 top-19 rounded-lg bg-white'
           }
+          notification={notification}
         />
       )}
     </>

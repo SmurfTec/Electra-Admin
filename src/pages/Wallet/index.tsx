@@ -36,7 +36,7 @@ export const Wallet = () => {
   const [filterData, setfilterData] = useState<any>();
 
   useEffect(() => {
-    console.log(Walletdata, 'WALLET');
+  
     if (initialData.activetab == 'transfer') {
       const newfilterData = Walletdata?.map((item: any, index: any) => {
         return {
@@ -157,12 +157,14 @@ export const Wallet = () => {
   const Balance = async () => {
     setbankloader(true);
     let balance = await getBalance();
+    
     setAccountBalance(balance);
     let walletstats = await getWalletStats();
+
     if (walletstats) {
       setbankloader(false);
     }
-    console.log(walletstats,"wallet stats")
+   
     setWalletStats(walletstats);
     // let r3=await getPayouts()
     // let r4=await getPayments()
@@ -197,6 +199,7 @@ export const Wallet = () => {
       });
     }
   };
+ 
   return (
     <div>
       <Header typeSearch={true}  UserBox={true} />
@@ -222,7 +225,7 @@ export const Wallet = () => {
                     </p>
                   </div>
                 </div>
-                <div className=" flex justify-center items-center ">
+                <div className="flex items-center justify-center ">
                   <img src={IMAGES.Coins} />
                 </div>
               </div>
@@ -248,11 +251,11 @@ export const Wallet = () => {
                 </p>
               </div>
               <div className="flex gap-[76px] mt-[34px]">
-                <div className=" flex flex-col ">
+                <div className="flex flex-col ">
                   <p className="text-[20px] font-[400] text-white">US BANK</p>
                   <p className="text-[12px] font-[400] text-white">Bank</p>
                 </div>
-                <div className=" flex flex-col ">
+                <div className="flex flex-col ">
                   <p className="text-[20px] font-[400] text-white">25/7/2022</p>
                   <p className="text-[12px] font-[400] text-white">linked on</p>
                 </div>
@@ -263,7 +266,7 @@ export const Wallet = () => {
             <div className="flex flex-wrap gap-6 mt-[28px]">
               <DashCard
                 title={'Net Revenue'}
-                totalNumber={`$${WalletStats?.grossRevenue}`}
+                totalNumber={`$${WalletStats?.grossRevenue || 0}`}
                 myImg={IMAGES.coin}
                 imgColor={'bg-blue-dash'}
                 textDash={`${
@@ -286,7 +289,7 @@ export const Wallet = () => {
               />
               <DashCard
                 title={'Platform Profit'}
-                totalNumber={`$${WalletStats?.grossProfit}`}
+                totalNumber={`$${WalletStats?.grossProfit || 0}`}
                 myImg={IMAGES.DollorHouse}
                 imgColor={'bg-yellow-dash'}
                 textDash={`${
