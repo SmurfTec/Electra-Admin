@@ -122,7 +122,7 @@ export const DashTable = (props: any) => {
     );
   };
   const imageBodyTemplate = (rowData: any) => {
-    return <img src={rowData.img} alt="Avatar" className="w-24" />;
+    return <img src={rowData.img} alt="Avatar" className="w-[40px] h-10" />;
   };
   return (
     <div className={`mt-4 px-4 rounded-3xl  ${props.classess}`}>

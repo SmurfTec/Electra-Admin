@@ -10,9 +10,11 @@ import { TabPanel } from 'primereact/tabview';
 import { Paginatior } from '../../../components';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Confirmationmodal } from '../../../components';
-import { flagListing } from '../../../store/Slices/ListingsSlice';
+import { flagListing,setListingCount} from '../../../store/Slices/ListingsSlice';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 export const Listings = () => {
+  const dispatch=useDispatch()
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
   const [initialPageData, setInitialPageData] = useState({
@@ -39,6 +41,7 @@ export const Listings = () => {
     let flagged: any = [];
     let All: any = [];
     setTotalList(data?.data?.stats.all_listings);
+    dispatch(setListingCount(data?.data?.stats.all_listings))
     data?.data?.listings?.forEach((item: any) => {
       let newObj = {
         ...item,

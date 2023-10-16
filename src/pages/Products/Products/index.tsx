@@ -12,8 +12,11 @@ import { MenuItem } from 'primereact/menuitem';
 import { Paginatior } from '../../../components/index.js';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { EditProductAPI } from '../../../store/Slices/ProductSlice.js';
+import { setProductCount } from '../../../store/Slices/ProductSlice.js';
+import { useDispatch } from 'react-redux';
 export const Products = () => {
   const navigate = useNavigate();
+  const dispatch=useDispatch()
   const [filterData, setFilterData] = useState([]);
   const [initial, setInitial] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -26,7 +29,9 @@ export const Products = () => {
   const getProducts = async () => {
     try {
       const response = await GetAllProducts(initialPageData);
+      console.log(response.stats)
       setTotalProducts(response.stats.total_products);
+      dispatch(setProductCount(response.stats.total_products))
       setStats(response.stats);
       let latestArray;
       latestArray = response.products.map((item: any, index: number) => {

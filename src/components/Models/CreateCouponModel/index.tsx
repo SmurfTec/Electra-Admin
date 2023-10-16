@@ -173,7 +173,7 @@ export const CreateCouponModel = ({
             />
             <InputTxt
               placeholder="Percentage Off"
-              value={values?.percentage}
+              value={`${values?.percentage} %`}
               Title={values?.percentage}
               onChange={(e: any) =>
                 setValues({ ...values, percentage: e.target.value })

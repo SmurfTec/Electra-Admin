@@ -38,7 +38,7 @@ export const SideBar = () => {
       url: '/Products',
       open: false,
       DropDown: true,
-      number: total_products,
+      number: total_products??"0",
       subItems: [
         {
           id: 31,
@@ -67,7 +67,7 @@ export const SideBar = () => {
       icon: IMAGES.Listing,
       active: false,
       url: '/Listings',
-      number: +total_listings,
+      number: total_listings??"0",
     },
     {
       id: 6,
@@ -75,7 +75,7 @@ export const SideBar = () => {
       icon: IMAGES.Order,
       active: false,
       url: '/Orders',
-      number: +totalOrders,
+      number: totalOrders,
     },
     {
       id: 7,
@@ -195,7 +195,7 @@ export const SideBar = () => {
     }, 2000);
   };
   useEffect(() => {
-    console.log(checkRoute);
+    
     if (checkRoute) {
       const updatedNavItems: any = navItems.map((item: any) => {
         if (item.url === checkRoute) {

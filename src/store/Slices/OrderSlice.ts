@@ -51,12 +51,18 @@ export const OrderSlice = createSlice({
     orders: [],
     totalOrders: 0,
   },
-  reducers: {},
+  reducers: {
+    setOrderCount:(state:any,action:any)=>{
+      
+      state.totalOrders=action.payload
+    }
+  },
   extraReducers: builder => {
     builder.addCase(OrdersCount.pending, (state: any, action: any) => {
       state.totalOrders = action.payload.total_orders;
     });
   },
 });
+export const { setOrderCount } = OrderSlice.actions
 
 export default OrderSlice.reducer;

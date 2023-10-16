@@ -11,11 +11,12 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import { CSVLink } from 'react-csv';
 import moment from 'moment';
 import { Paginatior } from '../../components';
-
+import { useDispatch } from 'react-redux';
+import { setOrderCount } from '../../store/Slices/OrderSlice';
 import { useFetchOrders } from '../../custom-hooks/useFetchOrders';
 export const Orders = () => {
   const navigate = useNavigate();
-
+  const dispatch=useDispatch();
   const [visible, setVisible] = React.useState(false);
   const [currentItem, setcurrentItem] = useState<any>();
   const [filterData, setfilterData] = useState<any>([]);
@@ -175,6 +176,8 @@ export const Orders = () => {
   ];
 
   useEffect(() => {
+    console.log(stats?.all_orders)
+    dispatch(setOrderCount(stats?.all_orders))
     let newarr = orderData?.map((item: any) => {
       let updatedObj = {
         ...item,
@@ -195,6 +198,7 @@ export const Orders = () => {
     console.log(newarr);
     setfilterData(newarr);
   }, [orderData]);
+
   const handleTabChange = (event: any) => {
     setactiveTab(event?.index);
     if (event?.index == 0) {
@@ -237,6 +241,7 @@ export const Orders = () => {
       });
     }
   };
+
   const headers = [
     { label: 'ID', key: 'id' },
     { label: 'Seller', key: 'Seller' },

@@ -63,13 +63,18 @@ export const ListingsCount = createAsyncThunk('listings/count', async () => {
   }
 });
 
-export const OrderSlice = createSlice({
-  name: 'orders',
+export const ListingsSlice = createSlice({
+  name: 'listings',
   initialState: {
-    orders: [],
+    listings: [],
     total_listings: 0,
   },
-  reducers: {},
+  reducers: {
+    setListingCount:(state:any,action:any)=>{
+      console.log(action.payload)
+      state.total_listings=action.payload
+    }
+  },
   extraReducers: builder => {
     builder.addCase(ListingsCount.pending, (state: any, action: any) => {
       // both `state` and `action` are now correctly typed
@@ -78,5 +83,5 @@ export const OrderSlice = createSlice({
     });
   },
 });
-
-export default OrderSlice.reducer;
+export const { setListingCount } = ListingsSlice.actions
+export default ListingsSlice.reducer;
