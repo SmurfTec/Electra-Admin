@@ -336,7 +336,7 @@ export const EditProduct = () => {
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
       });
       productData.ProductVerification?.length > 0 &&
-      productData.ProductVerification.map((item:{
+      productData.ProductVerification?.map((item:{
         title:string,
         id?:any
       }, index) => {
@@ -582,7 +582,7 @@ export const EditProduct = () => {
 
               <div className="border border-custom  w-[60%] pb-4">
                 {productData &&
-                  productData.ProductVerification.map(
+                  productData.ProductVerification?.map(
                     (item: any, index: any) => {
                      
                       return (
