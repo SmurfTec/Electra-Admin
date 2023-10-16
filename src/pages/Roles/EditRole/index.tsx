@@ -151,7 +151,7 @@ export const Editrole = () => {
         />
         <CustomButton
           onClick={EDIT}
-          txt={'Create Role'}
+          txt={'Edit Role'}
           classes={' !w-[179px] !rounded-[12px] !h-[50px]'}
         />
       </div>

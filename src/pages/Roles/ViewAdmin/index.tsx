@@ -180,13 +180,15 @@ export const ViewAdmin = () => {
         </div>
         <div className="border border-[#F7F7F8] h-[454px] w-[400px]">
           {view
-            ? user?.user_activities.map((item: UserActivity, index) => {
+            ? user?.user_activities?.map((item: UserActivity, index) => {
                 return (
                   <div
                     key={index}
                     className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]"
                   >
-                    <img className="p-2" src={BaseURL + item.image} />
+                    <img className="p-2"  src={
+                          item.image ? BaseURL + item.image : IMAGES.Loginarrow
+                        }/>
                     <div>
                       <p>{item.message}</p>
                       <p className="text-[#969696] mt-2 text-[11px]">

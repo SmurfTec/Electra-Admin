@@ -63,12 +63,12 @@ export const ProductRequests = () => {
                 setInitialPageData(rest);
               }}
               title="All"
-              number={`${data.count}`}
+              number={`${data.count}`??"0"}
               img={IMAGES.Person}
             />
             <StatusCard
-              title={`${productRequestStats[2]?.status} `}
-              number={`${productRequestStats[2]?.count} `}
+              title={`${productRequestStats[2]?.status??"0"} `}
+              number={`${productRequestStats[2]?.count??"0"} `}
               img={IMAGES.New}
               onClick={() => {
                 setInitialPageData({
@@ -78,8 +78,8 @@ export const ProductRequests = () => {
               }}
             />
             <StatusCard
-              title={`${productRequestStats[1]?.status} `}
-              number={`${productRequestStats[1]?.count} `}
+              title={`${productRequestStats[1]?.status??"0"} `}
+              number={`${productRequestStats[1]?.count??"0"} `}
               img={IMAGES.greencross}
               onClick={() => {
                 setInitialPageData({
@@ -89,8 +89,8 @@ export const ProductRequests = () => {
               }}
             />
             <StatusCard
-              title={`${productRequestStats[0]?.status} `}
-              number={`${productRequestStats[0]?.count} `}
+              title={`${productRequestStats[0]?.status??"0"} `}
+              number={`${productRequestStats[0]?.count??"0"} `}
               img={IMAGES.bluetick}
               onClick={() => {
                 setInitialPageData({

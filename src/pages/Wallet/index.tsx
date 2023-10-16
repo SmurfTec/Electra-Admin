@@ -141,7 +141,7 @@ export const Wallet = () => {
     { field: 'from', header: 'From' },
     { field: 'value', header: 'Value' },
     { field: 'Source', header: 'Source' },
-    { field: 'Date', header: 'Date' },
+    // { field: 'Date', header: 'Date' },
     // { field: "", header: '', body: MenuBodyTemplate }
   ]);
   useEffect(() => {

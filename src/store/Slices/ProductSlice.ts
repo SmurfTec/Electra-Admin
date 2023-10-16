@@ -150,7 +150,12 @@ export const ProductsCount = createAsyncThunk('products/count', async () => {
 const ProductSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {},
+  reducers: {
+    setProductCount:(state:any,action:any)=>{
+      console.log(action.payload)
+      state.total_products=action.payload
+    }
+  },
   extraReducers: builder => {
     builder.addCase(ProductsCount.pending, (state: any, action: any) => {
       // both `state` and `action` are now correctly typed
@@ -159,4 +164,5 @@ const ProductSlice = createSlice({
     });
   },
 });
+export const { setProductCount } = ProductSlice.actions
 export default ProductSlice.reducer;

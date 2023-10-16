@@ -74,6 +74,7 @@ export const Roles = () => {
     loading: boolean;
   } = useGetRoles(fetch, initialPageData);
   const filterData = users?.map((item: PartialAccount, index: number) => {
+    console.log(item)
     return {
       id: item.id,
       Account: `${item.profile?.firstname} ${item.profile?.lastname}`,

@@ -76,7 +76,7 @@ export const UserProfile = () => {
   const [Data, setData] = useState([
     { id: 1, txt: 'Active', title: 'No of Listings', body: '' },
     { id: 2, txt: 'Active', title: 'Gross Value', body: '' },
-    { id: 3, txt: 'Active', title: 'Net Value', body: '' },
+    // { id: 3, txt: 'Active', title: 'Net Value', body: '' },
     { id: 4, txt: 'Pending', title: 'Pending Sales', body: '5' },
     { id: 5, txt: 'Pending', title: 'Gross Value', body: '$2000' },
     { id: 6, txt: 'Pending', title: 'Net Value', body: '$2100' },
@@ -428,11 +428,11 @@ export const UserProfile = () => {
             title={'Total Volume'}
             totalNumber={`${stats?.total_volume || 0}`}
             myImg={IMAGES.Volume}
-            imgColor={'bg-custom-grey'}
-            textDash={'bg-yellow-dash px-2 py-1 w-[6rem] '}
-            txt="20 aug,2022"
-            subtxt="Last Sale"
-            textColor={'#3C82D6'}
+            // imgColor={'bg-custom-grey'}
+            // textDash={'bg-yellow-dash px-2 py-1 w-[6rem] '}
+            // txt="20 aug,2022"
+            // subtxt="Last Sale"
+            // textColor={'#3C82D6'}
             outerclasses="!w-[284px] !h-[140px]"
           />
           <DashCard
