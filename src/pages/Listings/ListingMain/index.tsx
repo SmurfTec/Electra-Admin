@@ -118,6 +118,20 @@ export const Listings = () => {
             );
           },
         },
+        {
+          label: 'Delete',
+          template: (item: any, options: any) => {
+            return (
+              <div
+                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
+                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+                // onClick={(event: any) => DeleteUser(event, rowData.id)}
+              >
+                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
+              </div>
+            );
+          },
+        },
       ],
     },
   ];

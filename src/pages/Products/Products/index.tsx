@@ -196,7 +196,7 @@ export const Products = () => {
               imgColor={'bg-yellow-dash'}
               textDash={' !w-full '}
               textColor={'#3C82D6'}
-              txt="Last Updated 24,aug,2020"
+              // txt="Last Updated 24,aug,2020"
               outerclasses="w-[284px] h-[140px]"
             />
             <DashCard
@@ -215,7 +215,7 @@ export const Products = () => {
                   ? IMAGES.downarrow
                   : IMAGES.uparrow
               }
-              percentageTxt={`% ${stats?.products_percentage?.toFixed(1)??"-"}`}
+              percentageTxt={`% ${stats?.products_percentage?.toFixed(1)??"0"}`}
               outerclasses="w-[284px] h-[140px]"
             />
             <DashCard
@@ -234,7 +234,7 @@ export const Products = () => {
                   ? IMAGES.downarrow
                   : IMAGES.uparrow
               }
-              percentageTxt={`% ${stats?.products_percentage?.toFixed(1)??"-"}`}
+              percentageTxt={`% ${stats?.products_percentage?.toFixed(1)??"0"}`}
               outerclasses="w-[284px] h-[140px]"
             />
             <DashCard

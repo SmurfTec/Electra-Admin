@@ -27,6 +27,7 @@ export const InputTxt = ({
   LeftIcon,
   inputClasses,
   txt,
+  percent,
   ...restProps
 }: any) => {
   return (
@@ -46,7 +47,12 @@ export const InputTxt = ({
           onClick={restProps?.IconRightClick}
         />
       )}
+
+      
       {txt && <p className="text-[12px] text-black font-[700]">{txt}</p>}
+      {percent&&<p>
+        %
+      </p>}
     </div>
   );
 };
