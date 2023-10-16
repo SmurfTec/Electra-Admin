@@ -150,7 +150,7 @@ export const Dashboard = () => {
                 />
                 <DashCard
                   title={'Products Sold'}
-                  totalNumber={`${dashStats?.productStats?.total_products_sold}`}
+                  totalNumber={`${dashStats?.productStats?.total_products_sold || 0}`}
                   myImg={IMAGES.box}
                   imgColor={'bg-yellow-dash'}
                   outerclasses={`!w-[400px] `}
@@ -169,9 +169,9 @@ export const Dashboard = () => {
                       ? IMAGES.downarrow
                       : IMAGES.uparrow
                   }
-                  percentageTxt={`$ ${dashStats?.productStats?.products_percentage?.toFixed(
+                  percentageTxt={`$ ${dashStats?.productStats?.products_percentage? dashStats?.productStats?.products_percentage?.toFixed(
                     2,
-                  )}`}
+                  ):0}`}
                 />
                 <DashCard
                   title={'Total Users'}
