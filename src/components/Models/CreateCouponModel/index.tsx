@@ -172,8 +172,9 @@ export const CreateCouponModel = ({
               MainClasses="!w-[204px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF]"
             />
             <InputTxt
+            percent={true}
               placeholder="Percentage Off"
-              value={`${values?.percentage} %`}
+              value={`${values?.percentage}`}
               Title={values?.percentage}
               onChange={(e: any) =>
                 setValues({ ...values, percentage: e.target.value })
@@ -215,6 +216,10 @@ export const CreateCouponModel = ({
           />
           <div className="flex justify-center gap-3">
             <CustomButton
+            onClick={()=>{
+              setVisible(false);
+            }
+          }
               txt="Cancel"
               classes="!w-[179px] !h-[50px] !bg-[#E2E2E2] !rounded-[10px] !text-black !text-[16px]"
             />
