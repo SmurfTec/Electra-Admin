@@ -23,7 +23,6 @@ export const AddProduct = () => {
   };
   type VerificationSpec = {
     title: string;
-  
   };
   type variantSpec = {
     variant: string;
@@ -45,7 +44,7 @@ export const AddProduct = () => {
   const [brands, setBrands] = useState([]);
   const [category, setCategories] = useState([]);
   const [Addvisible, setAddVisible] = useState(false);
-  const[Addvisible2,setAddVisible2]=useState(false)
+  const [Addvisible2, setAddVisible2] = useState(false);
   const [Editvisible, setEditVisible] = useState(false);
   const [productData, setProductData] = useState({
     title: '',
@@ -55,13 +54,15 @@ export const AddProduct = () => {
     productProperties: {} as descriptionProp,
     productVariants: [] as variantSpec[],
     technicalSpecificationModel: [] as techSpec[],
-    ProductVerification:[] as VerificationSpec[] ,
+    ProductVerification: [] as VerificationSpec[],
   });
-  const[buttonDisable,setbuttonDisable]=useState(true)
-  const[Addvalue,setAddvalue]=useState('')
-  const[AddObjvalue,setAddObjvalue]=useState({
-    title:'',value:''
-  })
+  const [error, setError] = useState('');
+  const [buttonDisable, setbuttonDisable] = useState(true);
+  const [Addvalue, setAddvalue] = useState('');
+  const [AddObjvalue, setAddObjvalue] = useState({
+    title: '',
+    value: '',
+  });
   const [variant, setVariant] = useState<any>({
     title: '',
     datatype: String,
@@ -69,7 +70,7 @@ export const AddProduct = () => {
     id: Number,
   });
   const navigate = useNavigate();
-  const VariantsData = useVariantDetail(fetchVariants,productData.category);
+  const VariantsData = useVariantDetail(fetchVariants, productData.category);
   const getAllBrands = async () => {
     let data = await getBrands();
     let dataCat = await getCategories();
@@ -130,7 +131,7 @@ export const AddProduct = () => {
     if (sendVariant) {
       setVisible(!visible);
       VariantsData;
-      setVariantValue('')
+      setVariantValue('');
     }
     setFetchVariants(!fetchVariants);
   };
@@ -167,7 +168,7 @@ export const AddProduct = () => {
   const updateVariantData = (variant: any, value: any) => {
     let updateVariants: any = productData.productVariants;
     const updatedVariants = updateVariants.findIndex(
-      (item: any) => item.value === value,
+      (item: any) => item.value === value
     );
     if (
       value !== 'capacity' &&
@@ -202,7 +203,7 @@ export const AddProduct = () => {
         setVariantArray(newData);
       } else {
         updateVariants = updateVariants.filter(
-          (item: any) => item.value !== value,
+          (item: any) => item.value !== value
         );
         setProductData(prevData => {
           return { ...prevData, productVariants: updateVariants };
@@ -239,8 +240,8 @@ export const AddProduct = () => {
     data.append('category', productData.category);
     data.append(
       'productProperties[description]',
-      productData.productProperties.description,
-    ); 
+      productData.productProperties.description
+    );
     productData.productVariants.length > 0 &&
       productData.productVariants.map((item, index) => {
         data.append(`productVariants[${index}][variant]`, item.variant);
@@ -251,10 +252,13 @@ export const AddProduct = () => {
         data.append(`technicalSpecificationModel[${index}][title]`, item.title);
         data.append(`technicalSpecificationModel[${index}][value]`, item.value);
       });
-    productData.ProductVerification.length>0 && 
-    productData.ProductVerification.map((item,index)=>{
-      data.append(`productVerificationDetailsModel[${index}][title]`,item.title)
-    })
+    productData.ProductVerification.length > 0 &&
+      productData.ProductVerification.map((item, index) => {
+        data.append(
+          `productVerificationDetailsModel[${index}][title]`,
+          item.title
+        );
+      });
     attachments.forEach((file: any, index: any) => {
       data.append('attachments', file);
     });
@@ -264,44 +268,67 @@ export const AddProduct = () => {
       navigate('/Products');
     }
   };
-  const AddVerification=(value: any)=>{
+  const AddVerification = (value: any) => {
     if (value.length > 0) {
-      const exist=productData.ProductVerification.some((item)=>item.title==value)
+      const exist = productData.ProductVerification.some(
+        item => item.title == value
+      );
       if (!exist) {
         console.log(value);
-        setProductData(prevData=>({
+        setProductData(prevData => ({
           ...prevData,
-          ProductVerification:[...prevData.ProductVerification,{title:value}]
-        }))
+          ProductVerification: [
+            ...prevData.ProductVerification,
+            { title: value },
+          ],
+        }));
         setAddVisible(false);
         setAddvalue('');
       } else {
         setAddVisible(false);
       }
     }
-  } 
-  const AddSpecification=(value:any)=>{
-    console.log(value)
-    if(value.title.length>0){
-      const exist=productData.ProductVerification.some((item)=>item.title==value.title)
+  };
+  const AddSpecification = (value: any) => {
+    console.log(value);
+    if (value.title.length > 0) {
+      const exist = productData.ProductVerification.some(
+        item => item.title == value.title
+      );
       if (!exist) {
-        setProductData(prevData=>({
+        setProductData(prevData => ({
           ...prevData,
-          technicalSpecificationModel:[...prevData.technicalSpecificationModel,{title:value.title,value:value.value}]
-        }))
+          technicalSpecificationModel: [
+            ...prevData.technicalSpecificationModel,
+            { title: value.title, value: value.value },
+          ],
+        }));
         setAddVisible2(false);
-        setAddObjvalue({title:'',value:''})
-      }else {
+        setAddObjvalue({ title: '', value: '' });
+      } else {
         setAddVisible2(false);
       }
     }
-  }
-  useEffect(()=>{
-    console.log(productData,"productData")
-if( productData.ProductVerification.length>0 && productData.title.length>0 && productData.technicalSpecificationModel.length>0 && productData.productVariants.length>0){
-  setbuttonDisable(false)
-} 
-  },[productData])
+  };
+  useEffect(() => {
+    if (
+      productData.ProductVerification.length > 2 &&
+      productData.title.length > 0 &&
+      productData.technicalSpecificationModel.length > 2 &&
+      productData.productVariants.length > 0
+    ) {
+      setError('');
+      setbuttonDisable(false);
+    } else {
+      if (productData.ProductVerification.length < 2) {
+        setError('Must add 3 product verifications');
+      } else if (productData.technicalSpecificationModel.length < 2) {
+        setError('Must add 3 technical Specification');
+      }else if (productData.title.length === 0) {
+        setError('Title cannot be empty');
+      }
+    }
+  }, [productData]);
   return (
     <div>
       <Header
@@ -328,6 +355,7 @@ if( productData.ProductVerification.length>0 && productData.title.length>0 && pr
           options={category}
           mainclasses={'mt-10  !w-[35%]'}
         />
+        {error && error==="Title cannot be empty"&& <p className="text-red">{error}</p>}
         <CustomDropdown2
           setValue={(value: any) => {
             setProductData({
@@ -352,7 +380,8 @@ if( productData.ProductVerification.length>0 && productData.title.length>0 && pr
             '!w-[100px] !h-[40px] !mt-6 !mb-4 !rounded-[12px] !bg-[#EFEFEF] !text-[black]'
           }
         />
-        {productData.category&&VariantsArray &&
+        {productData.category &&
+          VariantsArray &&
           VariantsArray.map((item: any, index: any) => {
             return (
               <div className="flex gap-2" key={index}>
@@ -374,7 +403,7 @@ if( productData.ProductVerification.length>0 && productData.title.length>0 && pr
                     let newVariant = item.values.map(
                       (item: any, index: any) => {
                         return item.txt;
-                      },
+                      }
                     );
                     setVariant({
                       ...variant,
@@ -441,52 +470,59 @@ if( productData.ProductVerification.length>0 && productData.title.length>0 && pr
               </p>
 
               <div className="border border-custom  w-[60%] pb-4">
-                {productData.technicalSpecificationModel.map((item,index)=>{
-                  return(
+                {productData.technicalSpecificationModel.map((item, index) => {
+                  return (
                     <div key={index} className="ml-5">
-                    <p className="text-[#656565] text-[12px] mt-4 uppercase">
-                     {item.title}
-                    </p>
-                    <p className="text-[#656565] ml-[20px] text-[12px] mt-2 uppercase">
-                     {item.value}
-                    </p>
-                    
-                  </div>
-                  )
+                      <p className="text-[#656565] text-[12px] mt-4 uppercase">
+                        {item.title}
+                      </p>
+                      <p className="text-[#656565] ml-[20px] text-[12px] mt-2 uppercase">
+                        {item.value}
+                      </p>
+                    </div>
+                  );
                 })}
-              
+
                 <CustomButton
-            onClick={() => {setAddVisible2(true)}}
-            txt={'Add Specifications'}
-            classes={' !ml-[10px] mt-[20px] !w-[179px] !rounded-[12px] !h-[50px]'}
-          />
+                  onClick={() => {
+                    setAddVisible2(true);
+                  }}
+                  txt={'Add Specifications'}
+                  classes={
+                    ' !ml-[10px] mt-[20px] !w-[179px] !rounded-[12px] !h-[50px]'
+                  }
+                />
               </div>
             </div>
+            {error && error==="Must add 3 technical Specification"&& <p className="text-red">{error}</p>}
             <div className="mb-5">
               <p className="text-[black] font-extrabold bg-lightgray border-b-0 p-4 w-[60%] rounded mt-5 border border-custom">
                 Product Verification
               </p>
 
               <div className="border border-custom  w-[60%] pb-4">
-                {productData.ProductVerification.map((item,index)=>{
-                  return(
+                {productData.ProductVerification.map((item, index) => {
+                  return (
                     <div key={index} className="ml-5">
-                  <p className="text-[#656565] text-[16px] mt-4">
-                   {item.title}
-                  </p>
-               
-                  
-                </div>
-                  )
+                      <p className="text-[#656565] text-[16px] mt-4">
+                        {item.title}
+                      </p>
+                    </div>
+                  );
                 })}
                 <CustomButton
-            onClick={() => {setAddVisible(true)}}
-            txt={'Add Verifications'}
-            classes={' !ml-[10px] mt-[20px] !w-[179px] !rounded-[12px] !h-[50px]'}
-          />
+                  onClick={() => {
+                    setAddVisible(true);
+                  }}
+                  txt={'Add Verifications'}
+                  classes={
+                    ' !ml-[10px] mt-[20px] !w-[179px] !rounded-[12px] !h-[50px]'
+                  }
+                />
               </div>
-              
             </div>
+
+            {error && error==="Must add 3 product verifications"&&<p className="text-red mb-2">{error}</p>}
           </>
         )}
         {enterManual === 'manual' && (
@@ -503,12 +539,14 @@ if( productData.ProductVerification.length>0 && productData.title.length>0 && pr
           />
           <CustomButton
             onClick={() => {
-              if(!buttonDisable){
-                Addproduct()
+              if (!buttonDisable) {
+                Addproduct();
               }
             }}
             txt={'Add Product'}
-            classes={`${buttonDisable?'!bg-[#E2E2E2] !text-black':''} !w-[179px] !rounded-[12px] !h-[50px]`}
+            classes={`${
+              buttonDisable ? '!bg-[#E2E2E2] !text-black' : ''
+            } !w-[179px] !rounded-[12px] !h-[50px]`}
           />
         </div>
       </div>
@@ -523,7 +561,7 @@ if( productData.ProductVerification.length>0 && productData.title.length>0 && pr
         placeholderValue="Add Title"
         placeholderValue2="Add Value"
         cnclebtnText={'Cancel'}
-       classes={`!h-[378px]`}
+        classes={`!h-[378px]`}
       />
       <Confirmationmodal2
         addValue={true}
