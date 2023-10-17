@@ -293,20 +293,14 @@ export const ItemVerification = () => {
           i cerify that the item was properly inspected and verified
         </p>
       </div>
-      {percentage > 40 && (
-        <CustomButton
-          txt="Finish Verification"
-          classes="!w-[179px] !h-[38px] !bg-[#3C82D6] !rounded-[6px] !text-[13px] !mt-[24px]"
-          onClick={() => {
-            console.log(percentage);
-            if (percentage <= 40) {
-              console.log('Rew');
-            } else {
-              FinishVerification();
-            }
-          }}
-        />
-      )}
+
+      <CustomButton
+        txt="Finish Verification"
+        classes="!w-[179px] !h-[38px] !bg-[#3C82D6] !rounded-[6px] !text-[13px] !mt-[24px]"
+        onClick={() => {
+          FinishVerification();
+        }}
+      />
     </div>
   );
 };
