@@ -93,18 +93,19 @@ export const ItemVerification = () => {
   }, [state]);
   const FinishVerification = async () => {
     try {
-     itemData&& itemData.map((item: any, index: any) => {
-        newFormData.append(
-          `order_verification_details[${index}][id]`,
-          String(item?.id)
-        );
-        newFormData.append(
-          `order_verification_details[${index}][is_pass]`,
-          state[item.title]
-        );
-      });
+      itemData &&
+        itemData.map((item: any, index: any) => {
+          newFormData.append(
+            `order_verification_details[${index}][id]`,
+            String(item?.id)
+          );
+          newFormData.append(
+            `order_verification_details[${index}][is_pass]`,
+            state[item.title]
+          );
+        });
 
-     images &&  newFormData.append('images', images);
+      images && newFormData.append('images', images);
       console.log(images);
       // if (images.length < 6) {
       //   alert('Please upload atleast 6 Images');
@@ -203,7 +204,7 @@ export const ItemVerification = () => {
           {itemData &&
             itemData.map((item: any, index: number) => {
               return (
-                <div className="flex gap-3 items-center">
+                <div key={index} className="flex gap-3 items-center">
                   <CustomSwitch
                     marginTop={'-5px'}
                     checked={state[item.title]}
@@ -292,11 +293,20 @@ export const ItemVerification = () => {
           i cerify that the item was properly inspected and verified
         </p>
       </div>
-      <CustomButton
-        txt="Finish Verification"
-        classes="!w-[179px] !h-[38px] !bg-[#3C82D6] !rounded-[6px] !text-[13px] !mt-[24px]"
-        onClick={FinishVerification}
-      />
+      {percentage > 40 && (
+        <CustomButton
+          txt="Finish Verification"
+          classes="!w-[179px] !h-[38px] !bg-[#3C82D6] !rounded-[6px] !text-[13px] !mt-[24px]"
+          onClick={() => {
+            console.log(percentage);
+            if (percentage <= 40) {
+              console.log('Rew');
+            } else {
+              FinishVerification();
+            }
+          }}
+        />
+      )}
     </div>
   );
 };
