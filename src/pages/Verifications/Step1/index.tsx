@@ -65,7 +65,7 @@ export const Step1 = () => {
   ];
   const GetVerificationDetail = async () => {
     let response = await getVerficationById(id);
-    let ImagesArr = response?.verification.product?.images.map(
+    let ImagesArr = response?.verification.product?.images?.map(
       (item: any, index: any) => {
         let newObj = {
           itemImageSrc: `${BaseURL}${item.filename}`,
@@ -239,10 +239,10 @@ export const Step1 = () => {
                 </p>
                 <p
                   onClick={() => {
-                    setSelect(1);
+                    setSelect(2);
                   }}
                   className={`${
-                    select === 1
+                    select === 2
                       ? 'bg-black text-white '
                       : 'bg-white text-black '
                   } cursor-pointer text-center rounded-2xl w-[255px] h-[37px] flex items-center justify-center`}
@@ -251,10 +251,10 @@ export const Step1 = () => {
                 </p>
                 <p
                   onClick={() => {
-                    setSelect(2);
+                    setSelect(1);
                   }}
                   className={`${
-                    select === 2
+                    select === 1
                       ? 'bg-black text-white '
                       : 'bg-white text-black '
                   } cursor-pointer text-center rounded-2xl w-[155px] h-[37px] flex items-center justify-center`}
@@ -519,7 +519,7 @@ export const Step1 = () => {
           </div>
         </div>
         {/* Button */}
-        {ItemData?.status == 'pending' ? (
+        {ItemData?.status === 'pending' && (
           <CustomButton
             onClick={() => {
               navigate(`/Verification/ItemVerification/${id}`);
@@ -528,23 +528,23 @@ export const Step1 = () => {
             classes="!w-auto !mt-[30px] !max-w-[150px] !mb-[33px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3C82D6]"
             txt="Verify"
           />
-        ) : 
-        ItemData?.status=='verified' ? (
+        )}
+       { ItemData?.status==='verified' && (
           <CustomButton
             iconLeft={<img src={IMAGES.Verified} />}
             classes="!w-auto !mt-[30px] !max-w-[150px]  !mb-[33px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3CD670]"
             txt="Verified"
           />
-        ):
-        (
+        )}
+      {ItemData?.status==='rejected'&&(
           <CustomButton
            
             classes="!w-auto !mt-[30px] !max-w-[150px]  !mb-[33px] !h-[43px] !text-[13px] !text-[black] !rounded-[8px] !bg-custom-pink"
             txt="Rejected"
           />
-        )
+        )}
         
-        }
+        
       </div>
     </div>
   );

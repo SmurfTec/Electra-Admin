@@ -16,6 +16,7 @@ import { useListingById } from '../../../custom-hooks';
 import { BaseURL } from '../../../config';
 import { deleteListingById } from '../../../store/Slices/ListingsSlice';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import moment from 'moment';
 const CustomSidebar = styled(Sidebar)`
   .p-sidebar-header {
     display: none;
@@ -271,7 +272,7 @@ export const Listingdetail = () => {
                         }
                       />
                       <p className="font-medium text-[14px] text-[#212121]">
-                        20 Aug, 2022
+                        {moment(listingg?.listing?.created_on).format("DD MMM, yyyy")}
                       </p>
                     </div>
                     <div className="flex flex-col gap-4">
