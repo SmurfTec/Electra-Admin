@@ -1,22 +1,26 @@
-import { useState, useRef, useEffect } from 'react';
-import { Header } from '../../../components/index.js';
-import { DashCard } from '../../../components/index.js';
-import IMAGES from '../../../assets/Images.js';
-import { CustomTableComponent, CustomSwitch } from '../../../atoms/index.js';
-import { SVGIcon } from '../../../components/SVG/index.js';
-import { CustomMenu } from '../../../atoms/global.style';
-import { useNavigate } from 'react-router-dom';
-import { GetAllProducts } from '../../../store/Slices/ProductSlice.js';
 import moment from 'moment';
 import { MenuItem } from 'primereact/menuitem';
-import { Paginatior } from '../../../components/index.js';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { EditProductAPI } from '../../../store/Slices/ProductSlice.js';
-import { setProductCount } from '../../../store/Slices/ProductSlice.js';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images.js';
+import { CustomMenu } from '../../../atoms/global.style';
+import { CustomSwitch, CustomTableComponent } from '../../../atoms/index.js';
+import { SVGIcon } from '../../../components/SVG/index.js';
+import { DashCard, Header, Paginatior } from '../../../components/index.js';
+import {
+  EditProductAPI,
+  GetAllProducts,
+  UpdateStatusAPI,
+  setProductCount,
+} from '../../../store/Slices/ProductSlice.js';
+
+import { Button } from 'primereact/button';
+
 export const Products = () => {
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [filterData, setFilterData] = useState([]);
   const [initial, setInitial] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -29,13 +33,12 @@ export const Products = () => {
   const getProducts = async () => {
     try {
       const response = await GetAllProducts(initialPageData);
-      console.log(response.stats)
+      console.log(response.stats);
       setTotalProducts(response.stats.total_products);
-      dispatch(setProductCount(response.stats.total_products))
+      dispatch(setProductCount(response.stats.total_products));
       setStats(response.stats);
-      let latestArray;
-      latestArray = response.products.map((item: any, index: number) => {
-        let newObj = {
+      const latestArray = response.products.map((item: any, index: number) => {
+        const newObj = {
           ...item,
           category: item.category.name,
           Brand: item.brand.title,
@@ -62,23 +65,21 @@ export const Products = () => {
 
   const SwitchTemplate = (option: any) => {
     let dataOption = option.is_active ? true : false;
-  
+
     const Edit = async (value: any) => {
-      setLoading(true)
+      setLoading(true);
       console.log(value, 'Changes');
-      let data = new FormData();
-      data.append('is_active', value ? 'true' : 'false');
-      const add = await EditProductAPI(data, option.id);
-      const get= await getProducts()
-      setLoading(false)
-        };
-  
+      const add = await UpdateStatusAPI({ is_active: value }, option.id);
+      const get = await getProducts();
+      setLoading(false);
+    };
+
     return (
       <>
         <CustomSwitch
           onChange={(e: any) => {
             console.log('HERY', e);
-            dataOption= !dataOption
+            dataOption = !dataOption;
             Edit(!e);
           }}
           value={dataOption}
@@ -104,11 +105,11 @@ export const Products = () => {
           <div
             onClick={(event: any) => viewItem(event, item, CurrSelectedProduct)}
             style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }}
-            className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+            className="flex gap-1 items-center  text-[16px] font-[400] text-[#21212]"
           >
             <SVGIcon
-              width="9px"
-              height="6px"
+              width="11px"
+              height="8px"
               fillcolor={'#212121'}
               src={IMAGES.eye}
             />{' '}
@@ -144,8 +145,24 @@ export const Products = () => {
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
+          {/* <Button
+            icon='pi pi-ellipsis-h'
+            rounded
+            text
+            aria-label='Filter'
+            className='bg-[#fff] hover:bg-[#f8f8f8] '
+          /> */}
 
+          <Button
+            icon="pi pi-ellipsis-h"
+            rounded
+            text
+            severity="secondary"
+            aria-label="Action"
+            className="font-extrabold text-black"
+            onClick={handleClick}
+          />
+          {/* <SVGIcon onClick={handleClick} src={IMAGES.Dots} /> */}
           <CustomMenu
             model={items}
             height={'auto'}
@@ -165,7 +182,6 @@ export const Products = () => {
     { field: 'addedon', header: 'Added On' },
     { field: 'listing', header: 'Listing' },
     { field: 'availibility', header: 'Availibility', body: SwitchTemplate },
-
     { field: '', header: '', body: MenuBodyTemplate },
   ]);
   useEffect(() => {
@@ -184,7 +200,7 @@ export const Products = () => {
   }, [MenuLabel]);
   return (
     <div>
-      <Header typeSearch={true}  UserBox={true} />
+      <Header typeSearch={true} UserBox={true} />
       {!loading ? (
         <>
           {' '}
@@ -215,7 +231,9 @@ export const Products = () => {
                   ? IMAGES.downarrow
                   : IMAGES.uparrow
               }
-              percentageTxt={`% ${stats?.products_percentage?.toFixed(1)??"0"}`}
+              percentageTxt={`% ${
+                stats?.products_percentage?.toFixed(1) ?? '0'
+              }`}
               outerclasses="w-[284px] h-[140px]"
             />
             <DashCard
@@ -234,7 +252,9 @@ export const Products = () => {
                   ? IMAGES.downarrow
                   : IMAGES.uparrow
               }
-              percentageTxt={`% ${stats?.products_percentage?.toFixed(1)??"0"}`}
+              percentageTxt={`% ${
+                stats?.products_percentage?.toFixed(1) ?? '0'
+              }`}
               outerclasses="w-[284px] h-[140px]"
             />
             <DashCard

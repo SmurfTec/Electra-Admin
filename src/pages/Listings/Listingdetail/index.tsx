@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Header, Variants, Carouselcard } from '../../../components';
+import moment from 'moment';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { Sidebar } from 'primereact/sidebar';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import IMAGES from '../../../assets/Images';
 import {
-  RoundedButton,
   CustomButton,
   CustomTableComponent,
   InputTxt,
+  RoundedButton,
 } from '../../../atoms';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import IMAGES from '../../../assets/Images';
-import styled from 'styled-components';
-import './index.css';
-import { useListingById } from '../../../custom-hooks';
+import { Carouselcard, Header, Variants } from '../../../components';
 import { BaseURL } from '../../../config';
+import { useListingById } from '../../../custom-hooks';
 import { deleteListingById } from '../../../store/Slices/ListingsSlice';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import moment from 'moment';
+import './index.css';
 const CustomSidebar = styled(Sidebar)`
   .p-sidebar-header {
     display: none;
@@ -29,7 +28,7 @@ export const Listingdetail = () => {
   const [select, setSelect] = React.useState(0);
   const params = useParams();
   const navigate = useNavigate();
-  let { id } = params;
+  const { id } = params;
   const { Listings, loading } = useListingById(id);
   const [listingg, setListing] = useState<any>();
   const [images, setImages] = useState([]);
@@ -138,7 +137,7 @@ export const Listingdetail = () => {
 
         {listingg?.listing?.technical_specifications &&
           listingg?.listing?.technical_specifications.length > 0 &&
-          listingg?.listing?.technical_specifications.map(
+          listingg?.listing?.technical_specifications?.map(
             (item: any, index: any) => {
               return (
                 <>
@@ -161,37 +160,36 @@ export const Listingdetail = () => {
           <div className="flex">
             <div className="flex gap-5 ">
               {/* <img src={IMAGES.IphoneView} /> */}
-            {images?  <Carouselcard
-                Images={
-                  images &&
-                  images.map((item: any, index: any) => {
-                    return {
-                      itemImageSrc: `${BaseURL}/${item.filename}`,
-                      thumbnailImageSrc: `${BaseURL}/${item.filename}`,
-                      alt: 'Description for Image 1',
-                      title: 'Title 1',
-                    };
-                  })
-                }
-              />:
-              <div className='border-lightgray p-2'>
-              <img
-                className="w-[363px] "
-                src={IMAGES.Logo}
-              />
-            </div>
-              }
+              {images ? (
+                <Carouselcard
+                  Images={
+                    images &&
+                    images?.map((item: any, index: any) => {
+                      return {
+                        itemImageSrc: `${BaseURL}/${item.filename}`,
+                        thumbnailImageSrc: `${BaseURL}/${item.filename}`,
+                        alt: 'Description for Image 1',
+                        title: 'Title 1',
+                      };
+                    })
+                  }
+                />
+              ) : (
+                <div className="border-lightgray p-2">
+                  <img className="w-[363px] " src={IMAGES.Logo} />
+                </div>
+              )}
               <div>
                 <div className="flex gap-2 items-center">
                   <p className="text-[36px] font-extrabold">
                     {listingg?.listing.product.title}
                   </p>
 
-                  <RoundedButton
+                  {/* <RoundedButton
                     icon={IMAGES.Bin}
                     onClick={deleteListing}
                     classes={'bg-[#FF0000]'}
-                  />
+                  /> */}
                 </div>
                 <div className="flex mt-3">
                   <p
@@ -272,7 +270,9 @@ export const Listingdetail = () => {
                         }
                       />
                       <p className="font-medium text-[14px] text-[#212121]">
-                        {moment(listingg?.listing?.created_on).format("DD MMM, yyyy")}
+                        {moment(listingg?.listing?.created_on).format(
+                          'DD MMM, yyyy'
+                        )}
                       </p>
                     </div>
                     <div className="flex flex-col gap-4">
@@ -306,7 +306,7 @@ export const Listingdetail = () => {
 
           <div>
             <h1 className="text-[24px] font-bold my-3">Product Variants</h1>
-            {VariantsArray.map((item: any, index) => {
+            {VariantsArray?.map((item: any, index) => {
               return (
                 <div className="flex" key={index}>
                   <CustomButton

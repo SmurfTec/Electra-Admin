@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Header } from '../../../components';
-import { CustomTableComponent, CustomButton } from '../../../atoms';
-import { SVGIcon } from '../../../components/SVG';
-import IMAGES from '../../../assets/Images';
-import { CustomMenu, CustomTabView } from '../../../atoms/global.style';
-import { useNavigate } from 'react-router-dom';
-import { useListingDetail } from '../../../custom-hooks';
-import { TabPanel } from 'primereact/tabview';
-import { Paginatior } from '../../../components';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { Confirmationmodal } from '../../../components';
-import { flagListing,setListingCount} from '../../../store/Slices/ListingsSlice';
-import { useDispatch } from 'react-redux';
 import moment from 'moment';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { TabPanel } from 'primereact/tabview';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomButton, CustomTableComponent } from '../../../atoms';
+import { CustomMenu, CustomTabView } from '../../../atoms/global.style';
+import { Confirmationmodal, Header, Paginatior } from '../../../components';
+import { SVGIcon } from '../../../components/SVG';
+import { useListingDetail } from '../../../custom-hooks';
+import {
+  flagListing,
+  setListingCount,
+} from '../../../store/Slices/ListingsSlice';
 export const Listings = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
   const [initialPageData, setInitialPageData] = useState({
@@ -36,14 +37,14 @@ export const Listings = () => {
   const [initial, setInitial] = useState(true);
   const [selectedListing, setSelectedListing] = useState<any>([]);
   const getListings = async () => {
-    let soldItems: any = [];
-    let unsoldItems: any = [];
-    let flagged: any = [];
-    let All: any = [];
+    const soldItems: any = [];
+    const unsoldItems: any = [];
+    const flagged: any = [];
+    const All: any = [];
     setTotalList(data?.data?.stats.all_listings);
-    dispatch(setListingCount(data?.data?.stats.all_listings))
+    dispatch(setListingCount(data?.data?.stats.all_listings));
     data?.data?.listings?.forEach((item: any) => {
-      let newObj = {
+      const newObj = {
         ...item,
         id: item.id,
         Account: item?.user.firstname + item?.user.lastname,
@@ -84,14 +85,14 @@ export const Listings = () => {
   const flagListings = async () => {
     try {
       console.log(selectedListing, 'LISTIJNGSS');
-      let newarr = selectedListing.map((item: any) => {
+      const newarr = selectedListing.map((item: any) => {
         return item.id;
       });
-      let body = {
+      const body = {
         is_flagged: true,
         ids: newarr,
       };
-      let flag = await flagListing(body);
+      const flag = await flagListing(body);
       console.log(flag, 'FLAGGED');
       if (flag) {
         setVisible(true);
@@ -118,20 +119,20 @@ export const Listings = () => {
             );
           },
         },
-        {
-          label: 'Delete',
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
-                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-                // onClick={(event: any) => DeleteUser(event, rowData.id)}
-              >
-                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
-              </div>
-            );
-          },
-        },
+        // {
+        //   label: 'Delete',
+        //   template: (item: any, options: any) => {
+        //     return (
+        //       <div
+        //         style={{ background: 'rgba(231, 29, 54, 0.05)' }}
+        //         className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+        //         // onClick={(event: any) => DeleteUser(event, rowData.id)}
+        //       >
+        //         <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
+        //       </div>
+        //     );
+        //   },
+        // },
       ],
     },
   ];
@@ -160,11 +161,16 @@ export const Listings = () => {
     return (
       <>
         <div
-          className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
+          className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px] h-fit`}
         >
           <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
-
-          <CustomMenu model={items} popup ref={menuLeft} id="popup_menu_left" />
+          <CustomMenu
+            model={items}
+            popup
+            ref={menuLeft}
+            id="popup_menu_left"
+            height="fit-content"
+          />
         </div>
       </>
     );
@@ -227,12 +233,7 @@ export const Listings = () => {
   }, [MenuLabel]);
   return (
     <div>
-      <Header
-        placeholder="Search Admins"
-        typeSearch={true}
-       
-        UserBox={true}
-      />
+      <Header placeholder="Search Admins" typeSearch={true} UserBox={true} />
 
       <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
         <div>

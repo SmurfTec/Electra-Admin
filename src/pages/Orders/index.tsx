@@ -1,22 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { SVGIcon } from '../../components/SVG';
-import { CustomTableComponent, Miniselect, CustomButton } from '../../atoms';
-import { useNavigate } from 'react-router-dom';
-import { Header, Receiptmodal } from '../../components';
-import IMAGES from '../../assets/Images';
-import { CustomMenu, CustomTabView } from '../../atoms/global.style';
-import { TabPanel } from 'primereact/tabview';
-import { DeleteOrders } from '../../store/Slices/OrderSlice';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { CSVLink } from 'react-csv';
 import moment from 'moment';
-import { Paginatior } from '../../components';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { TabPanel } from 'primereact/tabview';
+import React, { useEffect, useRef, useState } from 'react';
+import { CSVLink } from 'react-csv';
 import { useDispatch } from 'react-redux';
-import { setOrderCount } from '../../store/Slices/OrderSlice';
+import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../assets/Images';
+import { CustomButton, CustomTableComponent, Miniselect } from '../../atoms';
+import { CustomMenu, CustomTabView } from '../../atoms/global.style';
+import { Header, Paginatior, Receiptmodal } from '../../components';
+import { SVGIcon } from '../../components/SVG';
 import { useFetchOrders } from '../../custom-hooks/useFetchOrders';
+import { DeleteOrders, setOrderCount } from '../../store/Slices/OrderSlice';
 export const Orders = () => {
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const [visible, setVisible] = React.useState(false);
   const [currentItem, setcurrentItem] = useState<any>();
   const [filterData, setfilterData] = useState<any>([]);
@@ -62,27 +60,27 @@ export const Orders = () => {
             );
           },
         },
-        {
-          label: 'Delete',
-          template: (item: any) => {
-            return (
-              <div
-                onClick={event => deleteItem(event, rowData.id)}
-                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
-                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-              >
-                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
-              </div>
-            );
-          },
-        },
+        // {
+        //   label: 'Delete',
+        //   template: (item: any) => {
+        //     return (
+        //       <div
+        //         onClick={event => deleteItem(event, rowData.id)}
+        //         style={{ background: 'rgba(231, 29, 54, 0.05)' }}
+        //         className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+        //       >
+        //         <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
+        //       </div>
+        //     );
+        //   },
+        // },
       ];
 
       return (
         <>
           <CustomMenu
             popupAlignment="left"
-            height={'80px'}
+            height={'fit-content'}
             model={items}
             popup
             ref={menuRef}
@@ -111,11 +109,11 @@ export const Orders = () => {
   const viewItem = async (event: any, id: any) => {
     setVisible(true);
     const item = filterData?.filter((item: any) => item.id == id);
-
+    console.log('item', item);
     setcurrentItem(item);
   };
   const deleteItem = async (event: any, id: any) => {
-    let r = await DeleteOrders(id);
+    const r = await DeleteOrders(id);
 
     setInitialPageData({
       rowsPerPage: 50,
@@ -176,10 +174,10 @@ export const Orders = () => {
   ];
 
   useEffect(() => {
-    console.log(stats?.all_orders)
-    dispatch(setOrderCount(stats?.all_orders))
-    let newarr = orderData?.map((item: any) => {
-      let updatedObj = {
+    console.log(stats?.all_orders);
+    dispatch(setOrderCount(stats?.all_orders));
+    const newarr = orderData?.map((item: any) => {
+      const updatedObj = {
         ...item,
         id: item.id,
         Seller: item?.seller?.firstname + ' ' + item?.seller?.lastname,
@@ -256,12 +254,7 @@ export const Orders = () => {
   ];
   return (
     <div>
-      <Header
-        placeholder="Search Admins"
-        typeSearch={true}
-        
-        UserBox={true}
-      />
+      <Header placeholder="Search Admins" typeSearch={true} UserBox={true} />
       <div className="mt-4 bg-[#FCFCFC] w-[90%] rounded-[10px]">
         <div>
           <div className="flex justify-between items-center px-3">
@@ -316,7 +309,7 @@ export const Orders = () => {
                       columnStyle={{ backgroundColor: '#FCFCFC' }}
                       headerStyle={{ color: 'black', fontWeight: '800' }}
                       filterData={filterData?.filter(
-                        (item: any) => item.status == 'rejected',
+                        (item: any) => item.status == 'rejected'
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
@@ -337,7 +330,7 @@ export const Orders = () => {
                       columnStyle={{ backgroundColor: '#FCFCFC' }}
                       headerStyle={{ color: 'black', fontWeight: '800' }}
                       filterData={filterData?.filter(
-                        (item: any) => item.status == 'completed',
+                        (item: any) => item.status == 'completed'
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
@@ -360,7 +353,7 @@ export const Orders = () => {
                       columnStyle={{ backgroundColor: '#FCFCFC' }}
                       headerStyle={{ color: 'black', fontWeight: '800' }}
                       filterData={filterData?.filter(
-                        (item: any) => item.status == 'waiting-for-seller',
+                        (item: any) => item.status == 'waiting-for-seller'
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
@@ -381,7 +374,7 @@ export const Orders = () => {
                       columnStyle={{ backgroundColor: '#FCFCFC' }}
                       headerStyle={{ color: 'black', fontWeight: '800' }}
                       filterData={filterData?.filter(
-                        (item: any) => item.status == 'shipped',
+                        (item: any) => item.status == 'shipped'
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
@@ -402,7 +395,7 @@ export const Orders = () => {
                       columnStyle={{ backgroundColor: '#FCFCFC' }}
                       headerStyle={{ color: 'black', fontWeight: '800' }}
                       filterData={filterData?.filter(
-                        (item: any) => item.status == 'verified',
+                        (item: any) => item.status == 'verified'
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
@@ -425,7 +418,7 @@ export const Orders = () => {
                       columnStyle={{ backgroundColor: '#FCFCFC' }}
                       headerStyle={{ color: 'black', fontWeight: '800' }}
                       filterData={filterData?.filter(
-                        (item: any) => item.status == 'under-review',
+                        (item: any) => item.status == 'under-review'
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
@@ -459,11 +452,13 @@ export const Orders = () => {
           <Miniselect txt={"Waiting for seller to ship"} radio={true} />
         </div>
       </div> */}
-      <Receiptmodal
-        visible={visible}
-        setVisible={setVisible}
-        currentItem={currentItem}
-      />
+      {visible && (
+        <Receiptmodal
+          visible={visible}
+          setVisible={setVisible}
+          currentItem={currentItem}
+        />
+      )}
     </div>
   );
 };

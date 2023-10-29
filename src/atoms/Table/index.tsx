@@ -1,9 +1,8 @@
 import { Column } from 'primereact/column';
 import { useEffect, useState } from 'react';
-import { CustomTableWrapper, CustomTable } from '../global.style';
-import { CustomButton } from '..';
+import { CheckBox, CustomButton } from '..';
 import IMAGES from '../../assets/Images';
-import { CheckBox } from '..';
+import { CustomTable, CustomTableWrapper } from '../global.style';
 export const CustomTableComponent = ({
   columnStyle,
   headerStyle,
@@ -25,22 +24,23 @@ export const CustomTableComponent = ({
   ...props
 }: any) => {
   const [rowsize, setrowsize] = useState(
-    LoadMore == true ? initialRowSize : filterData?.length,
+    LoadMore == true ? initialRowSize : filterData?.length
   );
 
   useEffect(() => {
     setrowsize(LoadMore == true ? initialRowSize : filterData?.length);
     // console.log(filterData,"filterData")
   }, [filterData, LoadMore]);
+
+  console.log('filterData', filterData);
   return (
     <>
       <div className="relative">
-        {LoadMore && showLoadMore && <CustomTableWrapper></CustomTableWrapper>}
         <CustomTable
           {...props}
           selectionMode={'checkbox'}
           selection={selectedProducts}
-          value={filterData?.slice(0, rowsize)}
+          value={filterData}
           scrollable={false}
           onSelectionChange={(e: any) =>
             setSelectedProducts ? setSelectedProducts(e.value) : null
@@ -68,7 +68,7 @@ export const CustomTableComponent = ({
                 key={index}
                 style={columnStyle ?? null}
                 field={item.field}
-                header={item.header} 
+                header={item.header}
                 headerStyle={headerStyle}
                 bodyClassName={'!bg-[#F6F6F6]'}
                 body={item.body ? item.body : null}
@@ -77,19 +77,6 @@ export const CustomTableComponent = ({
             );
           })}
         </CustomTable>
-        {LoadMore && showLoadMore && (
-          <div className="flex justify-center w-full mt-3 ">
-            <CustomButton
-              onClick={() => {
-                setLoadMore(false);
-                setrowsize(filterData.length);
-              }}
-              editIcon={<img src={IMAGES.arrowDown} />}
-              txt={'View More'}
-              classes=" !bg-[#FFFFFF] !h-[50px] !font-[700] !text-[16px] !text-[black] "
-            />
-          </div>
-        )}
       </div>
     </>
   );

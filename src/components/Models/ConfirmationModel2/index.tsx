@@ -1,6 +1,6 @@
-import { CustomDialog } from '../../../atoms/global.style';
+import { useEffect, useState } from 'react';
 import { CustomButton } from '../../../atoms';
-import { useState, useEffect } from 'react';
+import { CustomDialog } from '../../../atoms/global.style';
 export const Confirmationmodal2 = ({
   PopupHeader,
   classes,
@@ -22,8 +22,8 @@ export const Confirmationmodal2 = ({
   setObjVal,
   setValue,
   value,
-  placeholderValue="Enter Color",
-  placeholderValue2="Enter Color",
+  placeholderValue = 'Enter Color',
+  placeholderValue2 = 'Enter Color',
 }: any) => {
   // insert here
   const [error, setError] = useState('');
@@ -55,40 +55,40 @@ export const Confirmationmodal2 = ({
                 placeholder={placeholderValue}
                 value={Value}
                 onChange={e => setValue(e.target.value)}
-                className="px-2 focus:outline-none"
+                className="px-2 focus:outline-none w-full"
               />
-              <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
+              {/* <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
                 i
-              </div>
+              </div> */}
             </div>
           </>
         )}
-        {ObjVal &&
-        <>
-         <div className="flex justify-between items-center px-2 border w-[370px] h-[54px] mx-auto mt-8 rounded-[10px]">
+        {ObjVal && (
+          <>
+            <div className="flex justify-between items-center px-2 border w-[370px] h-[54px] mx-auto mt-8 rounded-[10px]">
               <input
                 placeholder={placeholderValue}
                 value={ObjVal.title}
-                onChange={e => setObjVal({...ObjVal,title:e.target.value})}
-                className="px-2 focus:outline-none"
+                onChange={e => setObjVal({ ...ObjVal, title: e.target.value })}
+                className="px-2 focus:outline-none w-full"
               />
-              <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
+              {/* <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
                 i
-              </div>
+              </div> */}
             </div>
             <div className="flex justify-between items-center px-2 border w-[370px] h-[54px] mx-auto mt-8 rounded-[10px]">
               <input
                 placeholder={placeholderValue2}
                 value={ObjVal.value}
-                onChange={e => setObjVal({...ObjVal,value:e.target.value})}
-                className="px-2 focus:outline-none"
+                onChange={e => setObjVal({ ...ObjVal, value: e.target.value })}
+                className="px-2 focus:outline-none w-full"
               />
-              <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
+              {/* <div className="bg-[#A4A4A4] flex justify-center items-center text-[white] text-center h-[15px] w-[15px] overflow-hidden rounded-full">
                 i
-              </div>
+              </div> */}
             </div>
-        </>
-        }
+          </>
+        )}
         {Feemodif && (
           <>
             <div className="flex justify-between items-center mt-3 px-2 border w-[200px] h-[54px] mx-auto rounded-[10px]">
@@ -126,13 +126,10 @@ export const Confirmationmodal2 = ({
           />
           <CustomButton
             onClick={() => {
-             
-              if (handleFunction!==undefined) {
-                
+              if (handleFunction !== undefined) {
                 handleFunction(Value);
               }
-              if(handleFunction2!==undefined){
-               
+              if (handleFunction2 !== undefined) {
                 handleFunction2(ObjVal);
               }
               if (setOkButton) {

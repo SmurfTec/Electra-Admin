@@ -1,21 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Header, Variants, Confirmationmodal } from '../../../components';
-import {
-  InputTxt,
-  CustomDropdown2,
-  CustomButton,
-  UploadPicture,
-  FetchButton,
-} from '../../../atoms';
 import { useNavigate } from 'react-router-dom';
-import { useVariantDetail } from '../../../custom-hooks';
+import {
+  CustomButton,
+  CustomCalendar,
+  CustomDropdown2,
+  FetchButton,
+  InputTxt,
+  UploadPicture,
+} from '../../../atoms';
+import {
+  Confirmationmodal,
+  Confirmationmodal2,
+  Header,
+  Techspec,
+  Variants,
+} from '../../../components';
 import url from '../../../config/index';
-import { CreateProduct } from '../../../store/Slices/ProductSlice';
+import { useVariantDetail } from '../../../custom-hooks';
 import { getBrands } from '../../../store/Slices/BrandSlice';
 import { getCategories } from '../../../store/Slices/Categories';
-import { Techspec } from '../../../components';
-import { CustomCalendar } from '../../../atoms';
-import { Confirmationmodal2 } from '../../../components';
+import { CreateProduct } from '../../../store/Slices/ProductSlice';
 export const AddProduct = () => {
   type techSpec = {
     title: string;
@@ -75,7 +79,7 @@ export const AddProduct = () => {
     let data = await getBrands();
     let dataCat = await getCategories();
     data = data.brands.map((item: any, index: any) => {
-      let newObj = {
+      const newObj = {
         value: item.id,
         label: item.title,
       };
@@ -83,7 +87,7 @@ export const AddProduct = () => {
     });
     setBrands(data);
     dataCat = dataCat.categories.map((item: any, index: any) => {
-      let newObj = {
+      const newObj = {
         value: item.id,
         label: item.name,
       };
@@ -120,9 +124,9 @@ export const AddProduct = () => {
   }, [VariantsData]);
   const handleFunction = async (value: any) => {
     console.log(value, 'ADASD');
-    let prevArray = variant.values;
-    let Newpush = [...prevArray, value];
-    let sendingData = {
+    const prevArray = variant.values;
+    const Newpush = [...prevArray, value];
+    const sendingData = {
       title: variant.title,
       datatype: 'string',
       values: Newpush,
@@ -182,7 +186,7 @@ export const AddProduct = () => {
         setProductData(prevData => {
           return { ...prevData, productVariants: updateVariants };
         });
-        let newData = VariantsArray.map((item: any) => {
+        const newData = VariantsArray.map((item: any) => {
           const updatedValues = item.values.map((valueItem: any) => {
             if (value === valueItem.txt) {
               return {
@@ -208,7 +212,7 @@ export const AddProduct = () => {
         setProductData(prevData => {
           return { ...prevData, productVariants: updateVariants };
         });
-        let newData = VariantsArray.map((item: any) => {
+        const newData = VariantsArray.map((item: any) => {
           const updatedValues = item.values.map((valueItem: any) => {
             if (value === valueItem.txt) {
               return {
@@ -233,7 +237,7 @@ export const AddProduct = () => {
   const Addproduct = async () => {
     console.log(productData, 'FINALs');
     console.log(attachments, 'IMAGe DATA');
-    let data = new FormData();
+    const data = new FormData();
     data.append('title', productData.title);
     data.append('is_active', 'true');
     data.append('brand', productData.brand);
@@ -324,7 +328,7 @@ export const AddProduct = () => {
         setError('Must add 3 product verifications');
       } else if (productData.technicalSpecificationModel.length < 2) {
         setError('Must add 3 technical Specification');
-      }else if (productData.title.length === 0) {
+      } else if (productData.title.length === 0) {
         setError('Title cannot be empty');
       }
     }
@@ -355,7 +359,9 @@ export const AddProduct = () => {
           options={category}
           mainclasses={'mt-10  !w-[35%]'}
         />
-        {error && error==="Title cannot be empty"&& <p className="text-red">{error}</p>}
+        {error && error === 'Title cannot be empty' && (
+          <p className="text-red">{error}</p>
+        )}
         <CustomDropdown2
           setValue={(value: any) => {
             setProductData({
@@ -400,7 +406,7 @@ export const AddProduct = () => {
 
                 <CustomButton
                   onClick={() => {
-                    let newVariant = item.values.map(
+                    const newVariant = item.values.map(
                       (item: any, index: any) => {
                         return item.txt;
                       }
@@ -458,15 +464,15 @@ export const AddProduct = () => {
         /> */}
         {enterManual === 'Database' && (
           <>
-            <div>
+            {/* <div>
               <p className="bg-lightgray p-4 w-[60%] rounded mt-5 border border-custom">
                 Technical Specifiactions for <b>iphone 14 pro max</b> was
                 selected via 3rd party. Click on search to replace
               </p>
-            </div>
+            </div> */}
             <div className="mb-5">
               <p className="text-[black] font-extrabold bg-lightgray border-b-0 p-4 w-[60%] rounded mt-5 border border-custom">
-                Technical Specifications
+                Specifications
               </p>
 
               <div className="border border-custom  w-[60%] pb-4">
@@ -494,14 +500,16 @@ export const AddProduct = () => {
                 />
               </div>
             </div>
-            {error && error==="Must add 3 technical Specification"&& <p className="text-red">{error}</p>}
+            {error && error === 'Must add 3 technical Specification' && (
+              <p className="text-red">{error}</p>
+            )}
             <div className="mb-5">
               <p className="text-[black] font-extrabold bg-lightgray border-b-0 p-4 w-[60%] rounded mt-5 border border-custom">
                 Product Verification
               </p>
 
               <div className="border border-custom  w-[60%] pb-4">
-                {productData.ProductVerification.map((item, index) => {
+                {productData?.ProductVerification.map((item, index) => {
                   return (
                     <div key={index} className="ml-5">
                       <p className="text-[#656565] text-[16px] mt-4">
@@ -522,7 +530,9 @@ export const AddProduct = () => {
               </div>
             </div>
 
-            {error && error==="Must add 3 product verifications"&&<p className="text-red mb-2">{error}</p>}
+            {error && error === 'Must add 3 product verifications' && (
+              <p className="text-red mb-2">{error}</p>
+            )}
           </>
         )}
         {enterManual === 'manual' && (

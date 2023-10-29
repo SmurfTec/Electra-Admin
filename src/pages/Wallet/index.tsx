@@ -1,22 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Header, DashCard } from '../../components';
-import { CustomTableComponent } from '../../atoms';
-import { SVGIcon } from '../../components/SVG';
+import moment from 'moment';
 import { MenuItem } from 'primereact/menuitem';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { TabPanel } from 'primereact/tabview';
+import React, { useEffect, useRef, useState } from 'react';
 import IMAGES from '../../assets/Images';
-import { CustomMenu } from '../../atoms/global.style';
+import { CustomTableComponent } from '../../atoms';
+import { CustomMenu, CustomTabView } from '../../atoms/global.style';
+import { DashCard, Header } from '../../components';
+import { SVGIcon } from '../../components/SVG';
 import { useFetchWallet } from '../../custom-hooks/useFetchWallet';
 import {
   getBalance,
-  getWalletStats,
+  getPayments,
   getPayouts,
   getTransfers,
-  getPayments,
+  getWalletStats,
 } from '../../store/Slices/WalletSlice';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { CustomTabView } from '../../atoms/global.style';
-import { TabPanel } from 'primereact/tabview';
-import moment from 'moment';
 export const Wallet = () => {
   const [initialData, setinitialData] = useState({
     limit: 10,
@@ -36,20 +35,20 @@ export const Wallet = () => {
   const [filterData, setfilterData] = useState<any>();
 
   useEffect(() => {
-  
     if (initialData.activetab == 'transfer') {
       const newfilterData = Walletdata?.map((item: any, index: any) => {
         return {
           id: item.id,
-          from: '',
+          from: '-',
           value: '$' + item.amount,
           Source: item.source_type,
+          destination: item.destination,
           Date: moment(item.created).format('DD/MM/YYYY'),
         };
       });
       setfilterData(newfilterData);
     } else if (initialData.activetab == 'payouts') {
-      console.log(Walletdata)
+      console.log(Walletdata);
       const newfilterData = Walletdata?.map((item: any, index: any) => {
         return {
           id: item.id,
@@ -62,13 +61,15 @@ export const Wallet = () => {
       setfilterData(newfilterData);
     } else {
       const newfilterData = Walletdata?.map((item: any, index: any) => {
-        let newDate = moment(item.created).format('DD MMM YYYY');
+        const newDate = moment(item.created).format('DD MMM YYYY');
         return {
           id: item.id,
           from: '-',
+          capture_method: item.capture_method,
           value: '$' + item.amount,
           Source: item.source ?? '-',
           Date: newDate,
+          description: item.description,
         };
       });
       setfilterData(newfilterData);
@@ -151,20 +152,20 @@ export const Wallet = () => {
       'product',
       selectedProducts,
       'CurrSelectedProduct',
-      CurrSelectedProduct,
+      CurrSelectedProduct
     );
   }, [MenuLabel]);
   const Balance = async () => {
     setbankloader(true);
-    let balance = await getBalance();
-    
+    const balance = await getBalance();
+
     setAccountBalance(balance);
-    let walletstats = await getWalletStats();
+    const walletstats = await getWalletStats();
 
     if (walletstats) {
       setbankloader(false);
     }
-   
+
     setWalletStats(walletstats);
     // let r3=await getPayouts()
     // let r4=await getPayments()
@@ -199,69 +200,12 @@ export const Wallet = () => {
       });
     }
   };
- 
+
   return (
     <div>
-      <Header typeSearch={true}  UserBox={true} />
+      <Header typeSearch={true} UserBox={true} />
       {!WalletLoading && !bankloader ? (
         <>
-          {/* <div className="flex flex-wrap gap-5 mt-[20px]">
-            <div
-              className="p-3 w-[419px] h-auto bg-[#212121] rounded-[10px] overflow-hidden"
-              style={{ background: `url(${IMAGES.AtmBackground})` }}
-            >
-              <div className="flex justify-between">
-                <div className="flex flex-col ">
-                  <p className="text-[16px] font-[600] text-white">Balance</p>
-                  <p className="text-[35px] font-[600] text-white">
-                    ${AccountBalance?.available[0].amount}
-                  </p>
-                  <div className="flex flex-col mt-[80px]">
-                    <p className="text-[13px] font-[600] text-white">
-                      Last Updated
-                    </p>
-                    <p className="text-[16px] font-[600] text-white">
-                      20,aug,2022
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-center ">
-                  <img src={IMAGES.Coins} />
-                </div>
-              </div>
-            </div>
-            <div className="p-3 w-[419px] h-auto bg-[#212121] rounded-[15px]">
-              <div className="flex justify-between">
-                <div className="flex flex-col ">
-                  <p className="text-[12px] font-[600] text-white">
-                    Account holder name
-                  </p>
-                  <p className="text-[20px] font-[600] text-white">
-                    HUZAYFAH HANIF
-                  </p>
-                </div>
-                <div className="w-[33px] h-[33px] flex justify-center items-center rounded-[50px] bg-white">
-                  <i className="pi pi-pencil "></i>
-                </div>
-              </div>
-              <div className="mt-[34px] flex flex-col ">
-                <p className="text-[12px] font-[600] text-white">IBAN</p>
-                <p className="text-[20px] font-[600] text-white">
-                  KFL35532536353535
-                </p>
-              </div>
-              <div className="flex gap-[76px] mt-[34px]">
-                <div className="flex flex-col ">
-                  <p className="text-[20px] font-[400] text-white">US BANK</p>
-                  <p className="text-[12px] font-[400] text-white">Bank</p>
-                </div>
-                <div className="flex flex-col ">
-                  <p className="text-[20px] font-[400] text-white">25/7/2022</p>
-                  <p className="text-[12px] font-[400] text-white">linked on</p>
-                </div>
-              </div>
-            </div>
-          </div> */}
           <div className="mt-[35px]">
             <div className="flex flex-wrap gap-6 mt-[28px]">
               <DashCard
@@ -310,28 +254,28 @@ export const Wallet = () => {
                 outerclasses="w-[284px] h-[140px]"
                 txt={WalletStats?.grossProfitPercentage || 0}
               />
-              {/* <DashCard
+              <DashCard
                 title={'Withdrawn'}
-                totalNumber={'$3500'}
+                totalNumber={'$0'}
                 myImg={IMAGES.Volume}
                 imgColor={'bg-custom-grey'}
                 textDash={'bg-yellow-dash !w-[90px] px-1 '}
                 textColor={'#3C82D6'}
-                txt="20 aug,2022"
+                txt="-"
                 subtxt="Recent Withdrawal"
                 outerclasses="w-[284px] h-[140px]"
                 subtxtStyle={`!w-[100px]`}
               />
               <DashCard
                 title={'Available for withdrawal'}
-                totalNumber={'$350000'}
+                totalNumber={'$0'}
                 myImg={IMAGES.CashWithdraw}
                 imgColor={'bg-custom-dark-red'}
                 textDash={' !w-full '}
                 textColor={'#3C82D6'}
-                txt="Lorem Ipsum"
+                txt="-"
                 outerclasses="w-[284px] h-[140px]"
-              /> */}
+              />
             </div>
           </div>
           <div className="mt-[20px]">
@@ -345,7 +289,14 @@ export const Wallet = () => {
                   filterData={filterData}
                   selectedProducts={selectedProducts}
                   setSelectedProducts={setSelectedProducts}
-                  columnData={columnData}
+                  columnData={[
+                    { field: 'id', header: 'TID' },
+                    { field: 'from', header: 'From' },
+                    { field: 'value', header: 'Value' },
+                    { field: 'Source', header: 'Source' },
+                    { field: 'Date', header: 'Created On' },
+                    // { field: "", header: '', body: MenuBodyTemplate }
+                  ]}
                   // MultipleSelect={true}
                   LoadMore={LoadMore}
                   setLoadMore={setLoadMore}
@@ -357,7 +308,15 @@ export const Wallet = () => {
                   filterData={filterData}
                   selectedProducts={selectedProducts}
                   setSelectedProducts={setSelectedProducts}
-                  columnData={columnData}
+                  columnData={[
+                    { field: 'id', header: 'TID' },
+                    { field: 'capture_method', header: 'Payment Method' },
+                    { field: 'value', header: 'Value' },
+                    { field: 'description', header: 'Description' },
+                    { field: 'from', header: 'From' },
+                    { field: 'Source', header: 'Source' },
+                    { field: 'Date', header: 'Created On' },
+                  ]}
                   // MultipleSelect={true}
                   LoadMore={LoadMore}
                   setLoadMore={setLoadMore}
@@ -369,7 +328,14 @@ export const Wallet = () => {
                   filterData={filterData}
                   selectedProducts={selectedProducts}
                   setSelectedProducts={setSelectedProducts}
-                  columnData={columnData}
+                  columnData={[
+                    { field: 'id', header: 'TID' },
+                    { field: 'destination', header: 'Destination' },
+                    { field: 'value', header: 'Amount' },
+                    { field: 'from', header: 'From' },
+                    { field: 'Source', header: 'Source' },
+                    { field: 'Date', header: 'Created On' },
+                  ]}
                   // MultipleSelect={true}
                   LoadMore={LoadMore}
                   setLoadMore={setLoadMore}

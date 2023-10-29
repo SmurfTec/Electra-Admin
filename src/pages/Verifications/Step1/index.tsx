@@ -1,20 +1,19 @@
+import moment from 'moment';
+import { Sidebar } from 'primereact/sidebar';
 import React, { useEffect, useState } from 'react';
-import { Header, Carouselcard, Variants } from '../../../components';
+import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import IMAGES from '../../../assets/Images';
 import {
   CustomButton,
-  RoundedButton,
   InputTxt,
   Miniselect,
+  RoundedButton,
 } from '../../../atoms';
-import { Sidebar } from 'primereact/sidebar';
-import IMAGES from '../../../assets/Images';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import '../../Listings/Listingdetail/index.css';
-import { useParams } from 'react-router-dom';
-import moment from 'moment';
-import { getVerficationById } from '../../../store/Slices/VerificationSlice';
+import { Carouselcard, Header, Variants } from '../../../components';
 import { BaseURL } from '../../../config';
+import { getVerficationById } from '../../../store/Slices/VerificationSlice';
+import '../../Listings/Listingdetail/index.css';
 const CustomSidebar = styled(Sidebar)`
   .p-sidebar-header {
     display: none;
@@ -64,17 +63,17 @@ export const Step1 = () => {
     },
   ];
   const GetVerificationDetail = async () => {
-    let response = await getVerficationById(id);
-    let ImagesArr = response?.verification.product?.images?.map(
+    const response = await getVerficationById(id);
+    const ImagesArr = response?.verification.product?.images?.map(
       (item: any, index: any) => {
-        let newObj = {
+        const newObj = {
           itemImageSrc: `${BaseURL}${item.filename}`,
           thumbnailImageSrc: `${BaseURL}${item.filename}`,
           alt: `Description for Image ${index}`,
           title: `Title ${index}`,
         };
         return newObj;
-      },
+      }
     );
     setItemData(response.verification);
     setImages(ImagesArr);
@@ -222,7 +221,7 @@ export const Step1 = () => {
                   {ItemData?.product?.title}
                 </p>
 
-                <RoundedButton icon={IMAGES.Bin} classes={'bg-[#FF0000]'} />
+                {/* <RoundedButton icon={IMAGES.Bin} classes={'bg-[#FF0000]'} /> */}
               </div>
               <div className="flex mt-3">
                 <p
@@ -306,7 +305,7 @@ export const Step1 = () => {
                     />
                     <p className="font-medium text-[14px] text-[#212121]">
                       {moment(ItemData?.product?.created_on).format(
-                        'DD,MM,YYYY',
+                        'DD,MM,YYYY'
                       )}
                     </p>
                   </div>
@@ -341,9 +340,9 @@ export const Step1 = () => {
         <div className="flex items-start gap-7 mt-8">
           <div>
             <h1 className="text-[24px] font-bold ">Product Variants</h1>
-            {ItemData?.product?.variants.map((item: any, index: any) => {
+            {ItemData?.product?.variants?.map((item: any, index: any) => {
               console.log(item);
-              let arr = [
+              const arr = [
                 {
                   txt: item.variant,
                   classes: `!w-[148px]  !p-4 !rounded-[9px] !mt-5 !text-[${item.color}] !bg-[${item.background_color}]`,
@@ -365,9 +364,7 @@ export const Step1 = () => {
             <Variants data={VariantsArray3} /> */}
           </div>
           <div>
-            <h1 className="text-[24px] font-bold ">
-              Seller and Buyer Details
-            </h1>
+            <h1 className="text-[24px] font-bold ">Seller and Buyer Details</h1>
             <div className="flex gap-4">
               <div className="border-custom rounded border w-[380px]  mt-3">
                 <p className="text-[19px] font-semibold p-3">
@@ -529,22 +526,19 @@ export const Step1 = () => {
             txt="Verify"
           />
         )}
-       { ItemData?.status==='verified' && (
+        {ItemData?.status === 'verified' && (
           <CustomButton
             iconLeft={<img src={IMAGES.Verified} />}
             classes="!w-auto !mt-[30px] !max-w-[150px]  !mb-[33px] !h-[43px] !text-[13px] !rounded-[8px] !bg-[#3CD670]"
             txt="Verified"
           />
         )}
-      {ItemData?.status==='rejected'&&(
+        {ItemData?.status === 'rejected' && (
           <CustomButton
-           
             classes="!w-auto !mt-[30px] !max-w-[150px]  !mb-[33px] !h-[43px] !text-[13px] !text-[black] !rounded-[8px] !bg-custom-pink"
             txt="Rejected"
           />
         )}
-        
-        
       </div>
     </div>
   );

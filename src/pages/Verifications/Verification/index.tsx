@@ -1,17 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Header } from '../../../components';
-import { CustomTableComponent, InputTxt } from '../../../atoms';
-import { CustomButton } from '../../../atoms';
-import IMAGES from '../../../assets/Images';
-import { TabPanel } from 'primereact/tabview';
-import { CustomTabView, CustomMenu } from '../../../atoms/global.style';
-import { SVGIcon } from '../../../components/SVG';
-import { useNavigate } from 'react-router-dom';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { Paginatior } from '../../../components';
-import { CSVLink } from 'react-csv';
-import { useFetchVerifications } from '../../../custom-hooks/useFetchVerifications';
 import moment from 'moment';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { TabPanel } from 'primereact/tabview';
+import React, { useEffect, useRef, useState } from 'react';
+import { CSVLink } from 'react-csv';
+import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomButton, CustomTableComponent, InputTxt } from '../../../atoms';
+import { CustomMenu, CustomTabView } from '../../../atoms/global.style';
+import { Header, Paginatior } from '../../../components';
+import { SVGIcon } from '../../../components/SVG';
+import { useFetchVerifications } from '../../../custom-hooks/useFetchVerifications';
 export const Verification = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
   const [initialPageData, setInitialPageData] = useState({
@@ -60,26 +58,26 @@ export const Verification = () => {
             );
           },
         },
-        {
-          label: 'Delete',
-          template: (item: any) => {
-            return (
-              <div
-                onClick={event => deleteItem(event, rowData.id)}
-                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
-                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-              >
-                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
-              </div>
-            );
-          },
-        },
+        // {
+        //   label: 'Delete',
+        //   template: (item: any) => {
+        //     return (
+        //       <div
+        //         onClick={event => deleteItem(event, rowData.id)}
+        //         style={{ background: 'rgba(231, 29, 54, 0.05)' }}
+        //         className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+        //       >
+        //         <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
+        //       </div>
+        //     );
+        //   },
+        // },
       ];
 
       return (
         <CustomMenu
           popupAlignment="left"
-          height={'80px'}
+          height={'fit-content'}
           model={items}
           popup
           ref={menuRef}
@@ -191,7 +189,7 @@ export const Verification = () => {
   ];
   //GetVerifications();
   const checkSearchValue = () => {
-    let isnum = /^\d+$/.test(OrderTrack);
+    const isnum = /^\d+$/.test(OrderTrack);
 
     if (isnum) {
       setInitialPageData({ ...initialPageData, order: Number(OrderTrack) });
@@ -208,8 +206,8 @@ export const Verification = () => {
     }
   };
   useEffect(() => {
-    let latestArr = VerificationData?.map((item: any) => {
-      let newObj = {
+    const latestArr = VerificationData?.map((item: any) => {
+      const newObj = {
         ...item,
         Seller: item.seller.firstname + ' ' + item.seller.lastname,
         Buyer: item.buyer.firstname + ' ' + item.buyer.lastname,
@@ -228,7 +226,7 @@ export const Verification = () => {
 
   return (
     <div>
-      <Header  UserBox={true} />
+      <Header UserBox={true} />
       <div className="flex mt-[37px] gap-3">
         <InputTxt
           placeholder="Enter Order/Tracking Number"
@@ -312,7 +310,9 @@ export const Verification = () => {
                     }}
                     showWrapper={false}
                     filterData={filterData?.filter(
-                      (item: any) => item.Status.toLowerCase() == 'rejected' || item.Status.toLowerCase() == 'fail',
+                      (item: any) =>
+                        item.Status.toLowerCase() == 'rejected' ||
+                        item.Status.toLowerCase() == 'fail'
                     )}
                     selectedProducts={selectedProducts}
                     setSelectedProducts={setSelectedProducts}
@@ -340,7 +340,9 @@ export const Verification = () => {
                     }}
                     showWrapper={false}
                     filterData={filterData?.filter(
-                      (item: any) => item.Status.toLowerCase() == 'verified' || item.Status.toLowerCase() == 'pass',
+                      (item: any) =>
+                        item.Status.toLowerCase() == 'verified' ||
+                        item.Status.toLowerCase() == 'pass'
                     )}
                     selectedProducts={selectedProducts}
                     setSelectedProducts={setSelectedProducts}
@@ -368,7 +370,7 @@ export const Verification = () => {
                     }}
                     showWrapper={false}
                     filterData={filterData?.filter(
-                      (item: any) => item.Status.toLowerCase() == 'pending',
+                      (item: any) => item.Status.toLowerCase() == 'pending'
                     )}
                     selectedProducts={selectedProducts}
                     setSelectedProducts={setSelectedProducts}
@@ -390,10 +392,10 @@ export const Verification = () => {
             </CustomTabView>
           </div>
 
-          <CustomButton
+          {/* <CustomButton
             classes="!w-auto !max-w-[79px] !px-[1rem] !h-[38px] !text-[13px] !rounded-[8px] !bg-[#DD0000]"
             txt="Delete"
-          />
+          /> */}
         </>
       ) : (
         <div className="w-full h-full flex justify-start items-center overflow-y-hidden">

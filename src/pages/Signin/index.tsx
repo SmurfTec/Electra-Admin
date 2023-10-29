@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import IMAGES from '../../assets/Images';
-import { InputTxt, InputPassword, CustomButton } from '../../atoms';
+import useCookies from 'react-cookie/cjs/useCookies';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import IMAGES from '../../assets/Images';
+import { CustomButton, InputPassword, InputTxt } from '../../atoms';
 import {
-  EmailVerificationModel,
   ChangePasswordModel2,
   EmailSendModal,
+  EmailVerificationModel,
 } from '../../components';
-import { VerifyUserCode } from '../../store/Slices/UserSlice';
-import { useDispatch } from 'react-redux';
 import { Login } from '../../store/Slices/AuthSlice';
-import useCookies from 'react-cookie/cjs/useCookies';
+import { VerifyUserCode } from '../../store/Slices/UserSlice';
 type LoginData = {
   email: string;
   password: string;
@@ -45,9 +45,7 @@ export const Signin = () => {
 
       if (loginCall.payload?.response?.data?.status === 401) {
         console.log('HEREE');
-
         setEmailErr(true);
-
         setPasswordErr(true);
       } else if (loginCall?.payload?.user) {
         localStorage.setItem('Route', '/Dashboard');
@@ -60,7 +58,7 @@ export const Signin = () => {
     localStorage.removeItem('user');
   }, []);
   const VerifyCode = async (code: any, txt: any) => {
-    let r = await VerifyUserCode(code);
+    const r = await VerifyUserCode(code);
     console.log(r, 'r');
   };
   return (

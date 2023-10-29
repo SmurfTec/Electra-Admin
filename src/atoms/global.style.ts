@@ -1,14 +1,13 @@
-import styled from 'styled-components';
-import { Menu } from 'primereact/menu';
-import { DataTable } from 'primereact/datatable';
-import { InputSwitch } from 'primereact/inputswitch';
-import { TabView } from 'primereact/tabview';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { Checkbox } from 'primereact/checkbox';
-import { Dialog } from 'primereact/dialog';
 import { Calendar } from 'primereact/calendar';
-import { Column } from 'primereact/column';
+import { Checkbox } from 'primereact/checkbox';
+import { DataTable } from 'primereact/datatable';
+import { Dialog } from 'primereact/dialog';
+import { InputSwitch } from 'primereact/inputswitch';
+import { InputTextarea } from 'primereact/inputtextarea';
+import { Menu } from 'primereact/menu';
 import { Paginator } from 'primereact/paginator';
+import { TabView } from 'primereact/tabview';
+import styled from 'styled-components';
 
 export const CustomPaginator = styled(Paginator)`
   justify-content: flex-end !important;
@@ -334,6 +333,9 @@ export const CustomTable = styled(DataTable)<tableprops>`
       background-color: #ffffff;
       border: 0.2px solid #a4a4a4;
     }
+  }
+  .p-selectable-row:focus {
+    outline: none !important;
   }
   width: ${({ width }: any) => (width ? width : '')};
   .p-datatable-wrapper {

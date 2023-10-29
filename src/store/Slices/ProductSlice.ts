@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import url from '../../config/index';
 const initialState: any = {
   Product: [],
@@ -10,13 +10,13 @@ const initialState: any = {
  */
 export const GetAllProducts = async (params?: any) => {
   try {
-    let urlParams =
+    const urlParams =
       params && params.rowsPerPage
         ? `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
             params?.currentPage ? params?.currentPage : 1
           }`
         : '';
-    let response: any = await url.get(`/products?sort=-id&${urlParams}`);
+    const response: any = await url.get(`/products?sort=-id&${urlParams}`);
     return response.data;
   } catch (e) {
     return e;
@@ -30,7 +30,7 @@ export const GetAllProducts = async (params?: any) => {
 
 export const deleteProductById = async (id: any) => {
   try {
-    let response: any = await url.delete(`/products/${id}`);
+    const response: any = await url.delete(`/products/${id}`);
     return response.data;
   } catch (e: any) {
     throw new Error(e);
@@ -43,7 +43,7 @@ export const deleteProductById = async (id: any) => {
  */
 export const getProductById = async (id: any) => {
   try {
-    let response: any = await url.get(`/products/${id}`);
+    const response: any = await url.get(`/products/${id}`);
     console.log(response);
     return response.data;
   } catch (e) {
@@ -57,7 +57,7 @@ export const getProductById = async (id: any) => {
  */
 export const CreateProduct = async (data: any) => {
   try {
-    let response: any = await url.post('/products', data);
+    const response: any = await url.post('/products', data);
     return response;
   } catch (e) {
     console.log(e);
@@ -72,11 +72,23 @@ export const CreateProduct = async (data: any) => {
  */
 export const EditProductAPI = async (data: any, id?: string) => {
   try {
-    let response: any = await url.patch(`/products/${id}`, data);
+    const response: any = await url.patch(`/products/${id}`, data);
     return response;
   } catch (e) {
     console.log(e);
 
+    return e;
+  }
+};
+
+export const UpdateStatusAPI = async (data: any, id?: string) => {
+  try {
+    const response: any = await url.patch(`/products/${id}/status`, {
+      ...data,
+    });
+    return response;
+  } catch (e) {
+    console.log(e);
     return e;
   }
 };
@@ -87,7 +99,7 @@ export const EditProductAPI = async (data: any, id?: string) => {
  */
 export const getAllProductRequest = async (params?: any) => {
   try {
-    let urlParams =
+    const urlParams =
       params && params.rowsPerPage
         ? params.status && params.status
           ? `status=${params?.status ?? 'pending'}&limit=${
@@ -97,7 +109,7 @@ export const getAllProductRequest = async (params?: any) => {
               params?.currentPage ? params?.currentPage : 1
             }`
         : '';
-    let response: any = await url.get(`/productrequests?${urlParams}`);
+    const response: any = await url.get(`/productrequests?${urlParams}`);
     return response.data;
   } catch (e: any) {
     throw new Error(e);
@@ -106,7 +118,7 @@ export const getAllProductRequest = async (params?: any) => {
 
 export const deleteProductRequestByid = async (id: any) => {
   try {
-    let response: any = await url.delete(`/productrequests/${id}`);
+    const response: any = await url.delete(`/productrequests/${id}`);
     return response.data;
   } catch (e: any) {
     throw new Error(e);
@@ -120,13 +132,13 @@ export const deleteProductRequestByid = async (id: any) => {
  */
 export const getAllBestSellingProduct = async (params?: any) => {
   try {
-    let urlParams =
+    const urlParams =
       params && params.rowsPerPage
         ? `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
             params?.currentPage ? params?.currentPage : 1
           }`
         : '';
-    let response: any = await url.get(
+    const response: any = await url.get(
       `/products/best-selling?sort=sold&${urlParams}`
     );
     return response.data;
@@ -139,7 +151,7 @@ type payload = {};
 
 export const ProductsCount = createAsyncThunk('products/count', async () => {
   try {
-    let response: any = await url.get('/products/count');
+    const response: any = await url.get('/products/count');
     console.log(response.data, 'RESPONSEE');
     return response.data;
   } catch (e) {
@@ -151,10 +163,10 @@ const ProductSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    setProductCount:(state:any,action:any)=>{
-      console.log(action.payload)
-      state.total_products=action.payload
-    }
+    setProductCount: (state: any, action: any) => {
+      console.log(action.payload);
+      state.total_products = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addCase(ProductsCount.pending, (state: any, action: any) => {
@@ -164,5 +176,5 @@ const ProductSlice = createSlice({
     });
   },
 });
-export const { setProductCount } = ProductSlice.actions
+export const { setProductCount } = ProductSlice.actions;
 export default ProductSlice.reducer;

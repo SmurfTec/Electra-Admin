@@ -20,8 +20,6 @@ type MyProps = {
   percentageTxt?: string;
   onClick?: React.MouseEventHandler;
 };
-import IMAGES from '../../assets/Images';
-import { SVGIcon } from '../SVG';
 export const DashCard = (props: MyProps) => {
   return (
     <div
@@ -47,6 +45,8 @@ export const DashCard = (props: MyProps) => {
               {props.totalNumber}
             </h1>
             <div className="flex  items-center gap-2">
+              {/* {props.percentageTxt && ( */}
+
               <div
                 className={` ${props.textDash}  w-auto flex justify-start rounded mt-[16px] p-1 `}
               >
@@ -71,6 +71,7 @@ export const DashCard = (props: MyProps) => {
                   </p>
                 )}
               </div>
+              {/* )} */}
               {props.subtxt && (
                 <p
                   className={`text-[#A4A4A4]  text-[10px] mt-4 ${props.subtxtStyle}`}

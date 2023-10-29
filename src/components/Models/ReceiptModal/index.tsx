@@ -1,12 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { useEffect, useRef, useState } from 'react';
+import ReactToPrint from 'react-to-print';
+import { Paginatior } from '../..';
 import IMAGES from '../../../assets/Images';
 import { CustomButton } from '../../../atoms';
 import { CustomDialog } from '../../../atoms/global.style';
-import ReactToPrint from 'react-to-print';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-import { Paginatior } from '../..';
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { BaseURL } from '../../../config';
 export const Receiptmodal = ({ visible, setVisible, currentItem }: any) => {
   const [item, setItem] = useState<any>({});
   const Receiptref = useRef<any>();
@@ -58,8 +59,11 @@ export const Receiptmodal = ({ visible, setVisible, currentItem }: any) => {
           ></i>
         </div>
         <div className="flex gap-3 py-4 ">
-          <div className="bg-[#F5F5F5] h-[75px] w-[93px] flex justify-center items-center">
-            <img className="h-12" src={IMAGES.Iphone22} />
+          <div className="bg-[#F5F5F5] h-[75px] w-[93px] flex justify-center items-center object-contain">
+            <img
+              className="h-fit w-full"
+              src={`${BaseURL}${item?.product?.image}`}
+            />
           </div>
           <div>
             <p className="font-bold text-[20px] text-[#111111]">
