@@ -160,7 +160,7 @@ export const Feemodifier = () => {
               menuLeft.current.toggle(event);
             }}
           />
-          <MenuTemplate id={rowData.ID} menuRef={menuLeft} />
+          <MenuTemplate menuRef={menuLeft} />
           {/* <CustomMenu  model={items} popup ref={menuLeft} id="popup_menu_left" /> */}
         </div>
       </>
@@ -222,98 +222,57 @@ export const Feemodifier = () => {
   };
 
   const handleFeeModifierModal = () => setAddFeeDialog(st => !st);
+
   const handleAddToTable = (fee: any, isEdit = false) => {
-    console.log('fee', fee);
-    const getCatname = categoryList.categories.filter(
-      (el: any) => el.value === fee.category
-    )[0];
-
-    console.log('getCatname', getCatname);
-
-    if (!isEdit) {
-      console.log('fee', fee);
-      if (fee.category)
-        feesModif.unshift({
-          ID: fee.id,
-          Category: (
-            categoryList.categories.filter(
-              (el: any) => el.value === fee.category
-            )[0] as any
-          ).label,
-          'Marketplace Fee':
-            fee.value_type === 'percentage'
-              ? `${fee.fees.toFixed(1)}%`
-              : `$${fee.fees}`,
-          'Last Changed On': moment(fee.updated_on).format('DD MMM, YYYY'),
-          Action: 'Edit',
-          type: fee.type,
-        });
-      else
-        nonCatFeeMod.unshift({
-          ID: fee.id,
-          Category: null,
-          'Marketplace Fee':
-            fee.value_type === 'percentage'
-              ? `${fee.fees.toFixed(1)}%`
-              : `$${fee.fees}`,
-          'Last Changed On': moment(fee.updated_on).format('DD MMM, YYYY'),
-          Action: 'Edit',
-          type: fee.type,
-        });
-    } else {
+    if (isEdit) {
       if (fee.category) {
-        if (currSelected.ID === fee.id)
-          setNonCatFeeMod([nonCatFeeMod.filter((el: any) => el.ID !== fee.id)]);
-
-        const catFees = feesModif.map((el: any) =>
-          el.ID === fee.id
-            ? {
-                ...el,
-                Category: (
-                  categoryList.categories.filter(
-                    (el: any) => el.value === fee.category
-                  )[0] as any
-                ).label,
-                'Marketplace Fee':
-                  fee.value_type === 'percentage'
-                    ? `${fee.fees.toFixed(1)}%`
-                    : `$${fee.fees}`,
-                'Last Changed On': moment(fee.updated_on).format(
-                  'DD MMM, YYYY'
-                ),
-                type: fee.type,
-              }
-            : el
-        );
-        setFeesModif([...catFees]);
+        const isFeeExists = feesModif.filter((el: any) => el.ID === fee.id)[0];
+        if (isFeeExists) {
+          const catFees = feesModif.map((el: any) =>
+            el.ID === fee.id
+              ? {
+                  ...el,
+                  ...makeFeeObj(fee, categoryList.categories),
+                }
+              : el
+          );
+          setFeesModif([...catFees]);
+        } else {
+          setFeesModif([
+            makeFeeObj(fee, categoryList.categories),
+            ...feesModif,
+          ]);
+          setNonCatFeeMod(nonCatFeeMod.filter((el: any) => el.ID !== fee.id));
+        }
       } else {
-        const fees = nonCatFeeMod.map((el: any) =>
+        const nonCatFees = nonCatFeeMod.map((el: any) =>
           el.ID === fee.id
             ? {
                 ...el,
-                Category: null,
-                'Marketplace Fee':
-                  fee.value_type === 'percentage'
-                    ? `${fee.fees.toFixed(1)}%`
-                    : `$${fee.fees}`,
-                'Last Changed On': moment(fee.updated_on).format(
-                  'DD MMM, YYYY'
-                ),
-                type: fee.type,
+                ...makeFeeObj(fee, categoryList.categories),
               }
             : el
         );
-        setNonCatFeeMod([...fees]);
+        console.log('nonCatFees', nonCatFees);
+        setNonCatFeeMod([...nonCatFees]);
       }
       setCurrSelectedProduct(null);
+    } else {
+      if (fee.category)
+        feesModif.unshift(makeFeeObj(fee, categoryList.categories));
+      else nonCatFeeMod.unshift(makeFeeObj(fee, categoryList.categories));
     }
+
     handleFeeModifierModal();
   };
+
+  console.log('Feemodif', feesModif);
+  console.log('nonCatFeeMod', nonCatFeeMod);
 
   return (
     <div>
       <Header typeSearch={true} UserBox={true} />
-      <div className="w-full overflow-x-auto">
+      <div className="w-[auto] overflow-x-auto">
         <p className="font-bold text-[20px] ml-3">
           Modify or change platform charges, Shipping Charges and othe frees.
         </p>
@@ -328,24 +287,12 @@ export const Feemodifier = () => {
             }
           />
           {nonCatFeeMod.length > 0 &&
-            nonCatFeeMod.map((el: any, ind) => (
+            nonCatFeeMod.map((el: any, ind: number) => (
               <Feemodifcard
                 key={ind}
                 onClick={() => {
                   setCurrSelectedProduct(el);
                   handleFeeModifierModal();
-                }}
-                // onClick={() => setVisible(true)}
-                title={el.type}
-                number={el['Marketplace Fee']}
-              />
-            ))}
-          {nonCatFeeMod.length > 0 &&
-            nonCatFeeMod.map((el: any, ind) => (
-              <Feemodifcard
-                key={ind}
-                onClick={() => {
-                  console.log('first');
                 }}
                 // onClick={() => setVisible(true)}
                 title={el.type}
@@ -417,6 +364,19 @@ export const Feemodifier = () => {
   );
 };
 
-// const makeFeeObj = obj => {
-//   return {};
-// };
+const makeFeeObj = (obj: any, categories: any) => {
+  return {
+    ID: obj.id,
+    Category: obj.category
+      ? (categories.filter((el: any) => el.value === obj.category)[0] as any)
+          .label
+      : null,
+    'Marketplace Fee':
+      obj.value_type === 'percentage'
+        ? `${obj.fees.toFixed(1)}%`
+        : `$${obj.fees}`,
+    'Last Changed On': moment(obj.updated_on).format('DD MMM, YYYY'),
+    Action: 'Edit',
+    type: obj.type,
+  };
+};

@@ -38,7 +38,8 @@ export const AddFeeModal = ({
     if (FormData.value_type && FormData.fees >= 100)
       return setError('Fee in %, should be below 100');
     if (FormData.type === '') return setError('Enter fee modifier title');
-
+    const cat =
+      FormData.category && FormData.category !== '' ? FormData.category : null;
     try {
       setLoading(true);
       if (isEdit) {
@@ -46,7 +47,10 @@ export const AddFeeModal = ({
           ...FormData,
           fees: +FormData.fees,
           value_type: FormData.value_type ? 'percentage' : 'value',
-          category: FormData.category !== '' ? FormData.category : null,
+          category:
+            FormData.category && FormData.category !== ''
+              ? FormData.category
+              : null,
         });
         setLoading(false);
         afterOperSuccess(updatedFee, true);
@@ -55,7 +59,10 @@ export const AddFeeModal = ({
           ...FormData,
           fees: +FormData.fees,
           value_type: FormData.value_type ? 'percentage' : 'value',
-          category: FormData.category !== '' ? FormData.category : null,
+          category:
+            FormData.category && FormData.category !== ''
+              ? FormData.category
+              : null,
         });
         setLoading(false);
         afterOperSuccess(fee);
