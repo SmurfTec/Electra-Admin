@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Header,
-  Confirmationmodal,
-  SuccessModel,
-  Confirmationmodal2,
-} from '../../../components';
-import { InputTxt, CustomButton, CustomDropdown } from '../../../atoms';
-import IMAGES from '../../../assets/Images';
 import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomButton, CustomDropdown, InputTxt } from '../../../atoms';
+import {
+  Confirmationmodal,
+  Confirmationmodal2,
+  Header,
+  SuccessModel,
+} from '../../../components';
 import {
   CreateVariantData,
   getAllVariants,
@@ -41,7 +41,6 @@ export const AddNewVariant = () => {
     setEditVisible(true);
   };
   const handleEditFunction = (value: any) => {
-    console.log('original', originalEditValue, 'UpdatedValue', value);
     const index = valuesArr.indexOf(originalEditValue);
     valuesArr[index] = value;
     setvaluesArr(valuesArr);
@@ -55,21 +54,21 @@ export const AddNewVariant = () => {
     setvaluesArr(newArray);
   };
   const CreateVariant = async (value: any) => {
-    console.log(value, 'value');
     try {
-      let body = {
+      const body = {
         title: Variant,
         datatype: dataTypeValue,
         values: valuesArr,
       };
-      console.log(body, 'body');
-      let response = await CreateVariantData(body);
+      const response = await CreateVariantData(body);
       if (response?.id) {
         setsuccessVisible(true);
         setvaluesArr([]);
         setVariant('');
       }
-    } catch (err) {}
+    } catch (err) {
+      //
+    }
   };
   return (
     <div>

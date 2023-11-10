@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { TabPanel } from 'primereact/tabview';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomTableComponent } from '../../../atoms';
+import { CustomMenu, CustomTabView } from '../../../atoms/global.style';
 import {
-  Header,
   AdminCards,
   DashCard,
+  Header,
+  Paginatior,
   ShippingModal,
 } from '../../../components';
-import { CustomTableComponent } from '../../../atoms';
 import { SVGIcon } from '../../../components/SVG';
-import IMAGES from '../../../assets/Images';
-import { CustomMenu, CustomTabView } from '../../../atoms/global.style';
-import { useNavigate } from 'react-router-dom';
-import { TabPanel } from 'primereact/tabview';
-import { Paginatior } from '../../../components';
-import { ProgressSpinner } from 'primereact/progressspinner';
 
-import { useGetRoles, useDeleteRole } from '../../../custom-hooks/RolesHooks';
 import moment from 'moment';
+import { useDeleteRole, useGetRoles } from '../../../custom-hooks/RolesHooks';
 interface RoleStats {
   role: string;
   users: number;
@@ -74,7 +74,6 @@ export const Roles = () => {
     loading: boolean;
   } = useGetRoles(fetch, initialPageData);
   const filterData = users?.map((item: PartialAccount, index: number) => {
-    console.log(item)
     return {
       id: item.id,
       Account: `${item.profile?.firstname} ${item.profile?.lastname}`,
@@ -86,7 +85,6 @@ export const Roles = () => {
   });
   const viewItem = (event: React.MouseEvent, item: any, vaaluue?: any) => {
     event.stopPropagation();
-    console.log(vaaluue);
 
     setMenuLabel(prevLabel => (prevLabel === item.label ? '' : item.label));
   };
@@ -156,18 +154,9 @@ export const Roles = () => {
   const MenuBodyTemplate = (rowData: any) => {
     const handleClick = (event: any) => {
       event.preventDefault();
-      console.log(rowData);
       setCurrSelectedProduct(rowData.id);
       menuLeft.current.toggle(event);
     };
-    useEffect(() => {
-      console.log(
-        'Menu',
-        MenuLabel,
-        'CurrSelectedProduct',
-        CurrSelectedProduct,
-      );
-    }, [MenuLabel, CurrSelectedProduct]);
 
     return (
       <>
@@ -225,16 +214,10 @@ export const Roles = () => {
       navigate(`/Viewadmin/${CurrSelectedProduct}`);
     }
   }, [MenuLabel]);
-  console.log(roleArray);
   return (
     <div>
       <ShippingModal visible={visible} setVisible={setVisible} />
-      <Header
-        placeholder="Search Admins"
-        typeSearch={true}
-       
-        UserBox={true}
-      />
+      <Header placeholder="Search Admins" typeSearch={true} UserBox={true} />
       <div className="flex gap-2 flex-wrap">
         {rolesStats &&
           rolesStats.length > 0 &&
@@ -274,7 +257,6 @@ export const Roles = () => {
               <CustomTabView
                 activeIndex={actIndex}
                 onTabChange={e => {
-                  console.log(e.index);
                   setActIndex(e.index);
                 }}
               >
@@ -303,11 +285,11 @@ export const Roles = () => {
                         'Email Address': item.email,
                         'Phone No': item.profile?.mobile_no ?? '-',
                         'Assigned On': moment(item.created_at).format(
-                          'DD MMM YYYY',
+                          'DD MMM YYYY'
                         ),
                         Role: item.role,
                       };
-                    },
+                    }
                   );
                   return (
                     <TabPanel key={index} header={item.name}>

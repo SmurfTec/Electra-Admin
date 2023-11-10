@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../../../components';
-import { CustomButton } from '../../../atoms';
 import IMAGES from '../../../assets/Images';
+import { CustomButton } from '../../../atoms';
+import { Header } from '../../../components';
 import { useGetNoticBanner } from '../../../custom-hooks';
 import { hideAllNoticebanner } from '../../../store/Slices/WebsiteSlice';
 type Banner = {
@@ -26,25 +26,24 @@ export const Noticebanner = () => {
     useGetNoticBanner();
   useEffect(() => {
     if (!bannerLoading) {
-      console.log(data);
     }
   }, []);
   const deleteBannerById = async (id: any) => {
     try {
       const deleted = await deleteBanner(id);
-      console.log(deleted);
     } catch (e) {
-      console.log(e);
+      //
     }
   };
   const hideBanners = async () => {
     try {
-      let body = {
+      const body = {
         status: status,
       };
       const hide = await hideAllNoticebanner(body);
-      console.log(hide);
-    } catch (e) {}
+    } catch (e) {
+      //
+    }
   };
 
   return (
@@ -73,7 +72,6 @@ export const Noticebanner = () => {
       <div className="mt-2 rounded">
         {!bannerLoading &&
           data.banners.map((item: Banner, index: number) => {
-            console.log(item.id);
             return (
               <div
                 key={index}

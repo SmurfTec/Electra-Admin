@@ -1,11 +1,15 @@
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { useEffect, useState } from 'react';
 import IMAGES from '../../../assets/Images';
-import { Header, StatusCard, Productdetailcard } from '../../../components';
-import { Confirmationmodal } from '../../../components';
+import {
+  Confirmationmodal,
+  Header,
+  Paginatior,
+  Productdetailcard,
+  StatusCard,
+} from '../../../components';
 import { useAllProductRequests } from '../../../custom-hooks';
 import { deleteProductById } from '../../../store/Slices/ProductSlice';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { Paginatior } from '../../../components';
 export const ProductRequests = () => {
   type Stats = {
     status: string;
@@ -48,7 +52,6 @@ export const ProductRequests = () => {
       <Header
         placeholder="Search Product Requests"
         typeSearch={true}
-        
         UserBox={true}
       />
       {!loading ? (
@@ -58,17 +61,16 @@ export const ProductRequests = () => {
             <StatusCard
               onClick={() => {
                 // setVisible(true);
-                let { status, ...rest } = initialPageData;
-                console.log(rest);
+                const { status, ...rest } = initialPageData;
                 setInitialPageData(rest);
               }}
               title="All"
-              number={`${data.count}`??"0"}
+              number={`${data.count}` ?? '0'}
               img={IMAGES.Person}
             />
             <StatusCard
-              title={`${productRequestStats[2]?.status??"0"} `}
-              number={`${productRequestStats[2]?.count??"0"} `}
+              title={`${productRequestStats[2]?.status ?? '0'} `}
+              number={`${productRequestStats[2]?.count ?? '0'} `}
               img={IMAGES.New}
               onClick={() => {
                 setInitialPageData({
@@ -78,8 +80,8 @@ export const ProductRequests = () => {
               }}
             />
             <StatusCard
-              title={`${productRequestStats[1]?.status??"0"} `}
-              number={`${productRequestStats[1]?.count??"0"} `}
+              title={`${productRequestStats[1]?.status ?? '0'} `}
+              number={`${productRequestStats[1]?.count ?? '0'} `}
               img={IMAGES.greencross}
               onClick={() => {
                 setInitialPageData({
@@ -89,8 +91,8 @@ export const ProductRequests = () => {
               }}
             />
             <StatusCard
-              title={`${productRequestStats[0]?.status??"0"} `}
-              number={`${productRequestStats[0]?.count??"0"} `}
+              title={`${productRequestStats[0]?.status ?? '0'} `}
+              number={`${productRequestStats[0]?.count ?? '0'} `}
               img={IMAGES.bluetick}
               onClick={() => {
                 setInitialPageData({

@@ -12,8 +12,7 @@ type Response = {
 
 export const UsersCount = createAsyncThunk('users/count', async () => {
   try {
-    let response: any = await url.get('/users/stats/all');
-    console.log(response.data, 'RESPONSEE');
+    const response: any = await url.get('/users/stats/all');
     return response.data;
   } catch (e) {
     return e;

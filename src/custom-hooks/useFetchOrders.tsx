@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { getAllOrders } from '../store/Slices/OrderSlice';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { getAllOrders } from '../store/Slices/OrderSlice';
 interface OrderParams {
   rowsPerPage?: number;
   currentPage?: number;
@@ -17,20 +17,19 @@ export const useFetchOrders = (params: OrderParams) => {
         setOrderLoading(true);
         const response = await getAllOrders(params);
         // const response2 = await getAllOrders({params});
-        console.log(response, 'response');
         if (response.orders) {
           setOrderData(response.orders);
           setOrderLoading(false);
           setstats(response.stats[0]);
-          let allorderstats = response.stats[0].all_orders;
+          const allorderstats = response.stats[0].all_orders;
           const response2 = await getAllOrders({
             rowsPerPage: allorderstats,
             currentPage: 1,
             status: '',
           });
           if (response2.orders) {
-            let neworders = response2.orders.map((item: any) => {
-              let updatedObj = {
+            const neworders = response2.orders.map((item: any) => {
+              const updatedObj = {
                 ...item,
                 id: item.id,
                 Seller: item?.seller?.firstname + ' ' + item?.seller?.lastname,

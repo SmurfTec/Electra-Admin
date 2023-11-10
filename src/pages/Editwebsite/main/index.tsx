@@ -1,10 +1,10 @@
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
 import { CustomButton } from '../../../atoms';
 import { Header } from '../../../components';
-import IMAGES from '../../../assets/Images';
-import { useNavigate } from 'react-router-dom';
 import { useGetWebsite } from '../../../custom-hooks/WebsiteHook';
-import { ProgressSpinner } from 'primereact/progressspinner';
 
 export const Editwebsite = () => {
   const navigate = useNavigate();
@@ -12,7 +12,6 @@ export const Editwebsite = () => {
 
   const { getWebsitedata, loading } = useGetWebsite(web);
   useEffect(() => {
-    console.log(getWebsitedata);
     setweb(getWebsitedata);
   }, [loading]);
   return (

@@ -88,11 +88,11 @@ const IMAGES: any = {
     .href,
   Ultrablackiphone: new URL(
     '../assets/Images/Ultrablackiphone.svg',
-    import.meta.url,
+    import.meta.url
   ).href,
   Ultrablackiphone2: new URL(
     '../assets/Images/Ultrablackiphone2.svg',
-    import.meta.url,
+    import.meta.url
   ).href,
   Umbrella: new URL('../assets/Images/Umbrella.svg', import.meta.url).href,
   Barcode: new URL('../assets/Images/Barcode.svg', import.meta.url).href,
@@ -138,7 +138,7 @@ const IMAGES: any = {
   Bell: new URL('../assets/icons/Bell.svg', import.meta.url).href,
   Shield: new URL('../assets/icons/shield.svg', import.meta.url).href,
   Maintenance: new URL('../assets/icons/Maintenance.svg', import.meta.url).href,
-  AddItem: new URL('../assets/icons/Add.svg', import.meta.url).href,
+  AddItem: new URL('../assets/icons/add.svg', import.meta.url).href,
   pending: new URL('../assets/icons/pending.svg', import.meta.url).href,
   Ring: new URL('../assets/icons/Ring.svg', import.meta.url).href,
   Send: new URL('../assets/icons/Send.svg', import.meta.url).href,
@@ -158,7 +158,7 @@ const IMAGES: any = {
   Verified: new URL('../assets/icons/Verified.svg', import.meta.url).href,
   downloadreceipt: new URL(
     '../assets/icons/downloadreceipt.svg',
-    import.meta.url,
+    import.meta.url
   ).href,
 
   Calendar: new URL('../assets/icons/Calendar.svg', import.meta.url).href,

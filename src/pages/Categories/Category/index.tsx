@@ -1,19 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Header, DashCard } from '../../../components';
-import { CustomTableComponent } from '../../../atoms';
-import { SVGIcon } from '../../../components/SVG';
-import { MenuItem } from 'primereact/menuitem';
-import IMAGES from '../../../assets/Images';
-import { CustomMenu } from '../../../atoms/global.style';
-import { useNavigate } from 'react-router-dom';
-import { DeleteSingleCategory } from '../../../store/Slices/Categories';
-import { DeleteSingleVariant } from '../../../store/Slices/VariantSlice';
 import moment from 'moment';
-import { SuccessModel } from '../../../components';
+import { Button } from 'primereact/button';
+import { MenuItem } from 'primereact/menuitem';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomTableComponent } from '../../../atoms';
+import { CustomMenu } from '../../../atoms/global.style';
+import {
+  DashCard,
+  Header,
+  Paginatior,
+  SuccessModel,
+} from '../../../components';
+import { SVGIcon } from '../../../components/SVG';
 import { useFetchCategories } from '../../../custom-hooks/useFetchCategories';
 import { useFetchVariants } from '../../../custom-hooks/useFetchVariants';
-import { Paginatior } from '../../../components';
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { DeleteSingleCategory } from '../../../store/Slices/Categories';
+import { DeleteSingleVariant } from '../../../store/Slices/VariantSlice';
 export const Category = () => {
   const [Categoryvisible, setCategoryvisible] = useState(false);
   const [Variantvisible, setVariantvisible] = useState(false);
@@ -40,7 +44,7 @@ export const Category = () => {
   const deleteCategoryItem = async (event: React.MouseEvent, id: any) => {
     event.stopPropagation();
     try {
-      let r = await DeleteSingleCategory(id);
+      const r = await DeleteSingleCategory(id);
 
       if (r) {
         setCategoryvisible(true);
@@ -51,7 +55,7 @@ export const Category = () => {
   const deleteVariantItem = async (event: React.MouseEvent, id: any) => {
     event.stopPropagation();
     try {
-      let r = await DeleteSingleVariant(id);
+      const r = await DeleteSingleVariant(id);
       if (r) {
         setVariantvisible(true);
         setInitialPageData2({ ...initialPageData2, currentPage: 1 });
@@ -66,7 +70,7 @@ export const Category = () => {
       id: string;
       menuRef: React.RefObject<any>;
     }) => {
-      let [items] = useState([
+      const [items] = useState([
         {
           label: 'Delete',
           template: (item: MenuItem) => {
@@ -104,8 +108,16 @@ export const Category = () => {
         <div
           className={` px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
-
+          <Button
+            icon="pi pi-ellipsis-h"
+            rounded
+            text
+            severity="secondary"
+            aria-label="Action"
+            className="font-extrabold text-black"
+            onClick={handleClick}
+          />
+          {/* <SVGIcon onClick={handleClick} src={IMAGES.Dots} /> */}
           <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
         </div>
       </>
@@ -119,7 +131,7 @@ export const Category = () => {
       id: string;
       menuRef: React.RefObject<any>;
     }) => {
-      let [items] = useState([
+      const [items] = useState([
         {
           label: 'Delete',
           template: (item: MenuItem) => {
@@ -157,7 +169,16 @@ export const Category = () => {
         <div
           className={` px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
+          <Button
+            icon="pi pi-ellipsis-h"
+            rounded
+            text
+            severity="secondary"
+            aria-label="Action"
+            className="font-extrabold text-black"
+            onClick={handleClick}
+          />
+          {/* <SVGIcon onClick={handleClick} src={IMAGES.Dots} /> */}
 
           <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
         </div>
@@ -182,8 +203,8 @@ export const Category = () => {
   ]);
 
   useEffect(() => {
-    let NewArr = VariantData?.map((item: any) => {
-      let newObj = {
+    const NewArr = VariantData?.map((item: any) => {
+      const newObj = {
         ...item,
         DataType: item.datatype,
         Values: item.values,
@@ -194,8 +215,8 @@ export const Category = () => {
     setVariants(NewArr);
   }, [VariantData]);
   useEffect(() => {
-    let NewArr: any = CategoryData?.map((item: any) => {
-      let newObj = {
+    const NewArr: any = CategoryData?.map((item: any) => {
+      const newObj = {
         ...item,
         id: item.id,
         title: item.name,

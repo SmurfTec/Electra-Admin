@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import { Dropdown } from 'primereact/dropdown';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { io } from 'socket.io-client';
 import IMAGES from '../../assets/Images';
 import {
-  HeaderSearch,
   ChooseDate,
   ChooseFilter,
   HeaderDropDown,
+  HeaderSearch,
 } from '../../atoms';
-import { useNavigate } from 'react-router-dom';
-import { Dropdown } from 'primereact/dropdown';
-import { io } from 'socket.io-client';
 import { BaseURL } from '../../config';
 type headerProps = {
   typeSearch?: boolean;
@@ -31,7 +31,6 @@ export const Header = (props: headerProps) => {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token') as string);
     const refresh = JSON.parse(localStorage.getItem('refresh') as string);
-    console.log('token', token);
 
     const socket = io(BaseURL, {
       transports: ['websocket'],
@@ -40,15 +39,12 @@ export const Header = (props: headerProps) => {
       },
     });
     socket.on('connect', () => {
-      console.log(`Hurrah Socket ${socket.id} Connected`);
       const user = JSON.parse(localStorage.getItem('user') as string);
 
-      console.log('user.id', user.id);
       socket.emit('notifications', {
         userId: user.id,
       });
       socket.on('notifications', (data: any) => {
-        console.log('data 1', data);
         setnotification(data);
       });
     });
@@ -58,15 +54,13 @@ export const Header = (props: headerProps) => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(notification, 'notification');
-  }, [notification]);
   return (
     <>
       <div
-        className={`overflow-hidden h-16 mt-2 mb-2 flex items-center ${props.title?`justify-between`:`justify-end`}  px-2 pr-8 ${props.headerClasses} relative`}
+        className={`overflow-hidden h-16 mt-2 mb-2 flex items-center ${
+          props.title ? `justify-between` : `justify-end`
+        }  px-2 pr-8 ${props.headerClasses} relative`}
       >
-    
         {/*
         <div></div>
         {props.typeSearch && (

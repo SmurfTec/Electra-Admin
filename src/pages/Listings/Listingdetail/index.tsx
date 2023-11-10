@@ -36,13 +36,11 @@ export const Listingdetail = () => {
 
   useEffect(() => {
     if (Listings) {
-      console.log(Listings.listing);
       setListing(Listings);
       setImages(Listings.listing.images);
       const variaantts = Listings?.listing?.listing_variants?.map(
         (item: any, index: any) => {
           const { variant, values, value, background_color } = item;
-          console.log(values, 'ITEM');
           const options = values?.map((value1: any) => ({
             txt: value1,
             classes:
@@ -59,7 +57,6 @@ export const Listingdetail = () => {
           };
         }
       );
-      console.log(variaantts);
       setVariantArray(variaantts);
     }
   }, [Listings]);
@@ -90,6 +87,9 @@ export const Listingdetail = () => {
     { field: 'Status', header: 'Status' },
     { field: 'Sale Price', header: 'Sale Price' },
   ];
+
+  console.log('listingg', listingg);
+
   return (
     <div>
       <Header title="Viewing List item Detail" UserBox={true} />
@@ -136,7 +136,7 @@ export const Listingdetail = () => {
         />
 
         {listingg?.listing?.technical_specifications &&
-          listingg?.listing?.technical_specifications.length > 0 &&
+        listingg?.listing?.technical_specifications.length > 0 ? (
           listingg?.listing?.technical_specifications?.map(
             (item: any, index: any) => {
               return (
@@ -153,7 +153,12 @@ export const Listingdetail = () => {
                 </>
               );
             }
-          )}
+          )
+        ) : (
+          <p className="mx-5 text-[#656565] text-[14px] mt-4 mb-8 font-semibold">
+            Nothing to show
+          </p>
+        )}
       </CustomSidebar>
       {!loading ? (
         <div>

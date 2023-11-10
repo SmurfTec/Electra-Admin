@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Header } from '../../../components';
-import { InputTxt, CustomButton } from '../../../atoms';
-import IMAGES from '../../../assets/Images';
 import { HexColorPicker } from 'react-colorful';
-import { createNoticeBanner } from '../../../store/Slices/WebsiteSlice';
 import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomButton, InputTxt } from '../../../atoms';
+import { Header } from '../../../components';
+import { createNoticeBanner } from '../../../store/Slices/WebsiteSlice';
 export const Addnewbanner = () => {
   const navigate = useNavigate();
 
@@ -29,7 +29,6 @@ export const Addnewbanner = () => {
         setError('Fill title,color and background');
       } else {
         const add = await createNoticeBanner(data);
-        console.log(add, 'ADDD');
         if (add) {
           navigate('/Noticebanner');
         }

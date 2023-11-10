@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getAllUsers } from '../store/Slices/UserSlice';
 import {
-  getPayouts,
   getPayments,
+  getPayouts,
   getTransfers,
 } from '../store/Slices/WalletSlice';
 interface WalletProps {
@@ -17,37 +17,35 @@ export const useFetchWallet = (props: WalletProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let params = {
+        const params = {
           limit: props.limit,
           starting_after: props.starting_after,
         };
-       
+
         if (props.activetab == 'payout') {
           setWalletLoading(true);
-          let r = await getPayouts(params);
-          
-          if (r?.status==200) {
+          const r = await getPayouts(params);
+
+          if (r?.status == 200) {
             setWalletdata(r.payouts);
-            console.log(r.payouts);
             setWalletLoading(false);
           }
         } else if (props.activetab == 'payment') {
           setWalletLoading(true);
-          let r = await getPayments(params);
-          
+          const r = await getPayments(params);
+
           if (r) {
             setWalletdata(r.payments);
             setWalletLoading(false);
           }
         } else {
           setWalletLoading(true);
-          let r = await getTransfers(params);
-          
+          const r = await getTransfers(params);
+
           setWalletdata(r.transfers);
           setWalletLoading(false);
           if (r) {
             setWalletdata(r.transfers);
-            console.log(r.transfers);
             setWalletLoading(false);
           }
         }

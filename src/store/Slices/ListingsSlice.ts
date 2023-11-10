@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import url from '../../config/index';
 type param = {
   rowsPerPage?: number;
@@ -6,14 +6,13 @@ type param = {
 };
 export const getAllListings = async (params?: param) => {
   try {
-    let urlParams =
+    const urlParams =
       params && params.rowsPerPage
         ? `limit=${params?.rowsPerPage ? params.rowsPerPage : 80}&page=${
             params?.currentPage ? params?.currentPage : 1
           }`
         : '';
-    let response: any = await url.get(`/listings?${urlParams}`);
-    console.log(response);
+    const response: any = await url.get(`/listings?${urlParams}`);
     return response;
   } catch (e) {
     return e;
@@ -21,8 +20,7 @@ export const getAllListings = async (params?: param) => {
 };
 export const getListingById = async (id: any) => {
   try {
-    let response: any = await url.get(`/listings/${id}`);
-    console.log(response);
+    const response: any = await url.get(`/listings/${id}`);
     return response;
   } catch (e) {
     return e;
@@ -31,8 +29,7 @@ export const getListingById = async (id: any) => {
 
 export const deleteListingById = async (id: any) => {
   try {
-    let response: any = await url.delete(`/listings/${id}`);
-    console.log(response);
+    const response: any = await url.delete(`/listings/${id}`);
     return response;
   } catch (e) {
     return e;
@@ -43,8 +40,7 @@ export const deleteListingById = async (id: any) => {
 
 export const flagListing = async (body: any) => {
   try {
-    let response: any = await url.patch(`/listings/flaggged`, body);
-    console.log(response);
+    const response: any = await url.patch(`/listings/flaggged`, body);
     return response;
   } catch (e) {
     return e;
@@ -55,8 +51,7 @@ type payload = {};
 
 export const ListingsCount = createAsyncThunk('listings/count', async () => {
   try {
-    let response: any = await url.get('/listings/count');
-    console.log(response.data, 'RESPONSEE');
+    const response: any = await url.get('/listings/count');
     return response.data;
   } catch (e) {
     return e;
@@ -70,10 +65,9 @@ export const ListingsSlice = createSlice({
     total_listings: 0,
   },
   reducers: {
-    setListingCount:(state:any,action:any)=>{
-      console.log(action.payload)
-      state.total_listings=action.payload
-    }
+    setListingCount: (state: any, action: any) => {
+      state.total_listings = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addCase(ListingsCount.pending, (state: any, action: any) => {
@@ -83,5 +77,5 @@ export const ListingsSlice = createSlice({
     });
   },
 });
-export const { setListingCount } = ListingsSlice.actions
+export const { setListingCount } = ListingsSlice.actions;
 export default ListingsSlice.reducer;

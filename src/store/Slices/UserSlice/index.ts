@@ -19,7 +19,7 @@ export const getAllUsers = async ({
   currentPage = 1,
 }: any) => {
   try {
-    let response: any = await url.get(
+    const response: any = await url.get(
       `/users/?sort=id&limit=${rowsPerPage ? rowsPerPage : 25}&page=${
         currentPage ? currentPage : 1
       }`
@@ -31,7 +31,7 @@ export const getAllUsers = async ({
 };
 export const SendEmail = async () => {
   try {
-    let response = await url.post('/auth/email-2fa');
+    const response = await url.post('/auth/email-2fa');
     return response.data;
   } catch (e) {
     return e;
@@ -39,7 +39,7 @@ export const SendEmail = async () => {
 };
 export const VerifyUserCode = async (code: any) => {
   try {
-    let response = await url.get(`/auth/email-2fa/${code}`);
+    const response = await url.get(`/auth/email-2fa/${code}`);
     return response.data;
   } catch (e) {
     return e;
@@ -47,7 +47,7 @@ export const VerifyUserCode = async (code: any) => {
 };
 export const UpdateUser = async (body: any) => {
   try {
-    let response = await url.patch(`/users/me`, body);
+    const response = await url.patch(`/users/me`, body);
     return response.data;
   } catch (e) {
     return e;
@@ -55,7 +55,7 @@ export const UpdateUser = async (body: any) => {
 };
 export const ChangePassword = async (body: any) => {
   try {
-    let response = await url.patch(`/auth/update-password`, body);
+    const response = await url.patch(`/auth/update-password`, body);
     return response.data;
   } catch (e) {
     return e;
@@ -63,7 +63,7 @@ export const ChangePassword = async (body: any) => {
 };
 export const ResetPassword = async (body: any, code: any) => {
   try {
-    let response = await url.patch(`/auth/reset-password/${code}`, body);
+    const response = await url.patch(`/auth/reset-password/${code}`, body);
     return response.data;
   } catch (e) {
     return e;
@@ -71,7 +71,7 @@ export const ResetPassword = async (body: any, code: any) => {
 };
 export const GetUserAsks = async (userId: any) => {
   try {
-    let response = await url.get(`/asks/?user=${userId}`);
+    const response = await url.get(`/asks/?user=${userId}`);
     return response.data;
   } catch (e) {
     return e;
@@ -79,7 +79,7 @@ export const GetUserAsks = async (userId: any) => {
 };
 export const GetUserStats = async (userId: any, status = 'pending') => {
   try {
-    let response = await url.get(`/orders/users/${userId}?status=${status}`);
+    const response = await url.get(`/orders/users/${userId}?status=${status}`);
     return { ...response.data };
   } catch (e) {
     return e;
@@ -87,7 +87,7 @@ export const GetUserStats = async (userId: any, status = 'pending') => {
 };
 export const getSingleUser = async (id: any) => {
   try {
-    let response: any = await url.get(`/users/${id}`);
+    const response: any = await url.get(`/users/${id}`);
     return response.data;
   } catch (e) {
     return e;
@@ -113,8 +113,7 @@ export const getSingleUserOrder = async (
   }
 
   try {
-    let response: any = await url.get(`${params}`);
-    console.log(response, 'response');
+    const response: any = await url.get(`${params}`);
     return response.data;
   } catch (e) {
     return e;
@@ -122,7 +121,7 @@ export const getSingleUserOrder = async (
 };
 export const BanUser = async (body: any) => {
   try {
-    let response: any = await url.patch(`/users/ban`, body);
+    const response: any = await url.patch(`/users/ban`, body);
     return response.data;
   } catch (e) {
     return e;
@@ -130,7 +129,7 @@ export const BanUser = async (body: any) => {
 };
 export const UnBanUser = async (body: any) => {
   try {
-    let response: any = await url.patch(`/users/unban`, body);
+    const response: any = await url.patch(`/users/unban`, body);
     return response.data;
   } catch (e) {
     return e;
@@ -138,7 +137,7 @@ export const UnBanUser = async (body: any) => {
 };
 export const DeleteSingleUser = async (body: any) => {
   try {
-    let response: any = await url.delete(`/users`, { data: body });
+    const response: any = await url.delete(`/users`, { data: body });
     return response.data;
   } catch (e) {
     return e;
@@ -146,7 +145,7 @@ export const DeleteSingleUser = async (body: any) => {
 };
 export const GetAllUserOrder = async (id: any) => {
   try {
-    let response: any = await url.get(`/orders/${id}/me`);
+    const response: any = await url.get(`/orders/${id}/me`);
     return response.data;
   } catch (e) {
     return e;
@@ -154,7 +153,7 @@ export const GetAllUserOrder = async (id: any) => {
 };
 export const addAdmin = async (body: adminBody) => {
   try {
-    let response: any = await url.post('/users/admin', body);
+    const response: any = await url.post('/users/admin', body);
     return response;
   } catch (e) {
     return e;
@@ -162,7 +161,7 @@ export const addAdmin = async (body: adminBody) => {
 };
 export const getNotifications = async () => {
   try {
-    let response: any = await url.get('/notifications/own/all');
+    const response: any = await url.get('/notifications/own/all');
     return response.data;
   } catch (e: any) {
     throw new Error(e);
@@ -170,7 +169,7 @@ export const getNotifications = async () => {
 };
 export const readMyNotifications = async () => {
   try {
-    let response: any = await url.patch('/notifications');
+    const response: any = await url.patch('/notifications');
     return response.data;
   } catch (e: any) {
     throw new Error(e);
@@ -178,8 +177,8 @@ export const readMyNotifications = async () => {
 };
 export const forgotPassword = async (email: string) => {
   try {
-    let body = { email: email };
-    let response: any = await url.post('/auth/forgot-password', body);
+    const body = { email: email };
+    const response: any = await url.post('/auth/forgot-password', body);
     return response.data;
   } catch (e: any) {
     throw new Error(e);
@@ -190,18 +189,18 @@ const UserSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    setUserCount:(state:any,action:any)=>{
-      state.count=action.payload.total_users_registered
-    }
+    setUserCount: (state: any, action: any) => {
+      state.count = action.payload.total_users_registered;
+    },
   },
   extraReducers: builder => {
     builder.addCase(UsersCount.fulfilled, (state: any, action: any) => {
       // both `state` and `action` are now correctly typed
       // based on the slice state and the `pending` action creator
-     
+
       state.count = action.payload.total_users_registered;
     });
   },
 });
-export const { setUserCount } = UserSlice.actions
+export const { setUserCount } = UserSlice.actions;
 export default UserSlice.reducer;

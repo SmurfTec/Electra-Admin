@@ -1,44 +1,46 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { DashCard } from '../../../components';
-import IMAGES from '../../../assets/Images';
-import { CustomButton, CustomTableComponent } from '../../../atoms';
-import { Header } from '../../../components';
-import { InputTxt } from '../../../atoms';
-import { SVGIcon } from '../../../components/SVG';
-import { CustomMenu } from '../../../atoms/global.style';
+import moment from 'moment';
 import { MenuItem } from 'primereact/menuitem';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
 import {
-  getSingleUser,
+  CustomButton,
+  CustomCalendar,
+  CustomTableComponent,
+  InputTxt,
+} from '../../../atoms';
+import { CustomMenu } from '../../../atoms/global.style';
+import { DashCard, Header, Paginatior } from '../../../components';
+import { SVGIcon } from '../../../components/SVG';
+import url from '../../../config/index';
+import { useFetchUserOrder } from '../../../custom-hooks/useFetchUserOrder';
+import { DeleteOrders } from '../../../store/Slices/OrderSlice';
+import {
   GetAllUserOrder,
   GetUserAsks,
   GetUserStats,
+  getSingleUser,
   getSingleUserOrder,
 } from '../../../store/Slices/UserSlice';
-import { useParams } from 'react-router-dom';
-import { Paginatior } from '../../../components';
-import { useNavigate } from 'react-router-dom';
-import { DeleteOrders } from '../../../store/Slices/OrderSlice';
-import moment from 'moment';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { useFetchUserOrder } from '../../../custom-hooks/useFetchUserOrder';
-import { CustomCalendar } from '../../../atoms';
+
 type UserInterface = {
-  username: String;
-  email: String;
-  phone: String;
-  date: String;
+  username: string;
+  email: string;
+  phone: string;
+  date: string;
 };
 type InitialPageData = {
-  rowsPerPage: Number;
-  currentPage: Number;
-  name: String;
-  orderid: Number;
-  date: String | Date | null;
+  rowsPerPage: number;
+  currentPage: number;
+  name: string;
+  orderid: number;
+  date: string | Date | null;
 };
 export const UserProfile = () => {
   const params = useParams();
   const navigate = useNavigate();
-  let { id } = params;
+  const { id } = params;
   const [UserData, setUserData] = useState<UserInterface>({
     username: '',
     email: '',
@@ -86,6 +88,11 @@ export const UserProfile = () => {
     { id: 10, txt: 'Completed', title: 'Total Points Earned', body: '1500' },
   ]);
 
+  const [getListing, setGetListing] = useState<{
+    fetching: boolean;
+    listing: any[];
+  }>({ fetching: true, listing: [] });
+
   const handleButton = (id: any) => {
     const buttonfilter = ButtonList.map((item: any, index: any) => {
       if (item.id == id) {
@@ -122,7 +129,7 @@ export const UserProfile = () => {
       id: string;
       menuRef: React.RefObject<any>;
     }) => {
-      let [items] = useState([
+      const [items] = useState([
         {
           label: 'View Item',
 
@@ -226,11 +233,11 @@ export const UserProfile = () => {
   const [columnData] = useState([
     { field: 'id', header: 'ID' },
     { field: 'itemname', header: 'Item Name' },
-    { field: 'askprice', header: 'Ask Price' },
+    { field: 'askPrice', header: 'Ask Price' },
     {
-      field: 'highestOffer',
+      field: 'highest_offer',
       header: 'Highest Offer',
-      body: HighestOfferTemplate,
+      // body: HighestOfferTemplate,
     },
     { field: 'listedon', header: 'Listed On' },
     { field: '', header: '', body: MenuBodyTemplate },
@@ -246,23 +253,39 @@ export const UserProfile = () => {
   ]);
   const [CompletedcolumnData] = useState([
     { field: 'id', header: 'ID' },
-    { field: 'itemname', header: 'Item Name' },
+    { field: 'title', header: 'Item Name' },
     { field: 'id', header: 'Order No', body: OrderNoTemplate },
     { field: 'updated_on', header: 'Sale Date' },
     { field: 'status', header: 'Status', body: StatusBodyTemplate },
     { field: '', header: '', body: MenuBodyTemplate },
   ]);
   const GetUserDetail = async () => {
-    let response = await getSingleUser(id);
+    const response = await getSingleUser(id);
     setUserData({
       ...UserData,
       username:
         response?.profile?.firstname + ' ' + response?.profile?.lastname || '',
-      email: response.email || '',
-      phone: response.profile.mobile_no || '',
-      date: moment(response.created_at).format('DD,MM,YYYY'),
+      email: response?.email || '',
+      phone: response?.profile?.mobile_no || '',
+      date: moment(response?.created_at).format('DD,MM,YYYY'),
     });
   };
+
+  const getUserListing = async () => {
+    setGetListing({ fetching: true, listing: [] });
+    const response = await url.get(`/listings?user=${id}`);
+    setGetListing({
+      fetching: false,
+      listing: response.data.listings?.map((el: any) => ({
+        itemname: el.product_data.title,
+        id: el.id,
+        askPrice: el.ask,
+        listedon: moment(el.created_on).format('DD,MM,YYYY'),
+        highest_offer: el.highest_offer ? `$${el.highest_offer}` : '-',
+      })),
+    });
+  };
+
   const getUserOrder = async () => {
     try {
       // let active=activetxt=="Active"?"":activetxt.toLowerCase()
@@ -282,14 +305,14 @@ export const UserProfile = () => {
       // })
       // setuserOrders(order)
       setUserLoading(true);
-      let response = await GetUserAsks(id);
+      const response = await GetUserAsks(id);
 
       setsales({
         completed: response?.data?.orderStats?.completed_sales || 0,
 
         rejected: response?.data?.orderStats?.rejected_sales || 0,
       });
-      let newData = Data.map((item: any) => {
+      const newData = Data.map((item: any) => {
         if (item.id == 1) {
           return {
             ...item,
@@ -351,8 +374,8 @@ export const UserProfile = () => {
     }
   };
   useEffect(() => {
-    let order = orderData?.map((item: any) => {
-      let updatedOrders = {
+    const order = orderData?.map((item: any) => {
+      const updatedOrders = {
         ...item,
         itemname: item?.product?.title,
         askprice: item?.ask_price,
@@ -366,10 +389,11 @@ export const UserProfile = () => {
   useEffect(() => {
     getUserOrder();
     GetUserDetail();
+    getUserListing();
   }, [activetxt]);
 
   useEffect(() => {
-    let isnum = /^\d+$/.test(search);
+    const isnum = /^\d+$/.test(search);
     if (isnum) {
       setInitialPageData({ ...initialPageData, orderid: Number(search) });
     } else {
@@ -579,10 +603,10 @@ export const UserProfile = () => {
       {!orderLoading ? (
         <div className="mt-[38px]">
           <CustomTableComponent
-            width={'60%'} //634px
+            width={'100%'} //634px
             theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
             showWrapper={false}
-            filterData={userOrders}
+            filterData={activetxt == 'Active' ? getListing.listing : userOrders}
             selectedProducts={selectedProducts}
             setSelectedProducts={setSelectedProducts}
             columnData={

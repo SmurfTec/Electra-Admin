@@ -1,11 +1,11 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import authSlice from './Slices/AuthSlice';
-import UserSlice from './Slices/UserSlice';
-import { persistStore, persistReducer } from 'redux-persist';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import authSlice from './Slices/AuthSlice';
+import ListingsSlice from './Slices/ListingsSlice';
 import OrderSlice from './Slices/OrderSlice';
 import ProductSlice from './Slices/ProductSlice';
-import ListingsSlice from './Slices/ListingsSlice';
+import UserSlice from './Slices/UserSlice';
 // Use redux persist here
 const persistConfig = {
   key: 'root',

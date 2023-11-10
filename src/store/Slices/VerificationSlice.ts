@@ -18,11 +18,9 @@ export const getAllVerfications = async ({
         }`;
   params = order !== 0 ? params + `&order=${order}` : params;
   params = trakingid.length > 0 ? params + `&trackingid=${trakingid}` : params;
- 
 
-  // console.log(params,"params")
   try {
-    let response: any = await url.get(`${params}`);
+    const response: any = await url.get(`${params}`);
     return response.data;
   } catch (e) {
     return e;
@@ -30,7 +28,7 @@ export const getAllVerfications = async ({
 };
 export const getVerficationById = async (id: any) => {
   try {
-    let response: any = await url.get(`/verifications/${id}`);
+    const response: any = await url.get(`/verifications/${id}`);
     return response.data;
   } catch (e) {
     return e;
@@ -38,7 +36,7 @@ export const getVerficationById = async (id: any) => {
 };
 export const UpdateVerfication = async (id: any, body: any) => {
   try {
-    let response: any = await url.patch(`/verifications/${id}`, body);
+    const response: any = await url.patch(`/verifications/${id}`, body);
     return response.data;
   } catch (e) {
     return e;

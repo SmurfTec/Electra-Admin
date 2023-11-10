@@ -1,6 +1,6 @@
-import { OrderStatus } from '../index';
-import { ViewAll } from '../../atoms';
 import moment from 'moment';
+import { ViewAll } from '../../atoms';
+import { OrderStatus } from '../index';
 export const PlatformEarning = (props: any) => {
   return (
     <div className="bg-[#FCFCFC] mt-2 rounded px-4 pt-4 h-90">
@@ -11,8 +11,6 @@ export const PlatformEarning = (props: any) => {
         </div>
       </div>
       {props.data?.slice(0, 8)?.map((item: any, index: any) => {
-        console.log(item === 'completed', 'ITEM');
-
         return (
           <OrderStatus
             id={item.id}

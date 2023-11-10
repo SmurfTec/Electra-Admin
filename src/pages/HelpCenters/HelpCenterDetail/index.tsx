@@ -1,18 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Header } from '../../../components';
-import { CustomButton, InputTxt } from '../../../atoms';
-import { SVGIcon } from '../../../components/SVG';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import IMAGES from '../../../assets/Images';
+import { CustomButton, InputTxt } from '../../../atoms';
 import { CustomMenu } from '../../../atoms/global.style';
-import { useParams } from 'react-router-dom';
+import { Header, SuccessModel } from '../../../components';
+import { SVGIcon } from '../../../components/SVG';
 import {
-  getSupportById,
   ChangeSupportStatus,
   DeleteSupport,
   ReplySupportCenter,
+  getSupportById,
 } from '../../../store/Slices/HelpCenterSlice';
-import { SuccessModel } from '../../../components';
-import { useNavigate } from 'react-router-dom';
 export const HelpCenterDetail = () => {
   const menuLeft: any = useRef(null);
   const navigate = useNavigate();
@@ -26,7 +24,7 @@ export const HelpCenterDetail = () => {
       const body = {
         status: 'resolved',
       };
-      let r = await ChangeSupportStatus(id, body);
+      const r = await ChangeSupportStatus(id, body);
 
       if (r) {
         getDetail();
@@ -37,7 +35,7 @@ export const HelpCenterDetail = () => {
     try {
       event.preventDefault();
 
-      let r = await DeleteSupport(id);
+      const r = await DeleteSupport(id);
       setvisible(true);
       setTimeout(() => {
         navigate('/HelpCenter');
@@ -48,12 +46,12 @@ export const HelpCenterDetail = () => {
     e.preventDefault();
 
     try {
-      let body = {
+      const body = {
         message: Reply,
       };
-      let r = await ReplySupportCenter(id, body);
-      if(r){
-        setReply('')
+      const r = await ReplySupportCenter(id, body);
+      if (r) {
+        setReply('');
       }
       getDetail();
     } catch (err) {}
@@ -95,8 +93,7 @@ export const HelpCenterDetail = () => {
   };
   const getDetail = async () => {
     try {
-      let response = await getSupportById(id);
-      console.log(response, 'response');
+      const response = await getSupportById(id);
       setDetail(response.support);
     } catch (err) {}
   };
@@ -217,14 +214,17 @@ export const HelpCenterDetail = () => {
               </div>
             );
           })}
-     {detail.status == 'resolved' && 
-     <div className='flex gap-3 justify-center items-center mt-[46px]'>
-     <hr className="w-[18.5rem] border-[#A4A4A4]" />
-     <CustomButton txt="Solved" classes="!w-auto !bg-blue !text-white px-[32px] !h-auto !py-[10px] !rounded-[22px] "  />
-     <hr className="w-[18.5rem] border-[#A4A4A4]" />
-     </div>
-     }   
-     
+        {detail.status == 'resolved' && (
+          <div className="flex gap-3 justify-center items-center mt-[46px]">
+            <hr className="w-[18.5rem] border-[#A4A4A4]" />
+            <CustomButton
+              txt="Solved"
+              classes="!w-auto !bg-blue !text-white px-[32px] !h-auto !py-[10px] !rounded-[22px] "
+            />
+            <hr className="w-[18.5rem] border-[#A4A4A4]" />
+          </div>
+        )}
+
         <div className="pt-[114px] pl-[39px] pr-[39px] pb-[39px]">
           <InputTxt
             placeholder="Type Reply here"

@@ -22,7 +22,6 @@ export const Receiptmodal = ({ visible, setVisible, currentItem }: any) => {
       const doc = new jsPDF('p', 'mm', 'a4');
       const receiptWidth = doc.internal.pageSize.getWidth() - 100; // Adjust width for margins
       const receiptHeight = (receiptWidth * canvas.height) / canvas.width; // Preserve aspect ratio
-      console.log(receiptHeight, receiptWidth);
       // Add the image to the PDF
       doc.addImage(imgdata, 'PNG', 10, 10, receiptWidth, receiptHeight);
       doc.save('receipt.pdf');
@@ -31,13 +30,8 @@ export const Receiptmodal = ({ visible, setVisible, currentItem }: any) => {
   };
 
   useEffect(() => {
-    if (currentItem) {
-      setItem(currentItem[0]);
-    }
+    if (currentItem) setItem(currentItem[0]);
   }, [currentItem]);
-  useEffect(() => {
-    console.log(item);
-  }, [item]);
 
   return (
     <CustomDialog

@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
 import { Galleria, GalleriaResponsiveOptions } from 'primereact/galleria';
-import IMAGES from '../../assets/Images';
-import { Threebuttons } from '..';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Threebuttons } from '..';
+import IMAGES from '../../assets/Images';
 import { BaseURL } from '../../config';
 import { updateSeciton } from '../../store/Slices/WebsiteSlice';
 const CustomCarousel = styled(Galleria)`
@@ -51,7 +51,7 @@ export const Webcarousel = (props: any) => {
       ]);
     }
     setSelectedId(
-      mappedImages && mappedImages.length > 0 ? mappedImages[0].title : '',
+      mappedImages && mappedImages.length > 0 ? mappedImages[0].title : ''
     );
   }, [props.images]);
 
@@ -60,7 +60,7 @@ export const Webcarousel = (props: any) => {
     props.setLoading(true);
 
     const file = event.target.files[0];
-    let sendingData = new FormData();
+    const sendingData = new FormData();
     sendingData.append('images', file);
 
     props.images &&
@@ -70,11 +70,10 @@ export const Webcarousel = (props: any) => {
     const Adding = await updateSeciton(
       props.webId,
       props.sectionId,
-      sendingData,
+      sendingData
     );
     props.setWebsiteData(Adding);
     props.setLoading(false);
-    console.log('bsdk');
   };
 
   // function to delete a photo
@@ -88,14 +87,14 @@ export const Webcarousel = (props: any) => {
       if (attachments.length === 0) {
         attachments.push(''); // Push an empty string to create an empty attachment array
       }
-      let sendingData = new FormData();
+      const sendingData = new FormData();
       attachments.forEach((attachment: any) => {
         sendingData.append('attachments[]', attachment);
       });
       const Adding = await updateSeciton(
         props.webId,
         props.sectionId,
-        sendingData,
+        sendingData
       );
       props.setLoading(false);
 
@@ -152,7 +151,6 @@ export const Webcarousel = (props: any) => {
         <img
           onClick={() => {
             setSelectedId(item.title);
-            console.log(item);
           }}
           src={item.thumbnailImageSrc}
           alt={item.alt}
@@ -180,7 +178,7 @@ export const Webcarousel = (props: any) => {
         thumbnail={thumbnailTemplate}
         showIndicators
         onChange={e => {
-          console.log(e.target);
+          // console.log(e.target);
         }}
       />
     </div>

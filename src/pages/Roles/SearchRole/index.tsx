@@ -1,15 +1,14 @@
-import React from 'react';
-import { Header } from '../../../components';
-import { DashCard } from '../../../components';
-import { useNavigate } from 'react-router-dom';
-import { CustomTableComponent } from '../../../atoms';
-import IMAGES from '../../../assets/Images';
-import { SVGIcon } from '../../../components/SVG';
-import { CustomMenu } from '../../../atoms/global.style';
-import { useGetRoles } from '../../../custom-hooks/RolesHooks';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { deleteRole } from '../../../store/Slices/RoleSlice';
 import moment from 'moment';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomTableComponent } from '../../../atoms';
+import { CustomMenu } from '../../../atoms/global.style';
+import { DashCard, Header } from '../../../components';
+import { SVGIcon } from '../../../components/SVG';
+import { useGetRoles } from '../../../custom-hooks/RolesHooks';
+import { deleteRole } from '../../../store/Slices/RoleSlice';
 type SuperAdminRole = {
   created_at: string;
   created_by: string;
@@ -35,13 +34,8 @@ export const Searchrole = () => {
   const [fetch, setFetch] = React.useState(false);
   const { roles, rolesStats, users, roleArray, totalStats, loading }: any =
     useGetRoles(fetch, initialPageData);
-  console.log(roles);
 
-  if (!loading) {
-    console.log(roles);
-  }
   const filterData = roles?.map((item: SuperAdminRole, index: number) => {
-    console.log(item, 'ITEEM');
     return {
       Role: item.name,
       'User Count': item.description ?? '-',
@@ -52,10 +46,9 @@ export const Searchrole = () => {
   const viewItem = async (
     event: React.MouseEvent,
     item: any,
-    vaaluue?: any,
+    vaaluue?: any
   ) => {
     event.stopPropagation();
-    console.log(vaaluue);
     setFetch(true);
     const deleteTheRole = await deleteRole(vaaluue.Role);
     setFetch(false);
@@ -109,7 +102,6 @@ export const Searchrole = () => {
   const MenuBodyTemplate = (rowData: any) => {
     const handleClick = (event: any) => {
       event.preventDefault();
-      console.log(rowData);
       setCurrSelectedProduct(rowData);
       menuLeft.current.toggle(event);
     };
@@ -173,14 +165,14 @@ export const Searchrole = () => {
     if (MenuLabel == 'View') {
       // navigate(`/ListingsDetail/${CurrSelectedProduct}`);
     } else {
-      console.log(
-        'Menu',
-        MenuLabel,
-        'product',
-        // selectedProducts,
-        'CurrSelectedProduct',
-        CurrSelectedProduct,
-      );
+      // console.log(
+      //   'Menu',
+      //   MenuLabel,
+      //   'product',
+      //   // selectedProducts,
+      //   'CurrSelectedProduct',
+      //   CurrSelectedProduct
+      // );
     }
   }, [MenuLabel]);
   return (
@@ -210,7 +202,7 @@ export const Searchrole = () => {
             </p>
             <div className="flex gap-8 px-4 border-b border-custom ">
               <p className="border-b-4 border-[#3C82D6] text-[#3C82D6] pb-2 font-semibold">
-                All ({filterData?.length??0})
+                All ({filterData?.length ?? 0})
               </p>
             </div>
             {!loading && !fetch ? (

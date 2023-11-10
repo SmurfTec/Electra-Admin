@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Header } from '../../../components';
-import IMAGES from '../../../assets/Images';
-import { SVGIcon } from '../../../components/SVG';
-import { CustomMenu } from '../../../atoms/global.style';
-import { CustomButton } from '../../../atoms';
-import { useNavigate } from 'react-router-dom';
-import { useGetUserById } from '../../../custom-hooks/RolesHooks';
-import { useLocation } from 'react-router-dom';
-import { BaseURL } from '../../../config';
 import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomButton } from '../../../atoms';
+import { CustomMenu } from '../../../atoms/global.style';
+import { Header } from '../../../components';
+import { SVGIcon } from '../../../components/SVG';
+import { BaseURL } from '../../../config';
+import { useGetUserById } from '../../../custom-hooks/RolesHooks';
 type UserProfile = {
   id: number;
   firstname: string;
@@ -54,11 +53,7 @@ export const ViewAdmin = () => {
   const id = pathname.split('/').pop();
   const { user, userLoading } = useGetUserById(id) as DATA;
   const [view, setView] = useState(false);
-  useEffect(() => {
-    if (user && !userLoading) {
-      console.log(user);
-    }
-  }, [userLoading]);
+
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
   const items = [
@@ -186,9 +181,12 @@ export const ViewAdmin = () => {
                     key={index}
                     className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]"
                   >
-                    <img className="p-2"  src={
-                          item.image ? BaseURL + item.image : IMAGES.Loginarrow
-                        }/>
+                    <img
+                      className="p-2"
+                      src={
+                        item.image ? BaseURL + item.image : IMAGES.Loginarrow
+                      }
+                    />
                     <div>
                       <p>{item.message}</p>
                       <p className="text-[#969696] mt-2 text-[11px]">

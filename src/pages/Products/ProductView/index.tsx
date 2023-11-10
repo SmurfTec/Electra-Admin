@@ -13,6 +13,7 @@ import './index.css';
 
 import moment from 'moment';
 import { Divider } from 'primereact/divider';
+import { Switch } from '../../../atoms/global.style';
 import { BaseURL } from '../../../config';
 export const ProductView = () => {
   const params = useParams();
@@ -66,7 +67,6 @@ export const ProductView = () => {
   const deleteProduct = async () => {
     try {
       const DeleteProduct = await deleteProductById(id);
-      console.log('DeleteProduct', DeleteProduct);
       if (DeleteProduct) {
         navigate('/products');
       }
@@ -141,9 +141,9 @@ export const ProductView = () => {
                     View Technical Specifications
                   </p>
                   <CustomButton
-                    txt={'description'}
+                    txt={'Description'}
                     classes={
-                      '!bg-[#FCE39C]  !w-[97px] !h-[50px] !text-[black] !p-2 !rounded-[7px] !mt-5'
+                      '!bg-[#FCE39C] !w-[110px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
                     }
                   />
                   <div className="mt-5">
@@ -217,16 +217,21 @@ export const ProductView = () => {
                           '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
                         }
                       />
-                      <label className="switch">
-                        <input
+                      {/* <label className="switch"> */}
+                      <Switch
+                        name={'availability'}
+                        checked={ProductData?.product?.is_active ? true : false}
+                        margintop={'-5px'}
+                      />
+                      {/* <input
                           type="checkbox"
                           checked={
                             ProductData?.product?.is_active ? true : false
                           }
                           className="toggle-input"
-                        />
-                        <span className="slider"></span>
-                      </label>
+                        /> */}
+                      {/* <span className="slider"></span> */}
+                      {/* </label> */}
                     </div>
                   </div>
                 </div>
@@ -364,18 +369,24 @@ export const ProductView = () => {
           {/* PRODUCT  VARIATNNSSSSS */}
           <div>
             <h1 className="text-[24px] font-bold my-3">Product Variants</h1>
-            {VariantsArray.map((item: any, index) => {
-              return (
-                <div className="flex" key={index}>
-                  <CustomButton
-                    key={index}
-                    txt={item.variant.txt}
-                    classes={item.variant.classes}
-                  />
-                  <Variants data={item.values} />;
-                </div>
-              );
-            })}
+            {VariantsArray.length > 0 ? (
+              VariantsArray.map((item: any, index) => {
+                return (
+                  <div className="flex" key={index}>
+                    <CustomButton
+                      key={index}
+                      txt={item.variant.txt}
+                      classes={item.variant.classes}
+                    />
+                    <Variants data={item.values} />;
+                  </div>
+                );
+              })
+            ) : (
+              <p className="mx-5 text-[#656565] text-[14px] mt-4 mb-8 font-semibold">
+                {'Nothing to show'}
+              </p>
+            )}
           </div>
           <div>
             <h1 className="text-[24px] font-bold my-3">Statistics</h1>
@@ -437,7 +448,9 @@ export const ProductView = () => {
               />
               <DashCard
                 title={'Price Premium'}
-                totalNumber={`$ ${stats.priceMin}`}
+                totalNumber={
+                  stats.priceMin !== '-' ? `$${stats.priceMin}` : '-'
+                }
                 myImg={IMAGES.dollar}
                 imgColor={'bg-[#8CB869]'}
                 textDash={

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { TabPanel } from 'primereact/tabview';
 import React, { useEffect, useState } from 'react';
@@ -78,13 +79,11 @@ export const Listings = () => {
   }, [data]);
   const viewItem = (event: React.MouseEvent, item: any, vaaluue?: any) => {
     event.stopPropagation();
-    console.log(vaaluue);
 
     setMenuLabel(prevLabel => (prevLabel === item.label ? '' : item.label));
   };
   const flagListings = async () => {
     try {
-      console.log(selectedListing, 'LISTIJNGSS');
       const newarr = selectedListing.map((item: any) => {
         return item.id;
       });
@@ -93,7 +92,6 @@ export const Listings = () => {
         ids: newarr,
       };
       const flag = await flagListing(body);
-      console.log(flag, 'FLAGGED');
       if (flag) {
         setVisible(true);
       }
@@ -148,7 +146,6 @@ export const Listings = () => {
   const MenuBodyTemplate = (rowData: any) => {
     const handleClick = (event: any) => {
       event.preventDefault();
-      console.log(rowData);
       setCurrSelectedProduct(rowData.id);
       menuLeft.current.toggle(event);
     };
@@ -163,7 +160,16 @@ export const Listings = () => {
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px] h-fit`}
         >
-          <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
+          <Button
+            icon="pi pi-ellipsis-h"
+            rounded
+            text
+            severity="secondary"
+            aria-label="Action"
+            className="font-extrabold text-black"
+            onClick={handleClick}
+          />
+          {/* <SVGIcon onClick={handleClick} src={IMAGES.Dots} /> */}
           <CustomMenu
             model={items}
             popup
@@ -221,14 +227,14 @@ export const Listings = () => {
     if (MenuLabel == 'View') {
       navigate(`/ListingsDetail/${CurrSelectedProduct}`);
     } else {
-      console.log(
-        'Menu',
-        MenuLabel,
-        'product',
-        // selectedProducts,
-        'CurrSelectedProduct',
-        CurrSelectedProduct
-      );
+      // console.log(
+      //   'Menu',
+      //   MenuLabel,
+      //   'product',
+      //   // selectedProducts,
+      //   'CurrSelectedProduct',
+      //   CurrSelectedProduct
+      // );
     }
   }, [MenuLabel]);
   return (
@@ -249,9 +255,6 @@ export const Listings = () => {
               <CustomTabView
                 activeIndex={actIndex}
                 onTabChange={e => {
-                  console.log(e.index);
-                  console.log(listings[e.index]);
-
                   setActIndex(e.index);
                 }}
                 className="!bg-[#FCFCFC]"

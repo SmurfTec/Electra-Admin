@@ -1,102 +1,164 @@
+import moment from 'moment';
+import { Button } from 'primereact/button';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { SVGIcon } from '../../components/SVG';
+import IMAGES from '../../assets/Images';
 import { CustomTableComponent } from '../../atoms';
 import { CustomMenu } from '../../atoms/global.style';
-import IMAGES from '../../assets/Images';
-import { Header, Feemodifcard, Confirmationmodal } from '../../components';
+import {
+  Confirmationmodal,
+  DashCard,
+  Feemodifcard,
+  Header,
+  Paginatior,
+} from '../../components';
+import { AddFeeModal } from '../../components/Models/AddFeeModal';
+import { SVGIcon } from '../../components/SVG';
 import { useFeesAll } from '../../custom-hooks/feeshooks';
-import { CreateFees } from '../../store/Slices/FeesSlice';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import {deleteFees} from "../../store/Slices/FeesSlice"
-import { Paginatior } from '../../components';
-import moment from 'moment';
+import { getCategories } from '../../store/Slices/Categories';
+import { UpdateFees, deleteFees } from '../../store/Slices/FeesSlice';
 export const Feemodifier = () => {
-  const navigate = useNavigate();
   const [visible, setVisible] = React.useState(false);
   const [feesModif, setFeesModif] = useState<any>();
+  const [nonCatFeeMod, setNonCatFeeMod] = useState<any>([]);
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 10,
     currentPage: 1,
   });
   const { data, loading, setLoading } = useFeesAll(feesModif, initialPageData);
-  const [currSelected, setCurrSelectedProduct] = useState<any>();
+  const [currSelected, setCurrSelectedProduct] = useState<any>(null);
   const [feeValue, setFeeValue] = useState(0);
+
+  const [addFeeDialog, setAddFeeDialog] = useState(false);
+  const [categoryList, setCategoryList] = useState({
+    fetching: true,
+    categories: [],
+  });
+
   useEffect(() => {
-    let newData = data?.fees?.map((item: any, index: any) => {
-     return {
-        ID: item.id,
-        Category: item.category.name,
-        'Marketplace Fee': item.fees + '%',
-        'Last Changed On': moment(item.updated_on).format('DD MMM, YYYY'),
-        Action: 'Edit',
-        type: item.type,
-      };
+    const nonCatFees: any[] = [];
+    const catFees: any[] = [];
+
+    data?.fees.forEach((obj: any) => {
+      if (obj.category.id === null) {
+        console.log('obj', obj);
+        nonCatFees.push({
+          ID: obj.id,
+          CatId: null,
+          Category: '',
+          'Marketplace Fee':
+            obj.value_type === 'percentage' ? `${obj.fees}%` : `$${obj.fees}`,
+          'Last Changed On': moment(obj.updated_on).format('DD MMM, YYYY'),
+          Action: 'Edit',
+          type: obj.type,
+          value_type: obj.value_type,
+        });
+      } else
+        catFees.push({
+          ID: obj.id,
+          CatId: obj.category.id,
+          Category: obj.category.name,
+          'Marketplace Fee':
+            obj.value_type === 'percentage' ? `${obj.fees}%` : `$${obj.fees}`,
+          'Last Changed On': moment(obj.updated_on).format('DD MMM, YYYY'),
+          Action: 'Edit',
+          type: obj.type,
+          value_type: obj.value_type,
+        });
     });
-    setFeesModif(newData);
+
+    setFeesModif(catFees);
+    setNonCatFeeMod(nonCatFees);
   }, [loading]);
   useEffect(() => {
     setLoading(true);
   }, [initialPageData]);
+
+  useEffect(() => {
+    if (!categoryList.fetching) return;
+    (async () => {
+      try {
+        let dataCat = await getCategories();
+        dataCat = dataCat.categories.map((item: any, index: any) => {
+          const newObj = {
+            value: item.id,
+            label: item.name,
+          };
+          return newObj;
+        });
+        setCategoryList({ fetching: false, categories: dataCat });
+      } catch (er) {
+        setCategoryList({ fetching: false, categories: [] });
+      }
+    })();
+  }, [categoryList.fetching]);
+
   const deleteFeeModif = async (event: React.MouseEvent, id: any) => {
     event.stopPropagation();
 
     try {
-      let response = await deleteFees(id);
-      console.log(response)
+      const response = await deleteFees(id);
       setInitialPageData({ ...initialPageData, currentPage: 1 });
-    } catch (err) {}
+    } catch (err) {
+      console.log('err', err);
+    }
   };
- 
-  const AccountBodyTemplate = (option: any) => {
-    return (
-      <div className="flex gap-2 items-center justify-center">
-        <p className="font-bold">{option.Role}</p>
-      </div>
-    );
-  };
+
   const MenuBodyTemplate = (rowData: any) => {
-    const MenuTemplate = ({
-      id,
-      menuRef,
-    }: {
-      id: string;
-      menuRef: React.RefObject<any>;
-    }) => {
-        let [items] = useState([
+    const MenuTemplate = ({ menuRef }: { menuRef: React.RefObject<any> }) => {
+      const [items] = useState([
         {
           label: 'Delete',
-          template: (item: any, options: any) => {
+          template: () => {
             return (
-              <div
-                style={{ background: 'rgba(231, 29, 54, 0.05)' }}
-                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-                onClick={(event: any) => deleteFeeModif(event, rowData.ID)}
-              >
-                <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
-              </div>
+              <>
+                <div
+                  onClick={(event: any) => deleteFeeModif(event, rowData.ID)}
+                  style={{ backgroundColor: 'rgba(231, 29, 54, 0.05)' }}
+                  className="flex gap-2 items-center  text-[14px] font-[500] text-[#E71D36]"
+                >
+                  <SVGIcon
+                    width="12px"
+                    height="15px"
+                    fillcolor={'#E71D36'}
+                    src={IMAGES.Delete}
+                  />{' '}
+                  Delete
+                </div>
+              </>
             );
           },
         },
       ]);
 
       return (
-        <CustomMenu model={items} popup ref={menuRef} id="popup_menu_left" />
+        <CustomMenu
+          height={'auto'}
+          model={items}
+          popup
+          ref={menuRef}
+          id="popup_menu_left"
+        />
       );
     };
-  const menuLeft: any = React.useRef(null);
+    const menuLeft: any = React.useRef(null);
 
     return (
       <>
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon
+          <Button
+            icon="pi pi-ellipsis-h"
+            rounded
+            text
+            severity="secondary"
+            aria-label="Action"
+            className="font-extrabold text-black"
             onClick={(event: any) => {
               event.preventDefault();
               menuLeft.current.toggle(event);
             }}
-            src={IMAGES.Dots}
           />
           <MenuTemplate id={rowData.ID} menuRef={menuLeft} />
           {/* <CustomMenu  model={items} popup ref={menuLeft} id="popup_menu_left" /> */}
@@ -107,11 +169,12 @@ export const Feemodifier = () => {
   const StatusBodyTemplate = (rowData: any) => {
     const handleClick = (event: any) => {
       event.preventDefault();
-      console.log(rowData);
       setCurrSelectedProduct(rowData);
+      handleFeeModifierModal();
       // menuLeft.current.toggle(event);
-      setVisible(!visible);
+      // setVisible(!visible);
     };
+
     return (
       <>
         <div
@@ -136,6 +199,7 @@ export const Feemodifier = () => {
   };
   const columnData = [
     { field: 'ID', header: 'ID' },
+    { field: 'type', header: 'Modifier Title' },
     { field: 'Category', header: 'Category' },
     { field: 'Marketplace Fee', header: 'Marketplace Fee' },
     { field: 'Last Changed On', header: 'Last Changed On' },
@@ -144,11 +208,11 @@ export const Feemodifier = () => {
   ];
   const handleFunction = async (value?: any) => {
     try {
-      let newData = {
+      const newData = {
         type: currSelected.type,
         fees: Number(feeValue),
       };
-      let addFees = await CreateFees(currSelected.ID, newData);
+      const addFees = await UpdateFees(currSelected.ID, newData);
       setFeesModif('');
       setVisible(!visible);
       setLoading(true);
@@ -156,20 +220,138 @@ export const Feemodifier = () => {
       console.log(e);
     }
   };
+
+  const handleFeeModifierModal = () => setAddFeeDialog(st => !st);
+  const handleAddToTable = (fee: any, isEdit = false) => {
+    console.log('fee', fee);
+    const getCatname = categoryList.categories.filter(
+      (el: any) => el.value === fee.category
+    )[0];
+
+    console.log('getCatname', getCatname);
+
+    if (!isEdit) {
+      console.log('fee', fee);
+      if (fee.category)
+        feesModif.unshift({
+          ID: fee.id,
+          Category: (
+            categoryList.categories.filter(
+              (el: any) => el.value === fee.category
+            )[0] as any
+          ).label,
+          'Marketplace Fee':
+            fee.value_type === 'percentage'
+              ? `${fee.fees.toFixed(1)}%`
+              : `$${fee.fees}`,
+          'Last Changed On': moment(fee.updated_on).format('DD MMM, YYYY'),
+          Action: 'Edit',
+          type: fee.type,
+        });
+      else
+        nonCatFeeMod.unshift({
+          ID: fee.id,
+          Category: null,
+          'Marketplace Fee':
+            fee.value_type === 'percentage'
+              ? `${fee.fees.toFixed(1)}%`
+              : `$${fee.fees}`,
+          'Last Changed On': moment(fee.updated_on).format('DD MMM, YYYY'),
+          Action: 'Edit',
+          type: fee.type,
+        });
+    } else {
+      if (fee.category) {
+        if (currSelected.ID === fee.id)
+          setNonCatFeeMod([nonCatFeeMod.filter((el: any) => el.ID !== fee.id)]);
+
+        const catFees = feesModif.map((el: any) =>
+          el.ID === fee.id
+            ? {
+                ...el,
+                Category: (
+                  categoryList.categories.filter(
+                    (el: any) => el.value === fee.category
+                  )[0] as any
+                ).label,
+                'Marketplace Fee':
+                  fee.value_type === 'percentage'
+                    ? `${fee.fees.toFixed(1)}%`
+                    : `$${fee.fees}`,
+                'Last Changed On': moment(fee.updated_on).format(
+                  'DD MMM, YYYY'
+                ),
+                type: fee.type,
+              }
+            : el
+        );
+        setFeesModif([...catFees]);
+      } else {
+        const fees = nonCatFeeMod.map((el: any) =>
+          el.ID === fee.id
+            ? {
+                ...el,
+                Category: null,
+                'Marketplace Fee':
+                  fee.value_type === 'percentage'
+                    ? `${fee.fees.toFixed(1)}%`
+                    : `$${fee.fees}`,
+                'Last Changed On': moment(fee.updated_on).format(
+                  'DD MMM, YYYY'
+                ),
+                type: fee.type,
+              }
+            : el
+        );
+        setNonCatFeeMod([...fees]);
+      }
+      setCurrSelectedProduct(null);
+    }
+    handleFeeModifierModal();
+  };
+
   return (
     <div>
       <Header typeSearch={true} UserBox={true} />
-      <div>
+      <div className="w-full overflow-x-auto">
         <p className="font-bold text-[20px] ml-3">
           Modify or change platform charges, Shipping Charges and othe frees.
         </p>
-        <div className="ml-3 flex gap-3">
-          <Feemodifcard
-            onClick={() => setVisible(true)}
-            title={'SHIPPING FEE'}
-            number={'15'}
+        <div className="w-full ml-3 flex gap-3 overflow-x-auto">
+          <DashCard
+            onClick={handleFeeModifierModal}
+            Addimg={IMAGES.AddItem}
+            Add={true}
+            txt="Add New Fee"
+            outerclasses={
+              'w-fit min-w-[160px] !h-[93px]  border border-custom rounded-[7px] my-3 '
+            }
           />
-          <Feemodifcard title={'PROCESSING FEE'} number={'15'} />
+          {nonCatFeeMod.length > 0 &&
+            nonCatFeeMod.map((el: any, ind) => (
+              <Feemodifcard
+                key={ind}
+                onClick={() => {
+                  setCurrSelectedProduct(el);
+                  handleFeeModifierModal();
+                }}
+                // onClick={() => setVisible(true)}
+                title={el.type}
+                number={el['Marketplace Fee']}
+              />
+            ))}
+          {nonCatFeeMod.length > 0 &&
+            nonCatFeeMod.map((el: any, ind) => (
+              <Feemodifcard
+                key={ind}
+                onClick={() => {
+                  console.log('first');
+                }}
+                // onClick={() => setVisible(true)}
+                title={el.type}
+                number={el['Marketplace Fee']}
+              />
+            ))}
         </div>
       </div>
       <div>
@@ -209,6 +391,32 @@ export const Feemodifier = () => {
         setInitialPageData={setInitialPageData}
         recordShowing={feesModif?.length}
       />
+      {addFeeDialog && (
+        <AddFeeModal
+          visible={addFeeDialog}
+          toggleVisible={handleFeeModifierModal}
+          categories={categoryList.categories}
+          afterOperSuccess={handleAddToTable}
+          isEdit={currSelected ? true : false}
+          initialState={
+            currSelected && {
+              id: currSelected.ID,
+              fees:
+                currSelected.value_type === 'percentage'
+                  ? +currSelected['Marketplace Fee'].split('%')[0]
+                  : +currSelected['Marketplace Fee'].split('$')[1],
+              value_type:
+                currSelected.value_type === 'percentage' ? true : false,
+              category: currSelected.CatId,
+              type: currSelected.type,
+            }
+          }
+        />
+      )}
     </div>
   );
 };
+
+// const makeFeeObj = obj => {
+//   return {};
+// };

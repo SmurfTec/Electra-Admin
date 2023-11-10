@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CustomButton, CustomSwitch, InputTxt } from '../../../atoms';
 import { Header } from '../../../components';
-import { InputTxt, CustomButton, CustomSwitch } from '../../../atoms';
 import { useGetPermission } from '../../../custom-hooks/RolesHooks';
 import { createRole } from '../../../store/Slices/RoleSlice';
-import { useNavigate } from 'react-router-dom';
 type permission = {
   description: string;
   name: string;
@@ -31,9 +31,8 @@ export const Createrole = () => {
     }
   }, [loading]);
   const handleChangePermission = (permissionValue: string) => {
-    console.log(permissionValue);
     const existingPermissionIndex = permissionData.permissions?.findIndex(
-      item => item === permissionValue,
+      item => item === permissionValue
     );
 
     if (existingPermissionIndex !== -1) {
@@ -55,7 +54,6 @@ export const Createrole = () => {
   };
   const addRole = async () => {
     const ADD = await createRole(permissionData);
-    console.log(ADD);
     if (ADD) {
       navigate('/Searchrole');
     }
@@ -85,7 +83,7 @@ export const Createrole = () => {
             permissions?.map((item: permission, index: number) => {
               const existingPermissionIndex =
                 permissionData.permissions?.findIndex(
-                  item1 => item1 === item.name,
+                  item1 => item1 === item.name
                 );
               return (
                 <div className="flex p-3 gap-3" key={index}>

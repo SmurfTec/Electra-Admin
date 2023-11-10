@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { getAllBrands } from '../store/Slices/BrandSlice';
 interface BrandParams {
@@ -14,7 +14,6 @@ export const useFetchBrands = (params: BrandParams) => {
       try {
         setBrandLoading(true);
         const response = await getAllBrands(params);
-        console.log(response);
         if (response.brands) {
           setBrandData(response.brands);
           setBrandLoading(false);
@@ -22,7 +21,6 @@ export const useFetchBrands = (params: BrandParams) => {
         }
       } catch (error) {
         // Handle error
-        console.error(error);
       }
     };
 

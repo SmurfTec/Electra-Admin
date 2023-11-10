@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { CustomDialog } from '../../../atoms/global.style';
-import { InputPassword } from '../../../atoms';
-import { CustomButton } from '../../../atoms';
 import IMAGES from '../../../assets/Images';
+import { CustomButton, InputPassword } from '../../../atoms';
+import { CustomDialog } from '../../../atoms/global.style';
 import { ResetPassword } from '../../../store/Slices/UserSlice';
 export const ChangePasswordModel2 = ({
   classes,
@@ -17,18 +16,15 @@ export const ChangePasswordModel2 = ({
   const [Success, setSuccess] = useState(false);
   const [err, setErr] = useState('');
   const ChangeUserPassword = async () => {
-    let body = {
+    const body = {
       password: currentPass,
       confirmPassword: newPass,
     };
-    console.log(Code, 'CODE');
 
-    let response = await ResetPassword(body, Code);
+    const response = await ResetPassword(body, Code);
     if (!(response.status == 404) || !(response.status == 401)) {
       setSuccess(false);
       setErr('Unauthorized password was not chnaged');
-    } else {
-      console.log('ISSUE with changing password');
     }
   };
   return (

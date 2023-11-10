@@ -44,7 +44,6 @@ export const deleteProductById = async (id: any) => {
 export const getProductById = async (id: any) => {
   try {
     const response: any = await url.get(`/products/${id}`);
-    console.log(response);
     return response.data;
   } catch (e) {
     return e;
@@ -152,7 +151,6 @@ type payload = {};
 export const ProductsCount = createAsyncThunk('products/count', async () => {
   try {
     const response: any = await url.get('/products/count');
-    console.log(response.data, 'RESPONSEE');
     return response.data;
   } catch (e) {
     return e;
@@ -164,7 +162,6 @@ const ProductSlice = createSlice({
   initialState,
   reducers: {
     setProductCount: (state: any, action: any) => {
-      console.log(action.payload);
       state.total_products = action.payload;
     },
   },

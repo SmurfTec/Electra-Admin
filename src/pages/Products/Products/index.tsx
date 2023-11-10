@@ -33,7 +33,6 @@ export const Products = () => {
   const getProducts = async () => {
     try {
       const response = await GetAllProducts(initialPageData);
-      console.log(response.stats);
       setTotalProducts(response.stats.total_products);
       dispatch(setProductCount(response.stats.total_products));
       setStats(response.stats);
@@ -68,7 +67,6 @@ export const Products = () => {
 
     const Edit = async (value: any) => {
       setLoading(true);
-      console.log(value, 'Changes');
       const add = await UpdateStatusAPI({ is_active: value }, option.id);
       const get = await getProducts();
       setLoading(false);
@@ -78,7 +76,6 @@ export const Products = () => {
       <>
         <CustomSwitch
           onChange={(e: any) => {
-            console.log('HERY', e);
             dataOption = !dataOption;
             Edit(!e);
           }}
@@ -92,7 +89,6 @@ export const Products = () => {
   3;
   const viewItem = (event: React.MouseEvent, item: any, vaaluue?: any) => {
     event.stopPropagation();
-    console.log(vaaluue);
 
     setMenuLabel(prevLabel => (prevLabel === item.label ? '' : item.label));
   };
@@ -122,7 +118,6 @@ export const Products = () => {
   const MenuBodyTemplate = (rowData: any) => {
     const handleClick = (event: any) => {
       event.preventDefault();
-      console.log(rowData);
       setCurrSelectedProduct(rowData.id);
       menuLeft.current.toggle(event);
     };
@@ -130,14 +125,14 @@ export const Products = () => {
       if (initial) {
         setInitial(false);
       } else {
-        console.log(
-          'Menu',
-          MenuLabel,
-          'product',
-          selectedProducts,
-          'CurrSelectedProduct',
-          CurrSelectedProduct
-        );
+        // console.log(
+        //   'Menu',
+        //   MenuLabel,
+        //   'product',
+        //   selectedProducts,
+        //   'CurrSelectedProduct',
+        //   CurrSelectedProduct
+        // );
       }
     }, [MenuLabel, CurrSelectedProduct]);
     return (
@@ -188,14 +183,14 @@ export const Products = () => {
     if (MenuLabel == 'View') {
       navigate(`/ProductDetail/${CurrSelectedProduct}`);
     } else {
-      console.log(
-        'Menu',
-        MenuLabel,
-        'product',
-        selectedProducts,
-        'CurrSelectedProduct',
-        CurrSelectedProduct
-      );
+      // console.log(
+      //   'Menu',
+      //   MenuLabel,
+      //   'product',
+      //   selectedProducts,
+      //   'CurrSelectedProduct',
+      //   CurrSelectedProduct
+      // );
     }
   }, [MenuLabel]);
   return (

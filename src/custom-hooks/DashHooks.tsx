@@ -6,7 +6,6 @@ export const useGetDashStats = () => {
   const [loading, setLoading] = React.useState(true);
   const fetchDashStats = async () => {
     const DATA = await getDashboardData();
-    console.log(DATA, 'DATAAA');
     setDashStats(DATA);
     setLoading(false);
   };
@@ -18,12 +17,10 @@ export const useGetDashStats = () => {
 
 export const useGetBestSelling = (params?: any) => {
   try {
-    console.log(params, 'PARAMS');
     const [bestSelling, setBestSelling] = React.useState();
     const [bestLoading, setBestLoading] = React.useState(true);
     const fetchDashStats = async () => {
       const DATA = await getAllBestSellingProduct(params);
-      console.log(DATA, 'DATAAA');
       setBestSelling(DATA);
       setBestLoading(false);
     };

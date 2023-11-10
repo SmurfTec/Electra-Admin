@@ -1,7 +1,6 @@
 import React from 'react';
 
 export const OrderStatus = (props: any) => {
-  console.log(props, 'PROPSS');
   return (
     <div className="flex justify-between mt-5">
       <div className="flex gap-3">

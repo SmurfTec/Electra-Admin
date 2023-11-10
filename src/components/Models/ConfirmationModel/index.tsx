@@ -1,6 +1,6 @@
-import { CustomDialog } from '../../../atoms/global.style';
+import { useEffect, useState } from 'react';
 import { CustomButton } from '../../../atoms';
-import { useState, useEffect } from 'react';
+import { CustomDialog } from '../../../atoms/global.style';
 export const Confirmationmodal = ({
   PopupHeader,
   classes,
@@ -51,7 +51,6 @@ export const Confirmationmodal = ({
                 placeholder="Enter color"
                 value={Value}
                 onChange={e => {
-                  console.log(e.target.value);
                   setValue(e.target.value);
                 }}
                 className="px-2 focus:outline-none"
@@ -100,9 +99,7 @@ export const Confirmationmodal = ({
           <CustomButton
             onClick={() => {
               if (handleFunction) {
-                console.log(value);
                 if (!value) {
-                  console.log('eeewfjbj');
                   setError('Enter a value for fee modifier');
                 }
                 if (Value) {

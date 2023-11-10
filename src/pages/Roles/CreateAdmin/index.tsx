@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Header } from '../../../components';
-import {
-  CustomDropdown2,
-  InputTxt,
-  CustomButton,
-  InputPassword,
-} from '../../../atoms';
 import { useNavigate } from 'react-router-dom';
+import {
+  CustomButton,
+  CustomDropdown2,
+  InputPassword,
+  InputTxt,
+} from '../../../atoms';
+import { Header } from '../../../components';
 import { useCreateAdmin } from '../../../custom-hooks/RolesHooks';
 type adminBody = {
   firstname: string;
@@ -37,7 +37,7 @@ export const CreateNewadmin = () => {
     if (!loading) {
       let data;
       data = roles.map((item: any, index: any) => {
-        let newObj = {
+        const newObj = {
           value: item.name,
           label: item.name,
         };
@@ -57,7 +57,7 @@ export const CreateNewadmin = () => {
   function handleChange<T>(
     e: React.ChangeEvent<HTMLInputElement>,
     object: T,
-    setObject: React.Dispatch<React.SetStateAction<T>>,
+    setObject: React.Dispatch<React.SetStateAction<T>>
   ): void {
     const { name, value } = e.target;
     setObject((prevObject: T) => ({
@@ -145,7 +145,6 @@ export const CreateNewadmin = () => {
             mainclasses={'mt-4 w-[286px] !h-[59px]'}
             options={rolesRender}
             setValue={(value: any) => {
-              console.log(value);
               setAdminBody({
                 ...adminBody,
                 role: value,
@@ -165,7 +164,6 @@ export const CreateNewadmin = () => {
             onClick={() => {
               if (isAllValuesFilled(adminBody)) {
                 // All values are filled, perform your action here
-                console.log('All values are filled.');
                 setError('');
                 setAdmin(adminBody);
               } else {

@@ -1,36 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { Header } from '../../components';
 import IMAGES from '../../assets/Images';
 import { CustomSwitch } from '../../atoms';
+import { Header } from '../../components';
 import { SVGIcon } from '../../components/SVG';
 import {
   SendEmail,
-  VerifyUserCode,
   UpdateUser,
+  VerifyUserCode,
 } from '../../store/Slices/UserSlice';
 
 import {
-  EmailVerificationModel,
-  ChangePasswordModel,
-  SuccessModel,
   AuthValueModel,
   BankAccountModel,
   BankAccountPinModel,
+  ChangePasswordModel,
+  EmailVerificationModel,
+  SuccessModel,
 } from '../../components';
 export const Settings = () => {
-  let [userdata, setuserdata] = useState<any>();
+  const [userdata, setuserdata] = useState<any>();
 
   const [initial1, setinitial1] = useState(true);
   const [initial2, setinitial2] = useState(true);
   const [initial3, setinitial3] = useState(true);
   const [twoFactorAuth, settwoFactorAuth] = useState(
-    userdata?.profile?.is_two_step_verification_enabled || false,
+    userdata?.profile?.is_two_step_verification_enabled || false
   );
   const [Notifications, setNotifications] = useState(
-    userdata?.profile?.receive_notifications || false,
+    userdata?.profile?.receive_notifications || false
   );
   const [MaintainaceMode, setMaintainaceMode] = useState(
-    userdata?.profile?.maintenance_mode || false,
+    userdata?.profile?.maintenance_mode || false
   );
   const [EmailModel, setEmailModel] = useState(false);
   const [PassModel, setPassModel] = useState(false);
@@ -38,7 +38,7 @@ export const Settings = () => {
   const [successModel, setsuccessModel] = useState(false);
   const [authmodel, setauthmodel] = useState(false);
   const [successtxt, setsuccesstxt] = useState(
-    'Your password has been changed',
+    'Your password has been changed'
   );
   const [phonemodel, setphonemodel] = useState(false);
   const [changephonemodel, setchangephonemodel] = useState(false);
@@ -67,22 +67,21 @@ export const Settings = () => {
     setBankAccountPin(true);
   };
   const EmailSend = async () => {
-    let r = await SendEmail();
+    const r = await SendEmail();
   };
   const VerifyCode = async (code: any, txt: any) => {
     if (txt == 'verifyEmail') {
-      let r = await VerifyUserCode(code);
+      const r = await VerifyUserCode(code);
       if (r.status !== 400 && r.status !== undefined) {
         setauthmodel(true);
       }
     } else if (txt == 'verifyPhone') {
-      let response = await VerifyUserCode(code);
+      const response = await VerifyUserCode(code);
       if (response.status != 400 && response.status !== undefined) {
-        console.log(response.status);
         setchangephonemodel(true);
       }
     } else if ((txt = 'verifyPass')) {
-      let response = await VerifyUserCode(code);
+      const response = await VerifyUserCode(code);
       if (response.status != 400 && response.status !== undefined) {
         setChangePassModel(true);
         setPassModel(false);
@@ -91,8 +90,8 @@ export const Settings = () => {
   };
   const updateUserData = async (successtxt: any, databody: any) => {
     try {
-      let body = databody;
-      let response = await UpdateUser(body);
+      const body = databody;
+      const response = await UpdateUser(body);
       if (!(response.status == 400)) {
         setauthmodel(false);
         setEmailModel(false);
@@ -110,7 +109,7 @@ export const Settings = () => {
     if (initial1) {
       setinitial1(false);
     } else {
-      let body = {
+      const body = {
         receive_notifications: Notifications,
       };
       updateUserData('Notifications updated successfully', body);
@@ -120,7 +119,7 @@ export const Settings = () => {
     if (initial3) {
       setinitial3(false);
     } else {
-      let body = {
+      const body = {
         maintenance_mode: MaintainaceMode,
       };
       updateUserData('Maintainace Mode updated successfully', body);
@@ -130,7 +129,7 @@ export const Settings = () => {
     if (initial2) {
       setinitial2(false);
     } else {
-      let body = {
+      const body = {
         is_two_step_verification_enabled: twoFactorAuth,
       };
       updateUserData('Verfication updated successfully', body);
@@ -153,8 +152,8 @@ export const Settings = () => {
         setVisible={setbankmodel}
         onClick={() => {
           setbankmodel(false);
-          setsuccessModel(true)
-          setsuccesstxt("Banking Information Added Successfully")
+          setsuccessModel(true);
+          setsuccesstxt('Banking Information Added Successfully');
         }}
       />
       <BankAccountPinModel

@@ -1,5 +1,7 @@
+import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
 import {
   CustomButton,
   CustomCalendar,
@@ -73,6 +75,17 @@ export const AddProduct = () => {
     values: [],
     id: Number,
   });
+
+  const [EditObj, setEditObj] = useState({ title: '', value: '' });
+  const [OriginalEditObj, setOriginalEditObj] = useState({
+    title: '',
+    value: '',
+  });
+  const [EditValue, setEditValue] = useState('');
+  const [OriginalEditValue, setOriginalEditValue] = useState('');
+
+  const [EditVisible2, setEditVisible2] = useState(false);
+
   const navigate = useNavigate();
   const VariantsData = useVariantDetail(fetchVariants, productData.category);
   const getAllBrands = async () => {
@@ -95,9 +108,11 @@ export const AddProduct = () => {
     });
     setCategories(dataCat);
   };
+
   useEffect(() => {
     getAllBrands();
   }, []);
+
   useEffect(() => {
     if (VariantsData?.variants) {
       const mappedData = VariantsData?.variants.map((item: any) => {
@@ -123,7 +138,6 @@ export const AddProduct = () => {
     }
   }, [VariantsData]);
   const handleFunction = async (value: any) => {
-    console.log(value, 'ADASD');
     const prevArray = variant.values;
     const Newpush = [...prevArray, value];
     const sendingData = {
@@ -182,7 +196,6 @@ export const AddProduct = () => {
     ) {
       if (updatedVariants === -1) {
         updateVariants.push({ variant: variant, value: value });
-        console.log(updateVariants, 'Variants');
         setProductData(prevData => {
           return { ...prevData, productVariants: updateVariants };
         });
@@ -235,8 +248,6 @@ export const AddProduct = () => {
     }
   };
   const Addproduct = async () => {
-    console.log(productData, 'FINALs');
-    console.log(attachments, 'IMAGe DATA');
     const data = new FormData();
     data.append('title', productData.title);
     data.append('is_active', 'true');
@@ -267,7 +278,6 @@ export const AddProduct = () => {
       data.append('attachments', file);
     });
     const add = await CreateProduct(data);
-    console.log(add, 'DATA ADDED');
     if (add) {
       navigate('/Products');
     }
@@ -278,7 +288,6 @@ export const AddProduct = () => {
         item => item.title == value
       );
       if (!exist) {
-        console.log(value);
         setProductData(prevData => ({
           ...prevData,
           ProductVerification: [
@@ -294,7 +303,6 @@ export const AddProduct = () => {
     }
   };
   const AddSpecification = (value: any) => {
-    console.log(value);
     if (value.title.length > 0) {
       const exist = productData.ProductVerification.some(
         item => item.title == value.title
@@ -333,6 +341,30 @@ export const AddProduct = () => {
       }
     }
   }, [productData]);
+
+  const HandleEditObj = (value: any) => {
+    const index = productData.technicalSpecificationModel.findIndex(
+      (elem: any) => elem.title == OriginalEditObj.title
+    );
+    productData.technicalSpecificationModel[index] = {
+      title: value.title,
+      value: value.value,
+    };
+    setProductData(productData);
+    setEditVisible2(false);
+    setOriginalEditObj({ title: '', value: '' });
+  };
+
+  const HandleEditValue = (value: any) => {
+    const index = productData.ProductVerification.findIndex(
+      (elem: any) => elem.title == OriginalEditValue
+    );
+    productData.ProductVerification[index] = { title: value };
+    setProductData(productData);
+    setEditVisible(false);
+    setOriginalEditValue('');
+  };
+
   return (
     <div>
       <Header
@@ -476,18 +508,47 @@ export const AddProduct = () => {
               </p>
 
               <div className="border border-custom  w-[60%] pb-4">
-                {productData.technicalSpecificationModel.map((item, index) => {
-                  return (
-                    <div key={index} className="ml-5">
-                      <p className="text-[#656565] text-[12px] mt-4 uppercase">
-                        {item.title}
-                      </p>
-                      <p className="text-[#656565] ml-[20px] text-[12px] mt-2 uppercase">
-                        {item.value}
-                      </p>
-                    </div>
-                  );
-                })}
+                {productData.technicalSpecificationModel.map(
+                  (item, index, arr: any) => {
+                    return (
+                      <>
+                        <div key={index} className="mx-5">
+                          <p
+                            className={`text-[#656565] text-[16px] flex font-bold justify-between ${
+                              index === 0 && 'mt-[16px]'
+                            }`}
+                          >
+                            {item.title}
+                            <img
+                              src={IMAGES.Edit}
+                              // className="ml-[10px]"
+                              onClick={() => {
+                                setEditObj({
+                                  title: item.title,
+                                  value: item.value,
+                                });
+                                setOriginalEditObj({
+                                  title: item.title,
+                                  value: item.value,
+                                });
+                                setEditVisible2(true);
+                              }}
+                            />
+                          </p>
+                          <p className="text-[#656565] text-[14px] mt-1">
+                            {item.value}
+                          </p>
+                        </div>
+                        {index < arr.length - 1 && (
+                          <Divider
+                            type="solid"
+                            className="h-[1px] mb-['0px !important']"
+                          />
+                        )}
+                      </>
+                    );
+                  }
+                )}
 
                 <CustomButton
                   onClick={() => {
@@ -509,13 +570,34 @@ export const AddProduct = () => {
               </p>
 
               <div className="border border-custom  w-[60%] pb-4">
-                {productData?.ProductVerification.map((item, index) => {
+                {productData?.ProductVerification.map((item, index, arr) => {
                   return (
-                    <div key={index} className="ml-5">
-                      <p className="text-[#656565] text-[16px] mt-4">
-                        {item.title}
-                      </p>
-                    </div>
+                    <>
+                      <div key={index} className="mx-5">
+                        <p
+                          className={`text-[#656565] flex justify-between text-[16px] ${
+                            index === 0 && 'mt-[16px]'
+                          }`}
+                        >
+                          {item.title}
+                          <img
+                            src={IMAGES.Edit}
+                            className="ml-[15px]"
+                            onClick={() => {
+                              setEditValue(item.title);
+                              setOriginalEditValue(item.title);
+                              setEditVisible(true);
+                            }}
+                          />
+                        </p>
+                      </div>
+                      {index < arr.length - 1 && (
+                        <Divider
+                          type="solid"
+                          className="h-[1px] mb-['0px !important']"
+                        />
+                      )}
+                    </>
                   );
                 })}
                 <CustomButton
@@ -560,6 +642,34 @@ export const AddProduct = () => {
           />
         </div>
       </div>
+
+      <Confirmationmodal2
+        ObjVal={EditObj}
+        setObjVal={setEditObj}
+        PopupHeader={'Edit Specification'}
+        visible={EditVisible2}
+        setVisible={setEditVisible2}
+        cnfrmbtnText={'Update'}
+        cnclebtnText={'Cancel'}
+        handleFunction2={(value: any) => HandleEditObj(value)}
+        classes={`!h-[400px]`}
+        placeholderValue="add specification title"
+        placeholderValue2="add specification value"
+      />
+
+      <Confirmationmodal2
+        addValue={true}
+        Value={EditValue}
+        setValue={setEditValue}
+        PopupHeader={'Edit Verification'}
+        visible={Editvisible}
+        setVisible={setEditVisible}
+        cnfrmbtnText={'Update'}
+        cnclebtnText={'Cancel'}
+        handleFunction={(value: any) => HandleEditValue(value)}
+        placeholderValue="add verification step"
+      />
+
       <Confirmationmodal2
         ObjVal={AddObjvalue}
         setObjVal={setAddObjvalue}

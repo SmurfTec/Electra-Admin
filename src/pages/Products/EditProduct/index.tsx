@@ -109,7 +109,6 @@ export const EditProduct = () => {
       return newObj;
     });
     setBrands(data);
-    console.log(data, 'BRANDSS');
     dataCat = dataCat.categories.map((item: any, index: any) => {
       const newObj = {
         value: item.id,
@@ -126,7 +125,6 @@ export const EditProduct = () => {
         item => item.title == value
       );
       if (!exist) {
-        console.log(value);
         setProductData(prevData => ({
           ...prevData,
           ProductVerification:
@@ -142,7 +140,6 @@ export const EditProduct = () => {
     }
   };
   const AddSpecification = (value: any) => {
-    console.log(value);
     if (value.title.length > 0) {
       const exist = productData?.ProductVerification?.some(
         item => item.title == value.title
@@ -168,14 +165,12 @@ export const EditProduct = () => {
 
   useEffect(() => {
     if (ProductData) {
-      console.log(ProductData, 'PRoduct');
       setimageIDS(ProductData.product?.images);
       const newarr = ProductData.product?.images?.map(
         (item: any, index: any) => {
           return item.id;
         }
       );
-      console.log(newarr);
       if (newarr) {
         setImage(newarr);
       }
@@ -296,7 +291,6 @@ export const EditProduct = () => {
     value: any,
     id?: any
   ) => {
-    console.log(value, 'VALUUEE');
     setProductData(prevData => {
       const updatedModel = prevData.technicalSpecificationModel?.map(item => {
         if (item.title === name) {
@@ -325,7 +319,6 @@ export const EditProduct = () => {
     ) {
       if (updatedVariants === -1) {
         updateVariants.push({ variant: variant, value: value });
-        console.log(updateVariants, 'Variants');
         setProductData(prevData => {
           return { ...prevData, productVariants: updateVariants };
         });
@@ -378,7 +371,6 @@ export const EditProduct = () => {
     }
   };
   const Addproduct = async () => {
-    console.log(productData.technicalSpecificationModel, 'ATTACHMENT');
     const data = new FormData();
     data.append('title', productData.title);
     data.append('is_active', 'true');
@@ -446,7 +438,6 @@ export const EditProduct = () => {
     }
 
     const add = await EditProductAPI(data, id);
-    console.log(add, 'DATA Updated');
     if (add?.response?.status === 404) {
       console.log('ISSUE');
     } else {
@@ -468,7 +459,6 @@ export const EditProduct = () => {
       const check = imageIDS
         .filter((item: any) => prevImage.includes(item.url))
         .map((item: any) => item.id);
-      console.log(check);
       setImage(check);
     }
   };
@@ -665,7 +655,6 @@ export const EditProduct = () => {
                 {productData &&
                   productData?.technicalSpecificationModel?.map(
                     (item: any, index: any, arr: any) => {
-                      console.log(item);
                       return (
                         <>
                           <div key={index} className="mx-5">

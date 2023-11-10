@@ -77,7 +77,6 @@ export const Step1 = () => {
     );
     setItemData(response.verification);
     setImages(ImagesArr);
-    console.log(response, 'response', ImagesArr);
   };
   useEffect(() => {
     GetVerificationDetail();
@@ -341,7 +340,6 @@ export const Step1 = () => {
           <div>
             <h1 className="text-[24px] font-bold ">Product Variants</h1>
             {ItemData?.product?.variants?.map((item: any, index: any) => {
-              console.log(item);
               const arr = [
                 {
                   txt: item.variant,

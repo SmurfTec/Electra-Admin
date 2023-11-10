@@ -1,29 +1,26 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { Header, DashCard } from '../../../components';
 import IMAGES from '../../../assets/Images';
 import {
-  CustomSwitch,
-  CustomInputTextArea,
-  CustomButton,
   CheckBox,
+  CustomButton,
+  CustomInputTextArea,
+  CustomSwitch,
 } from '../../../atoms';
+import { DashCard, Header } from '../../../components';
 
 import {
   CircularProgressbarWithChildren,
   buildStyles,
 } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import './style.css';
+import { useNavigate, useParams } from 'react-router-dom';
 import { UploadPicture } from '../../../atoms';
-import { useParams } from 'react-router-dom';
 import {
-  getVerficationById,
   UpdateVerfication,
+  getVerficationById,
 } from '../../../store/Slices/VerificationSlice';
-import { useNavigate } from 'react-router-dom';
+import './style.css';
 const reducer = (state: any, action: any) => {
-  console.log(action);
-  console.log(InitialState);
   switch (action.type) {
     case 'toggleSwitch':
       return {
@@ -49,7 +46,7 @@ const reducer = (state: any, action: any) => {
       throw new Error();
   }
 };
-let InitialState: any = {};
+const InitialState: any = {};
 export const ItemVerification = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -61,7 +58,7 @@ export const ItemVerification = () => {
   const [percentage, setpercentage] = useState(100);
   const [verificationStats, setverificationStats] = useState<any>();
   const [total, setTotal] = useState(0);
-  var newFormData = new FormData();
+  const newFormData = new FormData();
   const styles = buildStyles({
     textSize: '16px',
     pathTransitionDuration: 0.5,
@@ -75,7 +72,6 @@ export const ItemVerification = () => {
     let t = 0;
     itemData &&
       itemData?.map((item: any, index: number) => {
-        console.log(state[item.title], 'MY ITEM');
         if (state[item.title]) {
           percent += 20;
           t += 1;
@@ -106,11 +102,10 @@ export const ItemVerification = () => {
         });
 
       images && newFormData.append('images', images);
-      console.log(images);
       // if (images.length < 6) {
       //   alert('Please upload atleast 6 Images');
       // } else {
-      let response = await UpdateVerfication(id, newFormData);
+      const response = await UpdateVerfication(id, newFormData);
       if (response) {
         navigate('/Verification');
       }
@@ -122,8 +117,7 @@ export const ItemVerification = () => {
   };
   const GetVerificationDetail = async () => {
     try {
-      let response = await getVerficationById(id);
-      console.log(response, 'response');
+      const response = await getVerficationById(id);
       setItemData(response.verification);
       setverificationStats(response.verificationStats);
       let initialState = {};
@@ -142,13 +136,9 @@ export const ItemVerification = () => {
             }
           }
         );
-      console.log(initialState);
 
       dispatch({ type: 'SetAll', payload: initialState });
-      console.log(
-        response?.verification?.order.order_verification_details,
-        'response'
-      );
+
       setItemData(response?.verification?.order?.order_verification_details);
     } catch (e) {
       console.log(e);

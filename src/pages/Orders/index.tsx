@@ -109,7 +109,6 @@ export const Orders = () => {
   const viewItem = async (event: any, id: any) => {
     setVisible(true);
     const item = filterData?.filter((item: any) => item.id == id);
-    console.log('item', item);
     setcurrentItem(item);
   };
   const deleteItem = async (event: any, id: any) => {
@@ -174,7 +173,6 @@ export const Orders = () => {
   ];
 
   useEffect(() => {
-    console.log(stats?.all_orders);
     dispatch(setOrderCount(stats?.all_orders));
     const newarr = orderData?.map((item: any) => {
       const updatedObj = {
@@ -193,7 +191,6 @@ export const Orders = () => {
       };
       return updatedObj;
     });
-    console.log(newarr);
     setfilterData(newarr);
   }, [orderData]);
 

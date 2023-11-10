@@ -1,10 +1,16 @@
 import React, { useEffect } from 'react';
-import { getRoles } from '../store/Slices/RoleSlice';
-import { getAllUsers, addAdmin } from '../store/Slices/UserSlice';
-import { getPermission } from '../store/Slices/RoleSlice';
 import { useNavigate } from 'react-router-dom';
-import { getRolesByName, getUserByID } from '../store/Slices/RoleSlice';
-import { DeleteSingleUser } from '../store/Slices/UserSlice';
+import {
+  getPermission,
+  getRoles,
+  getRolesByName,
+  getUserByID,
+} from '../store/Slices/RoleSlice';
+import {
+  DeleteSingleUser,
+  addAdmin,
+  getAllUsers,
+} from '../store/Slices/UserSlice';
 interface RoleStats {
   role: string;
   users: number;
@@ -61,13 +67,13 @@ export const useGetRoles = (fetch?: boolean, params?: any) => {
       setUsers(USERS?.users);
       setTotalStats(USERS?.stats);
       setRolesStats(ROLES?.usersPerRole);
-      let result: any = await createRoleArrays(ROLES?.roles, USERS?.users);
+      const result: any = await createRoleArrays(ROLES?.roles, USERS?.users);
       setRoleArray(result);
     } catch (e) {}
   };
   async function createRoleArrays(
     roles: Role[],
-    users: User[],
+    users: User[]
   ): Promise<any[]> {
     const roleArrays: any[] = [];
 
@@ -141,7 +147,6 @@ export const useGetPermission = () => {
   const fetchPermission = async () => {
     try {
       const fetch = await getPermission();
-      console.log(fetch);
       setPerm(fetch.data);
       setLoading(false);
     } catch (e) {}
@@ -208,7 +213,6 @@ export const useDeleteRole = (body: any, setFetch?: any, fetch?: any) => {
     const fetchUser = async () => {
       try {
         const response = await DeleteSingleUser(body);
-        console.log(response.data);
         setLoading(false);
         setFetch(!fetch);
       } catch (e) {

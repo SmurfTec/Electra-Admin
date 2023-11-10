@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
 import {
-  PaginatorPageChangeEvent,
   PaginatorNextPageLinkOptions,
+  PaginatorPageChangeEvent,
   PaginatorPageLinksOptions,
   PaginatorPrevPageLinkOptions,
 } from 'primereact/paginator';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { classNames } from 'primereact/utils';
 import { CustomPaginator } from '../../atoms/global.style';
@@ -14,7 +14,6 @@ export const Paginatior = ({
   setInitialPageData,
   recordShowing,
 }: any) => {
-  console.log(recordShowing);
   const paginatorRef = useRef<any>(null);
   const [first, setFirst] = useState<number[]>([0, 0, 0]);
   const onPageChange = (e: PaginatorPageChangeEvent, index: number) => {

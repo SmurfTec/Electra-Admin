@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { getAllCategories } from '../store/Slices/Categories';
 interface CategoryParams {
@@ -14,7 +14,6 @@ export const useFetchCategories = (params: CategoryParams) => {
       try {
         setCategoryLoading(true);
         const response = await getAllCategories(params);
-        console.log(response);
         if (response?.categories) {
           setCategoryData(response.categories);
           setCategoryLoading(false);
@@ -22,7 +21,7 @@ export const useFetchCategories = (params: CategoryParams) => {
         }
       } catch (error) {
         // Handle error
-        console.error(error);
+        // console.error(error);
       }
     };
 

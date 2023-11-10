@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import moment from 'moment';
+import { useEffect, useRef, useState } from 'react';
 import IMAGES from '../../assets/Images';
 import { CustomMenu } from '../../atoms/global.style';
 import { SVGIcon } from '../SVG/index.js';
-import moment from 'moment';
 export const Productdetailcard = (props: any) => {
   const [ViewMore, SetViewMore] = useState(true);
   const menuLeft: any = useRef(null);
@@ -20,7 +20,6 @@ export const Productdetailcard = (props: any) => {
               <div
                 style={{ background: 'rgba(231, 29, 54, 0.05)' }}
                 onClick={(event: any) => {
-                  console.log(props.id);
                   props.deleteProduct(props.id);
                 }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
@@ -34,16 +33,7 @@ export const Productdetailcard = (props: any) => {
     },
   ];
   useEffect(() => {
-    if (initial) {
-      setInitial(false);
-    } else {
-      console.log(
-        // "Menu",
-        // MenuLabel,
-        'product',
-        CurrSelectedProduct,
-      );
-    }
+    if (initial) setInitial(false);
   }, [CurrSelectedProduct]);
   return (
     <div className="border border-custom w-[363px] h-[auto] rounded-xl overflow-hidden">

@@ -1,18 +1,17 @@
-import { useState, useEffect } from 'react';
-import { Header } from '../../../components';
-import { InputTxt, CustomButton } from '../../../atoms';
-import IMAGES from '../../../assets/Images';
+import { useEffect, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
+import { useNavigate, useParams } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomButton, InputTxt } from '../../../atoms';
+import { Header } from '../../../components';
 import {
   editNoticeBanner,
   getNoticeBannerById,
 } from '../../../store/Slices/WebsiteSlice';
-import { useNavigate, useParams } from 'react-router-dom';
 export const Editnewbanner = () => {
   const navigate = useNavigate();
   const Params = useParams();
   const { id } = Params;
-  console.log(id);
   const [data, setData] = useState({
     title: '',
     color: '',

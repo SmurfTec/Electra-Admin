@@ -1,13 +1,12 @@
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import IMAGES from '../../../assets/Images';
-import { Header, Webcarousel, Threebuttons } from '../../../components';
 import { CustomButton } from '../../../atoms';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { Header, Threebuttons, Webcarousel } from '../../../components';
+import { BaseURL } from '../../../config';
 import { useGetWebsiteId } from '../../../custom-hooks/WebsiteHook';
 import { updateSeciton } from '../../../store/Slices/WebsiteSlice';
-import { BaseURL } from '../../../config';
-import { ProgressSpinner } from 'primereact/progressspinner';
 type Section = {
   id: number;
   section: string;
@@ -32,7 +31,7 @@ type Data = {
 export const Webandbanner = () => {
   const navigate = useNavigate();
   const params = useParams();
-  let { id } = params;
+  const { id } = params;
   const [loading, setLoading] = useState(true);
 
   const webData = useGetWebsiteId(id, loading);
@@ -47,21 +46,19 @@ export const Webandbanner = () => {
     setLoading(true);
 
     const file = event.target.files[0];
-    let sendingData = new FormData();
+    const sendingData = new FormData();
     sendingData.append('images', file);
 
     websiteData?.sections[1]?.images &&
       websiteData?.sections[1]?.images.forEach((item: any) => {
-        console.log(item);
         sendingData.append('attachments[]', item.id);
       });
     const Adding = await updateSeciton(
       id,
       websiteData?.sections[1]?.id,
-      sendingData,
+      sendingData
     );
     setLoading(false);
-    console.log('bsdk2');
     setWebsiteData(Adding);
   };
 
@@ -75,10 +72,9 @@ export const Webandbanner = () => {
         .map((item: any) => item.id);
 
       if (attachments?.length === 0) {
-        console.log('HEREE');
         attachments.push(''); // Push an empty string to create an empty attachment array
       }
-      let sendingData = new FormData();
+      const sendingData = new FormData();
       attachments?.forEach((attachment: any) => {
         sendingData.append('attachments[]', attachment);
       });
@@ -171,14 +167,14 @@ export const Webandbanner = () => {
                             deletePicture={() =>
                               deletePicture(
                                 item.id,
-                                websiteData?.sections[1]?.id,
+                                websiteData?.sections[1]?.id
                               )
                             }
                           />
                         </div>
                       </div>
                     );
-                  },
+                  }
                 )
               ) : (
                 <div className="  relative">

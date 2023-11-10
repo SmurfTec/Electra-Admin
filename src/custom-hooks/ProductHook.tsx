@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  getProductById,
   GetAllProducts,
   getAllProductRequest,
+  getProductById,
 } from '../store/Slices/ProductSlice';
 export const useGetProducts = (props?: any) => {
   const [productsAdded, setProductAdded] = useState<any>(null);
@@ -34,7 +34,6 @@ export const useProductDetail = (id: any) => {
     const fetchData = async () => {
       try {
         const response = await getProductById(id);
-        console.log(response);
         setData(response);
         setLoading(false);
       } catch (error) {
@@ -52,7 +51,7 @@ export const useProductDetail = (id: any) => {
 export const useAllProductRequests = (
   load?: any,
   setLoading?: any,
-  initialPageData?: any,
+  initialPageData?: any
 ) => {
   const [data, setData] = useState<any>(null);
 

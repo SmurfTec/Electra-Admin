@@ -48,7 +48,6 @@ export const Wallet = () => {
       });
       setfilterData(newfilterData);
     } else if (initialData.activetab == 'payouts') {
-      console.log(Walletdata);
       const newfilterData = Walletdata?.map((item: any, index: any) => {
         return {
           id: item.id,
@@ -145,16 +144,7 @@ export const Wallet = () => {
     // { field: 'Date', header: 'Date' },
     // { field: "", header: '', body: MenuBodyTemplate }
   ]);
-  useEffect(() => {
-    console.log(
-      'Menu',
-      MenuLabel,
-      'product',
-      selectedProducts,
-      'CurrSelectedProduct',
-      CurrSelectedProduct
-    );
-  }, [MenuLabel]);
+
   const Balance = async () => {
     setbankloader(true);
     const balance = await getBalance();
@@ -170,10 +160,6 @@ export const Wallet = () => {
     // let r3=await getPayouts()
     // let r4=await getPayments()
     // let r5=await getTransfers()
-
-    // // console.log(r2,"r2")
-    // console.log(r3,"r3")
-    // console.log(r4,"r4",r5,"r5")
   };
   useEffect(() => {
     Balance();

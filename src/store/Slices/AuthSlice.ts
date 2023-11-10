@@ -1,6 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import url from '../../config/index';
-import { setAuthToken } from '../../config/index';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import url, { setAuthToken } from '../../config/index';
 
 type LoginData = {
   email: string;
@@ -25,8 +24,7 @@ export const Login = createAsyncThunk<
 >('auth/login', async (data: LoginData) => {
   try {
     data.is_social_login = false;
-    let response: any = await url.post('/auth/login', data);
-    console.log(response.data, 'RESPONSEE');
+    const response: any = await url.post('/auth/login', data);
     const accesstoken = response.data.authentication;
     const refreshtoken = response.data.refresh;
     localStorage.setItem('token', JSON.stringify(accesstoken));
@@ -45,8 +43,7 @@ export const changePassword = createAsyncThunk<
   { rejectValue: any }
 >('auth/changePass', async (data: passwordData) => {
   try {
-    let response: any = await url.post('/auth/update-password', data);
-    console.log(response, 'RESPONSE');
+    const response: any = await url.post('/auth/update-password', data);
     return response;
   } catch (e) {
     return e;

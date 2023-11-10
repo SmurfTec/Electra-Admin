@@ -44,7 +44,6 @@ export const Signin = () => {
       const loginCall = await dispatch(Login(data) as any);
 
       if (loginCall.payload?.response?.data?.status === 401) {
-        console.log('HEREE');
         setEmailErr(true);
         setPasswordErr(true);
       } else if (loginCall?.payload?.user) {
@@ -59,7 +58,6 @@ export const Signin = () => {
   }, []);
   const VerifyCode = async (code: any, txt: any) => {
     const r = await VerifyUserCode(code);
-    console.log(r, 'r');
   };
   return (
     <div className="min-h-[100vh] w-[100vw] flex flex-col items-center pt-[90px]">

@@ -1,22 +1,25 @@
-import { useState, useEffect, useRef } from 'react';
-import { DashCard } from '../../../components/index.js';
-import IMAGES from '../../../assets/Images';
-import { CustomTableComponent, CustomButton } from '../../../atoms';
-import { SVGIcon } from '../../../components/SVG';
-import { CustomMenu } from '../../../atoms/global.style';
-import { useNavigate } from 'react-router-dom';
-import { Header } from '../../../components/index.js';
-import { Confirmationmodal } from '../../../components/index.js';
-import {
-  getAllUsers,
-  BanUser,
-  UnBanUser,
-  DeleteSingleUser,
-} from '../../../store/Slices/UserSlice';
-import { Paginatior } from '../../../components/index.js';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import moment from 'moment';
+import { Button } from 'primereact/button';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomButton, CustomTableComponent } from '../../../atoms';
+import { CustomMenu } from '../../../atoms/global.style';
+import { SVGIcon } from '../../../components/SVG';
+import {
+  Confirmationmodal,
+  DashCard,
+  Header,
+  Paginatior,
+} from '../../../components/index.js';
 import { useFetchUsers } from '../../../custom-hooks/useFetchUsers.js';
+import {
+  BanUser,
+  DeleteSingleUser,
+  UnBanUser,
+  getAllUsers,
+} from '../../../store/Slices/UserSlice';
 
 export const Users = () => {
   const navigate = useNavigate();
@@ -56,12 +59,11 @@ export const Users = () => {
   const UnBanuser = async (e: any, id: any) => {
     e.stopPropagation();
     setVisible(false);
-    console.log(id, 'id');
     try {
-      let body: any = {
+      const body: any = {
         ids: [id],
       };
-      let response = await UnBanUser(body);
+      const response = await UnBanUser(body);
       if (response) {
         setInitialPageData({ ...initialPageData, currentPage: 1 });
       }
@@ -77,10 +79,10 @@ export const Users = () => {
   };
   const BannedUser = async () => {
     try {
-      let body: any = {
+      const body: any = {
         ids: [CurrSelectedUser],
       };
-      let response = await BanUser(body);
+      const response = await BanUser(body);
       if (response) {
         setVisible(false);
         setInitialPageData({ ...initialPageData, currentPage: 1 });
@@ -88,27 +90,27 @@ export const Users = () => {
     } catch (err) {}
   };
   const DeleteSelected = async () => {
-    let newarr = selectedUsers.map((item: any) => {
+    const newarr = selectedUsers.map((item: any) => {
       return item.id;
     });
     try {
-      let body: any = {
+      const body: any = {
         ids: newarr,
       };
-      let response = await DeleteSingleUser(body);
+      const response = await DeleteSingleUser(body);
       setselectedUsers([]);
       setInitialPageData({ ...initialPageData, currentPage: 1 });
     } catch (err) {}
   };
   const BanSelected = async () => {
-    let newarr = selectedUsers.map((item: any) => {
+    const newarr = selectedUsers.map((item: any) => {
       return item.id;
     });
     try {
-      let body: any = {
+      const body: any = {
         ids: [newarr],
       };
-      let response = await BanUser(body);
+      const response = await BanUser(body);
       if (response) {
         setVisible(false);
         setselectedUsers([]);
@@ -120,10 +122,10 @@ export const Users = () => {
     event.stopPropagation();
 
     try {
-      let body: any = {
+      const body: any = {
         ids: [id],
       };
-      let response = await DeleteSingleUser(body);
+      const response = await DeleteSingleUser(body);
       setInitialPageData({ ...initialPageData, currentPage: 1 });
     } catch (err) {}
   };
@@ -134,8 +136,8 @@ export const Users = () => {
   useEffect(() => {
     // getUsers()
 
-    let latestArr = users?.map((item: any) => {
-      let newObj = {
+    const latestArr = users?.map((item: any) => {
+      const newObj = {
         ...item,
         firstname: item?.profile?.firstname || '',
         lastname: item?.profile?.lastname || '',
@@ -159,7 +161,7 @@ export const Users = () => {
       id: string;
       menuRef: React.RefObject<any>;
     }) => {
-      let [items] = useState([
+      const [items] = useState([
         {
           label: rowData.is_banned === true ? 'UnBan User' : 'Ban User',
           template: (item: any, options: any) => {
@@ -230,7 +232,16 @@ export const Users = () => {
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
+          {/* <SVGIcon onClick={handleClick} src={IMAGES.Dots} /> */}
+          <Button
+            icon="pi pi-ellipsis-h"
+            rounded
+            text
+            severity="secondary"
+            aria-label="Action"
+            className="font-extrabold text-black"
+            onClick={handleClick}
+          />
           <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
         </div>
       </>
@@ -287,7 +298,7 @@ export const Users = () => {
   }
   return (
     <div className="pb-[50px]">
-      <Header typeSearch={true}  UserBox={true} />
+      <Header typeSearch={true} UserBox={true} />
       {!userLoading ? (
         <>
           <div className="flex flex-wrap gap-6 mt-[28px]">

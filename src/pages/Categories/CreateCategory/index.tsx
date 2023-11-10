@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Header } from '../../../components';
-import { InputTxt, CustomButton } from '../../../atoms';
-import IMAGES from '../../../assets/Images';
-import { getAllVariants } from '../../../store/Slices/VariantSlice';
-import { CreateCategories } from '../../../store/Slices/Categories';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SuccessModel } from '../../../components';
-import { UploadPicture } from '../../../atoms';
+import IMAGES from '../../../assets/Images';
+import { CustomButton, InputTxt, UploadPicture } from '../../../atoms';
+import { Header, SuccessModel } from '../../../components';
+import { CreateCategories } from '../../../store/Slices/Categories';
+import { getAllVariants } from '../../../store/Slices/VariantSlice';
 
 const CustomVariatBox = ({
   item,
@@ -35,18 +33,17 @@ export const CreateCategory = () => {
   const [selectedVariant, setSelectedVariant] = useState<any>([]);
   const [image, setImages] = useState<any>();
   const getVariant = async () => {
-    let response = await getAllVariants();
+    const response = await getAllVariants();
     setVariants(response.variants);
 
-    let newArr = response?.variants?.map((item: any) => {
-      let newObj = {
+    const newArr = response?.variants?.map((item: any) => {
+      const newObj = {
         ...item,
         active: false,
       };
       return newObj;
     });
     setVariants(newArr);
-    console.log(newArr);
   };
   useEffect(() => {
     getVariant();
@@ -54,11 +51,9 @@ export const CreateCategory = () => {
 
   const Create = async () => {
     try {
-      console.log(selectedVariant);
-
       const newBody = new FormData();
       newBody.append('name', Name);
-      newBody.append('fees', String(fee));
+      // newBody.append('fees', String(fee));
       newBody.append('image', image);
 
       selectedVariant.length > 0 &&
@@ -66,7 +61,7 @@ export const CreateCategory = () => {
           newBody.append(`variants[${index}]`, item);
         });
 
-      let response = await CreateCategories(newBody);
+      const response = await CreateCategories(newBody);
       if (response?.category) {
         setsuccessVisible(true);
         setName('');
@@ -74,11 +69,12 @@ export const CreateCategory = () => {
         getVariant();
         setImages([]);
       }
-    } catch (err) {}
+      navigate('/Category');
+    } catch (err) {
+      //
+    }
   };
-  useEffect(() => {
-    console.log(selectedVariant, 'selected');
-  }, [selectedVariant]);
+
   return (
     <div>
       <SuccessModel
@@ -100,14 +96,14 @@ export const CreateCategory = () => {
           value={Name}
           onChange={(e: any) => setName(e.target.value)}
         />
-        <InputTxt
+        {/* <InputTxt
           placeholder="Marketplace Fee"
           MainClasses="mt-[10px] !bg-[#FCFCFC] border !border-inputBorder !h-[59px]"
           iconRight={true}
           img={IMAGES.Percentage}
           value={fee}
           onChange={(e: any) => setfee(e.target.value)}
-        />
+        /> */}
       </div>
       <div className="mt-[27px]">
         <p className="text-[20px] font-[600] text-black">Variants</p>
@@ -125,7 +121,6 @@ export const CreateCategory = () => {
               //       selectedVariant.pop(item.id)
               //       setSelectedVariant(selectedVariant)
               //     }
-              //     console.log("hey")
               //   }} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} key={index} item={item}/>
               // )
               <CustomButton
@@ -134,7 +129,7 @@ export const CreateCategory = () => {
                     selectedVariant.push(item.id);
 
                     setSelectedVariant(selectedVariant);
-                    let newarr: any = Variants?.map((item2: any) => {
+                    const newarr: any = Variants?.map((item2: any) => {
                       if (item2.id == item.id) {
                         return {
                           ...item2,
@@ -144,12 +139,11 @@ export const CreateCategory = () => {
                         return item2;
                       }
                     });
-                    console.log(newarr);
                     setVariants(newarr);
                   } else {
                     selectedVariant.pop(item.id);
                     setSelectedVariant(selectedVariant);
-                    let newarr: any = Variants.map((item2: any) => {
+                    const newarr: any = Variants.map((item2: any) => {
                       if (item2.id == item.id) {
                         return {
                           ...item2,

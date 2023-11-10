@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Header } from '../../../components';
-import { InputTxt, CustomButton, CustomDropdown2 } from '../../../atoms';
-import IMAGES from '../../../assets/Images';
-import { getAllVariants } from '../../../store/Slices/VariantSlice';
-import { CreateCategories } from '../../../store/Slices/Categories';
-import { CreateNewBrand } from '../../../store/Slices/BrandSlice';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SuccessModel } from '../../../components';
-import { UploadPicture } from '../../../atoms';
-import { getCategories } from '../../../store/Slices/Categories';
+import IMAGES from '../../../assets/Images';
+import {
+  CustomButton,
+  CustomDropdown2,
+  InputTxt,
+  UploadPicture,
+} from '../../../atoms';
+import { Header, SuccessModel } from '../../../components';
+import { CreateNewBrand } from '../../../store/Slices/BrandSlice';
+import {
+  CreateCategories,
+  getCategories,
+} from '../../../store/Slices/Categories';
+import { getAllVariants } from '../../../store/Slices/VariantSlice';
 export const CreateBrand = () => {
   const [successVisible, setsuccessVisible] = useState(false);
   const [Name, setName] = useState('');
@@ -21,7 +26,7 @@ export const CreateBrand = () => {
     try {
       let dataCat = await getCategories();
       dataCat = dataCat.categories.map((item: any, index: any) => {
-        let newObj = {
+        const newObj = {
           value: item.id,
           label: item.name,
         };
@@ -38,14 +43,13 @@ export const CreateBrand = () => {
 
       newBody.append('image', image);
 
-      let response = await CreateNewBrand(newBody);
-      console.log(response);
+      const response = await CreateNewBrand(newBody);
       if (response.message === 'Request failed with status code 400') {
         setError(response.response?.data?.message[0]);
       } else {
         setsuccessVisible(true);
         setName('');
-        setError('')
+        setError('');
       }
     } catch (err) {}
   };
@@ -96,7 +100,7 @@ export const CreateBrand = () => {
             />
           </div>
         </div>
-        <p className='text-red pdsdft-2'>{error}</p>
+        <p className="text-red pdsdft-2">{error}</p>
         <div className="flex gap-3 flex-wrap mt-[50px]">
           <CustomButton
             onClick={(value: any) => navigate('/Brand')}

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Header } from '../../../components';
-import { InputTxt, CustomButton, CustomDropdown2 } from '../../../atoms';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { EditBrandByID, GetBrandID } from '../../../store/Slices/BrandSlice';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { CustomButton, CustomDropdown2, InputTxt } from '../../../atoms';
+import { Header } from '../../../components';
+import { EditBrandByID, GetBrandID } from '../../../store/Slices/BrandSlice';
 
 import { useNavigate } from 'react-router-dom';
-import { SuccessModel } from '../../../components';
 import { UploadPicture } from '../../../atoms';
+import { SuccessModel } from '../../../components';
 import { getCategories } from '../../../store/Slices/Categories';
 export const EditBrand = () => {
   const params = useParams();
@@ -23,17 +23,15 @@ export const EditBrand = () => {
   const getData = async () => {
     try {
       setLoader(true);
-      let brand = await GetBrandID(id);
+      const brand = await GetBrandID(id);
       if (brand) {
-     
         setCategory(brand?.data?.category?.id);
         setImage(brand?.data?.image);
         setName(brand?.data?.title);
         setLoader(false);
       }
-
     } catch (e) {
-      console.log(e, 'ERRROR');
+      // console.log(e, 'ERRROR');
     }
   };
   useEffect(() => {
@@ -43,7 +41,7 @@ export const EditBrand = () => {
     try {
       let dataCat = await getCategories();
       dataCat = dataCat.categories.map((item: any, index: any) => {
-        let newObj = {
+        const newObj = {
           value: item.id,
           label: item.name,
         };
@@ -61,7 +59,7 @@ export const EditBrand = () => {
 
       newBody.append('image', image);
 
-      let response = await EditBrandByID(id, newBody);
+      const response = await EditBrandByID(id, newBody);
 
       if (response.message === 'Request failed with status code 400') {
         setError(response.response?.data?.message[0]);
@@ -72,7 +70,7 @@ export const EditBrand = () => {
       }
     } catch (err) {}
   };
- 
+
   useEffect(() => {
     getAllCategories();
   }, []);
@@ -140,13 +138,11 @@ export const EditBrand = () => {
             </div>
           </div>
         </>
-      )
-    :
-    (
-      <div className="w-full h-full flex justify-start mt-32 items-center overflow-y-hidden">
-        <ProgressSpinner style={{ overflow: 'hidden' }} />
-      </div>
-    )}
+      ) : (
+        <div className="w-full h-full flex justify-start mt-32 items-center overflow-y-hidden">
+          <ProgressSpinner style={{ overflow: 'hidden' }} />
+        </div>
+      )}
     </div>
   );
 };

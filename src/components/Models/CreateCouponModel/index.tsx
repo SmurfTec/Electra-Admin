@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { CustomDialog } from '../../../atoms/global.style';
-import {
-  InputTxt,
-  CustomDropdown,
-  CustomCalendar,
-  CustomButton,
-} from '../../../atoms';
+import React, { useEffect, useState } from 'react';
 import { SuccessModel } from '..';
+import {
+  CustomButton,
+  CustomCalendar,
+  CustomDropdown,
+  InputTxt,
+} from '../../../atoms';
+import { CustomDialog } from '../../../atoms/global.style';
 import { CreateCoupon, UpdateCoupon } from '../../../store/Slices/Coupons';
 interface ICoupon {
   Title: string;
@@ -53,7 +53,6 @@ export const CreateCouponModel = ({
     } else {
       setbuttonDisable(true);
     }
-    console.log(values);
   }, [values]);
   function generateCouponCode() {
     const characters =
@@ -75,7 +74,7 @@ export const CreateCouponModel = ({
 
   const generateCode = async () => {
     try {
-      let newvalues = {
+      const newvalues = {
         title: values?.Title,
         code: values?.couponCode,
         discount: Number(values?.percentage),
@@ -83,33 +82,26 @@ export const CreateCouponModel = ({
         maxUse: values?.UsageLimit,
       };
       if (headerTitle == 'Create Coupon') {
-        let response = await CreateCoupon(newvalues);
-        console.log(response)
+        const response = await CreateCoupon(newvalues);
         if (response?.response?.status === 400) {
-          console.log(response);
           setError('Coupon code already exist');
-          return false
-        } else{
-          console.log("HERE")
-          setError("");
-          setadded(true);
-          setsuccessVisible(true);
-          return true
-        }
-         
-          
-      } else {
-        let response = await UpdateCoupon(currentItem.id, newvalues);
-        console.log(response);
-        if (response?.response?.status === 400) {
-          console.log(response);
-          setError('Coupon code already exist');
-          return false
+          return false;
         } else {
-          setError("");
+          setError('');
           setadded(true);
           setsuccessVisible(true);
-          return true
+          return true;
+        }
+      } else {
+        const response = await UpdateCoupon(currentItem.id, newvalues);
+        if (response?.response?.status === 400) {
+          setError('Coupon code already exist');
+          return false;
+        } else {
+          setError('');
+          setadded(true);
+          setsuccessVisible(true);
+          return true;
         }
       }
     } catch (err) {}
@@ -141,9 +133,10 @@ export const CreateCouponModel = ({
       <CustomDialog className={classes} visible={visible}>
         <i
           className="pi pi-times absolute right-4 top-4 cursor-pointer"
-          onClick={() =>{
-            setError("")
-            setVisible(false)}}
+          onClick={() => {
+            setError('');
+            setVisible(false);
+          }}
         ></i>
         <div className="dialog-header">
           <p className="text-center text-[20px] font-[700] text-black ">
@@ -172,7 +165,7 @@ export const CreateCouponModel = ({
               MainClasses="!w-[204px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF]"
             />
             <InputTxt
-            percent={true}
+              percent={true}
               placeholder="Percentage Off"
               value={`${values?.percentage}`}
               Title={values?.percentage}
@@ -202,7 +195,9 @@ export const CreateCouponModel = ({
             <p className="text-[12px] text-[#656565] text-right mr-[4rem]">
               Max 6 Character Code
             </p>
-            {error && <p className="text-red text-center text-[12px]">{error}</p>}
+            {error && (
+              <p className="text-red text-center text-[12px]">{error}</p>
+            )}
           </div>
           <CustomDropdown
             options={options}
@@ -216,24 +211,21 @@ export const CreateCouponModel = ({
           />
           <div className="flex justify-center gap-3">
             <CustomButton
-            onClick={()=>{
-              setVisible(false);
-            }
-          }
+              onClick={() => {
+                setVisible(false);
+              }}
               txt="Cancel"
               classes="!w-[179px] !h-[50px] !bg-[#E2E2E2] !rounded-[10px] !text-black !text-[16px]"
             />
             <CustomButton
               txt={buttonTitle}
-              onClick={async() => {
+              onClick={async () => {
                 if (!buttonDisable) {
-                 const check= await generateCode();
-                
-                  if(check){
-                    
+                  const check = await generateCode();
+
+                  if (check) {
                     setVisible(false);
                   }
-                 
                 } else if (buttonTitle !== 'Create Coupon') {
                   generateCouponCode();
                 }
