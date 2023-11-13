@@ -71,6 +71,8 @@ export const useGetRoles = (fetch?: boolean, params?: any) => {
       setRoleArray(result);
     } catch (e) {}
   };
+  const updateUsers = (userArr: any) => setUsers(userArr);
+
   async function createRoleArrays(
     roles: Role[],
     users: User[]
@@ -98,7 +100,15 @@ export const useGetRoles = (fetch?: boolean, params?: any) => {
   useEffect(() => {
     fetchRoles();
   }, [fetch, params]);
-  return { roles, rolesStats, users, totalStats, roleArray, loading };
+  return {
+    roles,
+    rolesStats,
+    users,
+    totalStats,
+    roleArray,
+    loading,
+    updateUsers,
+  };
 };
 export const useCreateAdmin = (): UseCreateAdminReturnType => {
   const Navigate = useNavigate();

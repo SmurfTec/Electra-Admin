@@ -15,7 +15,10 @@ import {
 import { SVGIcon } from '../../../components/SVG';
 
 import moment from 'moment';
+import { Divider } from 'primereact/divider';
+import { Menu } from 'primereact/menu';
 import { useDeleteRole, useGetRoles } from '../../../custom-hooks/RolesHooks';
+import { updateUserRole } from '../../../store/Slices/RoleSlice';
 interface RoleStats {
   role: string;
   users: number;
@@ -47,6 +50,7 @@ export const Roles = () => {
   const [fetch, setFetch] = React.useState(false);
   const navigate = useNavigate();
   const menuLeft: any = React.useRef(null);
+  const roleMenu: any = React.useRef(null);
   const [CurrSelectedProduct, setCurrSelectedProduct] =
     useState<PartialAccount>({});
   const [MenuLabel, setMenuLabel] = useState('');
@@ -65,6 +69,7 @@ export const Roles = () => {
     roleArray,
     totalStats,
     loading,
+    updateUsers,
   }: {
     roles?: any;
     rolesStats: Stats | any;
@@ -72,7 +77,11 @@ export const Roles = () => {
     roleArray: any;
     totalStats: any;
     loading: boolean;
+    updateUsers: any;
   } = useGetRoles(fetch, initialPageData);
+
+  const [updatingRole, setUpdatingRole] = useState(false);
+
   const filterData = users?.map((item: PartialAccount, index: number) => {
     return {
       id: item.id,
@@ -164,7 +173,6 @@ export const Roles = () => {
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
           <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
-
           <CustomMenu
             height={'78px'}
             model={items}
@@ -177,9 +185,7 @@ export const Roles = () => {
     );
   };
   const StatusBodyTemplate = (option: any) => {
-    let style;
-
-    style = `px-[14px] py-[4px]
+    const style = `px-[14px] py-[4px]
           text-center
           h-[33px]
            bg-custom-blue text-[black]
@@ -187,12 +193,89 @@ export const Roles = () => {
           
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
 
+    const handleClick = (event: any) => {
+      event.preventDefault();
+      if (!updatingRole) {
+        setCurrSelectedProduct(option.id);
+        roleMenu.current.toggle(event);
+      }
+    };
+    const handleMenuClick = async (e: any) => {
+      e.preventDefault();
+      const { role } = e.currentTarget.dataset;
+      console.log('Menu Clicked', CurrSelectedProduct, role);
+      roleMenu.current.toggle(e);
+
+      try {
+        setUpdatingRole(true);
+        const resp = await updateUserRole(CurrSelectedProduct as string, {
+          roles: [role],
+        });
+        console.log('resp', resp);
+        setCurrSelectedProduct({});
+        updateUsers([
+          ...users.map((el: any) =>
+            el.id === resp?.data?.[0]?.user_id ? { ...el, role } : el
+          ),
+        ]);
+        // setInitialPageData(st => ({ ...st, currentPage: 1 }));
+      } catch (er) {
+        console.log('er', er);
+      } finally {
+        setUpdatingRole(false);
+      }
+    };
+
     return (
       <>
-        <div className={style}>
-          <p className="font-bold">{option.Role}</p>
-          <img src={IMAGES.dropdown} />
-        </div>
+        {updatingRole && (CurrSelectedProduct as string) === option.id ? (
+          <div className="flex items-center">
+            <ProgressSpinner
+              style={{
+                width: '30px',
+                height: '30px',
+                marginInline: 'auto',
+                overflow: 'hidden',
+              }}
+            />
+          </div>
+        ) : (
+          <div
+            className={style}
+            onClick={handleClick}
+            aria-controls="popup_menu_role"
+          >
+            <p className="font-bold">{option.Role}</p>
+            <img src={IMAGES.dropdown} />
+          </div>
+        )}
+        <Menu
+          model={[
+            ...roleArray.map((el: any, ind: number, arr: any) => ({
+              label: '',
+              template: (item: any, options: any) => {
+                return (
+                  <div
+                    onClick={handleMenuClick}
+                    // data-user={item.id}
+                    data-role={el.name}
+                  >
+                    <div className="text-[14px] font-semibold text-[black]">
+                      {el.name}
+                    </div>
+                    {ind < arr.length - 1 && (
+                      <Divider className="!p-0 !my-1 !w-full !h-1" />
+                    )}
+                  </div>
+                );
+              },
+            })),
+          ]}
+          popup
+          ref={roleMenu}
+          id="popup_menu_role"
+          className="!w-[130px] !px-3 !py-2"
+        />
       </>
     );
   };

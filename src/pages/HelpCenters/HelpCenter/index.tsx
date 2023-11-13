@@ -1,17 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Header } from '../../../components';
-import { SVGIcon } from '../../../components/SVG';
-import { CustomTableComponent } from '../../../atoms';
-import IMAGES from '../../../assets/Images';
-import { CustomMenu } from '../../../atoms/global.style';
-import { MenuItem } from 'primereact/menuitem';
-import { useNavigate } from 'react-router-dom';
-import { DeleteSupport } from '../../../store/Slices/HelpCenterSlice';
-import { SuccessModel } from '../../../components';
 import moment from 'moment';
-import { Paginatior } from '../../../components';
+import { MenuItem } from 'primereact/menuitem';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomTableComponent } from '../../../atoms';
+import { CustomMenu } from '../../../atoms/global.style';
+import { Header, Paginatior, SuccessModel } from '../../../components';
+import { SVGIcon } from '../../../components/SVG';
 import { useFetchHelp } from '../../../custom-hooks/useFetchHelp';
+import { DeleteSupport } from '../../../store/Slices/HelpCenterSlice';
 
 export const HelpCenter = () => {
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
@@ -20,14 +18,14 @@ export const HelpCenter = () => {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState([]);
   const [initialPageData, setInitialPageData] = useState({
-    rowsPerPage: 25,
+    rowsPerPage: 8,
     currentPage: 1,
   });
   const { helpData, helpLoading, stats } = useFetchHelp(initialPageData);
   const deleteItem = async (event: React.MouseEvent, id: any) => {
     event.stopPropagation();
     try {
-      let r = await DeleteSupport(id);
+      const r = await DeleteSupport(id);
       setvisible(true);
       setInitialPageData({ ...initialPageData, currentPage: 1 });
     } catch (err) {}
@@ -45,7 +43,7 @@ export const HelpCenter = () => {
       id: string;
       menuRef: React.RefObject<any>;
     }) => {
-      let [items] = useState([
+      const [items] = useState([
         {
           label: 'View Item',
 
@@ -143,8 +141,8 @@ export const HelpCenter = () => {
   ]);
 
   useEffect(() => {
-    let newArr = helpData?.map((item: any) => {
-      let newObj = {
+    const newArr = helpData?.map((item: any) => {
+      const newObj = {
         ...item,
         created_on: moment(item.created_on).format('DD,MM,YYYY'),
       };
@@ -178,6 +176,10 @@ export const HelpCenter = () => {
             totalRecords={Number(stats)}
             initialPageData={initialPageData}
             setInitialPageData={setInitialPageData}
+            recordShowing={Math.min(
+              initialPageData.currentPage * initialPageData.rowsPerPage,
+              Number(stats)
+            )}
           />
         </>
       ) : (

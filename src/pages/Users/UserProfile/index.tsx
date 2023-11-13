@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { MenuItem } from 'primereact/menuitem';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -16,13 +15,7 @@ import { SVGIcon } from '../../../components/SVG';
 import url from '../../../config/index';
 import { useFetchUserOrder } from '../../../custom-hooks/useFetchUserOrder';
 import { DeleteOrders } from '../../../store/Slices/OrderSlice';
-import {
-  GetAllUserOrder,
-  GetUserAsks,
-  GetUserStats,
-  getSingleUser,
-  getSingleUserOrder,
-} from '../../../store/Slices/UserSlice';
+import { GetUserAsks, getSingleUser } from '../../../store/Slices/UserSlice';
 
 type UserInterface = {
   username: string;
@@ -30,13 +23,13 @@ type UserInterface = {
   phone: string;
   date: string;
 };
-type InitialPageData = {
-  rowsPerPage: number;
-  currentPage: number;
-  name: string;
-  orderid: number;
-  date: string | Date | null;
-};
+// type InitialPageData = {
+//   rowsPerPage: number;
+//   currentPage: number;
+//   name: string;
+//   orderid: number;
+//   date: string | Date | null;
+// };
 export const UserProfile = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -78,7 +71,6 @@ export const UserProfile = () => {
   const [Data, setData] = useState([
     { id: 1, txt: 'Active', title: 'No of Listings', body: '' },
     { id: 2, txt: 'Active', title: 'Gross Value', body: '' },
-    // { id: 3, txt: 'Active', title: 'Net Value', body: '' },
     { id: 4, txt: 'Pending', title: 'Pending Sales', body: '5' },
     { id: 5, txt: 'Pending', title: 'Gross Value', body: '$2000' },
     { id: 6, txt: 'Pending', title: 'Net Value', body: '$2100' },
@@ -88,10 +80,12 @@ export const UserProfile = () => {
     { id: 10, txt: 'Completed', title: 'Total Points Earned', body: '1500' },
   ]);
 
-  const [getListing, setGetListing] = useState<{
+  const [getMyListing, setGetMyListing] = useState<{
     fetching: boolean;
     listing: any[];
   }>({ fetching: true, listing: [] });
+
+  const [listingType, setListingType] = useState('listing');
 
   const handleButton = (id: any) => {
     const buttonfilter = ButtonList.map((item: any, index: any) => {
@@ -242,6 +236,23 @@ export const UserProfile = () => {
     { field: 'listedon', header: 'Listed On' },
     { field: '', header: '', body: MenuBodyTemplate },
   ]);
+
+  const [askColumnData] = useState([
+    { field: 'id', header: 'ID' },
+    { field: 'itemname', header: 'Item Name' },
+    { field: 'my_offer', header: 'My Offer' },
+    {
+      field: 'highest_bid',
+      header: 'Highest Offer',
+    },
+    {
+      field: 'lowest_ask',
+      header: 'Lowest Offer',
+    },
+    { field: 'expiration_date', header: 'Expiration Date' },
+    { field: '', header: '', body: MenuBodyTemplate },
+  ]);
+
   const [PendingcolumnData] = useState([
     { field: 'id', header: 'ID' },
     { field: 'itemname', header: 'Item Name' },
@@ -272,18 +283,79 @@ export const UserProfile = () => {
   };
 
   const getUserListing = async () => {
-    setGetListing({ fetching: true, listing: [] });
-    const response = await url.get(`/listings?user=${id}`);
-    setGetListing({
-      fetching: false,
-      listing: response.data.listings?.map((el: any) => ({
-        itemname: el.product_data.title,
-        id: el.id,
-        askPrice: el.ask,
-        listedon: moment(el.created_on).format('DD,MM,YYYY'),
-        highest_offer: el.highest_offer ? `$${el.highest_offer}` : '-',
-      })),
-    });
+    setGetMyListing({ fetching: true, listing: [] });
+    if (listingType === 'listing') {
+      const resp = await url.get(`/listings?user=${id}`);
+      setGetMyListing({
+        fetching: false,
+        listing: resp.data.listings?.map((el: any) => ({
+          itemname: el.product_data.title,
+          id: el.id,
+          askPrice: el.ask,
+          listedon: moment(el.created_on).format('DD,MM,YYYY'),
+          highest_offer: el.highest_offer ? `$${el.highest_offer}` : '-',
+        })),
+      });
+
+      setData(
+        Data.map(el =>
+          el.id === 1
+            ? {
+                ...el,
+                body: resp.data.results,
+              }
+            : el.id === 2
+            ? {
+                ...el,
+                body: 0,
+              }
+            : el
+        )
+      );
+    } else {
+      const resp = await GetUserAsks(id);
+
+      setGetMyListing({
+        fetching: false,
+        listing: resp.asks?.map((el: any) => ({
+          id: el.id,
+          itemname: el.product.title,
+          my_offer: el.my_offer,
+          lowest_ask: el.lowest_ask,
+          highest_bid: el.highest_bid,
+          expiration_date: moment(el.expiration_date).format('DD,MM,YYYY'),
+        })),
+      });
+      setData(
+        Data.map(el =>
+          el.id === 1
+            ? {
+                ...el,
+                body: resp.result,
+              }
+            : el.id === 2
+            ? {
+                ...el,
+                body: resp.askStats.gross_value,
+              }
+            : el
+        )
+      );
+    }
+
+    // // Previous
+    // setGetListing({ fetching: true, listing: [] });
+    // const response = await url.get(`/listings?user=${id}`);
+    // setGetListing({
+    //   fetching: false,
+    //   listing: response.data.listings?.map((el: any) => ({
+    //     itemname: el.product_data.title,
+    //     id: el.id,
+    //     askPrice: el.ask,
+    //     listedon: moment(el.created_on).format('DD,MM,YYYY'),
+    //     highest_offer: el.highest_offer ? `$${el.highest_offer}` : '-',
+    //   })),
+    // });
   };
 
   const getUserOrder = async () => {
@@ -307,11 +379,10 @@ export const UserProfile = () => {
       setUserLoading(true);
       const response = await GetUserAsks(id);
 
-      setsales({
-        completed: response?.data?.orderStats?.completed_sales || 0,
-
-        rejected: response?.data?.orderStats?.rejected_sales || 0,
-      });
+      // setsales({
+      //   completed: response?.data?.orderStats?.completed_sales || 0,
+      //   rejected: response?.data?.orderStats?.rejected_sales || 0,
+      // });
       const newData = Data.map((item: any) => {
         if (item.id == 1) {
           return {
@@ -387,10 +458,14 @@ export const UserProfile = () => {
     setuserOrders(order);
   }, [orderData]);
   useEffect(() => {
+    getUserListing();
     getUserOrder();
     GetUserDetail();
-    getUserListing();
   }, [activetxt]);
+
+  useEffect(() => {
+    getUserListing();
+  }, [listingType]);
 
   useEffect(() => {
     const isnum = /^\d+$/.test(search);
@@ -404,6 +479,8 @@ export const UserProfile = () => {
       }
     }
   }, [search]);
+
+  console.log('getMyListing', getMyListing);
 
   return (
     <div className="">
@@ -550,6 +627,28 @@ export const UserProfile = () => {
           </div>
         )}
       </div>
+      {activetxt == 'Active' && (
+        <div className="my-6 flex items-center gap-2 w-full">
+          <CustomButton
+            txt={'My Listings'}
+            onClick={() => setListingType('listing')}
+            classes={
+              listingType === 'listing'
+                ? '!h-[52px] !w-[164px] !font-[600] !rounded-[10px] !bg-[#3C82D6] !text-[white]'
+                : '!h-[52px] !w-[164px] !rounded-[10px] !bg-[transparent] !text-customTxt border'
+            }
+          />
+          <CustomButton
+            txt={'My Asks'}
+            onClick={() => setListingType('ask')}
+            classes={
+              listingType === 'ask'
+                ? '!h-[52px] !w-[164px] !font-[600] !rounded-[10px] !bg-[#3C82D6] !text-[white]'
+                : '!h-[52px] !w-[164px] !rounded-[10px] !bg-[transparent] !text-customTxt border'
+            }
+          />
+        </div>
+      )}
 
       {activetxt == 'Completed' && (
         <div className="flex mt-[30px] gap-3">
@@ -600,18 +699,22 @@ export const UserProfile = () => {
           iconRight={true}
         /> */}
       </div>
-      {!orderLoading ? (
+      {!orderLoading || !getMyListing.fetching ? (
         <div className="mt-[38px]">
           <CustomTableComponent
             width={'100%'} //634px
             theadStyles={{ color: '#212121 !important', fontWeight: 'bold' }}
             showWrapper={false}
-            filterData={activetxt == 'Active' ? getListing.listing : userOrders}
+            filterData={
+              activetxt == 'Active' ? getMyListing.listing : userOrders
+            }
             selectedProducts={selectedProducts}
             setSelectedProducts={setSelectedProducts}
             columnData={
               activetxt == 'Active'
-                ? columnData
+                ? listingType === 'listing'
+                  ? columnData
+                  : askColumnData
                 : activetxt == 'Completed'
                 ? CompletedcolumnData
                 : PendingcolumnData

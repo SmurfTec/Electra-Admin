@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import url from '../../config/index';
 import axios from 'axios';
+import url from '../../config/index';
 const initialState: any = {
   users: [],
   CurrentActiveUser: {},
@@ -11,7 +11,7 @@ type RoleBody = {
 };
 export const getRoles = async () => {
   try {
-    let response: any = await url.get('/authorization/roles');
+    const response: any = await url.get('/authorization/roles');
     return response.data;
   } catch (e) {
     return e;
@@ -20,7 +20,7 @@ export const getRoles = async () => {
 
 export const createRole = async (body: RoleBody) => {
   try {
-    let response: any = await url.post('/authorization/role', body);
+    const response: any = await url.post('/authorization/role', body);
     return response.data;
   } catch (e) {
     return e;
@@ -28,7 +28,7 @@ export const createRole = async (body: RoleBody) => {
 };
 export const deleteRole = async (name: string) => {
   try {
-    let response: any = await url.delete(`/authorization/roles/${name}`);
+    const response: any = await url.delete(`/authorization/roles/${name}`);
     return response.data;
   } catch (e) {
     return e;
@@ -36,9 +36,24 @@ export const deleteRole = async (name: string) => {
 };
 export const editRole = async (body: RoleBody, name?: string) => {
   try {
-    let response: any = await url.patch(
+    const response: any = await url.patch(
       `/authorization/role-permissions/${name}`,
-      body,
+      body
+    );
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+};
+
+export const updateUserRole = async (
+  userId: string,
+  roleBody: { roles: string[] }
+) => {
+  try {
+    const response: any = await url.post(
+      `/authorization/user-roles/${userId}`,
+      roleBody
     );
     return response.data;
   } catch (e) {
@@ -48,17 +63,17 @@ export const editRole = async (body: RoleBody, name?: string) => {
 
 export const getPermission = async () => {
   try {
-    let response: any = await url.get('/authorization/permissions');
+    const response: any = await url.get('/authorization/permissions');
     return response.data;
   } catch (e) {
     return e;
   }
 };
 
-export const getRolesByName = async (name?: String) => {
+export const getRolesByName = async (name?: string) => {
   try {
-    let response: any = await url.get(
-      `/authorization/role-permissions/${name}`,
+    const response: any = await url.get(
+      `/authorization/role-permissions/${name}`
     );
     return response.data;
   } catch (e) {
@@ -67,9 +82,9 @@ export const getRolesByName = async (name?: String) => {
 };
 
 // Get admin role
-export const getUserByID = async (id?: String) => {
+export const getUserByID = async (id?: string) => {
   try {
-    let response: any = await url.get(`/authorization/admin/${id}`);
+    const response: any = await url.get(`/authorization/admin/${id}`);
     return response.data;
   } catch (e) {
     return e;

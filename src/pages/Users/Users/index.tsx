@@ -33,7 +33,7 @@ export const Users = () => {
   const [filterData, setFilterData] = useState([]);
 
   const [initialPageData, setInitialPageData] = useState({
-    rowsPerPage: 25,
+    rowsPerPage: 8,
     currentPage: 1,
   });
   const { users, userLoading, stats } = useFetchUsers(initialPageData);
@@ -376,7 +376,10 @@ export const Users = () => {
               totalRecords={stats?.total_users_registered}
               initialPageData={initialPageData}
               setInitialPageData={setInitialPageData}
-              recordShowing={filterData?.length}
+              recordShowing={Math.min(
+                initialPageData.currentPage * initialPageData.rowsPerPage,
+                stats?.total_users_registered
+              )}
             />
           </div>
           <Confirmationmodal

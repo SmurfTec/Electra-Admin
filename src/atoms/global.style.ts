@@ -218,7 +218,7 @@ export const CustomMenu = styled(Menu)<menuprops>`
     border-radius: 5px;
     width: 90px;
     cursor: pointer;
-    overflow-y: hidden;
+    overflow-y: auto;
     /* height: 27px; */
     div {
       line-height: 14px;

@@ -25,12 +25,13 @@ export const Products = () => {
   const [initial, setInitial] = useState(true);
   const [loading, setLoading] = useState(true);
   const [initialPageData, setInitialPageData] = useState({
-    rowsPerPage: 10,
+    rowsPerPage: 8,
     currentPage: 1,
   });
   const [totalProducts, setTotalProducts] = useState();
   const [stats, setStats] = useState<any>();
   const getProducts = async () => {
+    setLoading(true);
     try {
       const response = await GetAllProducts(initialPageData);
       setTotalProducts(response.stats.total_products);
@@ -193,6 +194,8 @@ export const Products = () => {
       // );
     }
   }, [MenuLabel]);
+
+  console.log('loading', loading);
   return (
     <div>
       <Header typeSearch={true} UserBox={true} />
@@ -276,7 +279,10 @@ export const Products = () => {
               totalRecords={Number(totalProducts)}
               initialPageData={initialPageData}
               setInitialPageData={setInitialPageData}
-              recordShowing={filterData?.length}
+              recordShowing={Math.min(
+                initialPageData.currentPage * initialPageData.rowsPerPage,
+                Number(totalProducts)
+              )}
             />
           </div>
         </>

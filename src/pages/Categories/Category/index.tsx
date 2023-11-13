@@ -188,7 +188,7 @@ export const Category = () => {
   const [CategoriescolumnData] = useState([
     { field: 'id', header: 'ID' },
     { field: 'title', header: 'Title' },
-    { field: 'Fee', header: 'Fee' },
+    // { field: 'Fee', header: 'Fee' },
     { field: 'Products', header: 'Products' },
     { field: 'CreatedOn', header: 'Created On' },
     { field: '', header: '', body: CategoryMenuBodyTemplate },
@@ -207,7 +207,7 @@ export const Category = () => {
       const newObj = {
         ...item,
         DataType: item.datatype,
-        Values: item.values,
+        Values: item.values.length > 0 ? item.values : '-',
       };
       return newObj;
     });
@@ -220,7 +220,7 @@ export const Category = () => {
         ...item,
         id: item.id,
         title: item.name,
-        Fee: item.fees,
+        // Fee: item.fees,
         Products: item.products,
         CreatedOn: moment(item.created_on).format('DD,MM,YYYY'),
       };
@@ -307,6 +307,10 @@ export const Category = () => {
                 totalRecords={stats}
                 initialPageData={initialPageData1}
                 setInitialPageData={setInitialPageData1}
+                recordShowing={Math.min(
+                  initialPageData1.currentPage * initialPageData1.rowsPerPage,
+                  stats
+                )}
               />
               {/* {LoadMore1 == true && <div onClick={() => setLoadMore1(false)} className='flex justify-center items-center -mt-[10px] pb-3 font-[500] text-[#B4B4B4] cursor-pointer'>View More</div>} */}
             </div>
@@ -332,6 +336,10 @@ export const Category = () => {
                 totalRecords={Variantstats}
                 initialPageData={initialPageData2}
                 setInitialPageData={setInitialPageData2}
+                recordShowing={Math.min(
+                  initialPageData2.currentPage * initialPageData2.rowsPerPage,
+                  Variantstats
+                )}
               />
               {/* {LoadMore2 == true && <div onClick={() => setLoadMore2(false)} className='flex justify-center items-center  pb-3 font-[500] text-[#B4B4B4] cursor-pointer'>View More</div>} */}
             </div>

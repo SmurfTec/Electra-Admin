@@ -1,31 +1,31 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  Header,
-  DashCard,
-  CreateCouponModel,
-  SuccessModel,
   Confirmationmodal,
+  CreateCouponModel,
+  DashCard,
+  Header,
+  SuccessModel,
 } from '../../../components';
 
-import { CustomTableComponent } from '../../../atoms';
-import { SVGIcon } from '../../../components/SVG';
-import { MenuItem } from 'primereact/menuitem';
-import IMAGES from '../../../assets/Images';
-import { CustomMenu } from '../../../atoms/global.style';
-import { DeleteBrand } from '../../../store/Slices/BrandSlice';
 import moment from 'moment';
-import { Paginatior } from '../../../components';
+import { MenuItem } from 'primereact/menuitem';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { useFetchBrands } from '../../../custom-hooks/useFetchBrands';
-import { BaseURL } from '../../../config';
 import { useNavigate } from 'react-router-dom';
+import IMAGES from '../../../assets/Images';
+import { CustomTableComponent } from '../../../atoms';
+import { CustomMenu } from '../../../atoms/global.style';
+import { Paginatior } from '../../../components';
+import { SVGIcon } from '../../../components/SVG';
+import { BaseURL } from '../../../config';
+import { useFetchBrands } from '../../../custom-hooks/useFetchBrands';
+import { DeleteBrand } from '../../../store/Slices/BrandSlice';
 export const Brands = () => {
   const [filterData, setfilterData] = useState([]);
   const navigate = useNavigate();
   const [added, setadded] = useState(false);
 
   const [initialPageData, setInitialPageData] = useState({
-    rowsPerPage: 25,
+    rowsPerPage: 8,
     currentPage: 1,
   });
   const [visible, setvisible] = useState(false);
@@ -34,8 +34,8 @@ export const Brands = () => {
   const [currentId, setcurrentId] = useState();
   useEffect(() => {
     if (BrandData) {
-      let latestArr = BrandData.map((item: any) => {
-        let newObj = {
+      const latestArr = BrandData.map((item: any) => {
+        const newObj = {
           ...item,
           brandimage: BaseURL + item?.image?.filename,
           CreatedOn: moment(item.created_on).format('DD,MMM,YYYY'),
@@ -53,13 +53,13 @@ export const Brands = () => {
 
   const deleteItem = async (event: React.MouseEvent, id: any) => {
     event.stopPropagation();
-  
+
     setcurrentId(id);
     setvisible(true);
   };
   const setOkButton = async () => {
     try {
-      let response = await DeleteBrand(currentId);
+      const response = await DeleteBrand(currentId);
 
       setsuccessVisible(true);
       setvisible(false);
@@ -68,8 +68,8 @@ export const Brands = () => {
   };
   const EditItem = (event: React.MouseEvent, item: any) => {
     event.stopPropagation();
-   
-    navigate(`/EditBrand/${item}`)
+
+    navigate(`/EditBrand/${item}`);
   };
   const MenuBodyTemplate = (rowData: any) => {
     const menuLeftRef = useRef<any>(null);
@@ -84,7 +84,7 @@ export const Brands = () => {
       id: string;
       menuRef: React.RefObject<any>;
     }) => {
-      let [items] = useState([
+      const [items] = useState([
         {
           label: 'Edit Item',
 
@@ -126,7 +126,7 @@ export const Brands = () => {
         />
       );
     };
-  
+
     return (
       <>
         <div
@@ -191,7 +191,7 @@ export const Brands = () => {
         setVisible={setsuccessVisible}
         txt={'Brand deleted Successfully'}
       />
-      <Header typeSearch={true}UserBox={true} />
+      <Header typeSearch={true} UserBox={true} />
       {!BrandLoading ? (
         <>
           <div className="mt-[35px]">
@@ -229,7 +229,11 @@ export const Brands = () => {
               totalRecords={Number(stats)}
               initialPageData={initialPageData}
               setInitialPageData={setInitialPageData}
-              recordShowing={filterData.length}
+              recordShowing={Math.min(
+                initialPageData.currentPage * initialPageData.rowsPerPage,
+                Number(stats)
+              )}
+              // recordShowing={filterData.length}
             />
           </div>
         </>

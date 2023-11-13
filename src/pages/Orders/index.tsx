@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { Dropdown } from 'primereact/dropdown';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { TabPanel } from 'primereact/tabview';
 import React, { useEffect, useRef, useState } from 'react';
@@ -11,7 +12,21 @@ import { CustomMenu, CustomTabView } from '../../atoms/global.style';
 import { Header, Paginatior, Receiptmodal } from '../../components';
 import { SVGIcon } from '../../components/SVG';
 import { useFetchOrders } from '../../custom-hooks/useFetchOrders';
-import { DeleteOrders, setOrderCount } from '../../store/Slices/OrderSlice';
+import {
+  DeleteOrders,
+  UpdateOrderStatus,
+  setOrderCount,
+} from '../../store/Slices/OrderSlice';
+
+const orderStatus = [
+  { label: 'under-review', value: 'under-review', id: 1 },
+  { label: 'verified', value: 'verified', id: 2 },
+  { label: 'shipped-to-buyer', value: 'shipped-to-buyer', id: 3 },
+  { label: 'waiting-for-seller', value: 'waiting-for-seller', id: 4 },
+  { label: 'rejected', value: 'rejected', id: 5 },
+  { label: 'completed', value: 'completed', id: 6 },
+];
+
 export const Orders = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,19 +37,16 @@ export const Orders = () => {
   const [activeTab, setactiveTab] = useState(0);
   const [selectedOrders, setselectedOrders] = useState<any>([]);
   const [initialPageData, setInitialPageData] = useState({
-    rowsPerPage: 15,
+    rowsPerPage: 8,
     currentPage: 1,
     status: '',
   });
+  const [isUpdating, setIsUpdating] = useState({
+    updateId: '',
+    updating: false,
+  });
   const { orderData, orderLoading, stats, allorderData } =
     useFetchOrders(initialPageData);
-  const [RadioData, setRadioData] = useState({
-    completed: false,
-    shipped: false,
-    verified: false,
-    underReview: false,
-    Waiting: false,
-  });
   const MenuBodyTemplate = (rowData: any) => {
     const MenuTemplate = ({
       id,
@@ -140,11 +152,50 @@ export const Orders = () => {
               flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
     }
 
+    const handleDropdown = async (e: any) => {
+      try {
+        setIsUpdating({ updateId: option.id, updating: true });
+        const value = e.value;
+        const resp = await UpdateOrderStatus(option['Order No'], value);
+        const alterData = filterData.map((el: any) =>
+          el.id === resp.id ? { ...el, status: resp.status } : el
+        );
+        setfilterData([...alterData]);
+      } catch (er) {
+        console.log('er', er);
+      } finally {
+        setIsUpdating({ updateId: '', updating: false });
+      }
+    };
+
     return (
       <>
-        <div className={style}>
-          <p className="font-bold">{option.status}</p>
+        <div className="card flex justify-content-center">
+          {isUpdating.updating && isUpdating.updateId === option.id ? (
+            <div className="flex items-center w-full">
+              <ProgressSpinner
+                style={{
+                  width: '30px',
+                  height: '30px',
+                  marginInline: 'auto',
+                  overflow: 'hidden',
+                }}
+              />
+            </div>
+          ) : (
+            <Dropdown
+              value={option.status}
+              onChange={handleDropdown}
+              options={orderStatus}
+              optionLabel="label"
+              placeholder="Order Status"
+              className="w-full md:w-14rem"
+            />
+          )}
         </div>
+        {/* <div className={style}>
+          <p className="font-bold">{option.status}</p>
+        </div> */}
       </>
     );
   };
