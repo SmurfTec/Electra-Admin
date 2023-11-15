@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { CustomDialog } from '../../../atoms/global.style';
-import { InputTxt } from '../../../atoms';
-import { CustomButton } from '../../../atoms';
+import React, { useEffect, useRef, useState } from 'react';
 import Countdown from 'react-countdown';
+import { CustomButton, InputTxt } from '../../../atoms';
+import { CustomDialog } from '../../../atoms/global.style';
 
 export const EmailVerificationModel = ({
   classes,
@@ -76,7 +75,7 @@ export const EmailVerificationModel = ({
               autoStart
               renderer={renderer}
               ref={countDown.current}
-            ></Countdown>
+            />
           </div>
           <CustomButton
             onClick={() => {

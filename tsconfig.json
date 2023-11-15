@@ -3,8 +3,7 @@
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
-    "skipLibCheck": false,
-    
+    "skipLibCheck": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -23,14 +22,11 @@
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }],
-  
-    "rules": {
-      "react/jsx-uses-react": "off",
-      "no-unused-vars": "off"
-    
-  },
 
-  
+  "rules": {
+    "react/jsx-uses-react": "off",
+    "no-unused-vars": "off"
+  }
 }
 // {
 //   "compilerOptions": {
@@ -60,4 +56,3 @@
 //     "no-unused-vars": "off"
 //   }
 // }
-

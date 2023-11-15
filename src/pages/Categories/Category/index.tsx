@@ -72,6 +72,20 @@ export const Category = () => {
     }) => {
       const [items] = useState([
         {
+          label: 'Edit',
+          template: (item: MenuItem) => {
+            return (
+              <div
+                onClick={() => navigate(`/EditCategory/${rowData.id}`)}
+                style={{ background: 'rgba(255, 245, 0, 0.05)' }}
+                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#212121]"
+              >
+                <SVGIcon fillcolor={'#212121'} src={IMAGES.Pencil} /> Edit
+              </div>
+            );
+          },
+        },
+        {
           label: 'Delete',
           template: (item: MenuItem) => {
             return (

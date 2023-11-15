@@ -58,20 +58,22 @@ export function UploadPicture({
     setSelectedImages(filterImg);
   };
   useEffect(() => {
-    if (images && multipleImages && fetchImages) {
+    if (images.length > 0) {
+      setSelectedImage(`${BaseURL}${images[0].url}`);
+    } else if (images && multipleImages && fetchImages) {
       const files: any = [];
       images.map((item: any, index: any) => {
         files.push(item.filename);
       });
       setSelectedImages(files);
-    }
-    if (images && !multipleImages && fetchImages) {
+    } else if (images && !multipleImages && fetchImages) {
       if (images.filename) {
         setSelectedImage(images);
       }
     }
     // if(!multipleImages &&)
   }, [images]);
+
   return (
     <div className="mt-3 ">
       <input

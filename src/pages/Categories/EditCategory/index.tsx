@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import IMAGES from '../../../assets/Images';
 import { CustomButton, InputTxt, UploadPicture } from '../../../atoms';
 import { Header, SuccessModel } from '../../../components';
-import { CreateCategories } from '../../../store/Slices/Categories';
+import {
+  CreateCategories,
+  getCategories,
+  getCategory,
+  updateCategory,
+} from '../../../store/Slices/Categories';
 import { getAllVariants } from '../../../store/Slices/VariantSlice';
 
 const CustomVariatBox = ({
@@ -24,44 +29,68 @@ const CustomVariatBox = ({
     />
   );
 };
-export const CreateCategory = () => {
+export const EditCategory = () => {
+  const Params = useParams();
+  const { id } = Params;
+  const [fetching, setFetching] = useState(true);
+  const [variantFetching, setVariantFetching] = useState(true);
   const [successVisible, setsuccessVisible] = useState(false);
   const [Name, setName] = useState('');
   const [fee, setfee] = useState('');
   const navigate = useNavigate();
-  const [Variants, setVariants] = useState([]);
+  const [Variants, setVariants] = useState<any[]>([]);
   const [selectedVariant, setSelectedVariant] = useState<any>([]);
   const [image, setImages] = useState<any>();
-  const getVariant = async () => {
-    const response = await getAllVariants();
-    setVariants(response.variants);
+  const [attachment, setAttachments] = useState<any>([]);
 
-    const newArr = response?.variants?.map((item: any) => {
-      const newObj = {
-        ...item,
-        active: false,
-      };
-      return newObj;
-    });
-    setVariants(newArr);
+  const getVariant = async () => {
+    try {
+      const response = await getAllVariants();
+      setVariants(response.variants);
+      const newArr = response?.variants?.map((item: any) => {
+        const newObj = {
+          ...item,
+          active: selectedVariant.includes(item.id) ? true : false,
+        };
+        return newObj;
+      });
+      setVariants(newArr);
+    } catch (er) {
+      console.log('er', er);
+    } finally {
+      setVariantFetching(false);
+    }
   };
   useEffect(() => {
+    const fetchData = async () => {
+      if (!id) return;
+      setFetching(true);
+      try {
+        const response = await getCategory(id);
+        setName(response.name);
+        setSelectedVariant(response.variants.map((el: any) => el.id));
+        setAttachments(response.image ? [response.image] : []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setFetching(false);
+      }
+    };
+    fetchData();
     getVariant();
-  }, []);
+  }, [id]);
 
-  const Create = async () => {
+  const Update = async () => {
+    if (!id) return;
     try {
       const newBody = new FormData();
       newBody.append('name', Name);
-      // newBody.append('fees', String(fee));
-      newBody.append('image', image);
-
+      if (image) newBody.append('image', image);
       selectedVariant.length > 0 &&
         selectedVariant.map((item: any, index: any) => {
           newBody.append(`variants[${index}]`, item);
         });
-
-      const response = await CreateCategories(newBody);
+      const response = await updateCategory(id, newBody);
       if (response?.category) {
         setsuccessVisible(true);
         setName('');
@@ -75,20 +104,18 @@ export const CreateCategory = () => {
     }
   };
 
-  console.log('selectedVariant', selectedVariant);
-
   return (
     <div>
       <SuccessModel
         visible={successVisible}
         setVisible={setsuccessVisible}
-        txt="Category Created Successfully"
+        txt="Category updated Successfully"
       />
       <Header
         headerClasses={'!h-[69px]'}
         titleClass={'!mt-[10px]'}
-        title="Add New Category"
-        semiTitle="Add New Category to list item relatively."
+        title="Edit Category"
+        semiTitle="Edit Category to list item relatively."
         UserBox={true}
       />
       <div className="mt-[35px]">
@@ -127,41 +154,48 @@ export const CreateCategory = () => {
               // )
               <CustomButton
                 onClick={() => {
-                  if (!selectedVariant.includes(item.id)) {
-                    selectedVariant.push(item.id);
+                  if (selectedVariant.includes(item.id))
+                    setSelectedVariant((st: any) =>
+                      st.filter((el: any) => el !== item.id)
+                    );
+                  else setSelectedVariant((st: any) => [...st, item.id]);
+                  // if (!selectedVariant.includes(item.id)) {
+                  //   selectedVariant.push(item.id);
 
-                    setSelectedVariant(selectedVariant);
-                    const newarr: any = Variants?.map((item2: any) => {
-                      if (item2.id == item.id) {
-                        return {
-                          ...item2,
-                          active: true,
-                        };
-                      } else {
-                        return item2;
-                      }
-                    });
-                    setVariants(newarr);
-                  } else {
-                    selectedVariant.pop(item.id);
-                    setSelectedVariant(selectedVariant);
-                    const newarr: any = Variants.map((item2: any) => {
-                      if (item2.id == item.id) {
-                        return {
-                          ...item2,
-                          active: false,
-                        };
-                      } else {
-                        return item2;
-                      }
-                    });
-                    setVariants(newarr);
-                  }
+                  //   setSelectedVariant(selectedVariant);
+                  //   const newarr: any = Variants?.map((item2: any) => {
+                  //     if (item2.id == item.id) {
+                  //       return {
+                  //         ...item2,
+                  //         active: true,
+                  //       };
+                  //     } else {
+                  //       return item2;
+                  //     }
+                  //   });
+                  //   setVariants(newarr);
+                  // } else {
+                  //   selectedVariant.pop(item.id);
+                  //   setSelectedVariant(selectedVariant);
+                  //   const newarr: any = Variants.map((item2: any) => {
+                  //     if (item2.id == item.id) {
+                  //       return {
+                  //         ...item2,
+                  //         active: false,
+                  //       };
+                  //     } else {
+                  //       return item2;
+                  //     }
+                  //   });
+                  //   setVariants(newarr);
+                  // }
                 }}
                 txt={item.title}
                 key={index}
                 classes={`!w-auto !px-[30px] !py-[12px] !inline-block !h-auto !rounded-[7px] ${
-                  !item.active ? '!bg-custome-button-grey !text-black' : ''
+                  !selectedVariant.includes(item.id)
+                    ? '!bg-custome-button-grey !text-black'
+                    : ''
                 } `}
               />
             );
@@ -182,6 +216,7 @@ export const CreateCategory = () => {
               fetchImages={false}
               multipleImages={false}
               setImage={setImages}
+              images={attachment}
             />
           </div>
         </div>
@@ -192,9 +227,9 @@ export const CreateCategory = () => {
             classes="!w-[179px] !h-[50px] !rounded-[10px] !bg-custome-button-grey !text-black"
           />
           <CustomButton
-            txt="Create Category"
+            txt="Update Category"
             classes="!w-[179px] !h-[50px] !rounded-[10px] "
-            onClick={(value: any) => Create()}
+            onClick={(value: any) => Update()}
           />
         </div>
       </div>

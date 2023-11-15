@@ -1,56 +1,58 @@
-import { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
+import { SideBar } from './components';
+import { EditCategory } from './pages/Categories/EditCategory';
+import { UsersCount } from './pages/Users/Users/extraReducers';
 import {
-  Dashboard,
-  Users,
-  Signin,
-  ProductView,
-  UserProfile,
-  AddProduct,
-  ProductRequests,
-  Roles,
-  Products,
-  Wallet,
-  Coupon,
-  CreateCoupon,
-  Category,
-  CreateCategory,
   AddNewVariant,
-  HelpCenter,
-  HelpCenterDetail,
-  CreateNewadmin,
-  ViewAdmin,
-  Searchrole,
-  Createrole,
-  Verification,
-  ItemVerification,
-  Settings,
-  Listings,
-  Orders,
-  Listingdetail,
-  Editwebsite,
-  Webandbanner,
-  Noticebanner,
+  AddProduct,
   Addnewbanner,
-  Step1,
-  Feemodifier,
-  Notifications,
-  SecurityQuestion,
-  Editrole,
+  Brands,
+  Category,
+  Coupon,
+  CreateBrand,
+  CreateCategory,
+  CreateCoupon,
+  CreateNewadmin,
+  Createrole,
+  Dashboard,
+  EditBrand,
   EditProduct,
   Editnewbanner,
-  Brands,
-  CreateBrand,EditBrand
+  Editrole,
+  Editwebsite,
+  Feemodifier,
+  HelpCenter,
+  HelpCenterDetail,
+  ItemVerification,
+  Listingdetail,
+  Listings,
+  Noticebanner,
+  Notifications,
+  Orders,
+  ProductRequests,
+  ProductView,
+  Products,
+  Roles,
+  Searchrole,
+  SecurityQuestion,
+  Settings,
+  Signin,
+  Step1,
+  UserProfile,
+  Users,
+  Verification,
+  ViewAdmin,
+  Wallet,
+  Webandbanner,
 } from './pages/index';
-import { SideBar } from './components';
 import PrivateRoute from './routes/Privateroute';
 import { token } from './store/Slices/AuthSlice';
-import { useDispatch } from 'react-redux';
-import { UsersCount } from './pages/Users/Users/extraReducers';
+import { ListingsCount } from './store/Slices/ListingsSlice';
 import { OrdersCount } from './store/Slices/OrderSlice';
 import { ProductsCount } from './store/Slices/ProductSlice';
-import { ListingsCount } from './store/Slices/ListingsSlice';
 import { AppDispatch } from './store/store';
 // Ye comment nomi ki farmaish par
 function App() {
@@ -111,6 +113,7 @@ function App() {
             <Route path="/EditBrand/:id" element={<EditBrand />} />
             <Route path="/Category" element={<Category />} />
             <Route path="/CreateCategory" element={<CreateCategory />} />
+            <Route path="/EditCategory/:id" element={<EditCategory />} />
             <Route path="/AddNewVariant" element={<AddNewVariant />} />
             <Route path="/HelpCenter" element={<HelpCenter />} />
             <Route

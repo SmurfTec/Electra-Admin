@@ -187,6 +187,8 @@ export const Wallet = () => {
     }
   };
 
+  console.log('WalletStats', WalletStats);
+
   return (
     <div>
       <Header typeSearch={true} UserBox={true} />
@@ -242,19 +244,24 @@ export const Wallet = () => {
               />
               <DashCard
                 title={'Withdrawn'}
-                totalNumber={'$0'}
+                totalNumber={`$${
+                  WalletStats?.withdrawnstats?.total_withdrawn || 0
+                }`}
                 myImg={IMAGES.Volume}
                 imgColor={'bg-custom-grey'}
                 textDash={'bg-yellow-dash !w-[90px] px-1 '}
                 textColor={'#3C82D6'}
                 txt="-"
-                subtxt="Recent Withdrawal"
+                // subtxt="Recent Withdrawal"
                 outerclasses="w-[284px] h-[140px]"
                 subtxtStyle={`!w-[100px]`}
               />
               <DashCard
                 title={'Available for withdrawal'}
-                totalNumber={'$0'}
+                totalNumber={`$${
+                  WalletStats?.available_withdrawn_stats?.available_withdrawn ||
+                  0
+                }`}
                 myImg={IMAGES.CashWithdraw}
                 imgColor={'bg-custom-dark-red'}
                 textDash={' !w-full '}

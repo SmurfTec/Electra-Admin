@@ -93,7 +93,7 @@ export const Brands = () => {
               <div
                 onClick={event => EditItem(event, rowData.id)}
                 style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+                className="flex gap-1 items-center  text-[10px] font-[400] text-[#212121]"
               >
                 <SVGIcon fillcolor={'#212121'} src={IMAGES.Pencil} /> Edit Item
               </div>
