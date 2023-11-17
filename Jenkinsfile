@@ -5,6 +5,7 @@ pipeline {
 
             steps {
                 dir('/home/zain/nextjs_projects/electra-admin-dev') {
+                 sh "sudo cp -r /${WORKSPACE}/** ./"
                 }
             }
         }
