@@ -15,6 +15,7 @@ import {
 import { SVGIcon } from '../../../components/SVG';
 
 import moment from 'moment';
+import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { Menu } from 'primereact/menu';
 import { useDeleteRole, useGetRoles } from '../../../custom-hooks/RolesHooks';
@@ -172,7 +173,16 @@ export const Roles = () => {
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
+          <Button
+            icon="pi pi-ellipsis-h"
+            rounded
+            text
+            severity="secondary"
+            aria-label="Action"
+            className="font-extrabold text-black"
+            onClick={handleClick}
+          />
+          {/* <SVGIcon onClick={handleClick} src={IMAGES.Dots} /> */}
           <CustomMenu
             height={'78px'}
             model={items}

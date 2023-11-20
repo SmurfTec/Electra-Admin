@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -177,7 +178,16 @@ export const UserProfile = () => {
         <div
           className={` px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon onClick={handleClick} src={IMAGES.Dots} />
+          <Button
+            icon="pi pi-ellipsis-h"
+            rounded
+            text
+            severity="secondary"
+            aria-label="Action"
+            className="font-extrabold text-black"
+            onClick={handleClick}
+          />
+          {/* <SVGIcon onClick={handleClick} src={IMAGES.Dots} /> */}
           <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
         </div>
       </>

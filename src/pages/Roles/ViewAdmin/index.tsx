@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { Button } from 'primereact/button';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import IMAGES from '../../../assets/Images';
@@ -129,13 +130,25 @@ export const ViewAdmin = () => {
                 <div
                   className={`text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
                 >
-                  <SVGIcon
+                  <Button
+                    icon="pi pi-ellipsis-h"
+                    rounded
+                    text
+                    severity="secondary"
+                    aria-label="Action"
+                    className="font-extrabold text-black"
+                    onClick={(event: any) => {
+                      event.preventDefault();
+                      menuLeft.current.toggle(event);
+                    }}
+                  />
+                  {/* <SVGIcon
                     onClick={(event: any) => {
                       event.preventDefault();
                       menuLeft.current.toggle(event);
                     }}
                     src={IMAGES.Dots}
-                  />
+                  /> */}
 
                   <CustomMenu
                     model={items}

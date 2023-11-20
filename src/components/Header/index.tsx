@@ -27,6 +27,10 @@ export const Header = (props: headerProps) => {
   const [drop, setDrop] = useState(false);
   const [socket, setsocket] = useState<any>();
   const [notification, setnotification] = useState<any>();
+  const [userInfo, setUserInfo] = useState<{
+    role: string;
+    name: string;
+  } | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token') as string);
@@ -54,6 +58,21 @@ export const Header = (props: headerProps) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      const data: string | null = localStorage.getItem('user');
+      if (data) {
+        const parsedData = JSON.parse(data);
+        console.log('parsedData', parsedData);
+
+        setUserInfo({
+          name: `${parsedData?.profile?.firstname} ${parsedData?.profile?.lastname}`,
+          role: parsedData?.roles?.[0] || '-',
+        });
+      }
+    }
+  }, []);
+
   return (
     <>
       <div
@@ -61,13 +80,6 @@ export const Header = (props: headerProps) => {
           props.title ? `justify-between` : `justify-end`
         }  px-2 pr-8 ${props.headerClasses} relative`}
       >
-        {/*
-        <div></div>
-        {props.typeSearch && (
-          <HeaderSearch
-            placeholder={props.placeholder ?? "Type here to search"}
-          />
-        )} */}
         {props.title && (
           <div>
             <p
@@ -81,12 +93,6 @@ export const Header = (props: headerProps) => {
           </div>
         )}
         <div className="flex gap-4 items-center relative">
-          {/* {props.chooseDate && (
-            <div className='flex gap-4'>
-              <ChooseDate />
-              <div className='border border-[#B4B4B4]'></div>
-            </div>
-          )} */}
           {props?.chooseFilter && (
             <div className="flex gap-4">
               <ChooseFilter />
@@ -111,8 +117,8 @@ export const Header = (props: headerProps) => {
               <img src={IMAGES.Admin} />
             </div>
             <div>
-              <p className="font-bold">Huzayfah Hanif</p>
-              <p className="font-light text-[12px]">Admin</p>
+              <p className="font-bold">{userInfo?.name || '-'}</p>
+              <p className="font-light text-[12px]">{userInfo?.role || '-'}</p>
             </div>
           </div>
         </div>

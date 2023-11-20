@@ -47,6 +47,7 @@ export const Signin = () => {
         setEmailErr(true);
         setPasswordErr(true);
       } else if (loginCall?.payload?.user) {
+        console.log('loginCall?.payload', loginCall?.payload);
         localStorage.setItem('Route', '/Dashboard');
         localStorage.setItem('user', JSON.stringify(loginCall?.payload.user));
         navigate('/Dashboard');
