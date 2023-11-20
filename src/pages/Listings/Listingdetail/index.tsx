@@ -88,8 +88,6 @@ export const Listingdetail = () => {
     { field: 'Sale Price', header: 'Sale Price' },
   ];
 
-  console.log('listingg', listingg);
-
   return (
     <div>
       <Header title="Viewing List item Detail" UserBox={true} />

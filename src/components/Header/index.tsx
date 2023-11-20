@@ -63,7 +63,6 @@ export const Header = (props: headerProps) => {
       const data: string | null = localStorage.getItem('user');
       if (data) {
         const parsedData = JSON.parse(data);
-        console.log('parsedData', parsedData);
 
         setUserInfo({
           name: `${parsedData?.profile?.firstname} ${parsedData?.profile?.lastname}`,

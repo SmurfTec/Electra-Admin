@@ -195,7 +195,6 @@ export const Products = () => {
     }
   }, [MenuLabel]);
 
-  console.log('loading', loading);
   return (
     <div>
       <Header typeSearch={true} UserBox={true} />

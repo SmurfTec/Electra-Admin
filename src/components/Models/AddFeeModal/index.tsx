@@ -72,8 +72,6 @@ export const AddFeeModal = ({
     }
   };
 
-  console.log('FormData', FormData);
-
   return (
     <CustomDialog
       className={`bg-[#FFFFFF] w-[546px] flex  justify-center align-middle items-center overflow-hidden `}

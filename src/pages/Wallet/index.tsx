@@ -197,8 +197,6 @@ export const Wallet = () => {
     }
   };
 
-  console.log('WalletStats', WalletStats);
-
   return (
     <div>
       <Header typeSearch={true} UserBox={true} />

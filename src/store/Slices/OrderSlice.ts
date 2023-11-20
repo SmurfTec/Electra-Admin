@@ -46,7 +46,6 @@ type payload = {};
 export const OrdersCount = createAsyncThunk('orders/count', async () => {
   try {
     const response: any = await url.get('/orders/stats/all');
-    console.log(response.data, 'RESPONSEE');
     return response.data;
   } catch (e) {
     return e;

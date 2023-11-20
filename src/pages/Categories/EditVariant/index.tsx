@@ -98,7 +98,6 @@ export const EditVariant = () => {
     }
   };
 
-  console.log('dataTypeValue', dataTypeValue);
   return (
     <div>
       <SuccessModel

@@ -12,7 +12,9 @@ export const CustomSwitch = ({
       margintop={marginTop}
       checked={checked}
       onChange={e =>
-        props.onChange ? props.onChange(e.target.name) : setChecked(e.target.name)
+        props.onChange
+          ? props.onChange(e.target.value)
+          : setChecked(e.target.value)
       }
     />
   );

@@ -47,7 +47,7 @@ export const VerifyUserCode = async (code: any) => {
 };
 export const UpdateUser = async (body: any) => {
   try {
-    const response = await url.patch(`/users/me`, body);
+    const response = await url.patch(`/users/me`, { ...body });
     return response.data;
   } catch (e) {
     return e;

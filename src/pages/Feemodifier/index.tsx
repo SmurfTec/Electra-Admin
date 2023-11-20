@@ -41,7 +41,6 @@ export const Feemodifier = () => {
 
     data?.fees.forEach((obj: any) => {
       if (obj.category.id === null) {
-        console.log('obj', obj);
         nonCatFees.push({
           ID: obj.id,
           CatId: null,
@@ -253,7 +252,6 @@ export const Feemodifier = () => {
               }
             : el
         );
-        console.log('nonCatFees', nonCatFees);
         setNonCatFeeMod([...nonCatFees]);
       }
       setCurrSelectedProduct(null);
@@ -265,9 +263,6 @@ export const Feemodifier = () => {
 
     handleFeeModifierModal();
   };
-
-  console.log('Feemodif', feesModif);
-  console.log('nonCatFeeMod', nonCatFeeMod);
 
   return (
     <div>

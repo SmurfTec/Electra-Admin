@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { CookieJar } from 'tough-cookie';
 import { wrapper } from 'axios-cookiejar-support';
-export const BaseURL="http://ec2-18-118-28-197.us-east-2.compute.amazonaws.com:3010/"
+import { CookieJar } from 'tough-cookie';
+export const BaseURL =
+  'http://ec2-18-118-28-197.us-east-2.compute.amazonaws.com:3010/';
 // export const BaseURL="http://ec2-3-21-106-215.us-east-2.compute.amazonaws.com:5000/"
 // export const BaseURL = 'http://localhost:3010/';
 const jar = new CookieJar();
 const cookies = document.cookie;
-// console.log(document.cookie)
 // wrapper(axios.create({ jar }))
-const instance = axios.create({ 
+const instance = axios.create({
   baseURL: BaseURL,
   // baseURL: "https://0618-103-169-64-13.ngrok-free.app",
   withCredentials: true,
@@ -40,7 +40,7 @@ instance.interceptors.response.use(
       // Handle unauthorized access
     }
     return Promise.reject(error);
-  },
+  }
 );
 
 export default instance;

@@ -1,33 +1,28 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  CustomButton,
-  CustomCalendar,
-  CustomDropdown,
-  CustomInputTextArea,
-  InputTxt,
-} from '../../../atoms';
+import React, { useEffect, useState } from 'react';
+import { CustomButton, CustomInputTextArea, InputTxt } from '../../../atoms';
 import { CustomDialog } from '../../../atoms/global.style';
 import url from '../../../config/index';
 
-export const BankAccountModel = ({
-  classes,
+export const BankAccountUpdateModel = ({
   visible,
   setVisible,
   onClick,
+  initialState,
 }: any) => {
-  const [values, setValues] = useState({
-    bank: '',
-    account_holder_name: '',
-    account_no: '',
-    routing_digits: '',
-    iban: '',
-    swift_code: '',
-    account_type: 'savings',
-    bank_address: '',
-  });
-  const [successVisible, setsuccessVisible] = useState(false);
+  const [values, setValues] = useState(
+    initialState || {
+      bank: '',
+      account_holder_name: '',
+      account_no: '',
+      routing_digits: '',
+      iban: '',
+      swift_code: '',
+      account_type: 'savings',
+      bank_address: '',
+    }
+  );
   const [buttonDisable, setbuttonDisable] = useState(false);
-  const AddBank = async () => {
+  const UpdateBankAccount = async () => {
     try {
       const body = {
         bank: values.bank,
@@ -39,25 +34,27 @@ export const BankAccountModel = ({
         account_type: values.account_type,
       };
       const r = await url.patch('/users/me', body);
+      localStorage.setItem('user', JSON.stringify(r.data.user));
       if (r) {
-        onClick();
+        onClick(values);
       }
     } catch (error) {}
   };
+
   useEffect(() => {
-    // (values.Bank.length>0)&&
-    // if (
-    //   values.AccountHolder.length > 0 &&
-    //   values.AccountNumber.length > 0 &&
-    //   values.RoutingNumber.length > 0 &&
-    //   values.IBAN.length > 0 &&
-    //   values.SwiftCode.length > 0 &&
-    //   values.BankAddress.length > 0
-    // ) {
-    //   setbuttonDisable(false);
-    // } else {
-    //   setbuttonDisable(true);
-    // }
+    setValues({
+      bank: initialState.bank,
+      account_holder_name: initialState.account_holder_name,
+      account_no: initialState.account_no.toString(),
+      routing_digits: initialState.routing_digits.toString(),
+      iban: initialState.iban.toString(),
+      swift_code: initialState.swift_code.toString(),
+      account_type: initialState.account_type,
+      bank_address: initialState.bank_address || '',
+    });
+  }, [initialState]);
+
+  useEffect(() => {
     if (
       values.bank.length > 0 &&
       values.account_holder_name.length > 0 &&
@@ -71,6 +68,7 @@ export const BankAccountModel = ({
       setbuttonDisable(true);
     }
   }, [values]);
+
   return (
     <CustomDialog className={'w-[853px] h-[737px]'} visible={visible}>
       <i
@@ -92,6 +90,7 @@ export const BankAccountModel = ({
               setValues({ ...values, bank: e.target.value })
             }
             MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
+            value={values.bank}
           />
           <InputTxt
             placeholder="Account Holder Name"
@@ -100,6 +99,7 @@ export const BankAccountModel = ({
               setValues({ ...values, account_holder_name: e.target.value })
             }
             MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
+            value={values.account_holder_name}
           />
         </div>
         <div className="flex gap-3">
@@ -110,6 +110,7 @@ export const BankAccountModel = ({
               setValues({ ...values, account_no: e.target.value })
             }
             MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
+            value={values.account_no}
           />
           <InputTxt
             placeholder="Routing Number (9 Digits)"
@@ -118,6 +119,7 @@ export const BankAccountModel = ({
               setValues({ ...values, routing_digits: e.target.value })
             }
             MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
+            value={values.routing_digits}
           />
         </div>
         <div className="flex gap-3">
@@ -128,6 +130,7 @@ export const BankAccountModel = ({
               setValues({ ...values, iban: e.target.value })
             }
             MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
+            value={values.iban}
           />
           <InputTxt
             placeholder="Swift Code (3 Digits)"
@@ -136,6 +139,7 @@ export const BankAccountModel = ({
               setValues({ ...values, swift_code: e.target.value })
             }
             MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
+            value={values.swift_code}
           />
         </div>
         <div>
@@ -180,10 +184,10 @@ export const BankAccountModel = ({
             classes="!w-[179px] !h-[50px] !bg-[#E2E2E2] !rounded-[10px] !text-black !text-[16px]"
           />
           <CustomButton
-            txt="Add Account"
+            txt="Update Account"
             onClick={() => {
               if (!buttonDisable) {
-                AddBank();
+                UpdateBankAccount();
               }
             }}
             classes={`!w-[179px] !h-[50px] ${

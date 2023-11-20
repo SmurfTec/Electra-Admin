@@ -213,7 +213,6 @@ export const Roles = () => {
     const handleMenuClick = async (e: any) => {
       e.preventDefault();
       const { role } = e.currentTarget.dataset;
-      console.log('Menu Clicked', CurrSelectedProduct, role);
       roleMenu.current.toggle(e);
 
       try {
@@ -221,7 +220,6 @@ export const Roles = () => {
         const resp = await updateUserRole(CurrSelectedProduct as string, {
           roles: [role],
         });
-        console.log('resp', resp);
         setCurrSelectedProduct({});
         updateUsers([
           ...users.map((el: any) =>

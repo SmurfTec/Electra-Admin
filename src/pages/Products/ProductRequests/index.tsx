@@ -69,15 +69,6 @@ export const ProductRequests = () => {
     setLoading(true);
   }, [initialPageData]);
 
-  console.log('data', data);
-  console.log('initialPageData', initialPageData);
-  console.log(
-    'page count',
-    productRequestStats?.find(
-      (el: any) => el.status === initialPageData?.status
-    )?.count
-  );
-
   return (
     <div>
       <Header

@@ -490,8 +490,6 @@ export const UserProfile = () => {
     }
   }, [search]);
 
-  console.log('getMyListing', getMyListing);
-
   return (
     <div className="">
       <Header
