@@ -1,8 +1,18 @@
 import url from '../../config/index';
-export const getAllVariants = async (params?:any) => {
+export const getAllVariants = async (params?: any) => {
   try {
-    let response: any = await url.get(`/variants${params?`?category=${params}`:""}`);
+    const response: any = await url.get(
+      `/variants${params ? `?category=${params}` : ''}`
+    );
 
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+};
+export const getSingleVariant = async (id: string) => {
+  try {
+    const response: any = await url.get(`/variants/${id}`);
     return response.data;
   } catch (e) {
     return e;
@@ -10,10 +20,10 @@ export const getAllVariants = async (params?:any) => {
 };
 export const getVariants = async ({ rowsPerPage = 25, currentPage = 1 }) => {
   try {
-    let response: any = await url.get(
+    const response: any = await url.get(
       `/variants/?limit=${rowsPerPage ? rowsPerPage : 25}&page=${
         currentPage ? currentPage : 1
-      }`,
+      }`
     );
 
     return response.data;
@@ -23,7 +33,7 @@ export const getVariants = async ({ rowsPerPage = 25, currentPage = 1 }) => {
 };
 export const DeleteSingleVariant = async (id: any) => {
   try {
-    let response: any = await url.delete(`/variants/${id}`);
+    const response: any = await url.delete(`/variants/${id}`);
     return response.data;
   } catch (e) {
     return e;
@@ -31,7 +41,15 @@ export const DeleteSingleVariant = async (id: any) => {
 };
 export const CreateVariantData = async (body: any) => {
   try {
-    let response: any = await url.post(`/variants`, body);
+    const response: any = await url.post(`/variants`, body);
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+};
+export const updateVariantData = async (id: string, body: any) => {
+  try {
+    const response: any = await url.put(`/variants/${id}`, body);
     return response.data;
   } catch (e) {
     return e;

@@ -58,7 +58,7 @@ export function UploadPicture({
     setSelectedImages(filterImg);
   };
   useEffect(() => {
-    if (images.length > 0) {
+    if (images?.length > 0) {
       setSelectedImage(`${BaseURL}${images[0].url}`);
     } else if (images && multipleImages && fetchImages) {
       const files: any = [];

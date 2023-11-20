@@ -9,7 +9,10 @@ import {
   StatusCard,
 } from '../../../components';
 import { useAllProductRequests } from '../../../custom-hooks';
-import { deleteProductById } from '../../../store/Slices/ProductSlice';
+import {
+  UpdateProdReqStatusAPI,
+  deleteProductById,
+} from '../../../store/Slices/ProductSlice';
 export const ProductRequests = () => {
   type Stats = {
     status: string;
@@ -27,17 +30,35 @@ export const ProductRequests = () => {
   const [loading, setLoading] = useState(true);
 
   const [visible, setVisible] = useState(false);
-  const data = useAllProductRequests(loading, setLoading, initialPageData);
+  const { data, updateData } = useAllProductRequests(
+    loading,
+    setLoading,
+    initialPageData
+  );
   const [productRequest, setProductRequest] = useState([]);
   const [productRequestStats, setProductRequestStats] = useState([{} as Stats]);
+
   const deleteProduct = async (id: any) => {
     try {
       const deletProdReq = await deleteProductById(id);
       if (deletProdReq) {
         setLoading(!loading);
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log('e', e);
+    }
   };
+  const updateProdReqStatus = async (id: any, status: string) => {
+    try {
+      const statusResp = await UpdateProdReqStatusAPI(status, id);
+      if (statusResp) {
+        setLoading(!loading);
+      }
+    } catch (e) {
+      console.log('e', e);
+    }
+  };
+
   useEffect(() => {
     if (data) {
       setProductRequest(data.productRequests);
@@ -47,6 +68,16 @@ export const ProductRequests = () => {
   useEffect(() => {
     setLoading(true);
   }, [initialPageData]);
+
+  console.log('data', data);
+  console.log('initialPageData', initialPageData);
+  console.log(
+    'page count',
+    productRequestStats?.find(
+      (el: any) => el.status === initialPageData?.status
+    )?.count
+  );
+
   return (
     <div>
       <Header
@@ -67,10 +98,15 @@ export const ProductRequests = () => {
               title="All"
               number={`${data.count}` ?? '0'}
               img={IMAGES.Person}
+              isActive={!initialPageData?.status}
             />
             <StatusCard
-              title={`${productRequestStats[2]?.status ?? '0'} `}
-              number={`${productRequestStats[2]?.count ?? '0'} `}
+              title={'Pending'}
+              number={`${
+                productRequestStats.find((el: any) => el.status === 'pending')
+                  ?.count || 0
+              } `}
+              // number={`${productRequestStats[2]?.count ?? '0'} `}
               img={IMAGES.New}
               onClick={() => {
                 setInitialPageData({
@@ -78,10 +114,15 @@ export const ProductRequests = () => {
                   status: 'pending',
                 });
               }}
+              isActive={initialPageData?.status === 'pending'}
             />
             <StatusCard
-              title={`${productRequestStats[1]?.status ?? '0'} `}
-              number={`${productRequestStats[1]?.count ?? '0'} `}
+              title={'Rejected'}
+              number={`${
+                productRequestStats.find((el: any) => el.status === 'rejected')
+                  ?.count || 0
+              } `}
+              // number={`${productRequestStats[1]?.count ?? '0'} `}
               img={IMAGES.greencross}
               onClick={() => {
                 setInitialPageData({
@@ -89,10 +130,15 @@ export const ProductRequests = () => {
                   status: 'rejected',
                 });
               }}
+              isActive={initialPageData?.status === 'rejected'}
             />
             <StatusCard
-              title={`${productRequestStats[0]?.status ?? '0'} `}
-              number={`${productRequestStats[0]?.count ?? '0'} `}
+              title={'Approved'}
+              number={`${
+                productRequestStats.find((el: any) => el.status === 'approved')
+                  ?.count || 0
+              } `}
+              // number={`${productRequestStats[0]?.count ?? '0'} `}
               img={IMAGES.bluetick}
               onClick={() => {
                 setInitialPageData({
@@ -100,6 +146,7 @@ export const ProductRequests = () => {
                   status: 'approved',
                 });
               }}
+              isActive={initialPageData?.status === 'approved'}
             />
           </div>
           <div className="flex flex-wrap gap-5 py-4">
@@ -113,6 +160,9 @@ export const ProductRequests = () => {
                       text={item.description}
                       id={item.id}
                       deleteProduct={deleteProduct}
+                      changeStatus={updateProdReqStatus}
+                      userInfo={item.user}
+                      requestType={initialPageData?.status || 'all'}
                     />
                   </div>
                 );
@@ -129,9 +179,28 @@ export const ProductRequests = () => {
             }
           />
           <Paginatior
-            totalRecords={Number(data.count)}
+            // totalRecords={Number(data.count)}
+            totalRecords={Number(
+              initialPageData.status
+                ? parseInt(
+                    productRequestStats?.find(
+                      (el: any) => el.status === initialPageData?.status
+                    )?.count || '0'
+                  )
+                : data?.count
+            )}
             initialPageData={initialPageData}
             setInitialPageData={setInitialPageData}
+            recordShowing={Math.min(
+              initialPageData.currentPage * initialPageData.rowsPerPage,
+              initialPageData.status
+                ? parseInt(
+                    productRequestStats?.find(
+                      (el: any) => el.status === initialPageData?.status
+                    )?.count || '0'
+                  )
+                : data?.results
+            )}
           />
         </>
       ) : (

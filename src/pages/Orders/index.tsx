@@ -339,7 +339,7 @@ export const Orders = () => {
                       filterData={filterData}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
-                      MultipleSelect={true}
+                      // MultipleSelect={true}
                       ref={dt}
                       selectedProducts={selectedOrders}
                       setSelectedProducts={setselectedOrders}
@@ -361,7 +361,7 @@ export const Orders = () => {
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
-                      MultipleSelect={true}
+                      // MultipleSelect={true}
                       selectedProducts={selectedOrders}
                       setSelectedProducts={setselectedOrders}
                     />
@@ -382,7 +382,7 @@ export const Orders = () => {
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
-                      MultipleSelect={true}
+                      // MultipleSelect={true}
                       selectedProducts={selectedOrders}
                       setSelectedProducts={setselectedOrders}
                     />
@@ -405,7 +405,7 @@ export const Orders = () => {
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
-                      MultipleSelect={true}
+                      // MultipleSelect={true}
                       selectedProducts={selectedOrders}
                       setSelectedProducts={setselectedOrders}
                     />
@@ -426,7 +426,7 @@ export const Orders = () => {
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
-                      MultipleSelect={true}
+                      // MultipleSelect={true}
                       selectedProducts={selectedOrders}
                       setSelectedProducts={setselectedOrders}
                     />
@@ -447,7 +447,7 @@ export const Orders = () => {
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
-                      MultipleSelect={true}
+                      // MultipleSelect={true}
                       selectedProducts={selectedOrders}
                       setSelectedProducts={setselectedOrders}
                     />
@@ -470,7 +470,7 @@ export const Orders = () => {
                       )}
                       columnData={columnData}
                       rowStyling={'#FCFCFC !important'}
-                      MultipleSelect={true}
+                      // MultipleSelect={true}
                       selectedProducts={selectedOrders}
                       setSelectedProducts={setselectedOrders}
                     />

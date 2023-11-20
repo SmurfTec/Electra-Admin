@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import { SideBar } from './components';
 import { EditCategory } from './pages/Categories/EditCategory';
+import { EditVariant } from './pages/Categories/EditVariant';
 import { UsersCount } from './pages/Users/Users/extraReducers';
 import {
   AddNewVariant,
@@ -115,6 +116,7 @@ function App() {
             <Route path="/CreateCategory" element={<CreateCategory />} />
             <Route path="/EditCategory/:id" element={<EditCategory />} />
             <Route path="/AddNewVariant" element={<AddNewVariant />} />
+            <Route path="/EditVariant/:id" element={<EditVariant />} />
             <Route path="/HelpCenter" element={<HelpCenter />} />
             <Route
               path="/HelpCenterDetail/:id"

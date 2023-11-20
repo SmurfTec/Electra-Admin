@@ -147,6 +147,20 @@ export const Category = () => {
     }) => {
       const [items] = useState([
         {
+          label: 'Edit',
+          template: (item: MenuItem) => {
+            return (
+              <div
+                onClick={() => navigate(`/EditVariant/${rowData.id}`)}
+                style={{ background: 'rgba(255, 245, 0, 0.05)' }}
+                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#212121]"
+              >
+                <SVGIcon fillcolor={'#212121'} src={IMAGES.Pencil} /> Edit
+              </div>
+            );
+          },
+        },
+        {
           label: 'Delete',
           template: (item: MenuItem) => {
             return (
@@ -312,7 +326,7 @@ export const Category = () => {
                 selectedProducts={selectedProducts}
                 setSelectedProducts={setSelectedProducts}
                 columnData={CategoriescolumnData}
-                MultipleSelect={true}
+                // MultipleSelect={true}
                 LoadMore={LoadMore1}
                 initialRowSize={5}
                 showLoadMore={false}
@@ -341,7 +355,7 @@ export const Category = () => {
                 selectedProducts={selectedProducts1}
                 setSelectedProducts={setSelectedProducts1}
                 columnData={VariantcolumnData}
-                MultipleSelect={true}
+                // MultipleSelect={true}
                 LoadMore={LoadMore2}
                 initialRowSize={5}
                 showLoadMore={false}

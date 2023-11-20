@@ -19,7 +19,7 @@ import {
 export const Wallet = () => {
   const [initialData, setinitialData] = useState({
     limit: 10,
-    activetab: 'payout',
+    activetab: 'payment',
     starting_after: '',
   });
   const { Walletdata, WalletLoading } = useFetchWallet(initialData);
@@ -169,13 +169,13 @@ export const Wallet = () => {
     if (event?.index == 0) {
       setinitialData({
         ...initialData,
-        activetab: 'payout',
+        activetab: 'payment',
         starting_after: '',
       });
     } else if (event?.index == 1) {
       setinitialData({
         ...initialData,
-        activetab: 'payment',
+        activetab: 'payout',
         starting_after: '',
       });
     } else if (event?.index == 2) {
@@ -276,25 +276,6 @@ export const Wallet = () => {
               activeIndex={activeTab}
               onTabChange={handleTabChange}
             >
-              <TabPanel header={`Payouts`}>
-                <CustomTableComponent
-                  showWrapper={false}
-                  filterData={filterData}
-                  selectedProducts={selectedProducts}
-                  setSelectedProducts={setSelectedProducts}
-                  columnData={[
-                    { field: 'id', header: 'TID' },
-                    { field: 'from', header: 'From' },
-                    { field: 'value', header: 'Value' },
-                    { field: 'Source', header: 'Source' },
-                    { field: 'Date', header: 'Created On' },
-                    // { field: "", header: '', body: MenuBodyTemplate }
-                  ]}
-                  // MultipleSelect={true}
-                  LoadMore={LoadMore}
-                  setLoadMore={setLoadMore}
-                />
-              </TabPanel>
               <TabPanel header={`Payments`}>
                 <CustomTableComponent
                   showWrapper={false}
@@ -309,6 +290,25 @@ export const Wallet = () => {
                     { field: 'from', header: 'From' },
                     { field: 'Source', header: 'Source' },
                     { field: 'Date', header: 'Created On' },
+                  ]}
+                  // MultipleSelect={true}
+                  LoadMore={LoadMore}
+                  setLoadMore={setLoadMore}
+                />
+              </TabPanel>
+              <TabPanel header={`Payouts`}>
+                <CustomTableComponent
+                  showWrapper={false}
+                  filterData={filterData}
+                  selectedProducts={selectedProducts}
+                  setSelectedProducts={setSelectedProducts}
+                  columnData={[
+                    { field: 'id', header: 'TID' },
+                    { field: 'from', header: 'From' },
+                    { field: 'value', header: 'Value' },
+                    { field: 'Source', header: 'Source' },
+                    { field: 'Date', header: 'Created On' },
+                    // { field: "", header: '', body: MenuBodyTemplate }
                   ]}
                   // MultipleSelect={true}
                   LoadMore={LoadMore}

@@ -223,7 +223,7 @@ export const Brands = () => {
               selectedProducts={selectedProducts}
               setSelectedProducts={setSelectedProducts}
               columnData={columnData}
-              MultipleSelect={true}
+              // MultipleSelect={true}
             />
             <Paginatior
               totalRecords={Number(stats)}

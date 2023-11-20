@@ -50,6 +50,7 @@ export const CreateCategory = () => {
   }, []);
 
   const Create = async () => {
+    if (!image) return;
     try {
       const newBody = new FormData();
       newBody.append('name', Name);
@@ -74,8 +75,6 @@ export const CreateCategory = () => {
       //
     }
   };
-
-  console.log('selectedVariant', selectedVariant);
 
   return (
     <div>

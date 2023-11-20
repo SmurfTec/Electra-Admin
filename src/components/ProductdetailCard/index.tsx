@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { Button } from 'primereact/button';
 import { useEffect, useRef, useState } from 'react';
 import IMAGES from '../../assets/Images';
 import { CustomMenu } from '../../atoms/global.style';
@@ -29,6 +30,53 @@ export const Productdetailcard = (props: any) => {
             );
           },
         },
+        {
+          label: 'approved',
+          // command: handleBanUser,
+          template: (item: any, options: any) => {
+            return (
+              <div
+                style={{ background: 'rgba(60, 130, 214, 0.05)' }}
+                onClick={(event: any) => {
+                  props.changeStatus(props.id, 'approved');
+                }}
+                className="flex w-full gap-1  items-center text-[10px] font-[400] text-[#3C82D6]"
+              >
+                <SVGIcon
+                  fillcolor={'#3C82D6'}
+                  width="8px"
+                  height="fit-content"
+                  s
+                  src={IMAGES.bluetick}
+                />
+                Approve
+              </div>
+            );
+          },
+        },
+        {
+          label: 'rejected',
+          // command: handleBanUser,
+          template: (item: any, options: any) => {
+            return (
+              <div
+                style={{ background: 'rgba(251,187,0, 0.05)' }}
+                onClick={(event: any) => {
+                  props.changeStatus(props.id, 'rejected');
+                }}
+                className="flex w-full gap-1  items-center text-[10px] font-[400] text-[#FBBB00]"
+              >
+                <SVGIcon
+                  fillcolor={'#FBBB00'}
+                  width="8px"
+                  height="fit-content"
+                  src={IMAGES.Cross}
+                />
+                Reject
+              </div>
+            );
+          },
+        },
       ],
     },
   ];
@@ -40,7 +88,18 @@ export const Productdetailcard = (props: any) => {
       <div className="flex justify-between mt-2 px-4 items-center">
         <div className="flex gap-3 items-center">
           <p className="font-bold">{props.title}</p>
-          <img src={IMAGES.New} />
+          <img
+            src={
+              props.requestType === 'pending'
+                ? IMAGES.New
+                : props.requestType === 'rejected'
+                ? IMAGES.greencross
+                : props.requestType === 'approved'
+                ? IMAGES.bluetick
+                : IMAGES.Person
+            }
+          />
+          {/* <img src={IMAGES.New} /> */}
         </div>
         <p className="font-light text-[12px] text-[#656565]">
           {moment(props.created).format('DD MMM, YYYY')}
@@ -70,22 +129,37 @@ export const Productdetailcard = (props: any) => {
         )}
       </div>
       <div className="px-4 mb-3 flex justify-between">
-        <div className="flex gap-4 ">
+        <div className="flex gap-4 flex-1 items-center">
           <img src={IMAGES.personicon} />
-          <p className="font-bold">Huzayfah Hanif</p>
+          <p className="font-bold flex-1">
+            {props.userInfo.firstname
+              ? `${props.userInfo.firstname} ${props.userInfo.lastname}`
+              : ''}
+          </p>
         </div>
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          <SVGIcon
+          <Button
+            icon="pi pi-ellipsis-h"
+            rounded
+            text
+            severity="secondary"
+            aria-label="Action"
+            className="font-extrabold text-black"
             onClick={(event: any) => {
               event.preventDefault();
               menuLeft.current.toggle(event);
             }}
-            src={IMAGES.Dots}
           />
 
-          <CustomMenu model={items} popup ref={menuLeft} id="popup_menu_left" />
+          <CustomMenu
+            height="fit-content"
+            model={items}
+            popup
+            ref={menuLeft}
+            id="popup_menu_left"
+          />
         </div>
       </div>
     </div>

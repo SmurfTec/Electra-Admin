@@ -167,7 +167,7 @@ export const HelpCenter = () => {
               selectedProducts={selectedProducts}
               setSelectedProducts={setSelectedProducts}
               columnData={columnData}
-              MultipleSelect={true}
+              // MultipleSelect={true}
               LoadMore={LoadMore}
               setLoadMore={setLoadMore}
             />

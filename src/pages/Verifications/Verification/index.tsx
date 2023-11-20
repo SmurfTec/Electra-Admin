@@ -287,7 +287,7 @@ export const Verification = () => {
                     selectedProducts={selectedProducts}
                     setSelectedProducts={setSelectedProducts}
                     columnData={columnData}
-                    MultipleSelect={true}
+                    // MultipleSelect={true}
                     MultipleHeaderStyle={{
                       width: '10px',
                       paddingLeft: '5px',
@@ -317,7 +317,7 @@ export const Verification = () => {
                     selectedProducts={selectedProducts}
                     setSelectedProducts={setSelectedProducts}
                     columnData={columnData}
-                    MultipleSelect={true}
+                    // MultipleSelect={true}
                     MultipleHeaderStyle={{
                       width: '10px',
                       paddingLeft: '5px',
@@ -347,7 +347,7 @@ export const Verification = () => {
                     selectedProducts={selectedProducts}
                     setSelectedProducts={setSelectedProducts}
                     columnData={columnData}
-                    MultipleSelect={true}
+                    // MultipleSelect={true}
                     MultipleHeaderStyle={{
                       width: '10px',
                       paddingLeft: '5px',
@@ -375,7 +375,7 @@ export const Verification = () => {
                     selectedProducts={selectedProducts}
                     setSelectedProducts={setSelectedProducts}
                     columnData={columnData}
-                    MultipleSelect={true}
+                    // MultipleSelect={true}
                     MultipleHeaderStyle={{
                       width: '10px',
                       paddingLeft: '5px',

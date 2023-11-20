@@ -91,6 +91,17 @@ export const UpdateStatusAPI = async (data: any, id?: string) => {
     return e;
   }
 };
+export const UpdateProdReqStatusAPI = async (status: any, id: string) => {
+  try {
+    const response: any = await url.patch(`/productrequests/${id}`, {
+      status,
+    });
+    return response;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+};
 /**
  * Retrieves all product requests.
  * @returns {Promise<any>} The response data.

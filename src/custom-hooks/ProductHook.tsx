@@ -55,6 +55,8 @@ export const useAllProductRequests = (
 ) => {
   const [data, setData] = useState<any>(null);
 
+  const updateData = (arr: any) => setData(arr);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -70,5 +72,5 @@ export const useAllProductRequests = (
     fetchData();
   }, [load, initialPageData]);
 
-  return data;
+  return { data, updateData };
 };

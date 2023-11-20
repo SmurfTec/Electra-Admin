@@ -1,27 +1,27 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  Header,
-  DashCard,
-  CreateCouponModel,
-  SuccessModel,
-  Confirmationmodal,
-} from '../../../components';
-import { CustomTableComponent } from '../../../atoms';
-import { SVGIcon } from '../../../components/SVG';
-import { MenuItem } from 'primereact/menuitem';
-import IMAGES from '../../../assets/Images';
-import { CustomMenu } from '../../../atoms/global.style';
-import { DeleteCoupons } from '../../../store/Slices/Coupons';
 import moment from 'moment';
-import { Paginatior } from '../../../components';
+import { MenuItem } from 'primereact/menuitem';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import React, { useEffect, useRef, useState } from 'react';
+import IMAGES from '../../../assets/Images';
+import { CustomTableComponent } from '../../../atoms';
+import { CustomMenu } from '../../../atoms/global.style';
+import {
+  Confirmationmodal,
+  CreateCouponModel,
+  DashCard,
+  Header,
+  Paginatior,
+  SuccessModel,
+} from '../../../components';
+import { SVGIcon } from '../../../components/SVG';
 import { useFetchCoupon } from '../../../custom-hooks/useFetchCoupons';
+import { DeleteCoupons } from '../../../store/Slices/Coupons';
 export const Coupon = () => {
   const [filterData, setfilterData] = useState([]);
   const [added, setadded] = useState(false);
   const [Title, setTitle] = useState('Create Coupon');
   const [initialPageData, setInitialPageData] = useState({
-    rowsPerPage: 25,
+    rowsPerPage: 10,
     currentPage: 1,
   });
   const [visible, setvisible] = useState(false);
@@ -30,8 +30,8 @@ export const Coupon = () => {
   const [currentId, setcurrentId] = useState();
   useEffect(() => {
     if (couponData) {
-      let latestArr = couponData.map((item: any) => {
-        let newObj = {
+      const latestArr = couponData.map((item: any) => {
+        const newObj = {
           ...item,
           CouponCode: item.code,
           OffPercentage: item.discount,
@@ -57,8 +57,7 @@ export const Coupon = () => {
   };
   const setOkButton = async () => {
     try {
-      let response = await DeleteCoupons(currentId);
-
+      const response = await DeleteCoupons(currentId);
       setsuccessVisible(true);
       setvisible(false);
       setInitialPageData({ ...initialPageData, currentPage: 1 });
@@ -66,7 +65,6 @@ export const Coupon = () => {
   };
   const EditItem = (event: React.MouseEvent, item: any) => {
     event.stopPropagation();
-
     setcurrentItem(item);
     setTitle('Edit Coupon');
     setmodalVisible(true);
@@ -79,7 +77,7 @@ export const Coupon = () => {
       id: string;
       menuRef: React.RefObject<any>;
     }) => {
-      let [items] = useState([
+      const [items] = useState([
         {
           label: 'Edit Item',
 
@@ -224,7 +222,7 @@ export const Coupon = () => {
               selectedProducts={selectedProducts}
               setSelectedProducts={setSelectedProducts}
               columnData={columnData}
-              MultipleSelect={true}
+              // MultipleSelect={true}
             />
             <Paginatior
               totalRecords={Number(stats.all_coupons)}
