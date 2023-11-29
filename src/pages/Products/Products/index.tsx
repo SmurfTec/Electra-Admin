@@ -141,14 +141,6 @@ export const Products = () => {
         <div
           className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
         >
-          {/* <Button
-            icon='pi pi-ellipsis-h'
-            rounded
-            text
-            aria-label='Filter'
-            className='bg-[#fff] hover:bg-[#f8f8f8] '
-          /> */}
-
           <Button
             icon="pi pi-ellipsis-h"
             rounded

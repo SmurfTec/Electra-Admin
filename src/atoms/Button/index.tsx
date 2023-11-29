@@ -35,7 +35,7 @@ export const CustomButton = ({
           {txt}
           {value && (
             <div
-              className={`w-[23px] h-[23px] flex justify-center items-center text-[18px] rounded-[50px]  ${valueclasses}`}
+              className={`w-[23px] h-[23px] flex justify-center items-center text-[16px] rounded-[50px]  ${valueclasses}`}
             >
               {value}
             </div>

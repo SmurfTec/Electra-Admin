@@ -164,24 +164,26 @@ export const Users = () => {
       const [items] = useState([
         {
           label: rowData.is_banned === true ? 'UnBan User' : 'Ban User',
-          template: (item: any, options: any) => {
+
+          template: (item: any) => {
             return (
               <div
-                className={`flex gap-1 items-center  text-[10px] font-[400] ${
-                  rowData.is_banned === true
-                    ? '!bg-[#3C82D6] !text-[#FFFFFF]'
-                    : '!bg-ban-color !text-[#21212]'
-                }   `}
                 onClick={(event: any) => {
                   rowData.is_banned === true
                     ? UnBanuser(event, rowData.id)
                     : UserBan(event, rowData.id);
                 }}
+                style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }}
+                className={`flex gap-1 items-center  text-[10px] font-[400] ${
+                  rowData.is_banned === true
+                    ? '!bg-[#3C82D6] !text-[#FFFFFF]'
+                    : '!bg-ban-color !text-[#21212]'
+                }`}
               >
                 <SVGIcon
                   fillcolor={rowData.is_banned ? '#FFFFFF' : '#212121'}
                   src={IMAGES.Ban}
-                />
+                />{' '}
                 {rowData.is_banned === true ? 'UnBan User' : 'Ban User'}
               </div>
             );
@@ -189,12 +191,12 @@ export const Users = () => {
         },
         {
           label: 'Delete',
-          template: (item: any, options: any) => {
+          template: () => {
             return (
               <div
+                onClick={(event: any) => DeleteUser(event, rowData.id)}
                 style={{ background: 'rgba(231, 29, 54, 0.05)' }}
                 className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-                onClick={(event: any) => DeleteUser(event, rowData.id)}
               >
                 <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
               </div>
@@ -203,12 +205,12 @@ export const Users = () => {
         },
         {
           label: 'Select',
-          template: (item: any, options: any) => {
+          template: () => {
             return (
               <div
-                style={{ background: 'rgba(46, 102, 194, 0.05)' }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
                 onClick={(event: any) => SelectUser(event, rowData.id)}
+                style={{ background: 'rgba(46, 102, 194, 0.05)' }}
+                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#212121]"
               >
                 <SVGIcon fillcolor={'#212121'} src={IMAGES.Select} /> Select
               </div>
@@ -216,9 +218,70 @@ export const Users = () => {
           },
         },
       ]);
+      // const [items] = useState([
+      //   {
+      //     label: rowData.is_banned === true ? 'UnBan User' : 'Ban User',
+      //     template: (item: any, options: any) => {
+      //       return (
+      //         <div
+      //           className={`flex gap-1 items-center  text-[10px] font-[400] ${
+      //             rowData.is_banned === true
+      //               ? '!bg-[#3C82D6] !text-[#FFFFFF]'
+      //               : '!bg-ban-color !text-[#21212]'
+      //           }   `}
+      //           onClick={(event: any) => {
+      //             rowData.is_banned === true
+      //               ? UnBanuser(event, rowData.id)
+      //               : UserBan(event, rowData.id);
+      //           }}
+      //         >
+      //           <SVGIcon
+      //             fillcolor={rowData.is_banned ? '#FFFFFF' : '#212121'}
+      //             src={IMAGES.Ban}
+      //           />
+      //           {rowData.is_banned === true ? 'UnBan User' : 'Ban User'}
+      //         </div>
+      //       );
+      //     },
+      //   },
+      //   {
+      //     label: 'Delete',
+      //     template: (item: any, options: any) => {
+      //       return (
+      //         <div
+      //           style={{ background: 'rgba(231, 29, 54, 0.05)' }}
+      //           className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+      //           onClick={(event: any) => DeleteUser(event, rowData.id)}
+      //         >
+      //           <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
+      //         </div>
+      //       );
+      //     },
+      //   },
+      //   {
+      //     label: 'Select',
+      //     template: (item: any, options: any) => {
+      //       return (
+      //         <div
+      //           style={{ background: 'rgba(46, 102, 194, 0.05)' }}
+      //           className="flex w-full gap-1 items-center  text-[10px] font-[400] text-[#212121]"
+      //           onClick={(event: any) => SelectUser(event, rowData.id)}
+      //         >
+      //           <SVGIcon fillcolor={'#212121'} src={IMAGES.Select} /> Select
+      //         </div>
+      //       );
+      //     },
+      //   },
+      // ]);
 
       return (
-        <CustomMenu model={items} popup ref={menuRef} id="popup_menu_left" />
+        <CustomMenu
+          model={items}
+          popup
+          ref={menuRef}
+          id="popup_menu_left"
+          height={'110px'}
+        />
       );
     };
     const menuLeftRef = useRef<any>(null);
@@ -242,12 +305,12 @@ export const Users = () => {
             className="font-extrabold text-black"
             onClick={handleClick}
           />
+
           <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
         </div>
       </>
     );
   };
-
   const [columnData] = useState([
     { field: 'id', header: 'ID' },
     { field: 'firstname', header: 'First Name' },
@@ -259,7 +322,6 @@ export const Users = () => {
     { field: 'registerValue', header: 'Registered Via' },
     { field: '', header: '', body: MenuBodyTemplate },
   ]);
-
   function getLastMonthName() {
     const monthNames = [
       'January',

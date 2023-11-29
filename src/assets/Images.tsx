@@ -138,7 +138,7 @@ const IMAGES: any = {
   Bell: new URL('../assets/icons/Bell.svg', import.meta.url).href,
   Shield: new URL('../assets/icons/shield.svg', import.meta.url).href,
   Maintenance: new URL('../assets/icons/Maintenance.svg', import.meta.url).href,
-  AddItem: new URL('../assets/icons/add.svg', import.meta.url).href,
+  AddItem: new URL('../assets/icons/Add.svg', import.meta.url).href,
   pending: new URL('../assets/icons/pending.svg', import.meta.url).href,
   Ring: new URL('../assets/icons/Ring.svg', import.meta.url).href,
   Send: new URL('../assets/icons/Send.svg', import.meta.url).href,

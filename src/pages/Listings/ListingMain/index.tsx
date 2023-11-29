@@ -237,6 +237,9 @@ export const Listings = () => {
       // );
     }
   }, [MenuLabel]);
+
+  console.log('listings', listings);
+
   return (
     <div>
       <Header placeholder="Search Admins" typeSearch={true} UserBox={true} />
@@ -260,8 +263,12 @@ export const Listings = () => {
                 className="!bg-[#FCFCFC]"
               >
                 {listings.map((item: any, index: number) => {
+                  console.log('item', item);
                   return (
-                    <TabPanel key={index} header={item.name}>
+                    <TabPanel
+                      key={index}
+                      header={`${item.name}(${item?.data?.length || 0})`}
+                    >
                       <CustomTableComponent
                         colume={{ backgroundColor: '#FCFCFC !important' }}
                         headerStyle={{

@@ -8,7 +8,7 @@ import { CSVLink } from 'react-csv';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import IMAGES from '../../assets/Images';
-import { CustomButton, CustomTableComponent, Miniselect } from '../../atoms';
+import { CustomButton, CustomTableComponent } from '../../atoms';
 import { CustomMenu, CustomTabView } from '../../atoms/global.style';
 import { Header, Paginatior, Receiptmodal } from '../../components';
 import { SVGIcon } from '../../components/SVG';
@@ -29,7 +29,6 @@ const orderStatus = [
 ];
 
 export const Orders = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [visible, setVisible] = React.useState(false);
   const [currentItem, setcurrentItem] = useState<any>();
@@ -223,7 +222,6 @@ export const Orders = () => {
     { field: 'Seller', header: 'Seller' },
     { field: 'Buyer', header: 'Buyer' },
     { field: 'Item Name', header: 'Item Name' },
-
     { field: 'saleprice', header: 'Sale Price', body: SalesTemplate },
     { field: 'trackingid', header: 'Tracking ID', body: TrackingTemplate },
     { field: 'Order No', header: 'Order No', body: OrderTemplate },

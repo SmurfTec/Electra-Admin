@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import moment from 'moment';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
@@ -24,13 +25,7 @@ type UserInterface = {
   phone: string;
   date: string;
 };
-// type InitialPageData = {
-//   rowsPerPage: number;
-//   currentPage: number;
-//   name: string;
-//   orderid: number;
-//   date: string | Date | null;
-// };
+
 export const UserProfile = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -57,7 +52,6 @@ export const UserProfile = () => {
   );
   const [search, setSearch] = useState('');
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
-  const [SearchDate, setSearchDate] = useState<any>('');
   const [userOrders, setuserOrders] = useState<any>();
   const [userLoading, setUserLoading] = useState<any>(false);
   const [sales, setsales] = useState({
@@ -187,7 +181,6 @@ export const UserProfile = () => {
             className="font-extrabold text-black"
             onClick={handleClick}
           />
-          {/* <SVGIcon onClick={handleClick} src={IMAGES.Dots} /> */}
           <MenuTemplate id={rowData.id} menuRef={menuLeftRef} />
         </div>
       </>
@@ -241,7 +234,6 @@ export const UserProfile = () => {
     {
       field: 'highest_offer',
       header: 'Highest Offer',
-      // body: HighestOfferTemplate,
     },
     { field: 'listedon', header: 'Listed On' },
     { field: '', header: '', body: MenuBodyTemplate },
@@ -352,47 +344,12 @@ export const UserProfile = () => {
         )
       );
     }
-
-    // // Previous
-    // setGetListing({ fetching: true, listing: [] });
-    // const response = await url.get(`/listings?user=${id}`);
-    // setGetListing({
-    //   fetching: false,
-    //   listing: response.data.listings?.map((el: any) => ({
-    //     itemname: el.product_data.title,
-    //     id: el.id,
-    //     askPrice: el.ask,
-    //     listedon: moment(el.created_on).format('DD,MM,YYYY'),
-    //     highest_offer: el.highest_offer ? `$${el.highest_offer}` : '-',
-    //   })),
-    // });
   };
 
   const getUserOrder = async () => {
     try {
-      // let active=activetxt=="Active"?"":activetxt.toLowerCase()
-
-      // let r=await getSingleUserOrder(id,active,initialPageData);
-
-      // setuserStats(r.orderStats)
-      // let order=r?.orders?.map((item:any)=>{
-      //   let updatedOrders={
-      //     ...item,
-      //     itemname:item?.product?.title,
-      //     askprice:item?.ask_price        ,
-      //     highestOffer:item?.highest_offer,
-      //     listedon:moment(item?.created_on).format("DD,MM,YYYY")      ,
-      //   }
-      //   return updatedOrders
-      // })
-      // setuserOrders(order)
       setUserLoading(true);
       const response = await GetUserAsks(id);
-
-      // setsales({
-      //   completed: response?.data?.orderStats?.completed_sales || 0,
-      //   rejected: response?.data?.orderStats?.rejected_sales || 0,
-      // });
       const newData = Data.map((item: any) => {
         if (item.id == 1) {
           return {

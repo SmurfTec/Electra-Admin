@@ -209,6 +209,7 @@ export const CustomMenu = styled(Menu)<menuprops>`
     flex-direction: column;
     height: 100%;
     gap: 5px;
+    overflow-y: auto;
   }
   .p-submenu-header {
     display: none !important;
@@ -218,7 +219,7 @@ export const CustomMenu = styled(Menu)<menuprops>`
     border-radius: 5px;
     width: 90px;
     cursor: pointer;
-    overflow-y: auto;
+    /* overflow-y: auto;*/
     /* height: 27px; */
     div {
       line-height: 14px;
