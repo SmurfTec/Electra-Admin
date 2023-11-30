@@ -2,10 +2,11 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import IMAGES from '../../../assets/Images';
-import { CustomButton, RoundedButton } from '../../../atoms';
-import { DashCard, Header, Variants } from '../../../components';
+import { CustomButton, CustomSwitch, RoundedButton } from '../../../atoms';
+import { Carouselcard, DashCard, Header, Variants } from '../../../components';
 import { useProductDetail, useVariantDetail } from '../../../custom-hooks';
 import {
+  UpdateStatusAPI,
   deleteProductById,
   getProductById,
 } from '../../../store/Slices/ProductSlice';
@@ -20,6 +21,7 @@ export const ProductView = () => {
   const { id } = params;
   const navigate = useNavigate();
   const { ProductData, loading } = useProductDetail(id);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [VariantsArray, setVariantArray] = useState([]);
   const [stats, setStats] = useState({
@@ -72,6 +74,13 @@ export const ProductView = () => {
       }
     } catch (e) {}
   };
+
+  const UpdateAvailStatus = async (value: any) => {
+    // setIsLoading(true);
+    // await UpdateStatusAPI({ is_active: value }, id);
+    // getProductById(id);
+  };
+
   return (
     <div>
       <Header title={'Product Details'} UserBox={true} />
@@ -79,47 +88,30 @@ export const ProductView = () => {
         <>
           <div className="container py-10 mx-auto px-3 lg:px-0">
             <div className="lg:-mx-6 lg:flex lg:items-start">
-              <div className="object-contain w-full lg:mx-6 lg:w-1/3 h-fit lg:h-96 flex items-center p-2 border-lightgray border-2">
+              <div className="object-contain w-[380px] lg:mx-6 h-fit">
                 {ProductData?.product?.images ? (
-                  <img
-                    className="object-contain w-full"
-                    src={`${BaseURL}${ProductData?.product?.images[0]?.filename}`}
-                    alt=""
+                  <Carouselcard
+                    Images={
+                      ProductData?.product?.images &&
+                      ProductData?.product?.images?.map(
+                        (item: any, index: any) => {
+                          return {
+                            itemImageSrc: `${BaseURL}/${item.filename}`,
+                            thumbnailImageSrc: `${BaseURL}/${item.filename}`,
+                            alt: 'Description for Image 1',
+                            title: 'Title 1',
+                          };
+                        }
+                      )
+                    }
                   />
                 ) : (
-                  <img
-                    className="object-contain w-full"
-                    src={IMAGES.Logo}
-                    alt=""
-                  />
+                  <div className="border-lightgray p-2">
+                    <img className="w-[363px] " src={IMAGES.Logo} />
+                  </div>
                 )}
               </div>
-              {/* <div
-                onClick={() => {
-                  navigate('/AddProduct');
-                }}
-                className=" w-full lg:mx-6 lg:w-1/2 rounded-xl h-72 lg:h-96"
-              >
-                {ProductData?.product?.images ? (
-                  <div className="p-2 border-2 border-lightgray">
-                    <img
-                      // className="h-[390px] w-[363px]"
-                      className="object-cover w-full"
-                      src={`${BaseURL}${ProductData?.product?.images[0]?.filename}`}
-                    />
-                  </div>
-                ) : (
-                  <div className="p-2 border-lightgray">
-                    <img
-                      className="object-cover w-full"
-                      // className="w-[363px]"
-                      src={IMAGES.Logo}
-                    />
-                  </div>
-                )}
-              </div> */}
-
-              <div className="mt-6 lg:w-2/3 lg:mt-0 lg:mx-6 ">
+              <div className="mt-6 lg:mt-0 lg:mx-6 flex-1">
                 <div className="flex items-center gap-2 wrap">
                   <p className="text-[36px] font-extrabold">
                     {ProductData?.product?.title}
@@ -135,7 +127,6 @@ export const ProductView = () => {
                     classes={'bg-[#FF0000]'}
                   />
                 </div>
-
                 <div className="mt-3">
                   <p className="bg-[#FCFCFC] text-center rounded-2xl w-[295px] h-[37px] flex items-center justify-center">
                     View Technical Specifications
@@ -217,21 +208,15 @@ export const ProductView = () => {
                           '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
                         }
                       />
-                      {/* <label className="switch"> */}
-                      <Switch
+                      <CustomSwitch
+                        checked={ProductData?.product?.is_active ? true : false}
+                        onChange={UpdateAvailStatus}
+                      />
+                      {/* <Switch
                         name={'availability'}
                         checked={ProductData?.product?.is_active ? true : false}
                         margintop={'-5px'}
-                      />
-                      {/* <input
-                          type="checkbox"
-                          checked={
-                            ProductData?.product?.is_active ? true : false
-                          }
-                          className="toggle-input"
-                        /> */}
-                      {/* <span className="slider"></span> */}
-                      {/* </label> */}
+                      /> */}
                     </div>
                   </div>
                 </div>
@@ -239,133 +224,6 @@ export const ProductView = () => {
             </div>
           </div>
 
-          {/* <div className="flex gap-11">
-            <div
-              onClick={() => {
-                navigate('/AddProduct');
-              }}
-            >
-              {ProductData?.product?.images ? (
-                <div className="p-2 border-2 border-lightgray">
-                  <img
-                    className="h-[390px] w-[363px]"
-                    src={`${BaseURL}${ProductData?.product?.images[0]?.filename}`}
-                  />
-                </div>
-              ) : (
-                <div className="p-2 border-lightgray">
-                  <img className="w-[363px] " src={IMAGES.Logo} />
-                </div>
-              )}
-            </div>
-            <div>
-              <div className="flex items-center gap-2 wrap">
-                <p className="text-[36px] font-extrabold">
-                  {ProductData?.product?.title}
-                </p>
-                <RoundedButton
-                  icon={IMAGES.Pen}
-                  classes={'bg-[#212121]'}
-                  onClick={() => navigate(`/EditProduct/${id}`)}
-                />
-                <RoundedButton
-                  onClick={() => deleteProduct()}
-                  icon={IMAGES.Bin}
-                  classes={'bg-[#FF0000]'}
-                />
-              </div>
-              <div className="mt-3">
-                <p className="bg-[#FCFCFC] text-center rounded-2xl w-[295px] h-[37px] flex items-center justify-center">
-                  View Technical Specifications
-                </p>
-                <CustomButton
-                  txt={'description'}
-                  classes={
-                    '!bg-[#FCE39C]  !w-[97px] !h-[50px] !text-[black] !p-2 !rounded-[7px] !mt-5'
-                  }
-                />
-                <div className="mt-5">
-                  <p>{ProductData?.product?.product_properties?.description}</p>
-                </div>
-                <div className="flex gap-8">
-                  <div className="flex flex-col gap-4">
-                    <CustomButton
-                      txt={'Category'}
-                      classes={
-                        '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
-                      }
-                    />
-                    <p className="font-medium text-[14px] text-[#212121]">
-                      {ProductData?.product?.category.name}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-4">
-                    <CustomButton
-                      txt={'Brand'}
-                      classes={
-                        '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
-                      }
-                    />
-                    <p className="font-medium text-[14px] text-[#212121]">
-                      {ProductData?.product?.brand?.title}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-4">
-                    <CustomButton
-                      txt={'Addedon'}
-                      classes={
-                        '!bg-[#FCE39C] !w-[97px] !h-[2px] !text-[black] !p-4 !rounded-[7px] !mt-5 !text-[15px] '
-                      }
-                    />
-                    <p className="font-medium text-[14px] text-[#212121]">
-                      {moment(ProductData?.product?.created_on).format(
-                        'DD-MMM-YYYY'
-                      )}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-4">
-                    <CustomButton
-                      txt={'Listings'}
-                      classes={
-                        '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
-                      }
-                    />
-                    <p className="font-medium text-[14px] text-[#212121]">
-                      {' '}
-                      {ProductData?.product?.product_properties?.listings}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-4">
-                    <CustomButton
-                      txt={'ModelNo'}
-                      classes={
-                        '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
-                      }
-                    />
-                    <p className="font-medium text-[14px] text-[#212121]">
-                      4FG334
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-4">
-                    <CustomButton
-                      txt={'Availability'}
-                      classes={
-                        '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
-                      }
-                    />
-                    <label className="switch">
-                      <input
-                        type="checkbox"
-                        checked={ProductData?.product?.is_active ? true : false}
-                        className="toggle-input"
-                      />
-                      <span className="slider"></span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
           {/* PRODUCT  VARIATNNSSSSS */}
           <div>
             <h1 className="text-[24px] font-bold my-3">Product Variants</h1>
@@ -390,7 +248,7 @@ export const ProductView = () => {
           </div>
           <div>
             <h1 className="text-[24px] font-bold my-3">Statistics</h1>
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
               <DashCard
                 title={'12 Months Trade Range'}
                 totalNumber={stats.tradeRange}

@@ -94,6 +94,7 @@ export const Listings = () => {
       const flag = await flagListing(body);
       if (flag) {
         setVisible(true);
+        setSelectedListing([]);
       }
     } catch (e) {}
   };

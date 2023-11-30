@@ -161,7 +161,7 @@ const IMAGES: any = {
     import.meta.url
   ).href,
 
-  Calendar: new URL('../assets/icons/Calendar.svg', import.meta.url).href,
+  Calendar: new URL('../assets/icons/calendar.svg', import.meta.url).href,
   GreenTick: new URL('../assets/icons/GreenTick.svg', import.meta.url).href,
   PassSuccess: new URL('../assets/icons/PassSuccess.svg', import.meta.url).href,
   Printer: new URL('../assets/icons/Printer.svg', import.meta.url).href,

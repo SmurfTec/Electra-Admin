@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { InputText } from 'primereact/inputtext';
+import styled from 'styled-components';
 const CustomInputTxt = styled(InputText)`
   outline: none !important;
   background-color: transparent !important;
@@ -32,7 +32,7 @@ export const InputTxt = ({
 }: any) => {
   return (
     <div
-      className={`flex items-center bg-lightgray gap-3 rounded-[8px] w-[397px] h-[72px] overflow-hidden pl-[21px] pr-[22px] ${MainClasses}`}
+      className={`flex items-center bg-lightgray gap-2 rounded-[8px] w-[397px] h-[72px] overflow-hidden pl-[12px] pr-[20px] ${MainClasses}`}
     >
       {iconLeft == true && LeftIcon && (
         <img src={LeftIcon} className="cursor-pointer" alt="icon-img" />
@@ -48,11 +48,8 @@ export const InputTxt = ({
         />
       )}
 
-      
       {txt && <p className="text-[12px] text-black font-[700]">{txt}</p>}
-      {percent&&<p>
-        %
-      </p>}
+      {percent && <p className="pr-[3px]">{` % `}</p>}
     </div>
   );
 };

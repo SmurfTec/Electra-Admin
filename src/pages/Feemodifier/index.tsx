@@ -267,7 +267,7 @@ export const Feemodifier = () => {
   return (
     <div>
       <Header typeSearch={true} UserBox={true} />
-      <div className="w-[auto] overflow-x-auto">
+      <div className="w-full">
         <p className="font-bold text-[20px] ml-3">
           Modify or change platform charges, Shipping Charges and othe frees.
         </p>

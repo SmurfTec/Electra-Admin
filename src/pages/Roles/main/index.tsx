@@ -59,7 +59,6 @@ export const Roles = () => {
     ids: [''],
   });
   const [actIndex, setActIndex] = useState(0);
-  const { userLoading }: any = useDeleteRole(Body, setFetch, fetch);
   const [initialPageData, setInitialPageData] = useState({
     rowsPerPage: 10,
     currentPage: 1,
@@ -182,7 +181,6 @@ export const Roles = () => {
             className="font-extrabold text-black"
             onClick={handleClick}
           />
-          {/* <SVGIcon onClick={handleClick} src={IMAGES.Dots} /> */}
           <CustomMenu
             height={'78px'}
             model={items}
@@ -199,7 +197,7 @@ export const Roles = () => {
           text-center
           h-[33px]
            bg-custom-blue text-[black]
-       max-w-[160px]
+       w-[150px]
           
             flex justify-center gap-5 items-center rounded-[25px] text-[12px] overflow-hidden`;
 
@@ -233,6 +231,11 @@ export const Roles = () => {
         setUpdatingRole(false);
       }
     };
+
+    console.log(
+      'roleMenu?.current?.clientWidth',
+      roleMenu?.current?.clientWidth
+    );
 
     return (
       <>
@@ -268,7 +271,7 @@ export const Roles = () => {
                     // data-user={item.id}
                     data-role={el.name}
                   >
-                    <div className="text-[14px] font-semibold text-[black]">
+                    <div className="cursor-pointer text-[14px] font-semibold text-[black]">
                       {el.name}
                     </div>
                     {ind < arr.length - 1 && (
@@ -282,7 +285,7 @@ export const Roles = () => {
           popup
           ref={roleMenu}
           id="popup_menu_role"
-          className="!w-[130px] !px-3 !py-2"
+          className={`!w-[150px] !px-3 !py-2`}
         />
       </>
     );

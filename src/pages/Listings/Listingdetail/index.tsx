@@ -5,12 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import IMAGES from '../../../assets/Images';
-import {
-  CustomButton,
-  CustomTableComponent,
-  InputTxt,
-  RoundedButton,
-} from '../../../atoms';
+import { CustomButton, CustomTableComponent, InputTxt } from '../../../atoms';
 import { Carouselcard, Header, Variants } from '../../../components';
 import { BaseURL } from '../../../config';
 import { useListingById } from '../../../custom-hooks';
@@ -101,7 +96,6 @@ export const Listingdetail = () => {
           Details from seller
         </h2>
         <div className="border border-custom"></div>
-        <InputTxt placeholder="Filter details" MainClasses="mt-[40px] ml-4" />
 
         <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
           Has your item ever been repaired before?
@@ -161,38 +155,33 @@ export const Listingdetail = () => {
       {!loading ? (
         <div>
           <div className="flex">
-            <div className="flex gap-5 ">
-              {/* <img src={IMAGES.IphoneView} /> */}
-              {images ? (
-                <Carouselcard
-                  Images={
-                    images &&
-                    images?.map((item: any, index: any) => {
-                      return {
-                        itemImageSrc: `${BaseURL}/${item.filename}`,
-                        thumbnailImageSrc: `${BaseURL}/${item.filename}`,
-                        alt: 'Description for Image 1',
-                        title: 'Title 1',
-                      };
-                    })
-                  }
-                />
-              ) : (
-                <div className="border-lightgray p-2">
-                  <img className="w-[363px] " src={IMAGES.Logo} />
-                </div>
-              )}
-              <div>
+            <div className="flex gap-5 flex-wrap">
+              <div className="object-contain w-[380px] h-fit">
+                {images ? (
+                  <Carouselcard
+                    Images={
+                      images &&
+                      images?.map((item: any, index: any) => {
+                        return {
+                          itemImageSrc: `${BaseURL}/${item.filename}`,
+                          thumbnailImageSrc: `${BaseURL}/${item.filename}`,
+                          alt: 'Description for Image 1',
+                          title: 'Title 1',
+                        };
+                      })
+                    }
+                  />
+                ) : (
+                  <div className="border-lightgray p-2">
+                    <img className="w-[363px] " src={IMAGES.Logo} />
+                  </div>
+                )}
+              </div>
+              <div className="lg:flex-1">
                 <div className="flex gap-2 items-center">
                   <p className="text-[36px] font-extrabold">
                     {listingg?.listing.product.title}
                   </p>
-
-                  {/* <RoundedButton
-                    icon={IMAGES.Bin}
-                    onClick={deleteListing}
-                    classes={'bg-[#FF0000]'}
-                  /> */}
                 </div>
                 <div className="flex mt-3">
                   <p
@@ -232,7 +221,78 @@ export const Listingdetail = () => {
                     Detail from seller
                   </p>
                 </div>
-                <div>
+                <div className="mt-3">
+                  <CustomButton
+                    txt={'Description'}
+                    classes={
+                      '!bg-[#FCE39C] !w-[110px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
+                    }
+                  />
+                  <div className="mt-5">
+                    <p>{listingg?.listing?.more_info}</p>
+                  </div>
+                  <div className="flex gap-x-8 flex-wrap gap-y-2">
+                    <div className="flex flex-col gap-4">
+                      <CustomButton
+                        txt={'Category'}
+                        classes={
+                          '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
+                        }
+                      />
+                      <p className="font-medium text-[14px] text-[#212121]">
+                        {listingg?.listing?.category}
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <CustomButton
+                        txt={'Brand'}
+                        classes={
+                          '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
+                        }
+                      />
+                      <p className="font-medium text-[14px] text-[#212121]">
+                        {listingg?.listing?.brand}
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <CustomButton
+                        txt={'Addedon'}
+                        classes={
+                          '!bg-[#FCE39C] !w-[97px] !h-[2px] !text-[black] !p-4 !rounded-[7px] !mt-5 !text-[15px] '
+                        }
+                      />
+                      <p className="font-medium text-[14px] text-[#212121]">
+                        {moment(listingg?.listing?.created_on).format(
+                          'DD MMM, yyyy'
+                        )}
+                      </p>
+                    </div>
+                    {/* <div className="flex flex-col gap-4">
+                      <CustomButton
+                        txt={'Listings'}
+                        classes={
+                          '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
+                        }
+                      />
+                      <p className="font-medium text-[14px] text-[#212121]">
+                        {' '}
+                        {ProductData?.product?.product_properties?.listings}
+                      </p>
+                    </div> */}
+                    <div className="flex flex-col gap-4">
+                      <CustomButton
+                        txt={'ModelNo'}
+                        classes={
+                          '!bg-[#FCE39C] !w-[97px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
+                        }
+                      />
+                      <p className="font-medium text-[14px] text-[#212121]">
+                        4FG334
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {/* <div className="flex flex-wrap">
                   <CustomButton
                     txt={'description'}
                     classes={
@@ -301,7 +361,7 @@ export const Listingdetail = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

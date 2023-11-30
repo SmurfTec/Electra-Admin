@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import moment from 'moment';
 import { MenuItem } from 'primereact/menuitem';
 import { ProgressSpinner } from 'primereact/progressspinner';
@@ -10,7 +11,6 @@ import { CustomSwitch, CustomTableComponent } from '../../../atoms/index.js';
 import { SVGIcon } from '../../../components/SVG/index.js';
 import { DashCard, Header, Paginatior } from '../../../components/index.js';
 import {
-  EditProductAPI,
   GetAllProducts,
   UpdateStatusAPI,
   setProductCount,
@@ -37,7 +37,7 @@ export const Products = () => {
       setTotalProducts(response.stats.total_products);
       dispatch(setProductCount(response.stats.total_products));
       setStats(response.stats);
-      const latestArray = response.products.map((item: any, index: number) => {
+      const latestArray = response.products.map((item: any) => {
         const newObj = {
           ...item,
           category: item.category.name,
@@ -64,23 +64,19 @@ export const Products = () => {
   const [CurrSelectedProduct, setCurrSelectedProduct] = useState({});
 
   const SwitchTemplate = (option: any) => {
-    let dataOption = option.is_active ? true : false;
+    const dataOption = option.is_active ? true : false;
 
     const Edit = async (value: any) => {
       setLoading(true);
-      const add = await UpdateStatusAPI({ is_active: value }, option.id);
-      const get = await getProducts();
+      await UpdateStatusAPI({ is_active: value }, option.id);
+      await getProducts();
       setLoading(false);
     };
 
     return (
       <>
         <CustomSwitch
-          onChange={(e: any) => {
-            dataOption = !dataOption;
-            Edit(!e);
-          }}
-          value={dataOption}
+          onChange={Edit}
           checked={dataOption}
           // setChecked={setChecked}
         />

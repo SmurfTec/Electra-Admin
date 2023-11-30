@@ -119,7 +119,7 @@ export const ViewAdmin = () => {
             <img className="h-[136px] w-[136px]" src={IMAGES.Laughingadmin} />
             <div className="w-[70%] ">
               <p className="font-bold text-[24px]">
-                {user?.profile?.firstname} {user?.profile.lastname}
+                {user?.profile?.firstname} {user?.profile?.lastname}
               </p>
               <p className="text-[#969696]">{user?.email}</p>
               <div className="mt-8 flex justify-between w-[100%]">
@@ -163,11 +163,11 @@ export const ViewAdmin = () => {
           <div>
             <div>
               <p className="text-[#969696] ml-2">Role</p>
-              <p className="ml-2">{user?.role}</p>
+              <p className="ml-2">{user?.role || '-'}</p>
             </div>
             <div className="mt-3">
               <p className="text-[#969696] ml-2">Phone</p>
-              <p className="ml-2">{user?.profile.mobile_no}</p>
+              <p className="ml-2">{user?.profile?.mobile_no}</p>
             </div>
             <div className="mt-3">
               <p className="text-[#969696] ml-2">Last Active On</p>
@@ -197,11 +197,11 @@ export const ViewAdmin = () => {
                     <img
                       className="p-2"
                       src={
-                        item.image ? BaseURL + item.image : IMAGES.Loginarrow
+                        item?.image ? BaseURL + item?.image : IMAGES.Loginarrow
                       }
                     />
                     <div>
-                      <p>{item.message}</p>
+                      <p>{item?.message}</p>
                       <p className="text-[#969696] mt-2 text-[11px]">
                         {moment(item.created_on).format('hh:mm A - dddd')}
                       </p>
@@ -220,7 +220,9 @@ export const ViewAdmin = () => {
                       <img
                         className="p-2"
                         src={
-                          item.image ? BaseURL + item.image : IMAGES.Loginarrow
+                          item?.image
+                            ? BaseURL + item?.image
+                            : IMAGES.Loginarrow
                         }
                       />
                       <div>

@@ -14,6 +14,7 @@ interface ICoupon {
   couponCode: string;
   percentage: string;
   UsageLimit: any;
+  isUnlimited?: boolean;
 }
 export const CreateCouponModel = ({
   visible,
@@ -35,7 +36,7 @@ export const CreateCouponModel = ({
     { value: 1, label: '1 Time' },
     { value: 2, label: '2 Times' },
     { value: 3, label: '3 Times' },
-    { value: 0, label: 'Unlimited' },
+    { value: 800, label: 'Unlimited' },
   ]);
   const [successVisible, setsuccessVisible] = useState(false);
   const [buttonDisable, setbuttonDisable] = useState(true);
@@ -80,6 +81,7 @@ export const CreateCouponModel = ({
         discount: Number(values?.percentage),
         expiry: values?.date,
         maxUse: values?.UsageLimit,
+        ...(values?.UsageLimit === 800 && { isUnlimited: true }),
       };
       if (headerTitle == 'Create Coupon') {
         const response = await CreateCoupon(newvalues);
@@ -88,6 +90,13 @@ export const CreateCouponModel = ({
           return false;
         } else {
           setError('');
+          setValues({
+            Title: '',
+            date: '',
+            couponCode: '',
+            percentage: '',
+            UsageLimit: -1,
+          });
           setadded(true);
           setsuccessVisible(true);
           return true;
@@ -160,9 +169,9 @@ export const CreateCouponModel = ({
               value={values?.date}
               date={values?.date}
               setDate={(e: any) => setValues({ ...values, date: e.value })}
-              classes="!w-[204px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF]"
+              classes="!w-[197px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF]"
               placeholder="Expiry Date"
-              MainClasses="!w-[204px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF]"
+              MainClasses="!w-[197px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF]"
             />
             <InputTxt
               percent={true}
@@ -172,7 +181,7 @@ export const CreateCouponModel = ({
               onChange={(e: any) =>
                 setValues({ ...values, percentage: e.target.value })
               }
-              MainClasses="!w-[150px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF]"
+              MainClasses="!w-[160px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF]"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -182,13 +191,17 @@ export const CreateCouponModel = ({
               placeholder="Coupon Code"
               Title={values.couponCode}
               onChange={(e: any) => {
+                console.log('e.target.value', e.target.value);
+                // if (e.target.value.length <= 6) {
                 setValues({ ...values, couponCode: e.target.value });
                 if (e.target.value === '') {
                   setbuttonTitle('Generate Coupon');
                 } else {
                   setbuttonTitle('Create Coupon');
                 }
+                // }
               }}
+              maxLength={6}
               MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
             />
 
