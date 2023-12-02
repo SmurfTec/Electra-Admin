@@ -189,7 +189,7 @@ export const ItemVerification = () => {
         Condition
       </div>
 
-      <div className="flex flex-wrap mt-[22px] justify-between items-center w-[98%]">
+      <div className="flex flex-wrap mt-[25px] justify-between items-start w-[98%]">
         <div className=" flex flex-col gap-8">
           {itemData &&
             itemData.map((item: any, index: number) => {
@@ -209,13 +209,13 @@ export const ItemVerification = () => {
               );
             })}
         </div>
-        <div className="w-[380px] h-[320px] border border-inputBorder">
+        <div className="w-[380px] h-fit border border-inputBorder">
           <p className="pl-[10px] py-[10px] text-black text-[16px] font-[500]">
             Status
           </p>
           <hr className="border border-lightgray w-full" />
-          <div className="flex flex-col items-center gap-5 pt-[22px]">
-            <div style={{ width: 200, height: 200, overflow: 'hidden' }}>
+          <div className="flex flex-col items-center gap-5 py-[10px]">
+            <div style={{ width: 150, height: 150, overflow: 'hidden' }}>
               <CircularProgressbarWithChildren
                 className="progress-bar"
                 value={percentage}

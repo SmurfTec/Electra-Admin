@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import moment from 'moment';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
@@ -68,10 +69,14 @@ export const Listings = () => {
       }
     });
     setListings([
-      { name: 'All', data: All },
-      { name: 'sold', data: soldItems },
-      { name: 'not sold', data: unsoldItems },
-      { name: 'flagged', data: flagged },
+      { name: 'All', data: All, value: data?.data?.stats.all_listings },
+      { name: 'sold', data: soldItems, value: data?.data?.stats.sold },
+      {
+        name: 'not sold',
+        data: unsoldItems,
+        value: data?.data?.stats.unsold,
+      },
+      { name: 'flagged', data: flagged, value: data?.data?.stats.flagged },
     ]);
   };
   useEffect(() => {
@@ -96,7 +101,9 @@ export const Listings = () => {
         setVisible(true);
         setSelectedListing([]);
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log('e', e);
+    }
   };
   const items = [
     {
@@ -104,7 +111,7 @@ export const Listings = () => {
         {
           label: 'View',
           // command: handleBanUser,
-          template: (item: any, options: any) => {
+          template: (item: any) => {
             return (
               <div
                 onClick={(event: any) =>
@@ -118,20 +125,6 @@ export const Listings = () => {
             );
           },
         },
-        // {
-        //   label: 'Delete',
-        //   template: (item: any, options: any) => {
-        //     return (
-        //       <div
-        //         style={{ background: 'rgba(231, 29, 54, 0.05)' }}
-        //         className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
-        //         // onClick={(event: any) => DeleteUser(event, rowData.id)}
-        //       >
-        //         <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
-        //       </div>
-        //     );
-        //   },
-        // },
       ],
     },
   ];
@@ -183,6 +176,7 @@ export const Listings = () => {
     );
   };
   const StatusBodyTemplate = (option: any) => {
+    console.log('option', option);
     let style;
     if (option.Role === 'Sold') {
       style = `px-[14px] py-[4px]
@@ -239,8 +233,6 @@ export const Listings = () => {
     }
   }, [MenuLabel]);
 
-  console.log('listings', listings);
-
   return (
     <div>
       <Header placeholder="Search Admins" typeSearch={true} UserBox={true} />
@@ -264,7 +256,6 @@ export const Listings = () => {
                 className="!bg-[#FCFCFC]"
               >
                 {listings.map((item: any, index: number) => {
-                  console.log('item', item);
                   return (
                     <TabPanel
                       key={index}
@@ -304,17 +295,22 @@ export const Listings = () => {
           iconLeft={<img src={IMAGES.Flag} />}
           classes="!w-auto !max-w-[150px] !px-[1rem] !h-[43px] !text-[13px] !rounded-[8px]"
           txt="Mark for review"
+          isDisabled={selectedListing.length === 0}
         />
       </div>
       <Paginatior
-        totalRecords={Number(totalList)}
+        totalRecords={listings[actIndex].value}
         initialPageData={initialPageData}
         setInitialPageData={setInitialPageData}
-        recordShowing={
-          listings && actIndex > 0
-            ? listings[actIndex].data?.length
-            : listings[0]?.length
-        }
+        // recordShowing={
+        //   listings && actIndex > 0
+        //     ? listings[actIndex].data?.length
+        //     : listings[0]?.length
+        // }
+        recordShowing={Math.min(
+          initialPageData.currentPage * initialPageData.rowsPerPage,
+          listings[actIndex].value
+        )}
       />
       <Confirmationmodal
         PopupHeader={'Confirmation'}

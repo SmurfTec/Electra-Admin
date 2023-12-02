@@ -122,10 +122,10 @@ export const Listingdetail = () => {
           Technical Specification
         </h2>
         <div className="border border-custom"></div>
-        <InputTxt
+        {/* <InputTxt
           placeholder="Filter Specification"
           MainClasses="mt-[40px] ml-4"
-        />
+        /> */}
 
         {listingg?.listing?.technical_specifications &&
         listingg?.listing?.technical_specifications.length > 0 ? (

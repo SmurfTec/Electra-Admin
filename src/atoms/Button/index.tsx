@@ -10,6 +10,7 @@ export const CustomButton = ({
   editIcon,
   deleteIcon,
   isLoading = false,
+  isDisabled = false,
   ...props
 }: any) => {
   return (
@@ -18,7 +19,7 @@ export const CustomButton = ({
       name={txt}
       data-value={txt}
       onClick={() => {
-        if (props?.onClick) {
+        if (props?.onClick && !isDisabled) {
           props?.onClick(txt);
         }
       }}

@@ -13,6 +13,7 @@ export const useFetchOrders = (params: OrderParams) => {
   const [stats, setstats] = useState<any>();
   useEffect(() => {
     const fetchData = async () => {
+      console.log('before calling api params', params);
       try {
         setOrderLoading(true);
         const response = await getAllOrders(params);
