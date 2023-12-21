@@ -159,7 +159,9 @@ export const useGetPermission = () => {
       const fetch = await getPermission();
       setPerm(fetch.data);
       setLoading(false);
-    } catch (e) {}
+    } catch (e) {
+      console.log('e', e);
+    }
   };
   useEffect(() => {
     fetchPermission();
@@ -175,63 +177,57 @@ type rolePermission = {
 type rolePermissionData = rolePermission[];
 
 export const useGetRoleByName = (name?: string) => {
-  try {
-    const [perm1, setPerm] = React.useState<rolePermissionData>();
-    const [loading1, setLoading] = React.useState(true);
+  const [perm1, setPerm] = React.useState<rolePermissionData>();
+  const [loading1, setLoading] = React.useState(true);
 
-    const fetchPermission = async () => {
-      try {
-        const response = await getRolesByName(name);
-        setPerm(response.data);
-        setLoading(false);
-      } catch (e) {
-        return e;
-      }
-    };
-    useEffect(() => {
-      fetchPermission();
-    }, [name]);
-    return { perm1, loading1 };
-  } catch (e) {
-    return e;
-  }
+  const fetchPermission = async () => {
+    try {
+      const response = await getRolesByName(name);
+      setPerm(response.data);
+      setLoading(false);
+    } catch (e) {
+      return e;
+    }
+  };
+  useEffect(() => {
+    fetchPermission();
+  }, [name]);
+  return { perm1, loading1 };
 };
 
 export const useGetUserById = (id?: string) => {
-  try {
-    const [user, setUser] = React.useState();
-    const [userLoading, setLoading] = React.useState(true);
-    const fetchUser = async () => {
-      try {
-        const response = await getUserByID(id);
-        setUser(response[0]);
-        setLoading(false);
-      } catch (e) {
-        return e;
-      }
-    };
-    useEffect(() => {
-      fetchUser();
-    }, [id]);
-    return { user, userLoading };
-  } catch (e) {}
+  const [user, setUser] = React.useState();
+  const [userLoading, setLoading] = React.useState(true);
+  const fetchUser = async () => {
+    try {
+      const response = await getUserByID(id);
+      setUser(response[0]);
+      setLoading(false);
+    } catch (e) {
+      return e;
+    }
+  };
+  useEffect(() => {
+    fetchUser();
+  }, [id]);
+
+  const updateUser = (user: any) => setUser(user);
+  return { user, userLoading, updateUser };
 };
 
 export const useDeleteRole = (body: any, setFetch?: any, fetch?: any) => {
-  try {
-    const [userLoading, setLoading] = React.useState(true);
-    const fetchUser = async () => {
-      try {
-        const response = await DeleteSingleUser(body);
-        setLoading(false);
-        setFetch(!fetch);
-      } catch (e) {
-        return e;
-      }
-    };
-    useEffect(() => {
-      fetchUser();
-    }, [body]);
-    return { userLoading };
-  } catch (e) {}
+  const [userLoading, setLoading] = React.useState(true);
+  const fetchUser = async () => {
+    try {
+      await DeleteSingleUser(body);
+      setLoading(false);
+      setFetch(!fetch);
+    } catch (e) {
+      return e;
+    }
+  };
+  useEffect(() => {
+    fetchUser();
+  }, [body]);
+  return { userLoading };
 };

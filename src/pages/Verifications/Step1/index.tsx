@@ -98,89 +98,25 @@ export const Step1 = () => {
             Details from seller
           </h2>
           <div className="border border-custom"></div>
-          <div className="px-5 py-4">
-            <Carouselcard
-              outerclasses={`!w-fit mx-auto mt-4`}
-              Images={ItemData?.listing?.images?.map(
-                (item: any, index: number) => ({
-                  itemImageSrc: `${BaseURL}${item.filename}`,
-                  thumbnailImageSrc: `${BaseURL}${item.filename}`,
-                  alt: `Description for Image ${index}`,
-                  title: `Title ${index}`,
-                })
-              )}
-            />
-            <div className="flex flex-wrap gap-x-12 gap-y-6 mt-4">
-              <div className="flex flex-col gap-3">
-                <CustomButton
-                  txt={'Ask'}
-                  classes={
-                    '!bg-[#FCE39C] !w-fit !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
-                  }
-                />
-                <p className="text-[16px] text-[#000000]">
-                  {ItemData?.listing?.ask ? `$${ItemData?.listing?.ask}` : '-'}
-                </p>
-              </div>
-              <div className="flex flex-col gap-3">
-                <CustomButton
-                  txt={'Condition'}
-                  classes={
-                    '!bg-[#FCE39C] !w-fit !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
-                  }
-                />
-                <p className="text-[16px] text-[#000000]">
-                  {ItemData?.listing?.condition}
-                </p>
-              </div>
-              <div className="flex flex-col gap-3">
-                <CustomButton
-                  txt={'Sale Price'}
-                  classes={
-                    '!bg-[#FCE39C] !w-fit !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
-                  }
-                />
-                <p className="text-[16px] text-[#000000]">
-                  {ItemData?.listing?.saleprice
-                    ? `$${ItemData?.listing?.saleprice}`
-                    : '-'}
-                </p>
-              </div>
-              <div className="flex flex-col gap-3">
-                <CustomButton
-                  txt={'Is Active'}
-                  classes={
-                    '!bg-[#FCE39C] !w-[98px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
-                  }
-                />
-                <p className="text-[16px] text-[#000000]">
-                  {ItemData?.listing?.is_active?.toString()}
-                </p>
-              </div>
-              <div className="flex flex-col gap-3">
-                <CustomButton
-                  txt={'Is Repaired'}
-                  classes={
-                    '!bg-[#FCE39C] !w-fit !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
-                  }
-                />
-                <p className="text-[16px] text-[#000000]">
-                  {ItemData?.listing?.is_repaired_before || '-'}
-                </p>
-              </div>
-              <div className="flex flex-col gap-3">
-                <CustomButton
-                  txt={'Condition Details'}
-                  classes={
-                    '!bg-[#FCE39C] !w-fit !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
-                  }
-                />
-                <p className="text-[16px] text-[#000000]">
-                  {ItemData?.listing?.condition_details || '-'}
-                </p>
-              </div>
-            </div>
-          </div>
+
+          <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
+            Has your item ever been repaired before?
+          </p>
+          <p className="text-[15px] leading-6 border-b border-custom pb-6 px-4">
+            {ItemData?.listing?.is_repaired_before ? 'Yes' : 'No' ?? '-'}
+          </p>
+          <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
+            What best describes overall condition of your item?
+          </p>
+          <p className="px-4 border-b border-custom pb-6">
+            {ItemData?.listing?.condition}
+          </p>
+          <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
+            Tell us more about your item?
+          </p>
+          <p className="text-[#656565] px-4">
+            {ItemData?.listing?.more_info || '-'}
+          </p>
         </CustomSidebar>
       )}
       <CustomSidebar
@@ -353,7 +289,7 @@ export const Step1 = () => {
                       }
                     />
                     <p className="font-medium text-[14px] text-[#212121]">
-                      {ItemData?.product?.listings}
+                      {ItemData?.product?.listings || 0}
                     </p>
                   </div>
                   <div className="flex flex-col gap-4">

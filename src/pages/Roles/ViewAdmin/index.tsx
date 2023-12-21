@@ -9,6 +9,7 @@ import { Header } from '../../../components';
 import { SVGIcon } from '../../../components/SVG';
 import { BaseURL } from '../../../config';
 import { useGetUserById } from '../../../custom-hooks/RolesHooks';
+import { BanUser, UnBanUser } from '../../../store/Slices/UserSlice';
 type UserProfile = {
   id: number;
   firstname: string;
@@ -47,12 +48,13 @@ type User = {
 type DATA = {
   user?: User;
   userLoading: boolean;
+  updateUser: (user: any) => void;
 };
 export const ViewAdmin = () => {
   const location = useLocation();
   const { pathname } = location;
   const id = pathname.split('/').pop();
-  const { user, userLoading } = useGetUserById(id) as DATA;
+  const { user, userLoading, updateUser } = useGetUserById(id) as DATA;
   const [view, setView] = useState(false);
 
   const navigate = useNavigate();
@@ -62,26 +64,26 @@ export const ViewAdmin = () => {
       items: [
         {
           label: 'Ban User',
-          // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
                 style={{ backgroundColor: 'rgba(255, 245, 0, 0.05)' }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212] h-full cursor-pointer"
+                onClick={handleBanUser}
               >
-                <SVGIcon fillcolor={'#212121'} src={IMAGES.Ban} /> Ban User
+                <SVGIcon fillcolor={'#212121'} src={IMAGES.Ban} />{' '}
+                {user?.is_banned ? 'Un-Ban User' : 'Ban User'}
               </div>
             );
           },
         },
         {
           label: 'Delete',
-          // command: handleBanUser,
           template: (item: any, options: any) => {
             return (
               <div
                 style={{ background: 'rgba(231, 29, 54, 0.05)' }}
-                className="flex w-full gap-1  items-center  text-[10px] font-[400] text-[#E71D36]"
+                className="flex w-full gap-1 items-center  text-[10px] font-[400] text-[#E71D36] h-full"
               >
                 <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
               </div>
@@ -95,7 +97,7 @@ export const ViewAdmin = () => {
             return (
               <div
                 style={{ background: 'rgba(46, 102, 194, 0.05)' }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212]"
+                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212] h-full"
               >
                 <SVGIcon fillcolor={'#212121'} src={IMAGES.Select} /> Select
               </div>
@@ -105,6 +107,29 @@ export const ViewAdmin = () => {
       ],
     },
   ];
+
+  const handleBanUser = async () => {
+    // try {
+    //   if (user?.is_banned) {
+    //     const response = await BanUser({ ids: [id] });
+    //     console.log('response', response);
+    //     updateUser({
+    //       ...user,
+    //       is_banned: response.successfulIds.includes(id) ? true : false,
+    //     });
+    //   } else {
+    //     const response = await UnBanUser({ ids: [id] });
+    //     console.log('response', response);
+    //     updateUser({
+    //       ...user,
+    //       is_banned: response.successfulIds.includes(id) ? true : false,
+    //     });
+    //   }
+    // } catch (er) {
+    //   console.log('er', er);
+    // }
+  };
+
   return (
     <div>
       <Header
@@ -128,7 +153,7 @@ export const ViewAdmin = () => {
                   <p>{moment(user?.assigned_on).format('DD MMM, YYYY')}</p>
                 </div>
                 <div
-                  className={`text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
+                  className={`text-[white] relative flex justify-center items-center rounded-[5px] text-[12px] w-fit`}
                 >
                   <Button
                     icon="pi pi-ellipsis-h"
@@ -136,20 +161,12 @@ export const ViewAdmin = () => {
                     text
                     severity="secondary"
                     aria-label="Action"
-                    className="font-extrabold text-black"
+                    className="font-extrabold text-black w-[50]"
                     onClick={(event: any) => {
                       event.preventDefault();
                       menuLeft.current.toggle(event);
                     }}
                   />
-                  {/* <SVGIcon
-                    onClick={(event: any) => {
-                      event.preventDefault();
-                      menuLeft.current.toggle(event);
-                    }}
-                    src={IMAGES.Dots}
-                  /> */}
-
                   <CustomMenu
                     model={items}
                     popup

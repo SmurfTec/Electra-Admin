@@ -132,9 +132,14 @@ export const Productdetailcard = (props: any) => {
           />
           {/* <img src={IMAGES.New} /> */}
         </div>
-        <p className="font-light text-[12px] text-[#656565]">
-          {moment(props.created).format('DD MMM, YYYY')}
-        </p>
+        <div className="flex flex-col">
+          <p className="font-light text-[12px] text-[#656565]">
+            {moment(props.created).format('DD MMM, YYYY')}
+          </p>
+          <p className="font-semibold text-[14px] text-[#000000] text-right">
+            {props.prodStatus}
+          </p>
+        </div>
       </div>
       <div className="overflow-hidden h-auto">
         <p
