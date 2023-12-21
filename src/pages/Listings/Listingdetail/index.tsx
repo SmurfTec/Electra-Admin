@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import IMAGES from '../../../assets/Images';
-import { CustomButton, CustomTableComponent, InputTxt } from '../../../atoms';
+import { CustomButton, CustomTableComponent } from '../../../atoms';
 import { Carouselcard, Header, Variants } from '../../../components';
 import { BaseURL } from '../../../config';
 import { useListingById } from '../../../custom-hooks';
@@ -34,7 +34,7 @@ export const Listingdetail = () => {
       setListing(Listings);
       setImages(Listings.listing.images);
       const variaantts = Listings?.listing?.listing_variants?.map(
-        (item: any, index: any) => {
+        (item: any) => {
           const { variant, values, value, background_color } = item;
           const options = values?.map((value1: any) => ({
             txt: value1,
@@ -61,7 +61,9 @@ export const Listingdetail = () => {
       if (deleteListing) {
         navigate('/Listings');
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log('e', e);
+    }
   };
 
   const data = [
@@ -101,7 +103,7 @@ export const Listingdetail = () => {
           Has your item ever been repaired before?
         </p>
         <p className="text-[15px] leading-6 border-b border-custom pb-6 px-4">
-          {listingg?.listing?.explain_repair ?? '-'}
+          {listingg?.listing?.explain_repair ? 'Yes' : 'No' ?? '-'}
         </p>
         <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
           What best describes overall condition of your item?

@@ -1,52 +1,35 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
+import { CustomButton, InputTxt } from '../../../atoms';
 import { CustomDialog } from '../../../atoms/global.style';
-import { InputTxt } from '../../../atoms';
-import { CustomButton } from '../../../atoms';
 import { forgotPassword } from '../../../store/Slices/UserSlice';
-import Countdown from 'react-countdown';
 
 export const EmailSendModal = ({
-  classes,
   visible,
   setVisible,
   title = 'Change Password',
-  onClick,
-  SendEmail,
-  verifytxt = '',
-  setEmailModel,
+  handleSubmit,
 }: any) => {
-  const [Code, setCode] = useState('');
-  const [resetKey, setResetKey] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
 
-  const countDown = useRef();
-  const renderer = ({ minutes, seconds, completed }: any) => {
-    if (completed) {
-      setResetKey(prevKey => prevKey + 1);
-      if (SendEmail) {
-        SendEmail();
-      }
-    } else {
-      return (
-        <p className="text-[#656565] text-[16px] underline">
-          Resend after {minutes}:{seconds} s
-        </p>
-      );
-    }
-  };
   const sendVerificationMail = async () => {
+    setLoading(true);
     try {
-      const send = await forgotPassword(Code);
+      const send = await forgotPassword(email);
       if (send) {
-        setVisible(false);
-        setEmailModel(true);
+        handleSubmit(email);
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log('e', e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
       <CustomDialog
-        className={`${classes} bg-[#FFFFFF] w-[543px] h-[358px] flex  justify-center align-middle items-center `}
+        className={`bg-[#FFFFFF] w-[543px] h-[358px] flex  justify-center align-middle items-center `}
         visible={visible}
       >
         <i
@@ -71,8 +54,8 @@ export const EmailSendModal = ({
           <InputTxt
             inputClasses="!text-center !text-[#3C82D6] !text-[20px]"
             placeholder=" Enter email"
-            Title={Code}
-            onChange={(e: any) => setCode(e.target.value)}
+            Title={email}
+            onChange={(e: any) => setEmail(e.target.value)}
             MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
           />
           <div className="flex text-center mx-auto"></div>
@@ -80,6 +63,7 @@ export const EmailSendModal = ({
             onClick={() => sendVerificationMail()}
             txt={'SEND'}
             classes={`!w-[126px] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]  `}
+            isLoading={loading}
           />
         </div>
       </CustomDialog>

@@ -8,15 +8,33 @@
     overflow-x: hidden;
   }
 }
+
 @layer utilities {
+
   .active-icon path,
   .active-icon circle {
     fill: red;
   }
+
   .role .p-column-header-content {
     padding-left: 50px !important;
   }
+
   .dataType {
     width: 10rem !important;
   }
+}
+
+#globalLoader {
+  position: fixed;
+  z-index: 9999;
+  top: 50%;
+  left: 50%;
+  background-color: #fff;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }

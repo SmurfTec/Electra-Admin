@@ -27,7 +27,12 @@ export const CustomButton = ({
     >
       {isLoading ? (
         <ProgressSpinner
-          style={{ width: '30px', height: '20px', overflow: 'hidden' }}
+          style={{
+            width: '30px',
+            height: '20px',
+            overflow: 'hidden',
+            color: 'white',
+          }}
         />
       ) : (
         <>

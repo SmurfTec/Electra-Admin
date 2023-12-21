@@ -1,30 +1,29 @@
-import React from 'react';
+import moment from 'moment';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import React, { useState } from 'react';
+import IMAGES from '../../assets/Images';
 import {
   DashCard,
-  StaticCard,
+  DashTable,
+  DashboardModal,
+  Header,
   PlatformEarning,
   RevenueChart,
-  DashTable,
-  Header,
-  DashboardModal,
+  StaticCard,
 } from '../../components';
-import IMAGES from '../../assets/Images';
-import { useState } from 'react';
-import {
-  useGetDashStats,
-  useGetBestSelling,
-} from '../../custom-hooks/DashHooks';
-import { useGetAllUsers } from '../../custom-hooks/UserHooks';
-import { useGetProducts } from '../../custom-hooks';
 import { BaseURL } from '../../config';
-import moment from 'moment';
+import { useGetProducts } from '../../custom-hooks';
+import {
+  useGetBestSelling,
+  useGetDashStats,
+} from '../../custom-hooks/DashHooks';
 import { useGetOrderAll } from '../../custom-hooks/OrderHooks';
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { useGetAllUsers } from '../../custom-hooks/UserHooks';
 
 export const Dashboard = () => {
   const [visible, setvisible] = useState(false);
   const months = [
-    { value: 'year', label: 'Year' },
+    { value: 'year', label: '1 Year' },
     { value: 'sixMonths', label: '6 months' },
     { value: 'threeMonths', label: '3 months' },
   ];
@@ -62,13 +61,13 @@ export const Dashboard = () => {
         ([date, { sales }]: any) => ({
           x: date.split('-')[0],
           y: sales,
-        }),
+        })
       );
       setNewData(convertedArray);
     }
   }, [dashStats, loading, monthValue]);
-  let latestArr = users?.users?.slice(0, 4).map((item: any) => {
-    let newObj = {
+  const latestArr = users?.users?.slice(0, 4).map((item: any) => {
+    const newObj = {
       id: item.id,
       name: item?.profile?.firstname + item?.profile?.lastname || '',
       phone: item?.profile?.mobile_no || '',
@@ -119,13 +118,13 @@ export const Dashboard = () => {
           <div className="flex flex-wrap justify-start gap-2">
             {!loading && (
               <>
-                {' '}
                 <DashCard
-                  // onClick={() => setvisible(true)}
                   title={'Net Revenue'}
-                  totalNumber={`$ ${dashStats?.revenueStats?.total_revenue? dashStats?.revenueStats?.total_revenue?.toFixed(
-                    2,
-                  ):0 }`}
+                  totalNumber={`$ ${
+                    dashStats?.revenueStats?.total_revenue
+                      ? dashStats?.revenueStats?.total_revenue?.toFixed(2)
+                      : 0
+                  }`}
                   myImg={IMAGES.coin}
                   imgColor={'bg-blue-dash'}
                   textDash={
@@ -144,13 +143,17 @@ export const Dashboard = () => {
                       : IMAGES.uparrow
                   }
                   outerclasses={`!w-[400px]`}
-                  percentageTxt={`$ ${dashStats?.revenueStats?.revenue_percentage? dashStats?.revenueStats?.revenue_percentage?.toFixed(
-                    2,
-                  ):"-"}`}
+                  percentageTxt={`$ ${
+                    dashStats?.revenueStats?.revenue_percentage
+                      ? dashStats?.revenueStats?.revenue_percentage?.toFixed(2)
+                      : '-'
+                  }`}
                 />
                 <DashCard
                   title={'Products Sold'}
-                  totalNumber={`${dashStats?.productStats?.total_products_sold?? "0"}`}
+                  totalNumber={`${
+                    dashStats?.productStats?.total_products_sold ?? '0'
+                  }`}
                   myImg={IMAGES.box}
                   imgColor={'bg-yellow-dash'}
                   outerclasses={`!w-[400px] `}
@@ -169,9 +172,10 @@ export const Dashboard = () => {
                       ? IMAGES.downarrow
                       : IMAGES.uparrow
                   }
-                  percentageTxt={`$ ${dashStats?.productStats?.products_percentage?.toFixed(
-                    2,
-                  ) ?? "-"}`}
+                  percentageTxt={`$ ${
+                    dashStats?.productStats?.products_percentage?.toFixed(2) ??
+                    '-'
+                  }`}
                 />
                 <DashCard
                   title={'Total Users'}
@@ -222,7 +226,7 @@ export const Dashboard = () => {
                   }
                   percentageTxt={`$ ${
                     dashStats?.listingStats?.total_listings_percentage?.toFixed(
-                      1,
+                      1
                     ) ?? '-'
                   }`}
                 />
@@ -232,9 +236,19 @@ export const Dashboard = () => {
           <div className="flex w-full gap-2 mt-3 ">
             <div>
               <StaticCard
-                listing={dashStats?.listingStats?.total_listings_for_last_month}
-                Products={
-                  dashStats?.productStats?.total_products_sold_last_month
+                listing={{
+                  listingStats:
+                    dashStats?.listingStats?.total_listings_for_last_month,
+                  percentStats:
+                    dashStats?.listingStats?.total_listings_percentage,
+                }}
+                Products={{
+                  prodStats:
+                    dashStats?.productStats?.total_products_sold_last_month,
+                  percentStats: dashStats?.productStats?.products_percentage,
+                }}
+                percentStats={
+                  dashStats?.listingStats?.total_listings_percentage
                 }
               />
               {!orderLoading && <PlatformEarning data={orderData.orders} />}
@@ -246,6 +260,7 @@ export const Dashboard = () => {
                   statData={newData}
                   monthsData={months}
                   setData={setMonthValue}
+                  dropdownVal={monthValue}
                 />
               )}
               {!userLoading && (

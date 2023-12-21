@@ -148,16 +148,12 @@ export const getAllBestSellingProduct = async (params?: any) => {
             params?.currentPage ? params?.currentPage : 1
           }`
         : '';
-    const response: any = await url.get(
-      `/products/best-selling?sort=sold&${urlParams}`
-    );
+    const response: any = await url.get(`/products/best-selling?${urlParams}`);
     return response.data;
   } catch (e: any) {
     throw new Error(e);
   }
 };
-
-type payload = {};
 
 export const ProductsCount = createAsyncThunk('products/count', async () => {
   try {

@@ -17,6 +17,7 @@ type LoginResponse = {
   accessTokenCookie: string;
   refreshTokenCookie: string;
 };
+
 export const Login = createAsyncThunk<
   LoginResponse,
   LoginData,
@@ -37,8 +38,46 @@ export const Login = createAsyncThunk<
   }
 });
 
+// export const AutheticateUser = createAsyncThunk(
+//   'auth/getMe',
+//   async (_, { rejectWithValue }) => {
+//     console.log('authenticateuser');
+
+//     const token = localStorage.getItem('token');
+//     if (!token) return { status: false };
+//     await url
+//       .get('/users/me', {
+//         headers: {
+//           authentication: token,
+//         },
+//       })
+//       .then(() => ({ status: true }))
+//       .catch(er => rejectWithValue(er ? er.message : 'Something went wrong'));
+//   }
+// );
+export const AutheticateUser = createAsyncThunk(
+  'auth/getMe',
+  async (_, { rejectWithValue }) => {
+    console.log('authenticateuser');
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return rejectWithValue(new Error('Invalid Token'));
+      const response: any = await url.get('/users/me', {
+        headers: {
+          authentication: JSON.parse(token),
+        },
+      });
+      console.log('response', response);
+      return { status: true };
+    } catch (er) {
+      console.log('er', er);
+      return rejectWithValue(er);
+    }
+  }
+);
+
 export const changePassword = createAsyncThunk<
-  LoginResponse,
+  any,
   passwordData,
   { rejectValue: any }
 >('auth/changePass', async (data: passwordData) => {
@@ -53,35 +92,63 @@ const initialState: any = {
   auth: false,
   email: '',
   status: 'idle',
+  isAuthenticating: true,
+  isLoggedIn: false,
 };
 export const token = (state: any) => state.auth.email;
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState,
-  reducers: {},
+  initialState: {
+    auth: false,
+    email: '',
+    status: 'idle',
+    isAuthenticating: true,
+    isLoggedIn: false,
+  },
+  reducers: {
+    logoutUser: state => {
+      state.isLoggedIn = false;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(Login.pending, state => {
       state.status = 'loading';
     });
 
     builder.addCase(Login.rejected, (state, action) => {
-      state.token = '';
-      state.status = action.error.message;
+      state.isLoggedIn = false;
+      state.status = action.error.message || 'Something went wrong';
     }),
       builder.addCase(Login.fulfilled, (state, action) => {
         // const email = action.payload.user.email;
         // state.auth = true;
         // state.email = email;
         state.status = 'Success';
+        state.isLoggedIn = true;
       });
+
+    builder
+      .addCase(AutheticateUser.pending, state => {
+        state.isAuthenticating = true;
+      })
+      .addCase(AutheticateUser.fulfilled, (state, { payload }: any) => {
+        console.log('fulfilled');
+        state.isAuthenticating = false;
+        state.isLoggedIn = payload.status;
+      })
+      .addCase(AutheticateUser.rejected, state => {
+        console.log('rejected');
+        state.isAuthenticating = false;
+        state.isLoggedIn = false;
+      });
+
     builder.addCase(changePassword.pending, state => {
       state.status = 'loading';
     });
-
     builder.addCase(changePassword.rejected, (state, action) => {
-      state.token = '';
-      state.status = action.error.message;
+      state.isLoggedIn = false;
+      state.status = action.error.message || 'Something went wrong';
     }),
       builder.addCase(changePassword.fulfilled, (state, action) => {
         // const { accessTokenCookie, refreshTokenCookie } = action.payload;
@@ -94,4 +161,6 @@ const authSlice = createSlice({
       });
   },
 });
+
+export const { logoutUser } = authSlice.actions;
 export default authSlice.reducer;

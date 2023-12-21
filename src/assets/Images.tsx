@@ -1,6 +1,7 @@
 const IMAGES: any = {
   Logo: new URL('../assets/Images/ElectraLogo.svg', import.meta.url).href,
   Barchart: new URL('../assets/Images/bar-chart.svg', import.meta.url).href,
+  Completed: new URL('../assets/Images/completed.svg', import.meta.url).href,
   User: new URL('../assets/Images/user.svg', import.meta.url).href,
   Product: new URL('../assets/Images/product.svg', import.meta.url).href,
   Wallet: new URL('../assets/Images/Wallet.svg', import.meta.url).href,

@@ -16,19 +16,19 @@ export const useGetDashStats = () => {
 };
 
 export const useGetBestSelling = (params?: any) => {
-  try {
-    const [bestSelling, setBestSelling] = React.useState();
-    const [bestLoading, setBestLoading] = React.useState(true);
-    const fetchDashStats = async () => {
+  const [bestSelling, setBestSelling] = React.useState();
+  const [bestLoading, setBestLoading] = React.useState(true);
+  const fetchDashStats = async () => {
+    try {
       const DATA = await getAllBestSellingProduct(params);
       setBestSelling(DATA);
       setBestLoading(false);
-    };
-    useEffect(() => {
-      fetchDashStats();
-    }, [params]);
-    return { bestSelling, bestLoading };
-  } catch (e) {
-    return e;
-  }
+    } catch (er) {
+      console.log('er', er);
+    }
+  };
+  useEffect(() => {
+    fetchDashStats();
+  }, [params]);
+  return { bestSelling, bestLoading };
 };

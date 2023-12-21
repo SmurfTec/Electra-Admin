@@ -79,7 +79,7 @@ export const ProductRequests = () => {
       {!loading ? (
         <>
           {' '}
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <StatusCard
               onClick={() => {
                 // setVisible(true);
@@ -129,7 +129,6 @@ export const ProductRequests = () => {
                 productRequestStats.find((el: any) => el.status === 'approved')
                   ?.count || 0
               } `}
-              // number={`${productRequestStats[0]?.count ?? '0'} `}
               img={IMAGES.bluetick}
               onClick={() => {
                 setInitialPageData({
@@ -139,15 +138,31 @@ export const ProductRequests = () => {
               }}
               isActive={initialPageData?.status === 'approved'}
             />
+            <StatusCard
+              title={'Completed'}
+              number={`${
+                productRequestStats.find((el: any) => el.status === 'completed')
+                  ?.count || 0
+              } `}
+              img={IMAGES.Completed}
+              onClick={() => {
+                setInitialPageData({
+                  ...initialPageData,
+                  status: 'completed',
+                });
+              }}
+              isActive={initialPageData?.status === 'completed'}
+            />
           </div>
           <div className="flex flex-wrap gap-5 py-4">
-            {productRequest.length > 0 &&
+            {productRequest.length > 0 ? (
               productRequest.map((item: any, index: any) => {
                 return (
                   <div className="flex flex-col " key={index}>
                     <Productdetailcard
                       created={item.created_on}
                       title={item.title}
+                      prodStatus={item.status}
                       text={item.description}
                       id={item.id}
                       deleteProduct={deleteProduct}
@@ -157,7 +172,12 @@ export const ProductRequests = () => {
                     />
                   </div>
                 );
-              })}
+              })
+            ) : (
+              <p className="text-[20px] font-semibold text-center w-full my-3">
+                No Record Found
+              </p>
+            )}
           </div>
           <Confirmationmodal
             PopupHeader={'Item Listed'}

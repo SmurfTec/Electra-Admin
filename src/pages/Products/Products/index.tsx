@@ -42,7 +42,7 @@ export const Products = () => {
           ...item,
           category: item.category.name,
           Brand: item.brand.title,
-          listing: item.product_properties.listings,
+          listing: item.product_properties.listings || '-',
           addedon: moment(item.created_on).format('DD,MMM,YYYY'),
           availibility: item.is_active ? 'Active' : 'InActive',
         };

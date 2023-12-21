@@ -139,9 +139,9 @@ export const Users = () => {
     const latestArr = users?.map((item: any) => {
       const newObj = {
         ...item,
-        firstname: item?.profile?.firstname || '',
-        lastname: item?.profile?.lastname || '',
-        phone: item?.profile?.mobile_no || '',
+        firstname: item?.profile?.firstname || '-',
+        lastname: item?.profile?.lastname || '-',
+        phone: item?.profile?.mobile_no || '-',
         register: moment(item.created_at).format('DD,MM,YYYY'),
         registerValue: 'Website',
       };

@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
-import { CustomDropdown2 } from '../../atoms';
 import Chart from 'react-apexcharts';
-import './index.css';
 import IMAGES from '../../assets/Images';
+import { CustomDropdown2 } from '../../atoms';
+import './index.css';
 type PropType = {
   statData: any;
   setData?: any;
   monthsData: any;
+  dropdownVal: any;
 };
 export const RevenueChart = (props: PropType) => {
-  let series2 = Array.isArray(props.statData) ? [...props.statData] : [];
+  const series2 = Array.isArray(props.statData) ? [...props.statData] : [];
   const monthOrder: any = {
     Jan: 0,
     Feb: 1,
@@ -37,7 +38,7 @@ export const RevenueChart = (props: PropType) => {
     return acc;
   }, []);
 
-  let series = [
+  const series = [
     {
       name: 'Series 1',
       data: uniqueData,
@@ -52,11 +53,13 @@ export const RevenueChart = (props: PropType) => {
     },
 
     stroke: {
-      show: true,
+      curve: 'smooth',
       colors: ['#000000'],
     },
     markers: {
       colors: ['#212121'],
+      shape: 'circle',
+      radius: 2,
     },
     dataLabels: {
       enabled: false,
@@ -65,6 +68,8 @@ export const RevenueChart = (props: PropType) => {
       show: true,
     },
     yaxis: {
+      min: Math.min(...series[0].data),
+      max: Math.max(40, Math.max(...series[0].data)),
       labels: {
         formatter: function (value: any) {
           return `$${value}k`;
@@ -83,6 +88,7 @@ export const RevenueChart = (props: PropType) => {
       colors: ['#000000'],
     },
   };
+  console.log('series', series);
 
   return (
     <div className=" h-[427px]   bg-[#FCFCFC] rounded  w-[100%] ">
@@ -94,8 +100,9 @@ export const RevenueChart = (props: PropType) => {
             setValue={(value: any) => {
               props.setData(value);
             }}
-            placeholder="Year"
+            placeholder="1 Year"
             options={props.monthsData}
+            value={props.dropdownVal}
             mainclasses={`
             !px-[14px] !py-[4px]
             !text-center

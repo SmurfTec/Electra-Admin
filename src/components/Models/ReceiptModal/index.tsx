@@ -2,12 +2,11 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useEffect, useRef, useState } from 'react';
-import ReactToPrint from 'react-to-print';
-import { Paginatior } from '../..';
 import IMAGES from '../../../assets/Images';
 import { CustomButton } from '../../../atoms';
 import { CustomDialog } from '../../../atoms/global.style';
 import { BaseURL } from '../../../config';
+
 export const Receiptmodal = ({ visible, setVisible, currentItem }: any) => {
   const [item, setItem] = useState<any>({});
   const Receiptref = useRef<any>();
@@ -32,6 +31,8 @@ export const Receiptmodal = ({ visible, setVisible, currentItem }: any) => {
   useEffect(() => {
     if (currentItem) setItem(currentItem[0]);
   }, [currentItem]);
+
+  console.log('currentItem', currentItem);
 
   return (
     <CustomDialog
@@ -118,11 +119,22 @@ export const Receiptmodal = ({ visible, setVisible, currentItem }: any) => {
             <p className="text-[#000000] pt-3  font-bold">{item['Order No']}</p>
           </div>
         </div>
+        <div className=" flex items-center justify-between  mt-3 gap-3 pt-3  border-t border-dashed">
+          <p className="font-bold text-[#000000] text-[16px]">Item Price</p>
+          <p className="font-bold text-[#000000] text-[20px]">
+            ${item?.receipt?.item_price}
+          </p>
+        </div>
         {item?.receipt_fees?.length > 0 ? (
-          item?.receipt_fees?.map((item: any) => {
+          item?.receipt_fees?.map((item: any, ind: number) => {
             return (
               <>
-                <div className=" flex items-center justify-between  mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+                <div
+                  className={`flex items-center justify-between  mt-3 gap-3 pt-3  ${
+                    ind < item?.receipt_fees?.length - 1 &&
+                    'border-t border-dashed'
+                  }`}
+                >
                   <p className="font-bold text-[#000000] text-[16px]">
                     {item?.title}
                   </p>
@@ -170,7 +182,7 @@ export const Receiptmodal = ({ visible, setVisible, currentItem }: any) => {
           </>
         )}
 
-        <div className="flex items-center justify-between  mt-3 gap-3 pt-3  border-t border-dashed mx-3 ">
+        <div className="flex items-center justify-between  mt-3 gap-3 pt-3  border-t border-dashed">
           <p className="font-bold text-[#000000] text-[16px]">Purchase Price</p>
           <p className="font-bold text-[#3C82D6] text-[20px]">
             ${item?.saleprice}

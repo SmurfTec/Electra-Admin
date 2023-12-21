@@ -4,9 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import IMAGES from '../../../assets/Images';
 import { CustomButton, CustomSwitch, RoundedButton } from '../../../atoms';
 import { Carouselcard, DashCard, Header, Variants } from '../../../components';
-import { useProductDetail, useVariantDetail } from '../../../custom-hooks';
+import { useProductDetail } from '../../../custom-hooks';
 import {
-  UpdateStatusAPI,
   deleteProductById,
   getProductById,
 } from '../../../store/Slices/ProductSlice';
@@ -21,7 +20,6 @@ export const ProductView = () => {
   const { id } = params;
   const navigate = useNavigate();
   const { ProductData, loading } = useProductDetail(id);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [VariantsArray, setVariantArray] = useState([]);
   const [stats, setStats] = useState({
@@ -186,8 +184,8 @@ export const ProductView = () => {
                         }
                       />
                       <p className="font-medium text-[14px] text-[#212121]">
-                        {' '}
-                        {ProductData?.product?.product_properties?.listings}
+                        {ProductData?.product?.product_properties?.listings ||
+                          '-'}
                       </p>
                     </div>
                     <div className="flex flex-col gap-4">

@@ -1,29 +1,30 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Countdown from 'react-countdown';
 import { CustomButton, InputTxt } from '../../../atoms';
 import { CustomDialog } from '../../../atoms/global.style';
+import { forgotPassword } from '../../../store/Slices/UserSlice';
 
 export const EmailVerificationModel = ({
-  classes,
   visible,
   setVisible,
   title = 'Email Verification',
-  onClick,
   SendEmail,
-  verifytxt = '',
-  Code,
-  setCode,
   setVisible2,
+  handleSubmit,
+  email,
 }: any) => {
   const [resetKey, setResetKey] = useState(0);
+  const [code, setCode] = useState('');
   const [err, setErr] = useState('');
   const countDown = useRef();
   const renderer = ({ minutes, seconds, completed }: any) => {
     if (completed) {
-      setResetKey(prevKey => prevKey + 1);
-      if (SendEmail) {
-        SendEmail();
-      }
+      <p
+        className="cursor-pointer text-[#656565] text-[16px] underline"
+        onClick={handleResendMail}
+      >
+        Resend Email
+      </p>;
     } else {
       return (
         <p className="text-[#656565] text-[16px] underline">
@@ -33,10 +34,17 @@ export const EmailVerificationModel = ({
     }
   };
 
+  const handleResendMail = async () => {
+    try {
+      await forgotPassword(email);
+      setResetKey(prevKey => prevKey + 1);
+    } catch (e) {}
+  };
+
   return (
     <>
       <CustomDialog
-        className={`${classes} bg-[#FFFFFF] w-[543px] h-[358px] flex  justify-center align-middle items-center `}
+        className={` bg-[#FFFFFF] w-[543px] h-[358px] flex  justify-center align-middle items-center `}
         visible={visible}
       >
         <i
@@ -61,7 +69,7 @@ export const EmailVerificationModel = ({
           <InputTxt
             inputClasses="!text-center !text-[#3C82D6] !text-[20px]"
             placeholder=" Code"
-            Title={Code}
+            Title={code}
             onChange={(e: any) => setCode(e.target.value)}
             MainClasses="!w-[370px] !h-[54px] !border !rounded-[10px] !bg-[#FFFFFF] m-auto"
           />
@@ -79,12 +87,14 @@ export const EmailVerificationModel = ({
           </div>
           <CustomButton
             onClick={() => {
-              if (Code === '') {
-                setErr('Enter code');
-              } else {
-                setVisible(false);
-                setVisible2(true);
-              }
+              if (code === '') return setErr('Enter code');
+              handleSubmit(code);
+              // if (Code === '') {
+              //   setErr('Enter code');
+              // } else {
+              //   setVisible(false);
+              //   setVisible2(true);
+              // }
             }}
             txt={'VERIFY'}
             classes={`!w-[126px] !h-[50px] !mx-auto !mt-[0px] !rounded-[10px]  `}

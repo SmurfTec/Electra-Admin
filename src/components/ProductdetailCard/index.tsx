@@ -77,6 +77,31 @@ export const Productdetailcard = (props: any) => {
             );
           },
         },
+        {
+          label: 'Completed',
+          // command: handleBanUser,
+          template: (item: any, options: any) => {
+            return (
+              <div
+                style={{
+                  background: 'rgb(78, 154, 6,0.05)',
+                }}
+                onClick={(event: any) => {
+                  props.changeStatus(props.id, 'completed');
+                }}
+                className="flex w-full gap-1  items-center text-[10px] font-[400] text-[#4e9a06]"
+              >
+                <SVGIcon
+                  fillcolor={'#4e9a06'}
+                  width="8px"
+                  height="fit-content"
+                  src={IMAGES.Completed}
+                />
+                Completed
+              </div>
+            );
+          },
+        },
       ],
     },
   ];
@@ -90,14 +115,20 @@ export const Productdetailcard = (props: any) => {
           <p className="font-bold">{props.title}</p>
           <img
             src={
-              props.requestType === 'pending'
+              props.prodStatus === 'pending'
                 ? IMAGES.New
-                : props.requestType === 'rejected'
+                : props.prodStatus === 'rejected'
                 ? IMAGES.greencross
-                : props.requestType === 'approved'
+                : props.prodStatus === 'approved'
                 ? IMAGES.bluetick
-                : IMAGES.Person
+                : props.prodStatus === 'completed'
+                ? IMAGES.Completed
+                : IMAGES.person
             }
+            style={{
+              width: '20px',
+              height: 'fit-content',
+            }}
           />
           {/* <img src={IMAGES.New} /> */}
         </div>
@@ -128,7 +159,7 @@ export const Productdetailcard = (props: any) => {
           </span>
         )}
       </div>
-      <div className="px-4 mb-3 flex justify-between">
+      <div className="px-4 mb-3 flex justify-between h-[46px]">
         <div className="flex gap-4 flex-1 items-center">
           <img src={IMAGES.personicon} />
           <p className="font-bold flex-1">
@@ -137,30 +168,32 @@ export const Productdetailcard = (props: any) => {
               : ''}
           </p>
         </div>
-        <div
-          className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
-        >
-          <Button
-            icon="pi pi-ellipsis-h"
-            rounded
-            text
-            severity="secondary"
-            aria-label="Action"
-            className="font-extrabold text-black"
-            onClick={(event: any) => {
-              event.preventDefault();
-              menuLeft.current.toggle(event);
-            }}
-          />
+        {props.prodStatus !== 'completed' && (
+          <div
+            className={`px-[14px] py-[4px] text-[white] relative  flex justify-center items-center rounded-[5px] text-[12px]`}
+          >
+            <Button
+              icon="pi pi-ellipsis-h"
+              rounded
+              text
+              severity="secondary"
+              aria-label="Action"
+              className="font-extrabold text-black"
+              onClick={(event: any) => {
+                event.preventDefault();
+                menuLeft.current.toggle(event);
+              }}
+            />
 
-          <CustomMenu
-            height="fit-content"
-            model={items}
-            popup
-            ref={menuLeft}
-            id="popup_menu_left"
-          />
-        </div>
+            <CustomMenu
+              height="fit-content"
+              model={items}
+              popup
+              ref={menuLeft}
+              id="popup_menu_left"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

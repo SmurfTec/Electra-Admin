@@ -2,6 +2,7 @@ import { ReactSVG } from 'react-svg';
 import styled from 'styled-components';
 const StyledSVG = styled(ReactSVG)`
   cursor: pointer;
+  object-fit: contain;
   svg {
     width: ${({ width }: any) => width}; /* Added width */
     height: ${({ height }: any) => height}; /* Added height */

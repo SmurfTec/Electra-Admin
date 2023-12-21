@@ -1,14 +1,17 @@
-import { useState, useEffect } from 'react';
-import IMAGES from '../../assets/Images';
-import { SVGIcon } from '../SVG';
-import { Link, useNavigate } from 'react-router-dom';
-import { PanelMenu } from 'primereact/panelmenu';
-import { useSelector } from 'react-redux';
 import { numify } from 'numify';
+import { PanelMenu } from 'primereact/panelmenu';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import IMAGES from '../../assets/Images';
+import { logoutUser } from '../../store/Slices/AuthSlice';
+import { SVGIcon } from '../SVG';
 
 export const SideBar = () => {
   const checkRoute = localStorage.getItem('Route');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { count: usersCount } = useSelector((state: any) => state.user);
   const { totalOrders } = useSelector((state: any) => state.orders);
   const { total_listings } = useSelector((state: any) => state.listings);
@@ -38,7 +41,7 @@ export const SideBar = () => {
       url: '/Products',
       open: false,
       DropDown: true,
-      number: total_products??"0",
+      number: total_products ?? '0',
       subItems: [
         {
           id: 31,
@@ -67,7 +70,7 @@ export const SideBar = () => {
       icon: IMAGES.Listing,
       active: false,
       url: '/Listings',
-      number: total_listings??"0",
+      number: total_listings ?? '0',
     },
     {
       id: 6,
@@ -190,12 +193,12 @@ export const SideBar = () => {
   };
   const Logout = () => {
     localStorage.clear();
-    setTimeout(() => {
-      navigate('/');
-    }, 2000);
+    dispatch(logoutUser());
+    // setTimeout(() => {
+    navigate('/');
+    // }, 2000);
   };
   useEffect(() => {
-    
     if (checkRoute) {
       const updatedNavItems: any = navItems.map((item: any) => {
         if (item.url === checkRoute) {
@@ -252,7 +255,11 @@ export const SideBar = () => {
                   handleItemClick(item.id);
                 }}
               >
-                <div className={`flex items-center  justify-between  w-full ${item.active?'!text-[white]':'!text-[black]'}`}>
+                <div
+                  className={`flex items-center  justify-between  w-full ${
+                    item.active ? '!text-[white]' : '!text-[black]'
+                  }`}
+                >
                   <div className="flex items-center gap-3">
                     <SVGIcon
                       src={item.icon}
@@ -279,9 +286,7 @@ export const SideBar = () => {
                   {item.number && (
                     <p
                       className={`w-[22px] flex justify-center items-center text-[13px] h-[22px] rounded-[6px] ${
-                        item.active
-                          ? ' !text-[white]'
-                          : ' !text-[black]'
+                        item.active ? ' !text-[white]' : ' !text-[black]'
                       }`}
                     >
                       {numify(item.number)}

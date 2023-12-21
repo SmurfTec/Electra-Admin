@@ -82,65 +82,107 @@ export const Step1 = () => {
     GetVerificationDetail();
   }, []);
 
+  console.log('ItemData', ItemData);
+
   return (
     <div>
       <Header title="Item Verification & Details" UserBox={true} />
-      <CustomSidebar
-        visible={select === 1 ? true : false}
-        position="right"
-        onHide={() => setSelect(0)}
-        className="!w-[40rem]"
-      >
-        <h2 className="font-bold text-[#000000] p-4 text-[19px] mt-3 px-4 w-full">
-          Details from seller
-        </h2>
-        <div className="border border-custom"></div>
-        <InputTxt placeholder="Filter details" MainClasses="mt-[40px] ml-4" />
-        <p className="font-bold text-[20px] text-[#000000] mt-6 px-4">
-          What accessories are included?
-        </p>
-        <div className="flex gap-3  border-b border-custom pb-6 mt-3 px-4">
-          <Miniselect txt={'Charger Cable'} />
-          <Miniselect txt={'Original Box'} />
-        </div>
-        <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
-          Has your item ever been repaired before?
-        </p>
-        <p className="text-[15px] leading-6 border-b border-custom pb-6 px-4">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac
-          tincidunt elit. Nunc euismod odio sit amet lorem lobortis, vel lacinia
-          libero tristique. Nunc porttitor arcu accumsan,
-        </p>
-        <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
-          What best describes overall condition of your item?
-        </p>
-        <ul className="list-tick border-b pb-3 border-custom">
-          <li className="list-element">
-            Device has signs of heavy use such as deep scratches, dents, scuffs,
-            or excessive scratching
-          </li>
-          <li className="list-element">
-            Device has signs of heavy use such as deep scratches, dents, scuffs,
-            or excessive scratching
-          </li>
-          <li className="list-element">
-            Device has signs of heavy use such as deep scratches, dents, scuffs,
-            or excessive scratching
-          </li>
-          <li className="list-element">
-            Device has signs of heavy use such as deep scratches, dents, scuffs,
-            or excessive scratching
-          </li>{' '}
-          <li className="list-element">
-            Device has signs of heavy use such as deep scratches, dents, scuffs,
-            or excessive scratching
-          </li>
-        </ul>
-        <p className="font-bold text-[20px] text-[#000000] mt-4 px-4">
-          Tell us more about your item?
-        </p>
-        <p className="text-[#656565] px-4">{ItemData?.product.description}</p>
-      </CustomSidebar>
+      {ItemData?.listing && (
+        <CustomSidebar
+          visible={select === 1 ? true : false}
+          position="right"
+          onHide={() => setSelect(0)}
+          className="!w-[40rem]"
+        >
+          <h2 className="font-bold text-[#000000] p-4 text-[19px] mt-3 px-4 w-full">
+            Details from seller
+          </h2>
+          <div className="border border-custom"></div>
+          <div className="px-5 py-4">
+            <Carouselcard
+              outerclasses={`!w-fit mx-auto mt-4`}
+              Images={ItemData?.listing?.images?.map(
+                (item: any, index: number) => ({
+                  itemImageSrc: `${BaseURL}${item.filename}`,
+                  thumbnailImageSrc: `${BaseURL}${item.filename}`,
+                  alt: `Description for Image ${index}`,
+                  title: `Title ${index}`,
+                })
+              )}
+            />
+            <div className="flex flex-wrap gap-x-12 gap-y-6 mt-4">
+              <div className="flex flex-col gap-3">
+                <CustomButton
+                  txt={'Ask'}
+                  classes={
+                    '!bg-[#FCE39C] !w-fit !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
+                  }
+                />
+                <p className="text-[16px] text-[#000000]">
+                  {ItemData?.listing?.ask ? `$${ItemData?.listing?.ask}` : '-'}
+                </p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <CustomButton
+                  txt={'Condition'}
+                  classes={
+                    '!bg-[#FCE39C] !w-fit !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
+                  }
+                />
+                <p className="text-[16px] text-[#000000]">
+                  {ItemData?.listing?.condition}
+                </p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <CustomButton
+                  txt={'Sale Price'}
+                  classes={
+                    '!bg-[#FCE39C] !w-fit !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
+                  }
+                />
+                <p className="text-[16px] text-[#000000]">
+                  {ItemData?.listing?.saleprice
+                    ? `$${ItemData?.listing?.saleprice}`
+                    : '-'}
+                </p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <CustomButton
+                  txt={'Is Active'}
+                  classes={
+                    '!bg-[#FCE39C] !w-[98px] !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
+                  }
+                />
+                <p className="text-[16px] text-[#000000]">
+                  {ItemData?.listing?.is_active?.toString()}
+                </p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <CustomButton
+                  txt={'Is Repaired'}
+                  classes={
+                    '!bg-[#FCE39C] !w-fit !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
+                  }
+                />
+                <p className="text-[16px] text-[#000000]">
+                  {ItemData?.listing?.is_repaired_before || '-'}
+                </p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <CustomButton
+                  txt={'Condition Details'}
+                  classes={
+                    '!bg-[#FCE39C] !w-fit !h-[27px] !text-[black] !p-4 !rounded-[7px] !mt-5'
+                  }
+                />
+                <p className="text-[16px] text-[#000000]">
+                  {ItemData?.listing?.condition_details || '-'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </CustomSidebar>
+      )}
       <CustomSidebar
         visible={select === 2 ? true : false}
         position="right"
@@ -151,10 +193,6 @@ export const Step1 = () => {
           Technical Specification
         </h2>
         <div className="border border-custom"></div>
-        <InputTxt
-          placeholder="Filter Specification"
-          MainClasses="mt-[40px] ml-4"
-        />
         {ItemData?.product?.technical_specs ? (
           <>
             {ItemData?.product?.technical_specs?.map((item: any) => {
@@ -212,15 +250,12 @@ export const Step1 = () => {
       <div>
         <div className="flex">
           <div className="flex gap-1 ">
-            {/* <img src={IMAGES.IphoneView} /> */}
             <Carouselcard outerclasses={`!w-[420px]`} Images={images} />
             <div>
               <div className="flex gap-2 items-center">
                 <p className="text-[36px] font-extrabold">
                   {ItemData?.product?.title}
                 </p>
-
-                {/* <RoundedButton icon={IMAGES.Bin} classes={'bg-[#FF0000]'} /> */}
               </div>
               <div className="flex mt-3">
                 <p
@@ -247,18 +282,20 @@ export const Step1 = () => {
                 >
                   View Technical Specifications
                 </p>
-                <p
-                  onClick={() => {
-                    setSelect(1);
-                  }}
-                  className={`${
-                    select === 1
-                      ? 'bg-black text-white '
-                      : 'bg-white text-black '
-                  } cursor-pointer text-center rounded-2xl w-[155px] h-[37px] flex items-center justify-center`}
-                >
-                  Detail from seller
-                </p>
+                {ItemData?.listing && (
+                  <p
+                    onClick={() => {
+                      setSelect(1);
+                    }}
+                    className={`${
+                      select === 1
+                        ? 'bg-black text-white '
+                        : 'bg-white text-black '
+                    } cursor-pointer text-center rounded-2xl w-[155px] h-[37px] flex items-center justify-center`}
+                  >
+                    Detail from seller
+                  </p>
+                )}
               </div>
               <div>
                 <CustomButton

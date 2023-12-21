@@ -63,7 +63,7 @@ export const ChangePassword = async (body: any) => {
 };
 export const ResetPassword = async (body: any, code: any) => {
   try {
-    const response = await url.patch(`/auth/reset-password/${code}`, body);
+    const response = await url.put(`/auth/validate-code/${code}`, body);
     return response.data;
   } catch (e) {
     return e;
