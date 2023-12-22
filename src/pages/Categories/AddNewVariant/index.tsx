@@ -1,17 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import IMAGES from '../../../assets/Images';
 import { CustomButton, CustomDropdown, InputTxt } from '../../../atoms';
-import {
-  Confirmationmodal,
-  Confirmationmodal2,
-  Header,
-  SuccessModel,
-} from '../../../components';
-import {
-  CreateVariantData,
-  getAllVariants,
-} from '../../../store/Slices/VariantSlice';
+import { Confirmationmodal2, Header, SuccessModel } from '../../../components';
+import { CreateVariantData } from '../../../store/Slices/VariantSlice';
 export const AddNewVariant = () => {
   const [successVisible, setsuccessVisible] = useState(false);
   const navigate = useNavigate();
@@ -23,7 +15,9 @@ export const AddNewVariant = () => {
   const [originalEditValue, setOriginalEditValue] = useState('');
   const [EditValue, setEditValue] = useState('');
   const [dataTypeValue, setdataTypeValue] = useState('');
-  const [options, setoptions] = useState(['String', 'Number']);
+  const [error, setError] = useState<string | null>(null);
+  const [options] = useState(['String', 'Number']);
+
   const handleFunction = (value: any) => {
     if (value.length > 0) {
       if (!valuesArr.includes(value)) {
@@ -54,6 +48,8 @@ export const AddNewVariant = () => {
     setvaluesArr(newArray);
   };
   const CreateVariant = async (value: any) => {
+    if (!Variant) return setError('Specify variant name');
+    if (!dataTypeValue) return setError('Specify type of variant');
     try {
       const body = {
         title: Variant,
@@ -63,6 +59,9 @@ export const AddNewVariant = () => {
       const response = await CreateVariantData(body);
       if (response?.id) {
         setsuccessVisible(true);
+        setTimeout(() => {
+          navigate('/category');
+        }, 2000);
         setvaluesArr([]);
         setVariant('');
       }
@@ -131,10 +130,24 @@ export const AddNewVariant = () => {
         </div>
         <CustomButton
           txt="+Add Values"
-          classes="!w-[140px] !h-[42px] !rounded-[7px]  !text-white !mt-[13px]"
+          classes="!w-[140px] !h-[42px] !rounded-[7px]  !text-white !mt-[13px] mb-[20px]"
           onClick={() => setAddVisible(true)}
         />
-        <div className="flex gap-3 flex-wrap mt-[50px]">
+        {error && (
+          <div className="w-full max-w-[390px] mt-[20px] flex gap-2 justify-start text-left items-center">
+            <>
+              <div className="w-[15px] h-[15px] text-white bg-red rounded-[50%] flex justify-center items-center text-[10px]">
+                i
+              </div>
+              <p className="text-[14px] text-[#FF0000] font-[400]">{error}</p>
+            </>
+          </div>
+        )}
+        <div
+          className={`flex gap-3 flex-wrap ${
+            error ? 'mt-[19px]' : 'mt-[60px]'
+          }`}
+        >
           <CustomButton
             onClick={(value: any) => navigate('/Category')}
             txt="Cancel"

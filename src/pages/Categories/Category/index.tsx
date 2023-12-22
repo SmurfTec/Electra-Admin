@@ -33,6 +33,7 @@ export const Category = () => {
     rowsPerPage: 5,
     currentPage: 1,
   });
+
   const [initialPageData2, setInitialPageData2] = useState({
     rowsPerPage: 5,
     currentPage: 1,

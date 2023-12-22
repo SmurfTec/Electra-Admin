@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import IMAGES from '../../../assets/Images';
 import { CustomButton, InputTxt, UploadPicture } from '../../../atoms';
 import { Header, SuccessModel } from '../../../components';
 import { CreateCategories } from '../../../store/Slices/Categories';
@@ -31,6 +30,7 @@ export const CreateCategory = () => {
   const navigate = useNavigate();
   const [Variants, setVariants] = useState([]);
   const [selectedVariant, setSelectedVariant] = useState<any>([]);
+  const [error, setError] = useState<string | null>(null);
   const [image, setImages] = useState<any>();
   const getVariant = async () => {
     const response = await getAllVariants();
@@ -50,11 +50,15 @@ export const CreateCategory = () => {
   }, []);
 
   const Create = async () => {
-    if (!image) return;
+    if (!Name) return setError('Specify Category name');
+    if (selectedVariant.length === 0)
+      return setError('Select atleast one variant for category');
+    if (!image) return setError('Image is not selected');
+
+    // console.log('Name', Name);
     try {
       const newBody = new FormData();
       newBody.append('name', Name);
-      // newBody.append('fees', String(fee));
       newBody.append('image', image);
 
       selectedVariant.length > 0 &&
@@ -97,33 +101,12 @@ export const CreateCategory = () => {
           value={Name}
           onChange={(e: any) => setName(e.target.value)}
         />
-        {/* <InputTxt
-          placeholder="Marketplace Fee"
-          MainClasses="mt-[10px] !bg-[#FCFCFC] border !border-inputBorder !h-[59px]"
-          iconRight={true}
-          img={IMAGES.Percentage}
-          value={fee}
-          onChange={(e: any) => setfee(e.target.value)}
-        /> */}
       </div>
       <div className="mt-[27px]">
         <p className="text-[20px] font-[600] text-black">Variants</p>
         <div className="mt-[32px] flex gap-3 flex-wrap w-[32.6rem]">
           {Variants.map((item: any, index: any) => {
             return (
-              //   <CustomVariatBox onClick={()=>{
-              //     if(!selectedVariant.includes(item.id)){
-              //       console.log("HELLOO")
-              //       selectedVariant.push(item.id)
-
-              //       setSelectedVariant(selectedVariant)
-              //     }else{
-
-              //       selectedVariant.pop(item.id)
-              //       setSelectedVariant(selectedVariant)
-              //     }
-              //   }} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} key={index} item={item}/>
-              // )
               <CustomButton
                 onClick={() => {
                   if (!selectedVariant.includes(item.id)) {
@@ -184,9 +167,26 @@ export const CreateCategory = () => {
             />
           </div>
         </div>
-        <div className="flex gap-3 flex-wrap mt-[50px]">
+        {error && (
+          <div className="w-full max-w-[390px] mt-[20px] flex gap-2 justify-start text-left items-center">
+            <>
+              <div className="w-[15px] h-[15px] text-white bg-red rounded-[50%] flex justify-center items-center text-[10px]">
+                i
+              </div>
+              <p className="text-[14px] text-[#FF0000] font-[400]">{error}</p>
+            </>
+          </div>
+        )}
+        <div
+          className={`flex gap-3 flex-wrap ${
+            error ? 'mt-[19px]' : 'mt-[60px]'
+          }`}
+        >
           <CustomButton
-            onClick={(value: any) => navigate('/Category')}
+            onClick={(value: any) => {
+              setError('');
+              // navigate('/Category');
+            }}
             txt="Cancel"
             classes="!w-[179px] !h-[50px] !rounded-[10px] !bg-custome-button-grey !text-black"
           />

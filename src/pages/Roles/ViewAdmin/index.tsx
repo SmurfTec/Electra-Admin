@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { Button } from 'primereact/button';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import IMAGES from '../../../assets/Images';
 import { CustomButton } from '../../../atoms';
@@ -9,7 +9,11 @@ import { Header } from '../../../components';
 import { SVGIcon } from '../../../components/SVG';
 import { BaseURL } from '../../../config';
 import { useGetUserById } from '../../../custom-hooks/RolesHooks';
-import { BanUser, UnBanUser } from '../../../store/Slices/UserSlice';
+import {
+  BanUser,
+  DeleteSingleUser,
+  UnBanUser,
+} from '../../../store/Slices/UserSlice';
 type UserProfile = {
   id: number;
   firstname: string;
@@ -84,22 +88,9 @@ export const ViewAdmin = () => {
               <div
                 style={{ background: 'rgba(231, 29, 54, 0.05)' }}
                 className="flex w-full gap-1 items-center  text-[10px] font-[400] text-[#E71D36] h-full"
+                onClick={deleteUser}
               >
                 <SVGIcon fillcolor={'#E71D36'} src={IMAGES.Delete} /> Delete
-              </div>
-            );
-          },
-        },
-        {
-          label: 'Select',
-          // command: handleBanUser,
-          template: (item: any, options: any) => {
-            return (
-              <div
-                style={{ background: 'rgba(46, 102, 194, 0.05)' }}
-                className="flex gap-1 items-center  text-[10px] font-[400] text-[#21212] h-full"
-              >
-                <SVGIcon fillcolor={'#212121'} src={IMAGES.Select} /> Select
               </div>
             );
           },
@@ -109,25 +100,34 @@ export const ViewAdmin = () => {
   ];
 
   const handleBanUser = async () => {
-    // try {
-    //   if (user?.is_banned) {
-    //     const response = await BanUser({ ids: [id] });
-    //     console.log('response', response);
-    //     updateUser({
-    //       ...user,
-    //       is_banned: response.successfulIds.includes(id) ? true : false,
-    //     });
-    //   } else {
-    //     const response = await UnBanUser({ ids: [id] });
-    //     console.log('response', response);
-    //     updateUser({
-    //       ...user,
-    //       is_banned: response.successfulIds.includes(id) ? true : false,
-    //     });
-    //   }
-    // } catch (er) {
-    //   console.log('er', er);
-    // }
+    menuLeft.current.toggle(event);
+    try {
+      if (user?.is_banned) {
+        const response = await UnBanUser({ ids: [id] });
+        updateUser({
+          ...user,
+          is_banned: false,
+        });
+      } else {
+        const response = await BanUser({ ids: [id] });
+        updateUser({
+          ...user,
+          is_banned: true,
+        });
+      }
+    } catch (er) {
+      console.log('er', er);
+    }
+  };
+
+  const deleteUser = async () => {
+    menuLeft.current.toggle(event);
+    try {
+      await DeleteSingleUser({ ids: [id] });
+      navigate('/roles');
+    } catch (er) {
+      console.log('er', er);
+    }
   };
 
   return (
@@ -251,7 +251,6 @@ export const ViewAdmin = () => {
                     </div>
                   );
                 })}
-
           {view ? (
             <div
               onClick={() => {
