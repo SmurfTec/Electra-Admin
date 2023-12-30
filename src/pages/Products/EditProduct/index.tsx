@@ -783,7 +783,7 @@ export const EditProduct = () => {
                 Addproduct();
               }
             }}
-            txt={'Edit Product'}
+            txt={'Update Product'}
             classes={' !w-[179px] !rounded-[12px] !h-[50px]'}
           />
         </div>

@@ -204,8 +204,10 @@ export const ViewAdmin = () => {
           </div>
         </div>
         <div className="border border-[#F7F7F8] h-[454px] w-[400px]">
-          {view
-            ? user?.user_activities?.map((item: UserActivity, index) => {
+          {user?.user_activities?.length !== 0 ? (
+            user?.user_activities
+              ?.slice(0, 6)
+              .map((item: UserActivity, index: number) => {
                 return (
                   <div
                     key={index}
@@ -218,7 +220,7 @@ export const ViewAdmin = () => {
                       }
                     />
                     <div>
-                      <p>{item?.message}</p>
+                      <p>{item.message}</p>
                       <p className="text-[#969696] mt-2 text-[11px]">
                         {moment(item.created_on).format('hh:mm A - dddd')}
                       </p>
@@ -226,50 +228,17 @@ export const ViewAdmin = () => {
                   </div>
                 );
               })
-            : user?.user_activities
-                ?.slice(0, 6)
-                .map((item: UserActivity, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="flex gap-3 ml-2 mt-3 pb-2 border-b border-[#FAFAFA]"
-                    >
-                      <img
-                        className="p-2"
-                        src={
-                          item?.image
-                            ? BaseURL + item?.image
-                            : IMAGES.Loginarrow
-                        }
-                      />
-                      <div>
-                        <p>{item.message}</p>
-                        <p className="text-[#969696] mt-2 text-[11px]">
-                          {moment(item.created_on).format('hh:mm A - dddd')}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-          {view ? (
-            <div
-              onClick={() => {
-                setView(!view);
-              }}
-              className="flex justify-center items-center cursor-pointer"
-            >
-              <p className="text-center items-center p-1">View less</p>
-            </div>
           ) : (
-            <div
-              onClick={() => {
-                setView(!view);
-              }}
-              className="flex justify-center items-center cursor-pointer"
-            >
-              <p className="text-center items-center p-1">View More</p>
-            </div>
+            <p className="text-[#000] text-[14px] font-bold">No Result Found</p>
           )}
+          <div
+            onClick={() => {
+              setView(!view);
+            }}
+            className="flex justify-center items-center cursor-pointer"
+          >
+            <p className="text-center items-center p-1">View More</p>
+          </div>
         </div>
       </div>
     </div>

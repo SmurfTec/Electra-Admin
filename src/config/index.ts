@@ -2,7 +2,7 @@ import axios from 'axios';
 import { wrapper } from 'axios-cookiejar-support';
 import { CookieJar } from 'tough-cookie';
 export const BaseURL =
-  'http://ec2-3-137-170-245.us-east-2.compute.amazonaws.com:3010/';
+  'http://ec2-3-138-178-31.us-east-2.compute.amazonaws.com:3010/';
 // export const BaseURL="http://ec2-3-21-106-215.us-east-2.compute.amazonaws.com:5000/"
 // export const BaseURL = 'http://localhost:3010/';
 const jar = new CookieJar();
