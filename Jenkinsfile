@@ -14,7 +14,6 @@ pipeline {
                 dir('/home/zain/nextjs_projects/electra-admin-dev') {
                     sh "sudo npm install"
                     sh "sudo npm run build"
-                    sh "pm2 restart electra-admin-dev"
                 }
             }
         }
