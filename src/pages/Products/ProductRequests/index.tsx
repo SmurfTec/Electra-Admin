@@ -92,7 +92,7 @@ export const ProductRequests = () => {
               isActive={!initialPageData?.status}
             />
             <StatusCard
-              title={'Pending'}
+              title={'New'}
               number={`${
                 productRequestStats.find((el: any) => el.status === 'pending')
                   ?.count || 0

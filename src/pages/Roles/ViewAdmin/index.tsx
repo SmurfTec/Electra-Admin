@@ -203,8 +203,8 @@ export const ViewAdmin = () => {
             />
           </div>
         </div>
-        <div className="border border-[#F7F7F8] h-[454px] w-[400px]">
-          {user?.user_activities?.length !== 0 ? (
+        <div className="border border-[#F7F7F8] h-[454px] w-[400px] flex flex-col">
+          {user?.user_activities && user?.user_activities?.length !== 0 ? (
             user?.user_activities
               ?.slice(0, 6)
               .map((item: UserActivity, index: number) => {
@@ -229,7 +229,11 @@ export const ViewAdmin = () => {
                 );
               })
           ) : (
-            <p className="text-[#000] text-[14px] font-bold">No Result Found</p>
+            <div className="flex-1 flex align-center justify-center">
+              <p className="text-[#000] text-[16px] font-bold text-center my-auto">
+                No Result Found
+              </p>
+            </div>
           )}
           <div
             onClick={() => {

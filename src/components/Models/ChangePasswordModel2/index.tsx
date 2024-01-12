@@ -68,7 +68,7 @@ export const ChangePasswordModel2 = ({
   return (
     <>
       <CustomDialog
-        className={`bg-[#FFFFFF] w-[543px] h-fit flex  justify-center align-middle items-center `}
+        className={`bg-[#FFFFFF] w-[543px] h-fit flex  justify-center align-middle items-center !overflow-y-hidden`}
         visible={visible}
       >
         <i

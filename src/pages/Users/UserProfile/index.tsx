@@ -285,6 +285,7 @@ export const UserProfile = () => {
   };
 
   const getUserListing = async () => {
+    setUserLoading(true);
     setGetMyListing({ fetching: true, listing: [] });
     if (listingType === 'listing') {
       const resp = await url.get(`/listings?user=${id}`);
@@ -344,17 +345,19 @@ export const UserProfile = () => {
         )
       );
     }
+    setUserLoading(false);
   };
 
   const getUserOrder = async () => {
     try {
       setUserLoading(true);
       const response = await GetUserAsks(id);
+      console.log('response', response);
       const newData = Data.map((item: any) => {
         if (item.id == 1) {
           return {
             ...item,
-            body: response.askStats.no_of_listing,
+            body: response?.askStats?.no_of_listing || 0,
           };
         } else if (item.id == 2) {
           return {
@@ -455,7 +458,7 @@ export const UserProfile = () => {
         chooseFilter={false}
         UserBox={true}
       />
-      <div className="flex flex-wrap gap-5 mt-[31px]">
+      <div className="flex flex-wrap md:flex-nowrap gap-5 mt-[31px]">
         <div className=" w-[500px] h-[305px] border border-custom-border border-[#F7F7F8] rounded-[10px] flex flex-col pt-[11px] pb-[40px] pl-[17px] pr-[17px]">
           <div className="flex justify-between">
             <div className="flex flex-col gap-2">

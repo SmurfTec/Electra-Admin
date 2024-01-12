@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import IMAGES from '../../assets/Images';
+import { useGetDashStats } from '../../custom-hooks';
 import { logoutUser } from '../../store/Slices/AuthSlice';
 import { SVGIcon } from '../SVG';
 
@@ -11,6 +12,8 @@ export const SideBar = () => {
   const checkRoute = localStorage.getItem('Route');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { dashStats, loading }: any = useGetDashStats();
 
   const { count: usersCount } = useSelector((state: any) => state.user);
   const { totalOrders } = useSelector((state: any) => state.orders);
@@ -147,6 +150,20 @@ export const SideBar = () => {
       url: '/Settings',
     },
   ]);
+
+  useEffect(() => {
+    if (loading) return;
+    const newItems = navItems.map(el => {
+      if (el.name === 'Users')
+        return { ...el, number: dashStats.userStats.total_users_registered };
+      else if (el.name === 'Products')
+        return { ...el, number: dashStats.productStats.total_products };
+      else if (el.name === 'Listings')
+        return { ...el, number: dashStats.listingStats.total_listings };
+      else return el;
+    });
+    setNavItems(newItems);
+  }, [dashStats]);
   const handleItemClick = (itemId: number) => {
     const updatedNavItems: any = navItems.map((item: any) => {
       if (item.id === itemId) {
@@ -226,6 +243,9 @@ export const SideBar = () => {
       setNavItems(updatedNavItems);
     }
   }, [checkRoute]);
+
+  console.log('dashStats', dashStats);
+
   return (
     <>
       <div className="w-[17rem] h-[1049px] bg-[#FCFCFC] overflow-y-hidden">
