@@ -13,7 +13,7 @@ pipeline {
             steps {
                 dir('/home/projects/next-projects/electra-admin-uat') {
                     sh "sudo npm install"
-              //      sh "sudo npm run build"
+                    sh "sudo npm run build"
                //     sh "pm2 restart electra-admin-uat"
                 }
             }
